@@ -149,7 +149,6 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zstd-1.5.7-hbf9d68e_6.conda
       - pypi: https://files.pythonhosted.org/packages/5d/ab/34ec41718af73c00119d0351b7a2531d2ebddb51833a36448fc7b862be60/pylatexenc-2.10.tar.gz
       - pypi: https://files.pythonhosted.org/packages/72/74/448b6172927c829c6a3fba80078d7b0a016ebbe2c9ee528821f5ea21677a/pymupdf-1.26.7-cp310-abi3-macosx_11_0_arm64.whl
-      - pypi: https://files.pythonhosted.org/packages/5c/a7/e9eb0e14633710b51b8472a3beccc7d6a44d55a0a3ef4493ebb4b7977253/TexSoup-0.3.1-py3-none-any.whl
       - pypi: ./
 packages:
 - conda: https://conda.anaconda.org/conda-forge/osx-arm64/_openmp_mutex-4.5-7_kmp_llvm.conda
@@ -1873,16 +1872,11 @@ packages:
 - pypi: ./
   name: texpdfedits
   version: 0.1.0
-  sha256: cc9b058f7a0f0c552df6bd1892bb365c77cc7b38d519005e166d81e8633b747c
+  sha256: f208f05aae094909b2648140aad8b726821e17323be2e3eada60f9496447ed9f
   requires_dist:
   - pymupdf>=1.26.7,<2
-  - texsoup>=0.3.1,<0.4
   - pylatexenc>=2.10,<3
   requires_python: '>=3.11'
-- pypi: https://files.pythonhosted.org/packages/5c/a7/e9eb0e14633710b51b8472a3beccc7d6a44d55a0a3ef4493ebb4b7977253/TexSoup-0.3.1-py3-none-any.whl
-  name: texsoup
-  version: 0.3.1
-  sha256: ae8f08d17f86a905b7c2ce01c9f2da613fbca0bcea78c71d727719e896045bed
 - conda: https://conda.anaconda.org/conda-forge/osx-arm64/tk-8.6.13-h892fb3f_3.conda
   sha256: ad0c67cb03c163a109820dc9ecf77faf6ec7150e942d1e8bb13e5d39dc058ab7
   md5: a73d54a5abba6543cb2f0af1bfbd6851

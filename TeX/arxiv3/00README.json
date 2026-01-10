@@ -1,0 +1,21 @@
+{
+   "sources" : [
+      {
+         "usage" : "toplevel",
+         "filename" : "mybibfile.tex"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "bib/mybibfile.bib"
+      },
+      {
+         "usage" : "ignore",
+         "filename" : "bib/reference.bib"
+      }
+   ],
+   "spec_version" : 1,
+   "texlive_version" : "2025",
+   "process" : {
+      "compiler" : "pdflatex"
+   }
+}

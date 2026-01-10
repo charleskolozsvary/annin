@@ -6,7 +6,7 @@ bbox_drawings/endomorphism_ann_edit_selections_0.pdf
         "comment": "lowercase",
         "responses": []
     },
-    "selection": "R<Highlight>ATIONAL COHOMOLOGY ENDOMORPHISMS OF PRODUCT</Highlight>"
+    "PDF selection": "R<Highlight>ATIONAL COHOMOLOGY ENDOMORPHISMS OF PRODUCT</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_1.pdf
@@ -17,7 +17,7 @@ bbox_drawings/endomorphism_ann_edit_selections_1.pdf
         "comment": "lowercase",
         "responses": []
     },
-    "selection": "OF SPHERE WITH G<Highlight>RASSMANNIAN AND COINCIDENCE</Highlight>"
+    "PDF selection": "OF SPHERE WITH G<Highlight>RASSMANNIAN AND COINCIDENCE</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_2.pdf
@@ -28,7 +28,7 @@ bbox_drawings/endomorphism_ann_edit_selections_2.pdf
         "comment": "classes",
         "responses": []
     },
-    "selection": "nal homotopy <Replace>class</Replace> of self-maps are completely determined by the induced graded"
+    "PDF selection": "nal homotopy <Replace>class</Replace> of self-maps are completely determined by the induced graded"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_3.pdf
@@ -39,7 +39,7 @@ bbox_drawings/endomorphism_ann_edit_selections_3.pdf
         "comment": "AU: \"a/the complex Grassmannian\" or \"complex Grassmannians\"?",
         "responses": []
     },
-    "selection": "phisms of the rational cohomology algebra of <Replace>complex Grassmannian</Replace>. Their results"
+    "PDF selection": "phisms of the rational cohomology algebra of <Replace>complex Grassmannian</Replace>. Their results"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_4.pdf
@@ -50,7 +50,7 @@ bbox_drawings/endomorphism_ann_edit_selections_4.pdf
         "comment": "AU: again, should \"Grassmannian\" be plural---\"Grassmannians\"? The \"which\" would suggest that.",
         "responses": []
     },
-    "selection": "the rational cohomology algebra of <Replace>complex Grassmannian</Replace> which are nonzero on"
+    "PDF selection": "the rational cohomology algebra of <Replace>complex Grassmannian</Replace> which are nonzero on"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_5.pdf
@@ -61,7 +61,7 @@ bbox_drawings/endomorphism_ann_edit_selections_5.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "spaces<Caret></Caret> G/H, where G is a compact connected Lie group and H is a closed subgroup"
+    "PDF selection": "spaces<Caret></Caret> G/H, where G is a compact connected Lie group and H is a closed subgroup"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_6.pdf
@@ -72,7 +72,7 @@ bbox_drawings/endomorphism_ann_edit_selections_6.pdf
         "comment": "for the",
         "responses": []
     },
-    "selection": "of maximal rank. This is a topic of interest <Replace>since</Replace> past fifty years and are studied"
+    "PDF selection": "of maximal rank. This is a topic of interest <Replace>since</Replace> past fifty years and are studied"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_7.pdf
@@ -83,7 +83,7 @@ bbox_drawings/endomorphism_ann_edit_selections_7.pdf
         "comment": "is",
         "responses": []
     },
-    "selection": "of maximal rank. This is a topic of interest since past fifty years and <Replace>are</Replace> studied"
+    "PDF selection": "of maximal rank. This is a topic of interest since past fifty years and <Replace>are</Replace> studied"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_8.pdf
@@ -96,7 +96,7 @@ bbox_drawings/endomorphism_ann_edit_selections_8.pdf
             "COMP: ignore"
         ]
     },
-    "selection": "CGn,k because the sphere Sm has a simple, <Replace>singly</Replace> generated cohomology algebra,"
+    "PDF selection": "CGn,k because the sphere Sm has a simple, <Replace>singly</Replace> generated cohomology algebra,"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_9.pdf
@@ -107,7 +107,7 @@ bbox_drawings/endomorphism_ann_edit_selections_9.pdf
         "comment": ", <COMP: insert comma>",
         "responses": []
     },
-    "selection": "and<Caret></Caret> in particular, fixed-point theory."
+    "PDF selection": "and<Caret></Caret> in particular, fixed-point theory."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_10.pdf
@@ -118,7 +118,7 @@ bbox_drawings/endomorphism_ann_edit_selections_10.pdf
         "comment": "",
         "responses": []
     },
-    "selection": "2020 Mathematics Subject Classification. Primary<StrikeOut>:</StrikeOut> 55S37, 08A35, 55M20; Secondary: 14M15."
+    "PDF selection": "2020 Mathematics Subject Classification. Primary<StrikeOut>:</StrikeOut> 55S37, 08A35, 55M20; Secondary: 14M15."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_11.pdf
@@ -129,7 +129,7 @@ bbox_drawings/endomorphism_ann_edit_selections_11.pdf
         "comment": "",
         "responses": []
     },
-    "selection": "2020 Mathematics Subject Classification. Primary: 55S37, 08A35, 55M20; Secondary<StrikeOut>:</StrikeOut> 14M15."
+    "PDF selection": "2020 Mathematics Subject Classification. Primary: 55S37, 08A35, 55M20; Secondary<StrikeOut>:</StrikeOut> 14M15."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_12.pdf
@@ -140,7 +140,7 @@ bbox_drawings/endomorphism_ann_edit_selections_12.pdf
         "comment": "C",
         "responses": []
     },
-    "selection": "Key words and phrases. <Replace>c</Replace>ohomology endomorphisms, complex Grassmann manifolds, general-"
+    "PDF selection": "Key words and phrases. <Replace>c</Replace>ohomology endomorphisms, complex Grassmann manifolds, general-"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_13.pdf
@@ -151,7 +151,7 @@ bbox_drawings/endomorphism_ann_edit_selections_13.pdf
         "comment": "14M16.",
         "responses": []
     },
-    "selection": "2020 Mathematics Subject Classification. Primary: 55S37, 08A35, 55M20; Secondary: <Replace>14M15.</Replace>"
+    "PDF selection": "2020 Mathematics Subject Classification. Primary: 55S37, 08A35, 55M20; Secondary: <Replace>14M15.</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_14.pdf
@@ -162,7 +162,7 @@ bbox_drawings/endomorphism_ann_edit_selections_14.pdf
         "comment": "",
         "responses": []
     },
-    "selection": "by certain Chern classes c1, . . . , ck (resp. u). Now<StrikeOut>,</StrikeOut> we are ready to state one of the"
+    "PDF selection": "by certain Chern classes c1, . . . , ck (resp. u). Now<StrikeOut>,</StrikeOut> we are ready to state one of the"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_15.pdf
@@ -173,7 +173,7 @@ bbox_drawings/endomorphism_ann_edit_selections_15.pdf
         "comment": "roman",
         "responses": []
     },
-    "selection": "<Highlight>(1)</Highlight> If k < n −k,"
+    "PDF selection": "<Highlight>(1)</Highlight> If k < n −k,"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_16.pdf
@@ -184,7 +184,7 @@ bbox_drawings/endomorphism_ann_edit_selections_16.pdf
         "comment": ". <COMP: insert period>",
         "responses": []
     },
-    "selection": "ϕ(ci) = λici, ∀i ∈{1, 2, . . . , k}<Caret></Caret>"
+    "PDF selection": "ϕ(ci) = λici, ∀i ∈{1, 2, . . . , k}<Caret></Caret>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_17.pdf
@@ -195,7 +195,7 @@ bbox_drawings/endomorphism_ann_edit_selections_17.pdf
         "comment": "AU: \"that $\\phi$ is\"?",
         "responses": []
     },
-    "selection": "If k = n −k, there is an additional possibility <Replace>of ϕ that it</Replace> is induced by the"
+    "PDF selection": "If k = n −k, there is an additional possibility <Replace>of ϕ that it</Replace> is induced by the"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_18.pdf
@@ -206,7 +206,7 @@ bbox_drawings/endomorphism_ann_edit_selections_18.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(2)</Highlight> The image of H∗(Sm; Q) under ϕ lies in H∗(Sm; Q) or in H∗(CGn,k; Q)"
+    "PDF selection": "<Highlight>(2)</Highlight> The image of H∗(Sm; Q) under ϕ lies in H∗(Sm; Q) or in H∗(CGn,k; Q)"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_19.pdf
@@ -217,7 +217,7 @@ bbox_drawings/endomorphism_ann_edit_selections_19.pdf
         "comment": "COMP: commas before and after \"i.e.\"",
         "responses": []
     },
-    "selection": "<Highlight>i.e.</Highlight>"
+    "PDF selection": "<Highlight>i.e.</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_20.pdf
@@ -228,7 +228,7 @@ bbox_drawings/endomorphism_ann_edit_selections_20.pdf
         "comment": "AU: <global> \"the Grassmannian\"?",
         "responses": []
     },
-    "selection": "if a continuous function on Sm × CGn,k stabilizes a copy of <Highlight>Grassmannian</Highlight> then the"
+    "PDF selection": "if a continuous function on Sm × CGn,k stabilizes a copy of <Highlight>Grassmannian</Highlight> then the"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_21.pdf
@@ -239,7 +239,7 @@ bbox_drawings/endomorphism_ann_edit_selections_21.pdf
         "comment": "the same",
         "responses": []
     },
-    "selection": "if g is the identity map, then the coincidence property is <Replace>same</Replace> as the fixed-point"
+    "PDF selection": "if g is the identity map, then the coincidence property is <Replace>same</Replace> as the fixed-point"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_22.pdf
@@ -250,7 +250,7 @@ bbox_drawings/endomorphism_ann_edit_selections_22.pdf
         "comment": "[GH1, Theorem 2] <COMP: use \\cite>",
         "responses": []
     },
-    "selection": "We have generalized <Replace>Theorem 2 of [GH1]</Replace> to the setting of coincidence theory and"
+    "PDF selection": "We have generalized <Replace>Theorem 2 of [GH1]</Replace> to the setting of coincidence theory and"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_23.pdf
@@ -261,7 +261,7 @@ bbox_drawings/endomorphism_ann_edit_selections_23.pdf
         "comment": "",
         "responses": []
     },
-    "selection": "From now on<StrikeOut>,</StrikeOut> we denote the indexing set {1, 2, . . . , k} by I."
+    "PDF selection": "From now on<StrikeOut>,</StrikeOut> we denote the indexing set {1, 2, . . . , k} by I."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_24.pdf
@@ -272,7 +272,7 @@ bbox_drawings/endomorphism_ann_edit_selections_24.pdf
         "comment": "COMP: pls link",
         "responses": []
     },
-    "selection": "In <Highlight>Section 2</Highlight> we develop the necessary background and recall some relevant results."
+    "PDF selection": "In <Highlight>Section 2</Highlight> we develop the necessary background and recall some relevant results."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_25.pdf
@@ -283,7 +283,7 @@ bbox_drawings/endomorphism_ann_edit_selections_25.pdf
         "comment": "COMP: pls link",
         "responses": []
     },
-    "selection": "are applied in Section <Highlight>4</Highlight> to obtain the coincidence-theoretic results."
+    "PDF selection": "are applied in Section <Highlight>4</Highlight> to obtain the coincidence-theoretic results."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_26.pdf
@@ -294,7 +294,7 @@ bbox_drawings/endomorphism_ann_edit_selections_26.pdf
         "comment": "<global for remarks per journal style> lightface ",
         "responses": []
     },
-    "selection": "<Highlight>Remark 2.1.</Highlight> We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to"
+    "PDF selection": "<Highlight>Remark 2.1.</Highlight> We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_27.pdf
@@ -305,7 +305,7 @@ bbox_drawings/endomorphism_ann_edit_selections_27.pdf
         "comment": "2.1 <rom>",
         "responses": []
     },
-    "selection": "Remark <Replace>2.1</Replace>. We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to"
+    "PDF selection": "Remark <Replace>2.1</Replace>. We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_28.pdf
@@ -316,7 +316,7 @@ bbox_drawings/endomorphism_ann_edit_selections_28.pdf
         "comment": "<global for remarks per journal style> set text roman",
         "responses": []
     },
-    "selection": "<Highlight>Remark 2.1. We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to</Highlight>"
+    "PDF selection": "<Highlight>Remark 2.1. We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_29.pdf
@@ -327,7 +327,7 @@ bbox_drawings/endomorphism_ann_edit_selections_29.pdf
         "comment": ". That is,",
         "responses": []
     },
-    "selection": "U(k) × U(n −k) <Replace>that is</Replace>"
+    "PDF selection": "U(k) × U(n −k) <Replace>that is</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_30.pdf
@@ -338,7 +338,7 @@ bbox_drawings/endomorphism_ann_edit_selections_30.pdf
         "comment": "[ST1, Theorem A']",
         "responses": []
     },
-    "selection": "Theorem 2.2 (<Replace>[ST1], Theorem A\n′</Replace>"
+    "PDF selection": "Theorem 2.2 (<Replace>[ST1], Theorem A\n′</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_31.pdf
@@ -349,7 +349,7 @@ bbox_drawings/endomorphism_ann_edit_selections_31.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "of Q-derivations of H∗(G/H; Q) which decreases the degree by i > 0<Caret></Caret> where G is a"
+    "PDF selection": "of Q-derivations of H∗(G/H; Q) which decreases the degree by i > 0<Caret></Caret> where G is a"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_32.pdf
@@ -360,7 +360,7 @@ bbox_drawings/endomorphism_ann_edit_selections_32.pdf
         "comment": "",
         "responses": []
     },
-    "selection": "connected, compact Lie group and H is a closed subgroup of maximal rank. Then<StrikeOut>,</StrikeOut>"
+    "PDF selection": "connected, compact Lie group and H is a closed subgroup of maximal rank. Then<StrikeOut>,</StrikeOut>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_33.pdf
@@ -371,7 +371,7 @@ bbox_drawings/endomorphism_ann_edit_selections_33.pdf
         "comment": "AU: does the \"H\" and \"G\" need to be bold in math, or are you just setting it like that to match the rest of the subsection heading? The very next appearance of $H^\\ast_{\\mathbb{C}G}$ is not bold.",
         "responses": []
     },
-    "selection": "2.2. Graded endomorphisms on <Highlight>H∗\nCG</Highlight>"
+    "PDF selection": "2.2. Graded endomorphisms on <Highlight>H∗\nCG</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_34.pdf
@@ -382,7 +382,7 @@ bbox_drawings/endomorphism_ann_edit_selections_34.pdf
         "comment": "[GH1, Theorem 1]",
         "responses": []
     },
-    "selection": "Theorem 2.3 (<Replace>[GH1], Theorem 1</Replace>, [Ho1], Theorem 1.1). (i) Assume that the hy-"
+    "PDF selection": "Theorem 2.3 (<Replace>[GH1], Theorem 1</Replace>, [Ho1], Theorem 1.1). (i) Assume that the hy-"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_35.pdf
@@ -393,7 +393,7 @@ bbox_drawings/endomorphism_ann_edit_selections_35.pdf
         "comment": "[Ho1, Theorem 1.1]",
         "responses": []
     },
-    "selection": "Theorem 2.3 ([GH1], Theorem 1, <Replace>[Ho1], Theorem 1.1</Replace>). (i) Assume that the hy-"
+    "PDF selection": "Theorem 2.3 ([GH1], Theorem 1, <Replace>[Ho1], Theorem 1.1</Replace>). (i) Assume that the hy-"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_36.pdf
@@ -404,7 +404,7 @@ bbox_drawings/endomorphism_ann_edit_selections_36.pdf
         "comment": "(i) <rom>",
         "responses": []
     },
-    "selection": "Theorem 2.3 ([GH1], Theorem 1, [Ho1], Theorem 1.1). <Replace>(i)</Replace> Assume that the hy-"
+    "PDF selection": "Theorem 2.3 ([GH1], Theorem 1, [Ho1], Theorem 1.1). <Replace>(i)</Replace> Assume that the hy-"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_37.pdf
@@ -415,7 +415,7 @@ bbox_drawings/endomorphism_ann_edit_selections_37.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(ii)</Highlight> Assume that the hypothesis (4) is satisfied. Then, we have"
+    "PDF selection": "<Highlight>(ii)</Highlight> Assume that the hypothesis (4) is satisfied. Then, we have"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_38.pdf
@@ -426,7 +426,7 @@ bbox_drawings/endomorphism_ann_edit_selections_38.pdf
         "comment": "AU: put the two \"where\" statements in parentheses and connect them with \"and\"? So something like \"(where $...$ and the involution $...$ on $...$ is induced from the standard conjugation on $...$)\"",
         "responses": []
     },
-    "selection": "<Highlight>classical Dold manifolds P(m, n) := Sm × CP n/∼where (s, L) ∼(−s, ¯L), where</Highlight>"
+    "PDF selection": "<Highlight>classical Dold manifolds P(m, n) := Sm × CP n/∼where (s, L) ∼(−s, ¯L), where</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_39.pdf
@@ -437,7 +437,7 @@ bbox_drawings/endomorphism_ann_edit_selections_39.pdf
         "comment": "AU: again does math need to be bold?",
         "responses": []
     },
-    "selection": "2.4. Rational cohomology of <Highlight>P(Sm, CGn,k)</Highlight>. The GDS P(Sm, CGn,k) is defined"
+    "PDF selection": "2.4. Rational cohomology of <Highlight>P(Sm, CGn,k)</Highlight>. The GDS P(Sm, CGn,k) is defined"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_40.pdf
@@ -448,7 +448,7 @@ bbox_drawings/endomorphism_ann_edit_selections_40.pdf
         "comment": "",
         "responses": []
     },
-    "selection": "for which<StrikeOut>,</StrikeOut> Sm is equipped with the free action generated by the antipodal map"
+    "PDF selection": "for which<StrikeOut>,</StrikeOut> Sm is equipped with the free action generated by the antipodal map"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_41.pdf
@@ -459,7 +459,7 @@ bbox_drawings/endomorphism_ann_edit_selections_41.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "α<Caret></Caret> and the involution σ : L �→¯L on CGn,k is induced from the standard complex"
+    "PDF selection": "α<Caret></Caret> and the involution σ : L �→¯L on CGn,k is induced from the standard complex"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_42.pdf
@@ -470,7 +470,7 @@ bbox_drawings/endomorphism_ann_edit_selections_42.pdf
         "comment": "COMP: insert comma at end of equation",
         "responses": []
     },
-    "selection": "<Highlight>Q[u, c1, . . . , ck]</Highlight>"
+    "PDF selection": "<Highlight>Q[u, c1, . . . , ck]</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_43.pdf
@@ -481,7 +481,7 @@ bbox_drawings/endomorphism_ann_edit_selections_43.pdf
         "comment": "3.14",
         "responses": []
     },
-    "selection": "Theorem 2.4 ([MS2, Theorem <Replace>3.13</Replace>]). The cohomology algebra H∗(P(m, n, k); Q)"
+    "PDF selection": "Theorem 2.4 ([MS2, Theorem <Replace>3.13</Replace>]). The cohomology algebra H∗(P(m, n, k); Q)"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_44.pdf
@@ -492,7 +492,7 @@ bbox_drawings/endomorphism_ann_edit_selections_44.pdf
         "comment": "no indent at the start of para",
         "responses": []
     },
-    "selection": "<Highlight>A description of</Highlight> the cohomology algebra H∗(P(m, n, k); Q), as a quotient of a"
+    "PDF selection": "<Highlight>A description of</Highlight> the cohomology algebra H∗(P(m, n, k); Q), as a quotient of a"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_45.pdf
@@ -503,7 +503,7 @@ bbox_drawings/endomorphism_ann_edit_selections_45.pdf
         "comment": "Theorem 3.1. <COMP: pls link>",
         "responses": []
     },
-    "selection": "∗\n×. <Replace>The following</Replace>"
+    "PDF selection": "∗\n×. <Replace>The following</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_46.pdf
@@ -514,7 +514,7 @@ bbox_drawings/endomorphism_ann_edit_selections_46.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(1)</Highlight> Either ϕ(u) = au for some a ∈Q, or ϕ(u) ∈H∗\nC"
+    "PDF selection": "<Highlight>(1)</Highlight> Either ϕ(u) = au for some a ∈Q, or ϕ(u) ∈H∗\nC"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_47.pdf
@@ -525,7 +525,7 @@ bbox_drawings/endomorphism_ann_edit_selections_47.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(2)</Highlight> There exists λ ∈Q\\{0} such that"
+    "PDF selection": "<Highlight>(2)</Highlight> There exists λ ∈Q\\{0} such that"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_48.pdf
@@ -536,7 +536,7 @@ bbox_drawings/endomorphism_ann_edit_selections_48.pdf
         "comment": "insert period at the end of equation (11)",
         "responses": []
     },
-    "selection": "<Highlight>H∗</Highlight>"
+    "PDF selection": "<Highlight>H∗</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_49.pdf
@@ -547,7 +547,7 @@ bbox_drawings/endomorphism_ann_edit_selections_49.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "∗\nCG. By Theorem 2.3 part <Highlight>(ii)</Highlight>,"
+    "PDF selection": "∗\nCG. By Theorem 2.3 part <Highlight>(ii)</Highlight>,"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_50.pdf
@@ -558,7 +558,7 @@ bbox_drawings/endomorphism_ann_edit_selections_50.pdf
         "comment": "",
         "responses": []
     },
-    "selection": "we have<StrikeOut>,</StrikeOut>"
+    "PDF selection": "we have<StrikeOut>,</StrikeOut>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_51.pdf
@@ -569,7 +569,7 @@ bbox_drawings/endomorphism_ann_edit_selections_51.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "∗\nCG. Using the observations given above it is convenient to prove part <Highlight>(2)</Highlight> first."
+    "PDF selection": "∗\nCG. Using the observations given above it is convenient to prove part <Highlight>(2)</Highlight> first."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_52.pdf
@@ -580,7 +580,7 @@ bbox_drawings/endomorphism_ann_edit_selections_52.pdf
         "comment": "P",
         "responses": []
     },
-    "selection": "<Highlight>p</Highlight>roof of part (2): Using (12) and (13), it is sufficient to prove that Pi = 0, ∀i ∈I."
+    "PDF selection": "<Highlight>p</Highlight>roof of part (2): Using (12) and (13), it is sufficient to prove that Pi = 0, ∀i ∈I."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_53.pdf
@@ -591,7 +591,7 @@ bbox_drawings/endomorphism_ann_edit_selections_53.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "proof of part <Highlight>(2)</Highlight>: Using (12) and (13), it is sufficient to prove that Pi = 0, ∀i ∈I."
+    "PDF selection": "proof of part <Highlight>(2)</Highlight>: Using (12) and (13), it is sufficient to prove that Pi = 0, ∀i ∈I."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_54.pdf
@@ -602,7 +602,7 @@ bbox_drawings/endomorphism_ann_edit_selections_54.pdf
         "comment": ". <COMP: period; also set heading as proof environment if not already>",
         "responses": []
     },
-    "selection": "proof of part (2)<StrikeOut>:</StrikeOut> Using (12) and (13), it is sufficient to prove that Pi = 0, ∀i ∈I."
+    "PDF selection": "proof of part (2)<StrikeOut>:</StrikeOut> Using (12) and (13), it is sufficient to prove that Pi = 0, ∀i ∈I."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_55.pdf
@@ -613,7 +613,7 @@ bbox_drawings/endomorphism_ann_edit_selections_55.pdf
         "comment": ", <COMP: comma>",
         "responses": []
     },
-    "selection": "= (ϕ1(x) + uPx)(ϕ1(y) + uPy) −ϕ1(x)ϕ1(y)<Caret></Caret>"
+    "PDF selection": "= (ϕ1(x) + uPx)(ϕ1(y) + uPy) −ϕ1(x)ϕ1(y)<Caret></Caret>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_56.pdf
@@ -624,7 +624,7 @@ bbox_drawings/endomorphism_ann_edit_selections_56.pdf
         "comment": "COMP: center both lines",
         "responses": []
     },
-    "selection": "<Highlight>D(tϕ1(x)) = tD(ϕ1(x)),\nD(ϕ1(x) + ϕ1(y)) = D(ϕ1(x)) + D(ϕ1(y)),</Highlight>"
+    "PDF selection": "<Highlight>D(tϕ1(x)) = tD(ϕ1(x)),\nD(ϕ1(x) + ϕ1(y)) = D(ϕ1(x)) + D(ϕ1(y)),</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_57.pdf
@@ -635,7 +635,7 @@ bbox_drawings/endomorphism_ann_edit_selections_57.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "Theorem 2.2, we get that D is a zero derivation. In particular<Caret></Caret>"
+    "PDF selection": "Theorem 2.2, we get that D is a zero derivation. In particular<Caret></Caret>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_58.pdf
@@ -646,7 +646,7 @@ bbox_drawings/endomorphism_ann_edit_selections_58.pdf
         "comment": "P",
         "responses": []
     },
-    "selection": "<Replace>p</Replace>roof of part (1): Since ϕ is a graded endomorphism on H∗\n×"
+    "PDF selection": "<Replace>p</Replace>roof of part (1): Since ϕ is a graded endomorphism on H∗\n×"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_59.pdf
@@ -657,7 +657,7 @@ bbox_drawings/endomorphism_ann_edit_selections_59.pdf
         "comment": "rom and COMP pls LINK",
         "responses": []
     },
-    "selection": "proof of part <Highlight>(1)</Highlight>: Since ϕ is a graded endomorphism on H∗\n×"
+    "PDF selection": "proof of part <Highlight>(1)</Highlight>: Since ϕ is a graded endomorphism on H∗\n×"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_60.pdf
@@ -668,7 +668,7 @@ bbox_drawings/endomorphism_ann_edit_selections_60.pdf
         "comment": ".",
         "responses": []
     },
-    "selection": "proof of part (1)<Replace>:</Replace> Since ϕ is a graded endomorphism on H∗\n×"
+    "PDF selection": "proof of part (1)<Replace>:</Replace> Since ϕ is a graded endomorphism on H∗\n×"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_61.pdf
@@ -679,7 +679,7 @@ bbox_drawings/endomorphism_ann_edit_selections_61.pdf
         "comment": "",
         "responses": []
     },
-    "selection": "∗\n×, <StrikeOut>therefore</StrikeOut>"
+    "PDF selection": "∗\n×, <StrikeOut>therefore</StrikeOut>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_62.pdf
@@ -690,7 +690,7 @@ bbox_drawings/endomorphism_ann_edit_selections_62.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "On the other hand, when n = 2, CGn,k is either a point or S2<Caret></Caret> and the classifi-"
+    "PDF selection": "On the other hand, when n = 2, CGn,k is either a point or S2<Caret></Caret> and the classifi-"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_63.pdf
@@ -701,7 +701,7 @@ bbox_drawings/endomorphism_ann_edit_selections_63.pdf
         "comment": "",
         "responses": []
     },
-    "selection": "case where ϕ(c1) = µu. To address this, we use <StrikeOut>part (i) of</StrikeOut> Theorem 2.3 which leads"
+    "PDF selection": "case where ϕ(c1) = µu. To address this, we use <StrikeOut>part (i) of</StrikeOut> Theorem 2.3 which leads"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_64.pdf
@@ -712,7 +712,7 @@ bbox_drawings/endomorphism_ann_edit_selections_64.pdf
         "comment": "2.3(i) <COMP: keep \"2.3\" linked>",
         "responses": []
     },
-    "selection": "case where ϕ(c1) = µu. To address this, we use part (i) of Theorem <Replace>2.3</Replace> which leads"
+    "PDF selection": "case where ϕ(c1) = µu. To address this, we use part (i) of Theorem <Replace>2.3</Replace> which leads"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_65.pdf
@@ -723,7 +723,7 @@ bbox_drawings/endomorphism_ann_edit_selections_65.pdf
         "comment": "Proposition 3.3 <COMP: pls link>",
         "responses": []
     },
-    "selection": "to <Replace>the following proposition</Replace>."
+    "PDF selection": "to <Replace>the following proposition</Replace>."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_66.pdf
@@ -734,7 +734,7 @@ bbox_drawings/endomorphism_ann_edit_selections_66.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(1)</Highlight> Either ϕ(u) = au for some a ∈Q, or ϕ(u) ∈H∗\nC"
+    "PDF selection": "<Highlight>(1)</Highlight> Either ϕ(u) = au for some a ∈Q, or ϕ(u) ∈H∗\nC"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_67.pdf
@@ -745,7 +745,7 @@ bbox_drawings/endomorphism_ann_edit_selections_67.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(2)</Highlight> ϕ(c) = uP, ∀i > 1, where P ∈H2i−m"
+    "PDF selection": "<Highlight>(2)</Highlight> ϕ(c) = uP, ∀i > 1, where P ∈H2i−m"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_68.pdf
@@ -756,7 +756,7 @@ bbox_drawings/endomorphism_ann_edit_selections_68.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "Proof. <Highlight>(1)</Highlight>: The proof of part (1) is exactly the same as the proof of part (1) of"
+    "PDF selection": "Proof. <Highlight>(1)</Highlight>: The proof of part (1) is exactly the same as the proof of part (1) of"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_69.pdf
@@ -767,7 +767,7 @@ bbox_drawings/endomorphism_ann_edit_selections_69.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "Proof. (1): The proof of part <Highlight>(1)</Highlight> is exactly the same as the proof of part (1) of"
+    "PDF selection": "Proof. (1): The proof of part <Highlight>(1)</Highlight> is exactly the same as the proof of part (1) of"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_70.pdf
@@ -778,7 +778,7 @@ bbox_drawings/endomorphism_ann_edit_selections_70.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "Proof. (1): The proof of part (1) is exactly the same as the proof of part <Highlight>(1)</Highlight> of"
+    "PDF selection": "Proof. (1): The proof of part (1) is exactly the same as the proof of part <Highlight>(1)</Highlight> of"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_71.pdf
@@ -789,7 +789,7 @@ bbox_drawings/endomorphism_ann_edit_selections_71.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(2)</Highlight>: Using (11), we have that the map ϕ is a graded endomorphism on H∗"
+    "PDF selection": "<Highlight>(2)</Highlight>: Using (11), we have that the map ϕ is a graded endomorphism on H∗"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_72.pdf
@@ -800,7 +800,7 @@ bbox_drawings/endomorphism_ann_edit_selections_72.pdf
         "comment": "Proposition 3.5 <COMP: link>",
         "responses": []
     },
-    "selection": "2\nCG. <Replace>The following proposition</Replace> provides such examples when m is even"
+    "PDF selection": "2\nCG. <Replace>The following proposition</Replace> provides such examples when m is even"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_73.pdf
@@ -811,7 +811,7 @@ bbox_drawings/endomorphism_ann_edit_selections_73.pdf
         "comment": "(2) <COMP: roman>",
         "responses": []
     },
-    "selection": "Proof. The proof of this corollary is similar to the proof of part <Replace>2</Replace> of Theorem 3.1."
+    "PDF selection": "Proof. The proof of this corollary is similar to the proof of part <Replace>2</Replace> of Theorem 3.1."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_74.pdf
@@ -822,7 +822,7 @@ bbox_drawings/endomorphism_ann_edit_selections_74.pdf
         "comment": "COMP: set display math",
         "responses": []
     },
-    "selection": "<Highlight>Apply induction on r and replace CGn,k with ˆX := S2m1 × · · · × S2mi−1 × S2mi+1 ×</Highlight>"
+    "PDF selection": "<Highlight>Apply induction on r and replace CGn,k with ˆX := S2m1 × · · · × S2mi−1 × S2mi+1 ×</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_75.pdf
@@ -833,7 +833,7 @@ bbox_drawings/endomorphism_ann_edit_selections_75.pdf
         "comment": "COMP: comma at end of equation",
         "responses": []
     },
-    "selection": "S2mj = SO(2mj + 1)/SO(2mj<Highlight>)</Highlight>"
+    "PDF selection": "S2mj = SO(2mj + 1)/SO(2mj<Highlight>)</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_76.pdf
@@ -844,7 +844,7 @@ bbox_drawings/endomorphism_ann_edit_selections_76.pdf
         "comment": "S",
         "responses": []
     },
-    "selection": "in <Replace>Subs</Replace>ection 2.4. The following remark helps us to describe endomorphisms of"
+    "PDF selection": "in <Replace>Subs</Replace>ection 2.4. The following remark helps us to describe endomorphisms of"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_77.pdf
@@ -855,7 +855,7 @@ bbox_drawings/endomorphism_ann_edit_selections_77.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "H∗(Sm × CGn,k; Q)<Replace>.</Replace>"
+    "PDF selection": "H∗(Sm × CGn,k; Q)<Replace>.</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_78.pdf
@@ -866,7 +866,7 @@ bbox_drawings/endomorphism_ann_edit_selections_78.pdf
         "comment": "Corollaries 3.8 and 3.9. <COMP: link>",
         "responses": []
     },
-    "selection": "<Replace>two corollaries.</Replace>"
+    "PDF selection": "<Replace>two corollaries.</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_79.pdf
@@ -877,7 +877,7 @@ bbox_drawings/endomorphism_ann_edit_selections_79.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "subring Fix(θ∗) of H∗\n×<Caret></Caret>"
+    "PDF selection": "subring Fix(θ∗) of H∗\n×<Caret></Caret>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_80.pdf
@@ -888,7 +888,7 @@ bbox_drawings/endomorphism_ann_edit_selections_80.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "to the fixed subring Fix(θ∗) of H∗\n×<Caret></Caret>"
+    "PDF selection": "to the fixed subring Fix(θ∗) of H∗\n×<Caret></Caret>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_81.pdf
@@ -899,7 +899,7 @@ bbox_drawings/endomorphism_ann_edit_selections_81.pdf
         "comment": "AU: do you mean \"with\" instead of \"in\" or to say \"Corollary 3.8 from Theorem 3.1\"? ",
         "responses": []
     },
-    "selection": "<Highlight>Using Theorem 3.1 in Corollary 3.8, and Proposition 3.3 in Corollary 3.9</Highlight> along"
+    "PDF selection": "<Highlight>Using Theorem 3.1 in Corollary 3.8, and Proposition 3.3 in Corollary 3.9</Highlight> along"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_82.pdf
@@ -910,7 +910,7 @@ bbox_drawings/endomorphism_ann_edit_selections_82.pdf
         "comment": "COMP: set text roman as per journal style <global for examples>",
         "responses": []
     },
-    "selection": "<Highlight>complex projective space CP n−1 over the real projective space RP m. In this case,</Highlight>"
+    "PDF selection": "<Highlight>complex projective space CP n−1 over the real projective space RP m. In this case,</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_83.pdf
@@ -921,7 +921,7 @@ bbox_drawings/endomorphism_ann_edit_selections_83.pdf
         "comment": "where (AU: okay?)",
         "responses": []
     },
-    "selection": "λ ∈Q, <Replace>and</Replace> λ2 ̸= −1."
+    "PDF selection": "λ ∈Q, <Replace>and</Replace> λ2 ̸= −1."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_84.pdf
@@ -932,7 +932,7 @@ bbox_drawings/endomorphism_ann_edit_selections_84.pdf
         "comment": "Corollary 3.11 <COMP: link>",
         "responses": []
     },
-    "selection": "<Replace>The following corollary</Replace> helps us to understand the relationship between the"
+    "PDF selection": "<Replace>The following corollary</Replace> helps us to understand the relationship between the"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_85.pdf
@@ -943,7 +943,7 @@ bbox_drawings/endomorphism_ann_edit_selections_85.pdf
         "comment": "COMP: remove no indent",
         "responses": []
     },
-    "selection": "<Highlight>By Theorem</Highlight> 3.1, ˜f ∗(ci) is of the form given in (2) of Theorem 3.1. Also,"
+    "PDF selection": "<Highlight>By Theorem</Highlight> 3.1, ˜f ∗(ci) is of the form given in (2) of Theorem 3.1. Also,"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_86.pdf
@@ -954,7 +954,7 @@ bbox_drawings/endomorphism_ann_edit_selections_86.pdf
         "comment": "comma at end of equation",
         "responses": []
     },
-    "selection": "˜f ∗(u) <Highlight>= Q</Highlight>"
+    "PDF selection": "˜f ∗(u) <Highlight>= Q</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_87.pdf
@@ -965,7 +965,7 @@ bbox_drawings/endomorphism_ann_edit_selections_87.pdf
         "comment": "remove no indent",
         "responses": []
     },
-    "selection": "<Highlight>Suppose that</Highlight> ˜f ∗(u) = Q, then the image set Im ˜f ∗⊆H∗\nC"
+    "PDF selection": "<Highlight>Suppose that</Highlight> ˜f ∗(u) = Q, then the image set Im ˜f ∗⊆H∗\nC"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_88.pdf
@@ -976,7 +976,7 @@ bbox_drawings/endomorphism_ann_edit_selections_88.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "This is a contradiction to the assumption that f ∗is an automorphism because<Caret></Caret>"
+    "PDF selection": "This is a contradiction to the assumption that f ∗is an automorphism because<Caret></Caret>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_89.pdf
@@ -987,7 +987,7 @@ bbox_drawings/endomorphism_ann_edit_selections_89.pdf
         "comment": "Theorem 3.12 <COMP: link>",
         "responses": []
     },
-    "selection": "<Replace>The following theorem</Replace> provides a criterion for the image of the spherical coho-"
+    "PDF selection": "<Replace>The following theorem</Replace> provides a criterion for the image of the spherical coho-"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_90.pdf
@@ -998,7 +998,7 @@ bbox_drawings/endomorphism_ann_edit_selections_90.pdf
         "comment": "of the",
         "responses": []
     },
-    "selection": "lizes a copy <Replace>of </Replace> Grassmannian {x0} × CGn,k for some x0 ∈Sm. Then the induced"
+    "PDF selection": "lizes a copy <Replace>of </Replace> Grassmannian {x0} × CGn,k for some x0 ∈Sm. Then the induced"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_91.pdf
@@ -1009,7 +1009,7 @@ bbox_drawings/endomorphism_ann_edit_selections_91.pdf
         "comment": "",
         "responses": []
     },
-    "selection": "pi the i-th projection map on Sm × CGn,k for i = 1, 2 and s : Sm \\ {x0} →D <StrikeOut>is</StrikeOut> the"
+    "PDF selection": "pi the i-th projection map on Sm × CGn,k for i = 1, 2 and s : Sm \\ {x0} →D <StrikeOut>is</StrikeOut> the"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_92.pdf
@@ -1020,7 +1020,7 @@ bbox_drawings/endomorphism_ann_edit_selections_92.pdf
         "comment": "COMP: insert period at end of equation",
         "responses": []
     },
-    "selection": "Sm × <Highlight>CGn,</Highlight>k"
+    "PDF selection": "Sm × <Highlight>CGn,</Highlight>k"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_93.pdf
@@ -1031,7 +1031,7 @@ bbox_drawings/endomorphism_ann_edit_selections_93.pdf
         "comment": "remove paragraph indent",
         "responses": []
     },
-    "selection": "<Highlight>Si</Highlight>nce, the quotient map q has Brouwer degree 1, the induced map on ratio-"
+    "PDF selection": "<Highlight>Si</Highlight>nce, the quotient map q has Brouwer degree 1, the induced map on ratio-"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_94.pdf
@@ -1042,7 +1042,7 @@ bbox_drawings/endomorphism_ann_edit_selections_94.pdf
         "comment": "",
         "responses": []
     },
-    "selection": "Since<StrikeOut>,</StrikeOut> the quotient map q has Brouwer degree 1, the induced map on ratio-"
+    "PDF selection": "Since<StrikeOut>,</StrikeOut> the quotient map q has Brouwer degree 1, the induced map on ratio-"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_95.pdf
@@ -1053,7 +1053,7 @@ bbox_drawings/endomorphism_ann_edit_selections_95.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "nal cohomology q∗: H∗(Sm; Z) →H∗(Tm; Z) sends u �→1 · u1u2 . . . um<Caret></Caret> where ui"
+    "PDF selection": "nal cohomology q∗: H∗(Sm; Z) →H∗(Tm; Z) sends u �→1 · u1u2 . . . um<Caret></Caret> where ui"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_96.pdf
@@ -1064,7 +1064,7 @@ bbox_drawings/endomorphism_ann_edit_selections_96.pdf
         "comment": ":",
         "responses": []
     },
-    "selection": "The induced diagram in cohomology implies the following commutative diagram<Replace>.</Replace>"
+    "PDF selection": "The induced diagram in cohomology implies the following commutative diagram<Replace>.</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_97.pdf
@@ -1075,7 +1075,7 @@ bbox_drawings/endomorphism_ann_edit_selections_97.pdf
         "comment": "COMP: insert period at end of equation",
         "responses": []
     },
-    "selection": "<Highlight>f ∗(u)</Highlight>"
+    "PDF selection": "<Highlight>f ∗(u)</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_98.pdf
@@ -1086,7 +1086,7 @@ bbox_drawings/endomorphism_ann_edit_selections_98.pdf
         "comment": "S",
         "responses": []
     },
-    "selection": "P(m, n, k) defined in <Replace>Subs</Replace>ection 2.4."
+    "PDF selection": "P(m, n, k) defined in <Replace>Subs</Replace>ection 2.4."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_99.pdf
@@ -1097,7 +1097,7 @@ bbox_drawings/endomorphism_ann_edit_selections_99.pdf
         "comment": "for",
         "responses": []
     },
-    "selection": "space X. The pair (X, g) is said to have the coincidence property (<Replace>in</Replace> short, CP)"
+    "PDF selection": "space X. The pair (X, g) is said to have the coincidence property (<Replace>in</Replace> short, CP)"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_100.pdf
@@ -1108,7 +1108,7 @@ bbox_drawings/endomorphism_ann_edit_selections_100.pdf
         "comment": "Definition 4.2 <COMP: link>",
         "responses": []
     },
-    "selection": "reduces to that of a fixed point, resulting in <Replace>the following definition</Replace>."
+    "PDF selection": "reduces to that of a fixed point, resulting in <Replace>the following definition</Replace>."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_101.pdf
@@ -1119,7 +1119,7 @@ bbox_drawings/endomorphism_ann_edit_selections_101.pdf
         "comment": "either (AU: okay?)",
         "responses": []
     },
-    "selection": "generalized Dold space P(S, X). Then (P(S, X), g) does not have the CP if <Replace>one</Replace> of"
+    "PDF selection": "generalized Dold space P(S, X). Then (P(S, X), g) does not have the CP if <Replace>one</Replace> of"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_102.pdf
@@ -1130,7 +1130,7 @@ bbox_drawings/endomorphism_ann_edit_selections_102.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(1)</Highlight> The continuous map g is a fiber bundle map and the pair (Y, p ◦g ◦s) does"
+    "PDF selection": "<Highlight>(1)</Highlight> The continuous map g is a fiber bundle map and the pair (Y, p ◦g ◦s) does"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_103.pdf
@@ -1141,7 +1141,7 @@ bbox_drawings/endomorphism_ann_edit_selections_103.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(2)</Highlight> There exists a σ-equivariant map f (i.e. f ◦σ = σ ◦f) on X and a α × σ-"
+    "PDF selection": "<Highlight>(2)</Highlight> There exists a σ-equivariant map f (i.e. f ◦σ = σ ◦f) on X and a α × σ-"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_104.pdf
@@ -1152,7 +1152,7 @@ bbox_drawings/endomorphism_ann_edit_selections_104.pdf
         "comment": "an",
         "responses": []
     },
-    "selection": "(2) There exists a σ-equivariant map f (i.e. f ◦σ = σ ◦f) on X and <Replace>a</Replace> α × σ-"
+    "PDF selection": "(2) There exists a σ-equivariant map f (i.e. f ◦σ = σ ◦f) on X and <Replace>a</Replace> α × σ-"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_105.pdf
@@ -1163,7 +1163,7 @@ bbox_drawings/endomorphism_ann_edit_selections_105.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "Proof. <Highlight>(1)</Highlight> Suppose that the pair (Y, p ◦g ◦s) does not have the CP. Then there"
+    "PDF selection": "Proof. <Highlight>(1)</Highlight> Suppose that the pair (Y, p ◦g ◦s) does not have the CP. Then there"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_106.pdf
@@ -1174,7 +1174,7 @@ bbox_drawings/endomorphism_ann_edit_selections_106.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(2)</Highlight> Let G denote the group of deck transformations of the double covering π :"
+    "PDF selection": "<Highlight>(2)</Highlight> Let G denote the group of deck transformations of the double covering π :"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_107.pdf
@@ -1185,7 +1185,7 @@ bbox_drawings/endomorphism_ann_edit_selections_107.pdf
         "comment": "the",
         "responses": []
     },
-    "selection": "from <Replace>a</Replace> general observation that if for two G-equivariant maps ˜ϕ, ˜ψ on S × X, the"
+    "PDF selection": "from <Replace>a</Replace> general observation that if for two G-equivariant maps ˜ϕ, ˜ψ on S × X, the"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_108.pdf
@@ -1196,7 +1196,7 @@ bbox_drawings/endomorphism_ann_edit_selections_108.pdf
         "comment": "(for any $t \\in G$)",
         "responses": []
     },
-    "selection": "maps ˜ϕ and t · ˜ψ have no point of coincidence<Replace>, for any t ∈G</Replace>; then the maps they"
+    "PDF selection": "maps ˜ϕ and t · ˜ψ have no point of coincidence<Replace>, for any t ∈G</Replace>; then the maps they"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_109.pdf
@@ -1207,7 +1207,7 @@ bbox_drawings/endomorphism_ann_edit_selections_109.pdf
         "comment": "Lemma 4.5 <COMP: link>",
         "responses": []
     },
-    "selection": "now prove <Replace>the following lemma</Replace> (cf. Theorem 2, [GH1]) to prove Proposition 4.6."
+    "PDF selection": "now prove <Replace>the following lemma</Replace> (cf. Theorem 2, [GH1]) to prove Proposition 4.6."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_110.pdf
@@ -1218,7 +1218,7 @@ bbox_drawings/endomorphism_ann_edit_selections_110.pdf
         "comment": "[GH1, Theorem 2]",
         "responses": []
     },
-    "selection": "now prove the following lemma (cf. <Replace>Theorem 2, [GH1]</Replace>) to prove Proposition 4.6."
+    "PDF selection": "now prove the following lemma (cf. <Replace>Theorem 2, [GH1]</Replace>) to prove Proposition 4.6."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_111.pdf
@@ -1229,7 +1229,7 @@ bbox_drawings/endomorphism_ann_edit_selections_111.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "�d\ni=0 d2i(−1)i = χ(RGn,k)<Caret></Caret> where d2i = dim H2i(CGn,k; Q) = dim Hi(RGn,k; Z2)."
+    "PDF selection": "�d\ni=0 d2i(−1)i = χ(RGn,k)<Caret></Caret> where d2i = dim H2i(CGn,k; Q) = dim Hi(RGn,k; Z2)."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_112.pdf
@@ -1240,7 +1240,7 @@ bbox_drawings/endomorphism_ann_edit_selections_112.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "root theorem<Caret></Caret> p|1 and q|1. Hence, λ = ±1, which is a contradiction. Therefore, we"
+    "PDF selection": "root theorem<Caret></Caret> p|1 and q|1. Hence, λ = ±1, which is a contradiction. Therefore, we"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_113.pdf
@@ -1251,7 +1251,7 @@ bbox_drawings/endomorphism_ann_edit_selections_113.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "Denote the i-th homology groups Hi(CGn,k; Q), Hi(Sm; Q)<Caret></Caret> and Hi(Sm×CGn,k; Q),"
+    "PDF selection": "Denote the i-th homology groups Hi(CGn,k; Q), Hi(Sm; Q)<Caret></Caret> and Hi(Sm×CGn,k; Q),"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_114.pdf
@@ -1262,7 +1262,7 @@ bbox_drawings/endomorphism_ann_edit_selections_114.pdf
         "comment": "COMP: break after semicolon",
         "responses": []
     },
-    "selection": "Denote the i-th homology groups Hi(CGn,k; Q), Hi(Sm; Q) and Hi(Sm×CGn,k<Highlight>; Q),</Highlight>"
+    "PDF selection": "Denote the i-th homology groups Hi(CGn,k; Q), Hi(Sm; Q) and Hi(Sm×CGn,k<Highlight>; Q),</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_115.pdf
@@ -1273,7 +1273,7 @@ bbox_drawings/endomorphism_ann_edit_selections_115.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "nal cohomology algebra. Using Theorem 2.3 part <Highlight>(i)</Highlight>, there exist a nonzero rational"
+    "PDF selection": "nal cohomology algebra. Using Theorem 2.3 part <Highlight>(i)</Highlight>, there exist a nonzero rational"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_116.pdf
@@ -1284,7 +1284,7 @@ bbox_drawings/endomorphism_ann_edit_selections_116.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "Theorem 2.3 part <Highlight>(i)</Highlight>, there exists µ ∈Q such that"
+    "PDF selection": "Theorem 2.3 part <Highlight>(i)</Highlight>, there exists µ ∈Q such that"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_117.pdf
@@ -1295,7 +1295,7 @@ bbox_drawings/endomorphism_ann_edit_selections_117.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "2i\nCG<Replace>.</Replace>"
+    "PDF selection": "2i\nCG<Replace>.</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_118.pdf
@@ -1306,7 +1306,7 @@ bbox_drawings/endomorphism_ann_edit_selections_118.pdf
         "comment": "COMP: adjust to fit within margin",
         "responses": []
     },
-    "selection": "D◦g∗◦D−1◦f∗(x) = <Highlight>D◦g∗◦D−1(µix) = µiD◦g∗(D−1x) = µiD(λd−iD−1x) = µiλd−ix.</Highlight>"
+    "PDF selection": "D◦g∗◦D−1◦f∗(x) = <Highlight>D◦g∗◦D−1(µix) = µiD◦g∗(D−1x) = µiD(λd−iD−1x) = µiλd−ix.</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_119.pdf
@@ -1317,7 +1317,7 @@ bbox_drawings/endomorphism_ann_edit_selections_119.pdf
         "comment": "close up space between L(f, g) and this first equals sign",
         "responses": []
     },
-    "selection": "<Highlight>= �</Highlight>d\ni="
+    "PDF selection": "<Highlight>= �</Highlight>d\ni="
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_120.pdf
@@ -1328,7 +1328,7 @@ bbox_drawings/endomorphism_ann_edit_selections_120.pdf
         "comment": "insert comma at end of equation",
         "responses": []
     },
-    "selection": "(∵λ <Highlight>= 0)</Highlight>"
+    "PDF selection": "(∵λ <Highlight>= 0)</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_121.pdf
@@ -1339,7 +1339,7 @@ bbox_drawings/endomorphism_ann_edit_selections_121.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "2i\nCG<Caret></Caret> and the last equation holds by using Lemma 4.5."
+    "PDF selection": "2i\nCG<Caret></Caret> and the last equation holds by using Lemma 4.5."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_122.pdf
@@ -1350,7 +1350,7 @@ bbox_drawings/endomorphism_ann_edit_selections_122.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "δvq(vp) = δqp<Caret></Caret> where δqp is the Kronecker delta function. Without loss of generality,"
+    "PDF selection": "δvq(vp) = δqp<Caret></Caret> where δqp is the Kronecker delta function. Without loss of generality,"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_123.pdf
@@ -1361,7 +1361,7 @@ bbox_drawings/endomorphism_ann_edit_selections_123.pdf
         "comment": "",
         "responses": []
     },
-    "selection": "∗\nCG<StrikeOut>,</StrikeOut> such that"
+    "PDF selection": "∗\nCG<StrikeOut>,</StrikeOut> such that"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_124.pdf
@@ -1372,7 +1372,7 @@ bbox_drawings/endomorphism_ann_edit_selections_124.pdf
         "comment": "",
         "responses": []
     },
-    "selection": "×\n∗; Q) satisfying<StrikeOut>:</StrikeOut>"
+    "PDF selection": "×\n∗; Q) satisfying<StrikeOut>:</StrikeOut>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_125.pdf
@@ -1383,7 +1383,7 @@ bbox_drawings/endomorphism_ann_edit_selections_125.pdf
         "comment": "The Poincaré",
         "responses": []
     },
-    "selection": "<Replace>Poincar´e</Replace> duality on Sm × CGn,k can be described in terms of the duality on"
+    "PDF selection": "<Replace>Poincar´e</Replace> duality on Sm × CGn,k can be described in terms of the duality on"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_126.pdf
@@ -1394,7 +1394,7 @@ bbox_drawings/endomorphism_ann_edit_selections_126.pdf
         "comment": "Lemmas 4.7 and 4.8 <COMP: link>",
         "responses": []
     },
-    "selection": "We are now ready to establish <Replace>the following lemmas</Replace>, which will be useful in the"
+    "PDF selection": "We are now ready to establish <Replace>the following lemmas</Replace>, which will be useful in the"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_127.pdf
@@ -1405,7 +1405,7 @@ bbox_drawings/endomorphism_ann_edit_selections_127.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(1)</Highlight> Either ˜f∗(ϑ ⊗x) = µλi(ϑ ⊗x), ∀x ∈HCG"
+    "PDF selection": "<Highlight>(1)</Highlight> Either ˜f∗(ϑ ⊗x) = µλi(ϑ ⊗x), ∀x ∈HCG"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_128.pdf
@@ -1416,7 +1416,7 @@ bbox_drawings/endomorphism_ann_edit_selections_128.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(2)</Highlight> ˜f∗(x) = λix + ϑ ⊗y, for some y ∈HCG\n2i−"
+    "PDF selection": "<Highlight>(2)</Highlight> ˜f∗(x) = λix + ϑ ⊗y, for some y ∈HCG\n2i−"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_129.pdf
@@ -1427,7 +1427,7 @@ bbox_drawings/endomorphism_ann_edit_selections_129.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(1)</Highlight> ˜f∗(x) ∈ϑ ⊗HCG\n2i−"
+    "PDF selection": "<Highlight>(1)</Highlight> ˜f∗(x) ∈ϑ ⊗HCG\n2i−"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_130.pdf
@@ -1438,7 +1438,7 @@ bbox_drawings/endomorphism_ann_edit_selections_130.pdf
         "comment": ".",
         "responses": []
     },
-    "selection": "CG\n2i , i > 0 if ˜f ∗(u) = µu, µ ∈Q<Caret></Caret>"
+    "PDF selection": "CG\n2i , i > 0 if ˜f ∗(u) = µu, µ ∈Q<Caret></Caret>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_131.pdf
@@ -1449,7 +1449,7 @@ bbox_drawings/endomorphism_ann_edit_selections_131.pdf
         "comment": "adjust to fit equation within margin",
         "responses": []
     },
-    "selection": "<Highlight>˜f ∗(δvp) =\n�\najpδϑ⊗vj, ∀vp ∈HCG\n2i ,\n˜f ∗(δϑ⊗1) = µδϑ⊗1,\n˜f ∗(δϑ⊗vp) = 0, ∀vp ∈HCG\n2i .</Highlight>"
+    "PDF selection": "<Highlight>˜f ∗(δvp) =\n�\najpδϑ⊗vj, ∀vp ∈HCG\n2i ,\n˜f ∗(δϑ⊗1) = µδϑ⊗1,\n˜f ∗(δϑ⊗vp) = 0, ∀vp ∈HCG\n2i .</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_132.pdf
@@ -1460,7 +1460,7 @@ bbox_drawings/endomorphism_ann_edit_selections_132.pdf
         "comment": "AU: \", which concludes the ...\" or \". That concludes the ...\"?",
         "responses": []
     },
-    "selection": "<Highlight>that</Highlight> concludes the result."
+    "PDF selection": "<Highlight>that</Highlight> concludes the result."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_133.pdf
@@ -1471,7 +1471,7 @@ bbox_drawings/endomorphism_ann_edit_selections_133.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "CG\n2i , ∀i > 0<Caret></Caret>"
+    "PDF selection": "CG\n2i , ∀i > 0<Caret></Caret>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_134.pdf
@@ -1482,7 +1482,7 @@ bbox_drawings/endomorphism_ann_edit_selections_134.pdf
         "comment": "Theorems 4.9 and 4.10 <COMP: link>",
         "responses": []
     },
-    "selection": "<Replace>The following theorems</Replace> provide a criteria for the existence of coincidence"
+    "PDF selection": "<Replace>The following theorems</Replace> provide a criteria for the existence of coincidence"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_135.pdf
@@ -1493,7 +1493,7 @@ bbox_drawings/endomorphism_ann_edit_selections_135.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(1)</Highlight> g∗is an automorphism of H∗(P(m, n, k); Q)."
+    "PDF selection": "<Highlight>(1)</Highlight> g∗is an automorphism of H∗(P(m, n, k); Q)."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_136.pdf
@@ -1504,7 +1504,7 @@ bbox_drawings/endomorphism_ann_edit_selections_136.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "(1) g∗is an automorphism of H∗(P(m, n, k); Q)<Replace>.</Replace>"
+    "PDF selection": "(1) g∗is an automorphism of H∗(P(m, n, k); Q)<Replace>.</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_137.pdf
@@ -1515,7 +1515,7 @@ bbox_drawings/endomorphism_ann_edit_selections_137.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "(2) ˜f ∗(c1) ̸= au, a ∈Q<Replace>.</Replace>"
+    "PDF selection": "(2) ˜f ∗(c1) ̸= au, a ∈Q<Replace>.</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_138.pdf
@@ -1526,7 +1526,7 @@ bbox_drawings/endomorphism_ann_edit_selections_138.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "(3) deg(p ◦g ◦s) ̸= −deg(p ◦f ◦s) if m is odd<Replace>.</Replace>"
+    "PDF selection": "(3) deg(p ◦g ◦s) ̸= −deg(p ◦f ◦s) if m is odd<Replace>.</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_139.pdf
@@ -1537,7 +1537,7 @@ bbox_drawings/endomorphism_ann_edit_selections_139.pdf
         "comment": "et al.",
         "responses": []
     },
-    "selection": "M. MANDAL <Replace>AND D. SETIA</Replace>"
+    "PDF selection": "M. MANDAL <Replace>AND D. SETIA</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_140.pdf
@@ -1548,7 +1548,7 @@ bbox_drawings/endomorphism_ann_edit_selections_140.pdf
         "comment": "center equations",
         "responses": []
     },
-    "selection": "<Highlight>˜f∗(x) = λix + ϑ ⊗y, for some y ∈HCG\n2i−m, ∀x ∈HCG\n2i</Highlight>"
+    "PDF selection": "<Highlight>˜f∗(x) = λix + ϑ ⊗y, for some y ∈HCG\n2i−m, ∀x ∈HCG\n2i</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_141.pdf
@@ -1559,7 +1559,7 @@ bbox_drawings/endomorphism_ann_edit_selections_141.pdf
         "comment": "center equations",
         "responses": []
     },
-    "selection": "<Highlight>D˜g∗D−1 ˜f∗(x) = µ1λiλd−i\nx + ϑ ⊗y′ for some y′ ∈HCG</Highlight>"
+    "PDF selection": "<Highlight>D˜g∗D−1 ˜f∗(x) = µ1λiλd−i\nx + ϑ ⊗y′ for some y′ ∈HCG</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_142.pdf
@@ -1570,7 +1570,7 @@ bbox_drawings/endomorphism_ann_edit_selections_142.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "CG\n2i+m<Replace>.</Replace>"
+    "PDF selection": "CG\n2i+m<Replace>.</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_143.pdf
@@ -1581,7 +1581,7 @@ bbox_drawings/endomorphism_ann_edit_selections_143.pdf
         "comment": "denotes",
         "responses": []
     },
-    "selection": "′ = 0 or µ = 0 depending on the image of ˜f∗(ϑ ⊗x). Recall that d2i <Replace>denote</Replace>"
+    "PDF selection": "′ = 0 or µ = 0 depending on the image of ˜f∗(ϑ ⊗x). Recall that d2i <Replace>denote</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_144.pdf
@@ -1592,7 +1592,7 @@ bbox_drawings/endomorphism_ann_edit_selections_144.pdf
         "comment": "",
         "responses": []
     },
-    "selection": "Using <StrikeOut>the</StrikeOut> Lemma 4.5 and the fact that λ1 ̸= 0, the sum"
+    "PDF selection": "Using <StrikeOut>the</StrikeOut> Lemma 4.5 and the fact that λ1 ̸= 0, the sum"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_145.pdf
@@ -1603,7 +1603,7 @@ bbox_drawings/endomorphism_ann_edit_selections_145.pdf
         "comment": ".",
         "responses": []
     },
-    "selection": "d2i(λ/λ1)i ̸= 0<Replace>,</Replace>"
+    "PDF selection": "d2i(λ/λ1)i ̸= 0<Replace>,</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_146.pdf
@@ -1614,7 +1614,7 @@ bbox_drawings/endomorphism_ann_edit_selections_146.pdf
         "comment": "center equations or align equal signs",
         "responses": []
     },
-    "selection": "<Highlight>D˜g∗D−1(θ ◦˜f)∗(x) = µ1(−λ)iλd−i\nx + ϑ ⊗y′′ for some y′′ ∈HCG</Highlight>"
+    "PDF selection": "<Highlight>D˜g∗D−1(θ ◦˜f)∗(x) = µ1(−λ)iλd−i\nx + ϑ ⊗y′′ for some y′′ ∈HCG</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_147.pdf
@@ -1625,7 +1625,7 @@ bbox_drawings/endomorphism_ann_edit_selections_147.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(1)</Highlight> g∗is an automorphism of H∗(P(m, n, k); Q)."
+    "PDF selection": "<Highlight>(1)</Highlight> g∗is an automorphism of H∗(P(m, n, k); Q)."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_148.pdf
@@ -1636,7 +1636,7 @@ bbox_drawings/endomorphism_ann_edit_selections_148.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(2)</Highlight> ˜f ∗(u) = µu, µ ∈Q if ˜f ∗(H∗\nC"
+    "PDF selection": "<Highlight>(2)</Highlight> ˜f ∗(u) = µu, µ ∈Q if ˜f ∗(H∗\nC"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_149.pdf
@@ -1647,7 +1647,7 @@ bbox_drawings/endomorphism_ann_edit_selections_149.pdf
         "comment": "remove no indent",
         "responses": []
     },
-    "selection": "<Highlight>Let us</Highlight> consider the other case when ˜f ∗(c1) = au, a ∈Q, using Theorem 3.3 we"
+    "PDF selection": "<Highlight>Let us</Highlight> consider the other case when ˜f ∗(c1) = au, a ∈Q, using Theorem 3.3 we"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_150.pdf
@@ -1658,7 +1658,7 @@ bbox_drawings/endomorphism_ann_edit_selections_150.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "∗\nCG. Since ˜f ∗is graded and by <Highlight>(2)</Highlight>"
+    "PDF selection": "∗\nCG. Since ˜f ∗is graded and by <Highlight>(2)</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_151.pdf
@@ -1669,7 +1669,7 @@ bbox_drawings/endomorphism_ann_edit_selections_151.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(2)</Highlight> The map p1 ◦˜f ∗◦i1 : H∗\nC"
+    "PDF selection": "<Highlight>(2)</Highlight> The map p1 ◦˜f ∗◦i1 : H∗\nC"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_152.pdf
@@ -1680,7 +1680,7 @@ bbox_drawings/endomorphism_ann_edit_selections_152.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "hypothesis <Highlight>(2)</Highlight> considered in Theorem 4.9 or Theorem 4.10. Some of them are as"
+    "PDF selection": "hypothesis <Highlight>(2)</Highlight> considered in Theorem 4.9 or Theorem 4.10. Some of them are as"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_153.pdf
@@ -1691,7 +1691,7 @@ bbox_drawings/endomorphism_ann_edit_selections_153.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "Hence condition <Highlight>(2)</Highlight> of Theorem 4.10 may be omitted, and one obtains the following"
+    "PDF selection": "Hence condition <Highlight>(2)</Highlight> of Theorem 4.10 may be omitted, and one obtains the following"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_154.pdf
@@ -1702,7 +1702,7 @@ bbox_drawings/endomorphism_ann_edit_selections_154.pdf
         "comment": "break before \"continuous\"",
         "responses": []
     },
-    "selection": "both even. Assume m > 2k, and the hypothesis (3) is satisfied. Then, for any <Highlight>con-</Highlight>"
+    "PDF selection": "both even. Assume m > 2k, and the hypothesis (3) is satisfied. Then, for any <Highlight>con-</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_155.pdf
@@ -1713,7 +1713,7 @@ bbox_drawings/endomorphism_ann_edit_selections_155.pdf
         "comment": "break before math",
         "responses": []
     },
-    "selection": "tinuous function g on P(m, n, k) that induces an automorphism on <Highlight>H∗(P(m, n, k); Q),</Highlight>"
+    "PDF selection": "tinuous function g on P(m, n, k) that induces an automorphism on <Highlight>H∗(P(m, n, k); Q),</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_156.pdf
@@ -1724,7 +1724,7 @@ bbox_drawings/endomorphism_ann_edit_selections_156.pdf
         "comment": "remove no indent",
         "responses": []
     },
-    "selection": "<Highlight>In particular,</Highlight> for g = id, the space P(m, n, k) has the fixed-point property."
+    "PDF selection": "<Highlight>In particular,</Highlight> for g = id, the space P(m, n, k) has the fixed-point property."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_157.pdf
@@ -1735,7 +1735,7 @@ bbox_drawings/endomorphism_ann_edit_selections_157.pdf
         "comment": "break before inline math",
         "responses": []
     },
-    "selection": "In Theorem 4.10, the first assumption that g∗is an automorphism of <Highlight>H∗(P(m, n, k); Q)</Highlight>"
+    "PDF selection": "In Theorem 4.10, the first assumption that g∗is an automorphism of <Highlight>H∗(P(m, n, k); Q)</Highlight>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_158.pdf
@@ -1746,7 +1746,7 @@ bbox_drawings/endomorphism_ann_edit_selections_158.pdf
         "comment": "Proposition 4.13 <COMP: link>",
         "responses": []
     },
-    "selection": "can be relaxed by assuming µ is nonzero, which leads to <Replace>the following proposition</Replace>."
+    "PDF selection": "can be relaxed by assuming µ is nonzero, which leads to <Replace>the following proposition</Replace>."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_159.pdf
@@ -1757,7 +1757,7 @@ bbox_drawings/endomorphism_ann_edit_selections_159.pdf
         "comment": "rom",
         "responses": []
     },
-    "selection": "<Highlight>(1)</Highlight> ˜g∗(H∗\nC"
+    "PDF selection": "<Highlight>(1)</Highlight> ˜g∗(H∗\nC"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_160.pdf
@@ -1768,7 +1768,7 @@ bbox_drawings/endomorphism_ann_edit_selections_160.pdf
         "comment": "Acknowledgment",
         "responses": []
     },
-    "selection": "<Replace>Acknowledgements</Replace>"
+    "PDF selection": "<Replace>Acknowledgements</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_161.pdf
@@ -1779,7 +1779,7 @@ bbox_drawings/endomorphism_ann_edit_selections_161.pdf
         "comment": "p. 102",
         "responses": []
     },
-    "selection": "<Replace>pp. http://gateway.proquest.com/openurl?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/</Replace>"
+    "PDF selection": "<Replace>pp. http://gateway.proquest.com/openurl?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/</Replace>"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_162.pdf
@@ -1790,7 +1790,7 @@ bbox_drawings/endomorphism_ann_edit_selections_162.pdf
         "comment": "pp. 181--183",
         "responses": []
     },
-    "selection": "Math. Soc. 88 (1983), no. 1, <Replace>181–183</Replace>, https://doi.org/10.2307/2045137."
+    "PDF selection": "Math. Soc. 88 (1983), no. 1, <Replace>181–183</Replace>, https://doi.org/10.2307/2045137."
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_163.pdf
@@ -1801,7 +1801,7 @@ bbox_drawings/endomorphism_ann_edit_selections_163.pdf
         "comment": "F",
         "responses": []
     },
-    "selection": "<Highlight>f</Highlight>ixed"
+    "PDF selection": "<Highlight>f</Highlight>ixed"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_164.pdf
@@ -1812,7 +1812,7 @@ bbox_drawings/endomorphism_ann_edit_selections_164.pdf
         "comment": "P",
         "responses": []
     },
-    "selection": "<Highlight>p</Highlight>oint"
+    "PDF selection": "<Highlight>p</Highlight>oint"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_165.pdf
@@ -1823,7 +1823,7 @@ bbox_drawings/endomorphism_ann_edit_selections_165.pdf
         "comment": "P",
         "responses": []
     },
-    "selection": "<Highlight>p</Highlight>roperty"
+    "PDF selection": "<Highlight>p</Highlight>roperty"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_166.pdf
@@ -1834,7 +1834,7 @@ bbox_drawings/endomorphism_ann_edit_selections_166.pdf
         "comment": "M",
         "responses": []
     },
-    "selection": "<Highlight>m</Highlight>anifolds,"
+    "PDF selection": "<Highlight>m</Highlight>anifolds,"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_167.pdf
@@ -1845,7 +1845,7 @@ bbox_drawings/endomorphism_ann_edit_selections_167.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "Indian Institute of Technology Kanpur, Kanpur<Caret></Caret> 208016, India"
+    "PDF selection": "Indian Institute of Technology Kanpur, Kanpur<Caret></Caret> 208016, India"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_168.pdf
@@ -1856,7 +1856,7 @@ bbox_drawings/endomorphism_ann_edit_selections_168.pdf
         "comment": ",",
         "responses": []
     },
-    "selection": "Institute of Mathematics, Polish Academy of Sciences, Krak´ow<Caret></Caret> 31-027, Poland"
+    "PDF selection": "Institute of Mathematics, Polish Academy of Sciences, Krak´ow<Caret></Caret> 31-027, Poland"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_169.pdf
@@ -1867,7 +1867,7 @@ bbox_drawings/endomorphism_ann_edit_selections_169.pdf
         "comment": " at the",
         "responses": []
     },
-    "selection": "Institute of Mathematics<Replace>,</Replace> Polish Academy of Sciences, Krak´ow 31-027, Poland"
+    "PDF selection": "Institute of Mathematics<Replace>,</Replace> Polish Academy of Sciences, Krak´ow 31-027, Poland"
 }
 
 bbox_drawings/endomorphism_ann_edit_selections_170.pdf
@@ -1878,6 +1878,6 @@ bbox_drawings/endomorphism_ann_edit_selections_170.pdf
         "comment": "_",
         "responses": []
     },
-    "selection": "Email address: manasm<Replace>.</Replace>imsc@gmail.com"
+    "PDF selection": "Email address: manasm<Replace>.</Replace>imsc@gmail.com"
 }
 

@@ -1,0 +1,13 @@
+{
+   "sources" : [
+      {
+         "usage" : "toplevel",
+         "filename" : "a_mathematical_theory_of_payment_channel_networks.tex"
+      }
+   ],
+   "spec_version" : 1,
+   "texlive_version" : "2023",
+   "process" : {
+      "compiler" : "pdflatex"
+   }
+}

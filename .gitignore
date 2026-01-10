@@ -3,6 +3,15 @@
 !.pixi/config.toml
 *~
 
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+tmp_segmentsource
+
+bbox_drawings
+
 __pycache__
 
 *.dvi

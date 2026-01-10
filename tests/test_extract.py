@@ -1,7 +1,7 @@
 import pymupdf
 import argparse
 import logging
-from texpdfedits.extract import getRobustAnnots, getCorrections, PDF_ANNOT_TEXT, PDF_ANNOT_CARET, PDF_ANNOT_STRIKE_OUT
+from texpdfedits.extract import getRobustAnnots, getEdits, PDF_ANNOT_TEXT, PDF_ANNOT_CARET, PDF_ANNOT_STRIKE_OUT
 from pathlib import Path
 
 import os
@@ -57,23 +57,23 @@ def drawEdits(filename, output_dir, unique_ending = 'edit_selections'):
     """draw the bounding boxes for extracting the selected text and the Edit json for each annotation
        yes this is more messy than it needs to be
     """
-    corrections = getCorrections(filename)
+    edits = getEdits(filename)
     
     out_str = ''
     single_fname_prefix = Path(output_dir) / f'{Path(filename).stem}_{unique_ending}'
     singlepage_file_names = []
     print(f'Extracting annotations from {filename}...')
-    for i, correction in enumerate(corrections):
+    for i, edit in enumerate(edits):
         doc = pymupdf.open(filename)
         page_count = doc.page_count
-        if correction.pageno < page_count-1:
-            doc.delete_pages(from_page=correction.pageno+1)
-        if correction.pageno >= 1:
-            doc.delete_pages(from_page=0, to_page=correction.pageno-1)
+        if edit.pageno < page_count-1:
+            doc.delete_pages(from_page=edit.pageno+1)
+        if edit.pageno >= 1:
+            doc.delete_pages(from_page=0, to_page=edit.pageno-1)
         assert doc.page_count == 1, "doc.page_count != 1"
         page = doc[0]
-        bbs = correction.debug_bbs
-        colors = [(1,0,0), (0,0,1)] if correction.type == PDF_ANNOT_CARET[1] else [(1,.25,.25), (.25,1,.25), (.25,.25,1)]
+        bbs = edit.debug_bbs
+        colors = [(1,0,0), (0,0,1)] if edit.type == PDF_ANNOT_CARET[1] else [(1,.25,.25), (.25,1,.25), (.25,.25,1)]
         for j, bb in enumerate(bbs):
             if bb.width == 0:
                 continue
@@ -83,16 +83,16 @@ def drawEdits(filename, output_dir, unique_ending = 'edit_selections'):
             box = page.add_freetext_annot(bb, '', text_color=colors[j])
             box.set_border(width=.75)
             box.update()
-        box = page.add_freetext_annot((5,5,500,350), str(correction), fontsize=8, fontname="Cour", text_color=(.5, 0, .75))
+        box = page.add_freetext_annot((5,5,500,350), str(edit), fontsize=8, fontname="Cour", text_color=(.5, 0, .75))
         box.update()
 
         single_save = f'{single_fname_prefix}_{i}.pdf'
         doc.save(single_save)
 
-        out_str += f'{single_save}\n{i} {correction}\n\n'
+        out_str += f'{single_save}\n{i} {edit}\n\n'
         
         singlepage_file_names.append(single_save)
-        print(f'{i+1:3d}/{len(corrections):3d}')
+        print(f'{i+1:3d}/{len(edits):3d}')
 
     print(f'done. Files written to {output_dir}')
     combined_doc = pymupdf.open(filename)
@@ -110,7 +110,7 @@ def drawEdits(filename, output_dir, unique_ending = 'edit_selections'):
     
     os.system(f"rm {single_fname_prefix}_*.pdf")
     
-    with open(f'{Path(output_dir) / Path(filename).stem}_corrections_out.txt', 'w') as f:
+    with open(f'{Path(output_dir) / Path(filename).stem}_edits_out.txt', 'w') as f:
         f.write(out_str)
 
     return 0

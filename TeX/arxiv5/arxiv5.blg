@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99d (TeX Live 2023)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: arxiv5.aux
+The style file: abbrv.bst
+Database file #1: OpenBiblio.bib
+Warning--there's a number but no volume in BCT1
+Warning--empty title in Horiprivate
+Warning--empty title in ST_unpublished
+You've used 34 entries,
+            2118 wiz_defined-function locations,
+            718 strings with 8425 characters,
+and the built_in function-call counts, 11111 in all, are:
+= -- 1141
+> -- 446
+< -- 8
++ -- 185
+- -- 142
+* -- 781
+:= -- 1839
+add.period$ -- 104
+call.type$ -- 34
+change.case$ -- 170
+chr.to.int$ -- 0
+cite$ -- 37
+duplicate$ -- 397
+empty$ -- 883
+format.name$ -- 142
+if$ -- 2312
+int.to.chr$ -- 0
+int.to.str$ -- 34
+missing$ -- 25
+newline$ -- 170
+num.names$ -- 68
+pop$ -- 152
+preamble$ -- 1
+purify$ -- 139
+quote$ -- 0
+skip$ -- 281
+stack$ -- 0
+substring$ -- 881
+swap$ -- 78
+text.length$ -- 8
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 136
+warning$ -- 3
+while$ -- 115
+width$ -- 36
+write$ -- 363
+(There were 3 warnings)
