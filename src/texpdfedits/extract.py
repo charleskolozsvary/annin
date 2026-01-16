@@ -381,7 +381,7 @@ def getEdits(filename):
             
             selection_text, selection_bbs, selection_line_rect = getSelection(annot, doc)
             edits.append(Edit(annot.pageno, annot.type[1], message, selection_text, selection_bbs, selection_line_rect))
-        logging.info(f"Processed annotations on page {pageno:3d}/{doc.page_count-1:3d}")
+        logging.info(f"Extracted annotations on page {pageno:3d}/{doc.page_count-1:3d}")
         
     logging.info(f"Produced {len(edits)} edits from {target_num_edits} PDF annotations")
     return edits

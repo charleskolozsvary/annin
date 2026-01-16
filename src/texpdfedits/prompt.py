@@ -2,9 +2,17 @@ import logging
 import argparse
 import pymupdf
 import json
+import time
+import pickle
+import re
 
 from texpdfedits.extract import getEdits
 from texpdfedits.segmentsource import segment, sourceAsString
+
+import google.genai as genai
+
+from dotenv import load_dotenv
+load_dotenv()
 
 from pathlib import Path
 
@@ -223,6 +231,12 @@ class Correction:
 ```latex
 {self.latex_snippet}
 ```"""
+    def updateSnippet(self, new_source_pos: tuple[int], new_snippet: str) -> None:
+        self.snippet_source_positions = new_source_pos
+        self.latex_snippet = new_snippet
+
+    def snippetToCodeblock(self):
+        return f"```latex\n{self.latex_snippet}\n```"
 
 def getCorrections(annot_filename: str, latex_filename: str) -> list[Correction]:
     edits = getEdits(annot_filename)
@@ -262,6 +276,9 @@ def getCorrections(annot_filename: str, latex_filename: str) -> list[Correction]
 
     return corrections
 
+def toCodeblock(string: str, language: str = 'latex'):
+        return f"```{language}\n{string}\n```"        
+
 def groupOverlaps(keyed_start_ends: dict[int, tuple[int]]) -> list[list[int]]:
     """
     I have a list of dictionaries where each dictionary has some key and its value is a tuple with a start and end value, a span
@@ -293,21 +310,31 @@ def groupOverlaps(keyed_start_ends: dict[int, tuple[int]]) -> list[list[int]]:
         groups.append(current_group)
     return groups
 
-def groupOverlappingCorrections(corrections: list[Correction], tex_filename: str) -> tuple[list[list[int]], list[str]]:
+def groupOverlappingCorrections(corrections: list[Correction], tex_filename: str, key_to_correction: dict[int, Correction]) -> tuple[list[list[int]], list[str]]:
     if not corrections:
         return [], []
     tex_str = sourceAsString(tex_filename)
     keyed_start_ends = {corr.index: corr.snippet_source_positions for corr in corrections}
     groups = groupOverlaps(keyed_start_ends)
-    
+
     snippets = []
     for group in groups:
         spans_in_group = [keyed_start_ends[k] for k in group]
         min_start = min(spans_in_group, key = lambda span: span[0])[0]
         max_end = max(spans_in_group, key = lambda span: span[1])[1]
-        snippets.append(tex_str[min_start:max_end])
+        containing_snippet = tex_str[min_start:max_end]
+        snippets.append(containing_snippet)
+        for k in group:
+            corr = key_to_correction[k]
+            if not corr.latex_snippet in containing_snippet:
+                logging.error(
+                     "Failed to create overlapping groups: "
+                    f"a snippet \n{corr.snippetToCodeblock()}\n was not in its spanning snippet \n{toCodeblock(containing_snippet)}\n"
+                )
+                sys.exit(1)
+            corr.updateSnippet((min_start, max_end), containing_snippet)
     
-    return groups, snippets
+    return groups, snippets # will probably not return snippets in future: unnecessary
 
 def writeListOfPrompts(corrections: list[Correction], tex_filename: str) -> None:
     prompt_dir = Path('markdown_prompts')
@@ -318,25 +345,373 @@ def writeListOfPrompts(corrections: list[Correction], tex_filename: str) -> None
     with open(savefile, 'w') as f:
         f.write('\n\n---\n\n'.join([f"#{corr.index}\n\n" + corr.asMarkdownPrompt() for corr in corrections if corr is not None]))
     logging.info(f"The list of prompts have been written to {savefile}.")
+
+def writePromptsWithResponses(corrections: list[Correction], updated_snippets, explanations, tex_filename, model):
+    prompt_dir = Path('markdown_prompts')
+    Path.mkdir(prompt_dir, exist_ok=True)
+    
+    savefile = f"{prompt_dir / Path(tex_filename).stem}_responses_{model}.md"
+
+    with open(savefile, 'w') as f:
+        f.write(
+            '\n\n---\n\n'.join(
+                [f"#{corr.index}\n\n" + corr.asMarkdownPrompt() + f"\n## Response\n```latex\n{updated_snippets[corr.index]}\n```\n### Explanation\n{explanations[corr.index]}"
+                 for corr in corrections if corr is not None]
+            )
+        )
+    logging.info(f"The prompts with their responses have been written to {savefile}.")    
+
+def callGemini(prompt: str, model: str, system_prompt: str = None, history: list = None):
+    """
+    Call Google's Gemini API with chat history support.
+    
+    Args:
+        prompt: The current user prompt
+        model: Model name (e.g., 'gemini-2.0-flash-exp')
+        system_prompt: Optional system instruction
+        history: List of dicts with 'prompt' and 'response' keys
+    
+    Returns:
+        Response text from the model
+    """
+    client = genai.Client()
+    
+    # Build message history
+    messages = []
+    if history:
+        for exchange in history:
+            messages.append({'role': 'user', 'parts': [{'text': exchange['prompt']}]})
+            messages.append({'role': 'model', 'parts': [{'text': exchange['response']}]})
+    
+    # Add current prompt
+    messages.append({'role': 'user', 'parts': [{'text': prompt}]})
+    
+    # Build config
+    config = {}
+    if system_prompt:
+        config['system_instruction'] = system_prompt
+    
+    # Make API call
+    response = client.models.generate_content(
+        model=model,
+        contents=messages,
+        config=config if config else None
+    )
+    
+    return response.text
+
+def callClaude(prompt: str, model: str, system_prompt: str = None, history: list = None):
+    """Call Anthropic's Claude API (to be implemented)"""
+    # TODO: implement with anthropic package
+    return prompt
+
+def callEcho(prompt: str, model: str, system_prompt: str = None, history: list = None):
+    """ Just return the first supplied latex code block """
+    codeblocks = []
+    matches = re.finditer(r'```(\w+)\n(.*?)\n?```', prompt, re.DOTALL)
+    
+    for match in matches:
+        codeblocks.append({
+            'full-match': match.group(0),
+            'language': match.group(1),
+            'code': match.group(2),
+            'start': match.start(),
+            'end': match.end()
+        })
+
+    latex_blocks = [block for block in codeblocks if block['language'] in 'latex']
+
+    if not latex_blocks:
+        logging.warning("No latex code block supplied to Echo model; returning empty block")
+        return "```latex\n\n```"
+    
+    return '\nEcho explanation (nothing)'.join([block['full-match'] for block in latex_blocks])
+
+def callLLM(prompt: str, model: str, system_prompt: str = None, history: list = None):
+    """
+    Dispatch to appropriate LLM based on model name.
+    
+    Args:
+        prompt: The current user prompt
+        model: Model identifier (e.g., 'gemini-2.0-flash-exp', 'claude-sonnet-4-20250514')
+        system_prompt: Optional system instruction
+        history: List of dicts with 'prompt' and 'response' keys
+    
+    Returns:
+        Response text from the model
+    """
+    if 'gemini' in model.lower():
+        llm = callGemini
+    elif 'claude' in model.lower():
+        llm = callClaude
+    elif 'echo' in model.lower():
+        llm = callEcho
+    else:
+        raise ValueError(f"Unsupported model: {model}")
+
+    logging.info(f"Calling {model}...")
+    start = time.time()    
+    response = llm(prompt, model, system_prompt, history)
+    logging.info(f"Call to {model} completed in {time.time() - start:.2f}s")    
+    return response
+
+def getChunks(
+    key_to_correction: dict[int, Correction],
+    standalone_keys: list[int],
+    chunksize: int
+) -> dict[str, list[list[Correction]]]:
+    """Chunk corrections by category. Could further group by type in the future."""
+    
+    chunks = {'standalone': []}
+    
+    def makeChunks(keys, category):
+        curr_chunk = []
+        for k in keys:
+            curr_chunk.append(key_to_correction[k])
+            if len(curr_chunk) == chunksize:
+                chunks[category].append(curr_chunk)
+                curr_chunk = []
+        if curr_chunk:
+            chunks[category].append(curr_chunk)
+    
+    makeChunks(standalone_keys, 'standalone')
+    
+    return chunks
+
+def parseResponse(response_str: str, corrections: list[Correction], model_name: str):
+    """Extract codeblocks and explanations from LLM response.
+    
+    Returns: list of dicts with 'code', 'explanation', 'language', 'start', 'end'
+    """
+    codeblocks = []
+    matches = re.finditer(r'```(\w+)\n(.*?)\n?```', response_str, re.DOTALL)
+    
+    for match in matches:
+        codeblocks.append({
+            'language': match.group(1),
+            'code': match.group(2),
+            'start': match.start(),
+            'end': match.end()
+        })
+    
+    if len(codeblocks) != len(corrections):
+        logging.warning(
+            f"Response from {model_name} returned {len(codeblocks)} codeblocks "
+            f"but expected {len(corrections)} corrections"
+        )
+    
+    languages = {block['language'] for block in codeblocks}
+    if not languages.issubset({'latex', 'tex'}):
+        logging.warning(
+            f"Codeblock languages for corrections {[c.index for c in corrections]} "
+            f"contained unexpected languages: {languages - {'latex', 'tex'}}"
+        )
+    
+    # Extract explanations after codeblocks
+    for i, block in enumerate(codeblocks):
+        start = block['end']
+        end = codeblocks[i+1]['start'] if i < len(codeblocks)-1 else len(response_str)
+        block['explanation'] = response_str[start:end].strip()
+    
+    return codeblocks
+
+def processStandaloneChunks(
+        chunks: list[list[Correction]],
+        model: str,
+        updated_snippets: dict[int, str],
+        explanations: dict[int, str],
+        _system_prompt: str | None = None
+) -> None:
+    """Process standalone corrections in batches."""
+    num_chunks = len(chunks)-1
+    for i, chunk in enumerate(chunks):
+        prompt = writeBatchPrompt(chunk)
+        try:
+            response = callLLM(prompt, model, system_prompt = _system_prompt)
+            print(response)
+        except Exception as e:
+            logging.error(f"You got an error from calling the LLM: {e}\nQuitting with the current updated_snippets variable")
+            return 
+        parsed = parseResponse(response, chunk, model)
+        
+        if not parsed:
+            logging.error(f"No codeblocks found in response for corrections {[c.index for c in chunk]}")
+            continue
+        
+        # Update snippets with parsed codeblocks
+        for correction, block in zip(chunk, parsed):
+            updated_snippets[correction.index] = block['code']
+            explanations[correction.index] = block['explanation']
+        logging.info(f"Processed standalone snippets {i:3d}/{num_chunks:3d}")
+
+def processOverlappingGroups(
+    overlapping_groups: list[list[int]], 
+    key_to_correction: dict[int, Correction],
+    model: str, 
+    updated_snippets: dict[int, str],
+    explanations: dict[int, str],
+    _system_prompt: str | None = None
+):
+    """Process overlapping corrections sequentially with chat history."""
+    MAX_HISTORY = 10
+    num_overlapping_groups = len(overlapping_groups)-1
+    for i, group_indices in enumerate(overlapping_groups):
+        group = [key_to_correction[i] for i in group_indices]
+        chat_history = []
+        
+        for correction in group:
+            prompt = writeSinglePrompt(correction)
+            response = callLLM(prompt, model, system_prompt = _system_prompt, history=chat_history)
+            parsed = parseResponse(response, [correction], model)
+            
+            if not parsed:
+                logging.error(f"No codeblock found in response for correction {correction.index}")
+                # Still add to chat history so conversation continues
+                chat_history.append({'prompt': prompt, 'response': response})
+                if len(chat_history) > MAX_HISTORY:
+                    chat_history = chat_history[-MAX_HISTORY:]
+                continue
+            
+            block = parsed[0]
+            # Update all corrections in this group with the new snippet
+            for c in group:
+                updated_snippets[c.index] = block['code']
+            explanations[correction.index] = block['explanation']
+            
+            # Maintain chat history with sliding window
+            chat_history.append({'prompt': prompt, 'response': response})
+            if len(chat_history) > MAX_HISTORY:
+                chat_history = chat_history[-MAX_HISTORY:]
+        logging.info(f"Processed overlapping snippets {i:3d}/{num_overlapping_groups:3d}")
+
+def writeBatchPrompt(chunk: list[Correction]) -> str:
+    """Create prompt for multiple standalone corrections."""
+    if len(chunk) == 0:
+        return ''
+    if len(chunk) == 1:
+        return chunk[0].asMarkdownPrompt()
+    
+    prompt = ''
+    for i, correction in enumerate(chunk):
+        prompt += f'# Correction #{i+1}:\n{correction.asMarkdownPrompt()}\n\n'
+    return prompt
+
+def writeSinglePrompt(correction: Correction) -> str:
+    """Create prompt for a single correction."""
+    return correction.asMarkdownPrompt()
+
+def processCorrections(*args, **kwargs):
+    """
+    *args are the annotated pdf file name followed by the LaTeX file name
+    **kwargs are for now chunksize and model. Will add further options later
+    """
+    annot_filename, tex_filename = args
+    
+    chunksize = kwargs.get('chunksize', 1)
+    model = kwargs.get('model', 'echo')
+    system_prompt = kwargs.get('sysprompt', None)
+    corrections = kwargs.get('corrections', None)
+
+    if corrections is None:
+        corrections = getCorrections(*args) # returns list[Correction]
+        
+    key_to_correction = {corr.index: corr for corr in corrections}
+
+    # modifies corrections so that all snippets in a group are the same---they span the group
+    overlapping_corrections, _ = groupOverlappingCorrections(corrections, tex_filename, key_to_correction) # returns tuple[list[list[int]], list[str]], second argument currently unused.
+
+    ## chunk corrections
+    standalone_keys = [corridx for corridx in key_to_correction if corridx not in {idx for group in overlapping_corrections for idx in group}]    
+    chunks = getChunks(key_to_correction, standalone_keys, chunksize)
+
+    ## prompt model with chunks
+    updated_snippets = {}
+    explanations = {}
+
+    processStandaloneChunks(chunks['standalone'], model, updated_snippets, explanations)
+    processOverlappingGroups(overlapping_corrections, key_to_correction, model, updated_snippets, explanations)
+
+    ## apply updates to source file
+    # TODO: implement later
+    
+    return updated_snippets, explanations
+    
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('annot_filename')
     parser.add_argument('latex_filename')    
     parser.add_argument("-d", "--debug", action="store_true", help='debugging output')
+    parser.add_argument("-p", "--load-pickle", action="store_true", help='load pickle file of corrections if available')
+    parser.add_argument("-m", "--model", type=str, help="specify the LLM model")
+    parser.add_argument("-c", "--chunksize", type=int, help="specify chunk size for standalone snippets")        
+    parser.add_argument("-sp", "--system-prompt", type=str, help="filename of text containing system prompt")
     
     args = parser.parse_args()
     _level = logging.DEBUG if args.debug else logging.INFO
     logging.basicConfig(level=_level, format='%(asctime)s - %(levelname)s - %(message)s')
 
-    corrections = getCorrections(args.annot_filename, args.latex_filename)
+    Path.mkdir(Path("tmp_prompt"), exist_ok = True)
+    corr_file = Path("tmp_prompt/corrections.pkl")
+
+    sp_file = args.system_prompt
+
+    if sp_file and Path(sp_file).exists():
+        with open(sp_file, 'r') as f:
+            _system_prompt = f.read()
+        logging.info(f"Read system prompt from {sp_file}")
+    else:
+        _system_prompt = None
+
+    if not (corr_file.exists() and args.load_pickle):
+        corrections = getCorrections(args.annot_filename, args.latex_filename)
+
+        with open(corr_file, 'wb') as f:
+            pickle.dump(corrections, f)
+    else:
+        with open(corr_file, 'rb') as f:
+            corrections = pickle.load(f)
+
+    if args.model:
+        model = args.model
+    else:
+        model = 'echo' # for now
+
+    if args.chunksize:
+        _chunksize = args.chunksize
+    else:
+        _chunksize = 1
             
     writeListOfPrompts(corrections, args.latex_filename)
 
-    o_groups, o_snippets = groupOverlappingCorrections(corrections, args.latex_filename)
+    updated_snippets, explanations = processCorrections(
+        args.annot_filename,
+        args.latex_filename,
+        corrections=corrections,
+        system_prompt = _system_prompt,
+        chunksize = _chunksize,
+        model=model
+    )
+
+    writePromptsWithResponses(corrections, updated_snippets, explanations, args.latex_filename, model)
+
+    # for correction in corrections:
+    #     if corr.index in groupKs:
+    #         logging.info(f"{correction.index}: \n{correction.snippetToCodeblock()}\n")
+
+    # o_groups, o_snippets = groupOverlappingCorrections(corrections, args.latex_filename)
+
+    # groupKs = [k for group in o_groups for k in group]    
+
+    # for corr in corrections:
+    #     if corr.index in groupKs:
+    #         logging.info(f"{corr.index}: \n{corr.snippetToCodeblock()}\n")
+
+    # print(sum([len(group) for group in o_groups]))
 
     # assert len(o_groups) == len(o_snippets)
     
     # for i in range(len(o_groups)):
+    #     logging.info(f"This group is made up of {len(o_groups[i])} corrections")
     #     logging.info(f"Corrections {o_groups[i]} overlap")
     #     logging.info(f"Here's the spanning snippet for these corrections:\n```latex\n{o_snippets[i]}\n```\n")    

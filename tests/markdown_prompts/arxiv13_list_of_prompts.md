@@ -565,155 +565,7 @@ are applied in Section <Highlight>4</Highlight> to obtain the coincidence-theore
 ```latex
 These are applied in \secref{section 4} to obtain the coincidence-theoretic results.
 	
-	\iffalse For formal spaces, Sullivan’s theory shows that the rational homotopy class of a self-maps are completely determined by the induced graded endomorphisms of their rational cohomology algebras. This viewpoint has motivated extensive work on cohomology endomorphisms of various classical  spaces.
-	%, particularly homogeneous spaces of compact Lie groups.
-	%Initial results for complex Grassmannians were obtained by Brewster \cite{}, Glover-Homer \cite{}, and Hoffman \cite{}, followed by contributions of  Shiga-Tezuka \cite{}, Papadima \cite{}, and Duan et al. (\cite{},\cite{},\cite{}) for broader classes of homogeneous spaces.
-	% $G/H$, where $G$ is complact connected Lie group and $H$ is a closed subgroup of maximal rank.
-	
-	
-	Early foundational work on cohomology endomorphisms of complex Grassmannians
-	was carried out in 1978 by Brewster, in his Ph.D.\ thesis \cite{brewster} on cohomology
-	automorphisms, and by Glover and Homer \cite{glover-homer}.
-	This was followed by Hoffman’s 1984 work
-	\cite{hoffman}, which classified all rational cohomology endomorphisms that are
-	non-trivial in degree two. He showed that for the Grassmannians $\mathbb CG_{n,k}$ (of $k$-planes in $\mathbb{C}^n$), such endomorphisms are precisely \emph{Adams maps}: each cohomology class $x$ of degree $2i$ maps to a scalar multiple $\lambda^i x$ for some fixed nonzero $\lambda \in \mathbb{Q}$, except in special symmetric cases $n=2k$, where additional involutive automorphisms appear. Hoffman further conjectured that every endomorphism vanishing in degree two is necessarily trivial. The results of Glover and Homer (see \cite{glover-homer}) support this conjecture in several cases, under a certain hypothesis, say (GH).
-	
-	
-	Later, cohomology endomorphisms were studied for a variety of homogeneous
-	spaces $G/H$, where $G$ is a compact connected Lie group and $H$ is a closed
-	subgroup of maximal rank. For examples,
-	Shiga and Tezuka examined cohomology
-	automorphisms of homogeneous spaces of simple Lie groups \cite{shiga-tezuka2}, and Papadima described all cohomology automorphisms when the subgroup is a maximal torus,
-	working over both $\mathbb Q$ and $\mathbb R$ \cite{Papadima}. Hoffman and Homer also
-	proposed a general classification for homogeneous spaces arising from unitary
-	groups, together with partial results supporting their conjecture. Further
-	progress includes the study of integral cohomology endomorphisms of the Grassmannian of complex structures
-	$SO(2n)/U(n)$ \cite{duan}, and the work of Duan and Fang on the eight exceptional
-	Grassmannians \cite{duan-fang}. Related developments appear in \cite{duan-zhao}, \cite{lin}, and \cite{goswami-sarkar}.
-	
-	
-	Most of these results, however, concern specific classes of homogeneous spaces.
-	Comparatively little is known about how cohomology endomorphisms behave for
-	products. The product of a sphere
-	with a complex Grassmannian $\mathbb S^m\times \mathbb CG_{n,k}$ offers a particularly useful setting for such questions: the
-	sphere has a simple, singly generated cohomology algebra, while the Grassmannian
-	carries the rich structure arising from Schubert calculus.  
-	Although the garded endomorphisms of the rational cohomology algebra of the product, $\mathrm{End}\big(H^*(\mathbb S^m\times \mathbb CG_{n,k};\mathbb Q)\big)$, are interesting in their own right, our broader aim is to apply them to the \textit{coincidence theory} of certain \textit{generalized Dold space}s.
-	Coincidence theory studies the set of points $x$ for which two maps 
-	$f,g : X \to X$ satisfy $f(x)=g(x)$, and seeks criteria for the 
-	existence or elimination of such points. 
-	
-	
-	%For a continuous map $g$ on a space $X$, the pair $(X,g)$ is said to have the \emph{coincidence property} (abbreviated as CP) if every continuous map $f:X\to X$ has a coincidence point with $g$; that is, $f(x)=g(x)$ for some $x\in X$.
-	The classical Dold manifolds $P(m,n):=\mathbb S^{m}\times\mathbb CP^{n}/\!\sim$, 
-	where $(s,L)\sim(-s,\bar L)$, were introduced by Dold \cite{dold} to construct odd-dimensional generators for Thom's unoriented cobordism ring. These spaces have been extensively studied and generalized. Nath and Sankaran \cite{nath-sankaran} extended the construction by replacing $\mathbb CP^{n}$ with a Hausdorff space $X$ equipped with an involution $\sigma$ with nonempty fixed points. A further generalization in \cite{mandal-sankaran} replaces the sphere $\mathbb S^{m}$ by a space $S$ equipped with a free involution $\alpha$, leading to
-	\[
-	P(S,\alpha,X,\sigma):=S\times X/\!\sim,\text{ where } (s,x)\sim(\alpha(s),\sigma(x)),
-	\]
-	which is called a \emph{generalized Dold space} (GDS).
-	Here the quotient map $\pi: S\times X\to P(S,\alpha,X,\sigma)$ is a double covering.
-	%The space $P(S,\alpha,X,\sigma)$ has a $X$-bundle structure over $Y:=S/\!\sim,$ where $s\sim \alpha(s)$.
-	
-	
-	The class of GDS which we are interested in is $P(m,n,k):=P(\mathbb S^m,\alpha,\mathbb CG_{n,k},\sigma)$, where $\alpha $ is the antipodal map on the sphere and the involution $\sigma$ on $\mathbb CG_{n,k}$ is induced from the standard complex conjugation on $\mathbb C^n$. One observes that for any map $f$ on $P(m,n,k)$, there exist a $\alpha\times \sigma$-equivariant map $\tilde f$ on $\mathbb S^m\times\mathbb CG_{n,k}$ such that $\pi\circ \tilde f=f\circ \pi.$
-	
-	
-	Let us regard $H^*(\mathbb S^m;\mathbb Q)$ and $H^*(\mathbb CG_{n,k};\mathbb Q)$ as
-	subalgebras of $H^*(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)$.
-	Since $H^*(\mathbb CG_{n,k};\mathbb Q)$ is generated by certain Chern classes
-	$c_1,c_2,\dots,c_k$, it follows that 
-	\[
-	H^*(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)\cong H^*(\mathbb S^m,\mathbb Q)\otimes H^*(\mathbb CG_{n,k};\mathbb Q)
-	\]
-	is generated by $u,c_1,c_2,\dots,c_k$, where $u$ generates $H^m(\mathbb S^m;\mathbb Q)$.
-	We are now ready to present our main results; the following is one of them, which shows that the rigidity of
-	$H^*(\mathbb CG_{n,k};\mathbb Q)$ persists in the cohomology of the  product: even in the presence
-	of spherical cohomology classes, any graded endomorphism whose image has a nonzero component in $H^{2}(\mathbb C G_{n,k};\mathbb Q)$ forces  $H^*(\mathbb CG_{n,k};\mathbb Q)$ to behave exactly as it does on its own.
-	More precisely, we obtain: %that any graded endomorphism which is nontrivial on $H^2(\mathbb CG_{n,k};\mathbb Q)$ necessarily preserves  $H^*(\mathbb CG_{n,k};\mathbb Q)$.  Furthermore, the image of $H^*(\mathbb S^m;\mathbb Q)$ under such an endomorphism lies either entirely in $H^*(\mathbb S^m;\mathbb Q)$ or entirely in $H^*(\mathbb CG_{n,k};\mathbb Q)$.
-	\begin{theorem}
-		Let $\phi$ be a graded endomorphism of 
-		$H^*(\mathbb S^{m}\times\mathbb C G_{n,k};\mathbb Q)$ 
-		satisfying $\phi(c_1)\neq a u$ for any $a\in\mathbb Q$.  
-		Then the following statements hold:
-		\begin{enumerate}
-			\item If $k < n - k$, there exists a nonzero rational number $\lambda$ such that
-			\[
-			\phi(x) = \lambda^i x 
-			\quad \text{for all } x \in H^{2i}(\mathbb{C}G_{n,k}; \mathbb{Q}).
-			\]
-			If $k = n - k$, there is an additional possibility of $\phi$ induced by the homeomorphism 
-			\[
-			\mathbb{C}G_{2k,k} \longrightarrow \mathbb{C}G_{2k,k}, 
-			\quad L \longmapsto L^{\perp},
-			\]
-			where $L^{\perp}$ denotes the orthogonal complement of the $k$-plane $L$ in $\mathbb{C}^{2k}$.
-			
-			\item 
-			The image of $H^*(\mathbb{S}^m;\mathbb{Q})$ under $\phi$ lies either in 
-			$H^*(\mathbb{S}^m;\mathbb{Q})$ or in $H^*(\mathbb{C}G_{n,k};\mathbb{Q})$.
-			
-		\end{enumerate}
-	\end{theorem}
-	
-	Unlike the case of the complex Grassmannian, we cannot expect a graded
-	endomorphism of $H^*(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)$ to be
-	trivial merely because it vanishes in degree two. Indeed, for any choice of
-	elements $P_i \in H^{2i-m}(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)$,
-	$i=1,\dots,k$, one obtains a well-defined graded endomorphism $\phi$ of
-	$H^*(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)$ by setting
-	$\phi(c_i) = uP_i$ for $i=1,\dots,k$ and $\phi(u)=u$, when the hypothesis (GH) holds. Hence, even in the case $P_1 = 0$, a large family of nontrivial graded endomorphisms still exists. See Proposition \ref{main thm 2}.
-	We show that if a map on $\mathbb S^{m}\times \mathbb C G_{n,k}$ stabilizes a Grassmannian factor, then the induced cohomology endomorphism stabilizes the subalgebra $H^*(\mathbb S^{m};\mathbb Q)$. See \thmref{ind from top}.
-	
-	%(see Theorem \ref{ind from top}). 
-	%\textcolor{gray}{If the map on $\mathbb S^m \times \mathbb CG_{n,k}$ has nonzero  Brouwer degree, the induced map in cohomology splits as a tensor product of two maps: one acting on the cohomology of the sphere and the other on the cohomology of the Grassmannian. (see  \ref{}).}
-	
-	\iffalse
-	Using the study of $\mathrm{End}(H^*(\mathbb S^{m}\times \mathbb C G_{n,k};\mathbb Q))$, we obtain several coincidence-theoretic consequences. The next result provides a necessary criterion for determining when the pair $\big(P(S,\alpha,X,\sigma),g\big)$ have the coincidence property, for certain maps $g$ on the GDS, expressed in terms of its fibre $X$ and its base $Y:=S/\!\sim_{\alpha}$.
-	
-	
-	
-	
-	\begin{proposition}
-		For  a continuous map $g$ on the generalized Dold space $P(S,\alpha, X,\sigma)$, the pair $\big(P(S,\alpha,X,\sigma),g\big)$ does not have the CP if one of the following hold:
-		\begin{enumerate}
-			\item The pair $\big(Y,p \circ g \circ s\big)$ does not have the CP, 
-			where $s$ denotes a global section of the $X$-bundle  
-			$p: P(S, X) \to Y$, and $g$ is a fiber bundle map.
-			\item  There exists a $\sigma$-equivariant map $f$  on $X$ and a  $\alpha \times \sigma$-equivariant map $\tilde g$ on $S\times X$ inducing $g$ such that $\mathrm{id}_S \times f$ coincides with neither $\tilde{g}$ nor $(\alpha \times \sigma) \circ \tilde{g}$.
-		\end{enumerate}
-	\end{proposition}
-	\fi
-	
-	Using the study of $\mathrm{End}\bigl(H^*(\mathbb S^{m}\times \mathbb C G_{n,k};\mathbb Q)\bigr),$
-	we obtain several coincidence-theoretic consequences. First, we extend Theorem~2 of \cite{glover-homer} to the setting of coincidence theory and show that for a continuous self-map $g$ with nonzero Brouwer degree on $\mathbb C G_{n,k}$ with $k(n-k)$ even, any continuous map $f$ on $\mathbb CG_{n,k}$ has a coincidence with $g$. See Proposition~\ref{CP of CGnk}.
-	
-	We then investigate the coincidence behaviour of the generalized Dold spaces $P(m,n,k)$. For any continuous self-map $g$ with nonzero Brouwer degree on $P(m,n,k)$  with $k(n-k)$ even and $m$ even, every map $f$ satisfying $\tilde f^{*}(c_1)\neq a u$ for any $a\in\mathbb Q$ has a coincidence with $g$; when $m$ is odd, one additionally requires $\tilde f^{*}(u)\neq -\tilde g^{*}(u)$. See Theorem~\ref{coincidence thm}.
-	
-	Under hypothesis (GH), if $g$ is a homotopy equivalence on $P(m,n,k)$ with $k(n-k)$ even, then $g$ has a coincidence with any map $f$ on $P(m,n,k)$ such that: \\ 
-	-- when $m$ is even,  $\tilde f^{*}(c_1)=a u, a\in \mathbb Q$ implies $\tilde f^{*}(u)=b u$ for some $b\in\mathbb Q$;  \\
-	-- when $m$ is odd,  $\tilde f^{*}(u)\neq -\tilde g^{*}(u)$ holds. See Theorem~\ref{coincidence thm under hom}.  \\
-	Moreover, if $m>2k$, no additional assumptions on $f$ are needed.
-	
-	
-	
-	
-	The paper is organized as follows: In Section~2 we develop the necessary background and recall some relevant results. Section~3 is devoted to the study of graded endomorphisms of the rational cohomology algebra of $\mathbb S^{m}\times \mathbb C G_{n,k}$, from which we extract several consequences. These are applied in Section~4 to obtain the coincidence-theoretic results.\fi
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{Preliminaries}  \label{section 2}
-	
 	In this
 ```
 
@@ -1518,19 +1370,7 @@ get  \begin{align*}
 			& D(t\phi_1(x)) = tD(\phi_1(x)),\quad D(\phi_1(x)+\phi_1(y)) = D(\phi_1(x))+D(\phi_1(y)),\\
 			&D(\phi_1(x)\phi_1(y)) = D(\phi_1(x))\phi_1(y)+\phi_1(x)D(\phi_1(y)).
 		\end{align*}
-		\iffalse \textcolor{red}{(Do we need to emphasise that $D(h_i)\in \langle h_{n-k+1},\ldots,h_n\rangle$, or it is obvious from linearlity?)}
-		
-		To verify that $D$ satisfies the Leibniz condition $D(xy)=D(x)y+xD(y)$,
-		it suffices to check that
-		$D(\phi_1(x)\phi_1(y))=D(\phi_1(x))\phi_1(y)+\phi_1(x)D(\phi_1(y))$
-		for all $x,y \in H^*_{\mathbb{C}G}$, since $\phi_1$ is an automorphism of $H^*_{\mathbb{C}G}$.
-		Indeed, from
-		$\phi(xy)=\phi(x)\phi(y)=(\phi_1(x)+uP_x)(\phi_1(y)+uP_y)$ where $x,y\in H^*_{\mathbb CG}$, we obtain
-		$\phi(xy)=\phi_1(xy)+u(P_x\phi_1(y)+\phi_1(x)P_y)$.
-		Comparing with $\phi(xy)=\phi_1(xy)+uP_{xy}$ gives
-		$P_{xy}=P_x\phi_1(y)+\phi_1(x)P_y$, and therefore
-		$D(\phi_1(x)\phi_1(y))=D(\phi_1(x))\phi_1(y)+\phi_1(x)D(\phi_1(y))$. \fi
-		This proves
+		This
 ```
 
 ---
@@ -2196,28 +2036,6 @@ where (AU: okay?)
 some $\lambda \in \mathbb{Q}$, and $\lambda^2 \neq -1$.
 	\end{example}
 	
-	
-	\iffalse
-	\begin{corollary}
-		Assume that $P(m,n,k)$ be an orientable manifold and $n>2$. Let $f$ be a continuous map on $P(m,n,k)$ with nonzero Brouwer degree. Then  
-		the induced map $f^*$ is an automorphism on $H^*(P(m,n,k);\mathbb Q)$.
-	\end{corollary}
-	\begin{proof}
-		Using \remref{lift}, there exists a lift $\tilde f: \mathbb{S}^m\times \mathbb{C}G_{n,k}\to \mathbb{S}^m\times \mathbb{C}G_{n,k}$ 
-		satisfying $\pi\circ \tilde f = f\circ \pi$. Using \corref{cor3} and \corref{cor4}, we have $f^*$ is the restriction of a graded endomorphism $\tilde{f}^*$ on  $H^*_\times$ satisfying either $$\tilde{f}^*(c_1) = \lambda c_1, \lambda \neq 0, \text{ if } f^*(c_1^2) \neq 0, \text{ or } \tilde f^*(c_1) =au, a\in \mathbb{Q}, \text{ if } f^*(c_1^2) =0,$$  to the fixed subring $\mathrm{Fix}(\theta^*)$ of $H^*_\times$.
-		
-		Let $d=k(n-k)$.  The top cohomology $H^{2d+m}_\times\cong\mathbb{Q}$ is generated by 
-		$uc_1^d$.  The nonzero Brouwer degree of $f$ implies nonzero Brouwer degree of $\tilde f$ i.e. \begin{equation}\label{brouwer}
-			\tilde f^*(uc_1^d)=\nu\,uc_1^d \in uH^{*}_{\mathbb{C}G}, \, \nu \neq 0.
-		\end{equation}
-		
-		Let us consider the first case where $f^*(c_1^2) \neq 0$ then $\tilde f^*(c_1) = \lambda c_1, \lambda \neq 0$. Using \thmref{main thm}, we have $\tilde f^*(c_i) = \lambda^i c_i$. Also, $$\tilde f^*(u) = \mu u, \mu \in \mathbb{Q}, \text{ or } \tilde f^*(u)\in H^*_{\mathbb{C}G}.$$ If $\tilde f^*(u)\in H^*_{\mathbb{C}G}$, then $\tilde f^*(uc_1^d) \in H^*_{\mathbb{C}G}$
-		which is a contradiction to \eqref{brouwer}. Therefore, $\tilde f^*(u) = \mu u $ where $\mu \neq 0$ because $\nu \neq 0$. So, $\tilde f^*$ is an automorphism.
-		
-		Let us consider the other case when $f^*(c_1^2) = 0$ then $\tilde f^*(c_1) = au, a \in \mathbb{Q}$. Since, $u^2 =0$ and $d\geq 2$ we have $$\tilde f^*(uc_1^d) = \tilde f^*(u) (\tilde f^*(c_1))^d = \tilde f^*(u) a^d u^d =0$$ which is a contradiction to \eqref{brouwer}. Hence, this case would not arise. 
-	\end{proof}
-	\fi
-	
 	The following
 ```
 
@@ -2242,28 +2060,6 @@ Corollary 3.11 <COMP: link>
 ```latex
 $\lambda^2 \neq -1$.
 	\end{example}
-	
-	
-	\iffalse
-	\begin{corollary}
-		Assume that $P(m,n,k)$ be an orientable manifold and $n>2$. Let $f$ be a continuous map on $P(m,n,k)$ with nonzero Brouwer degree. Then  
-		the induced map $f^*$ is an automorphism on $H^*(P(m,n,k);\mathbb Q)$.
-	\end{corollary}
-	\begin{proof}
-		Using \remref{lift}, there exists a lift $\tilde f: \mathbb{S}^m\times \mathbb{C}G_{n,k}\to \mathbb{S}^m\times \mathbb{C}G_{n,k}$ 
-		satisfying $\pi\circ \tilde f = f\circ \pi$. Using \corref{cor3} and \corref{cor4}, we have $f^*$ is the restriction of a graded endomorphism $\tilde{f}^*$ on  $H^*_\times$ satisfying either $$\tilde{f}^*(c_1) = \lambda c_1, \lambda \neq 0, \text{ if } f^*(c_1^2) \neq 0, \text{ or } \tilde f^*(c_1) =au, a\in \mathbb{Q}, \text{ if } f^*(c_1^2) =0,$$  to the fixed subring $\mathrm{Fix}(\theta^*)$ of $H^*_\times$.
-		
-		Let $d=k(n-k)$.  The top cohomology $H^{2d+m}_\times\cong\mathbb{Q}$ is generated by 
-		$uc_1^d$.  The nonzero Brouwer degree of $f$ implies nonzero Brouwer degree of $\tilde f$ i.e. \begin{equation}\label{brouwer}
-			\tilde f^*(uc_1^d)=\nu\,uc_1^d \in uH^{*}_{\mathbb{C}G}, \, \nu \neq 0.
-		\end{equation}
-		
-		Let us consider the first case where $f^*(c_1^2) \neq 0$ then $\tilde f^*(c_1) = \lambda c_1, \lambda \neq 0$. Using \thmref{main thm}, we have $\tilde f^*(c_i) = \lambda^i c_i$. Also, $$\tilde f^*(u) = \mu u, \mu \in \mathbb{Q}, \text{ or } \tilde f^*(u)\in H^*_{\mathbb{C}G}.$$ If $\tilde f^*(u)\in H^*_{\mathbb{C}G}$, then $\tilde f^*(uc_1^d) \in H^*_{\mathbb{C}G}$
-		which is a contradiction to \eqref{brouwer}. Therefore, $\tilde f^*(u) = \mu u $ where $\mu \neq 0$ because $\nu \neq 0$. So, $\tilde f^*$ is an automorphism.
-		
-		Let us consider the other case when $f^*(c_1^2) = 0$ then $\tilde f^*(c_1) = au, a \in \mathbb{Q}$. Since, $u^2 =0$ and $d\geq 2$ we have $$\tilde f^*(uc_1^d) = \tilde f^*(u) (\tilde f^*(c_1))^d = \tilde f^*(u) a^d u^d =0$$ which is a contradiction to \eqref{brouwer}. Hence, this case would not arise. 
-	\end{proof}
-	\fi
 	
 	The following corollary helps us to understand the relationship between the automorphisms
 ```
@@ -2997,8 +2793,6 @@ Denote the i-th homology groups Hi(CGn,k; Q), Hi(Sm; Q)<Caret></Caret> and Hi(Sm
 ## LaTeX snippet
 ```latex
 $\lambda\in \mathbb Q$. 
-		%Thus, the sum  $\sum _{i=1}^d d_{2i}\lambda^i$ is nonzero for every integer value of $\lambda.$ 
-		\iffalse	Now, suppose for contradiction that there exists a rational number $\lambda = a/b$  written in lowest terms (i.e., $\gcd(a,b)=1$) such that the sum vanishes. Note that in the polynomial $\sum_{i=0}^{d} d_{2i}\lambda^i$, both the leading coefficient $d_d$ and the constant term $d_0$ are equal to $1$. By the Rational Root Theorem, the rational root $\lambda = a/b$ must satisfy $a \mid 1$ and $b \mid 1$, hence $\lambda = \pm 1\in \mathbb Z$. Since this is not possible, \fi
 	\end{proof}
 	
 	
@@ -3028,8 +2822,6 @@ Denote the i-th homology groups Hi(CGn,k; Q), Hi(Sm; Q) and Hi(Sm×CGn,k<Highlig
 ## LaTeX snippet
 ```latex
 $\lambda\in \mathbb Q$. 
-		%Thus, the sum  $\sum _{i=1}^d d_{2i}\lambda^i$ is nonzero for every integer value of $\lambda.$ 
-		\iffalse	Now, suppose for contradiction that there exists a rational number $\lambda = a/b$  written in lowest terms (i.e., $\gcd(a,b)=1$) such that the sum vanishes. Note that in the polynomial $\sum_{i=0}^{d} d_{2i}\lambda^i$, both the leading coefficient $d_d$ and the constant term $d_0$ are equal to $1$. By the Rational Root Theorem, the rational root $\lambda = a/b$ must satisfy $a \mid 1$ and $b \mid 1$, hence $\lambda = \pm 1\in \mathbb Z$. Since this is not possible, \fi
 	\end{proof}
 	
 	
@@ -3569,118 +3361,6 @@ Theorems 4.9 and 4.10 <COMP: link>
 ```latex
 $\delta_{v_p}\circ \tilde{f}_*(v_q) = 0,\, \forall v_q \in H_{2i}^{\mathbb{C}G},\,\forall i>0.$   		
 	\end{proof}
-	\iffalse	Consequently, for the lift $\tilde f:\mathbb S^m\times \mathbb{C}G_{n,k}\to \mathbb S^m\times \mathbb{C}G_{n,k}$, the induced maps 
-	$\tilde f^*:H^i_\times\to H^i_\times$ and $\tilde f_*:H_i^\times\to H_i^\times$ are adjoint with respect to this perfect pairing, i.e.,   
-	\[
-	\langle \tilde f^* \varphi, x\rangle=\langle \varphi, \tilde f_* x\rangle \text{ for all }\varphi\in H^i_{\times},x\in H_i^\times.
-	\]\fi
-	
-	%To determine $\tilde f_*(U)$ when (iii) holds, write 
-	%$\tilde f_*(U) = aU + \sum b_i v_i \in H_m^{\mathbb{S}} \oplus H_m^{\mathbb{C}G}\cong H_m^\times$.  
-	%Then 
-	%$\langle u, \tilde f_* U \rangle = \langle u, aU \rangle + \langle u, \sum b_i v_i \rangle = a + 0 = a$.  
-	%On the other hand, 
-	%$\langle u, \tilde f_* U \rangle = \langle \tilde f^* u, U \rangle = \langle \mu u, U \rangle = \mu$, 
-	%so $a = \mu$.  
-	%Proceeding similarly replacing  $u=\delta_U$  by $\delta_{v_i}$ yields $b_i = 0$ for all $i$.  
-	%Hence, $\tilde f_*(U) = \mu U$.
-	
-	\iffalse	\underline{When (i) and (iii) hold}, for any basis element $v_q \in H_{2i}^{\mathbb{C}G}$, the coefficient of $v_p$ in $\tilde f_*(v_q)$, , is 
-	\begin{equation}\label{i,ii,1}
-		\langle \delta_{v_p}, \tilde f_*v_q\rangle
-		= \langle \tilde f^* \delta_{v_p}, v_q\rangle
-		= \langle \lambda^i \delta_{v_p}, v_q\rangle
-		= \lambda^i \delta_{pq},
-	\end{equation}
-	and the coefficient of $\vartheta\otimes v_p \in \vartheta\otimes H_{2i}^{\mathbb{C}G}$ in $\tilde f_*(v_q)$ is 
-	\begin{equation}\label{1,iii,2}
-		\langle \delta_{\vartheta\otimes v_p}, \tilde f_*v_q\rangle
-		= \langle \tilde f^*(\delta_{\vartheta\otimes v_p}), v_q\rangle
-		= \langle \mu\lambda^{i}\delta_{\vartheta\otimes v_p}, v_q\rangle
-		= 0.
-	\end{equation}
-	Thus, $\tilde f_*(x) = \lambda^i x$, for all $x \in H_{2i}^{\mathbb{C}G}$. 
-	Also, the coefficient of $v_p \in H_m^{\mathbb{C}G}$ in $\tilde f_*(\vartheta\otimes v_q)$ is 
-	t of $\vartheta\otimes v_p \in \vartheta \otimes H_{2i}^{{\mathbb CG}}$ in $\tilde f_*(\vartheta\otimes v_q)$ is 
-	This shows that $\tilde f_*(\vartheta \otimes x) = \mu \lambda^{i}\vartheta \otimes x$ for all $x\in \vartheta\otimes H_{2i}^{\mathbb CG}$.\fi
-	
-	\iffalse	\underline{When (ii) and (iii) hold},  the coefficient of $v_p$ ($p\neq 0$) in $\tilde f_*(v_q)$, if $\tilde f^*\delta_{v_p}=\sum a_i\delta_{\vartheta \otimes v_i} $,  is
-	\[
-	\langle \delta_{v_p}, \tilde f_*v_q\rangle=\langle\tilde f^*\delta_{v_p},v_q\rangle=\langle \sum a_i\delta_{\vartheta \otimes v_i},v_q\rangle=\sum 
-	a_i\langle  \delta_{\vartheta \otimes v_i},v_q\rangle=0,
-	\]
-	Thus, $\tilde f_* (x)\in \vartheta\otimes H_*^{\mathbb CG}$ for all $x\in H_*^{\mathbb CG}$. Also, the coefficient of $\vartheta\otimes v_p$ in $\tilde f_*(\vartheta\otimes v_q)$ is
-	\[
-	\langle \delta_{\vartheta \otimes v_p},\tilde f_*(\vartheta\otimes v_q)\rangle=\langle\tilde f^*(\delta_{\vartheta \otimes v_p}), \vartheta \otimes v_q\rangle =
-	\begin{cases}
-		\langle \mu \delta_{\vartheta \otimes v_0}, \vartheta \otimes v_q\rangle=\mu\delta_{0q}& \text{if } p=0,\\
-		\langle 0, \vartheta \otimes v_q\rangle =0& \text{if }p\neq 0.
-	\end{cases}
-	\]
-	Therefore, for all $x\in H_{2i}^{\mathbb CG}$, $\tilde f_*(\vartheta\otimes x)=\begin{cases}
-		\mu \vartheta\otimes x +y \;\text{ for some }y\in H_{2i+m}^{\mathbb CG}  &\text{if } i=0 ,\\
-		\quad \quad0 &\text{if }i>0.
-	\end{cases}$ \fi
-	
-	\iffalse	\underline{When (i) and (iv) hold}, the coefficient of $v_p\in H_{2i}^{\mathbb CG}$ in $\tilde f_*(v_q)$ is 
-	\[
-	\langle \delta_{v_p},\tilde f_*(v_q)\rangle=\langle\tilde f^*\delta_{v_p},v_q\rangle=\langle \lambda^i\delta_{v_p},v_q\rangle=\lambda^i\delta_{pq}.
-	\]
-	This implies that $\tilde f_*(x)=\lambda^ix+\vartheta \otimes y$ for some $\vartheta \otimes y\in \vartheta \otimes H_{2i}^{\mathbb CG}$, for all $x\in H_{2i}^{\mathbb CG}$. \fi
-	
-	
-	\iffalse	\underline{When (ii) and (iv) hold}, we can write $\tilde f^*(\delta_{v_p})=\sum a_j\delta_{\vartheta\otimes v_j}$ %and $\tilde f^*(\delta_{\vartheta\otimes v_p})=\sum b_j\delta_{\vartheta\otimes v_j}$
-	for some $a_j\in \mathbb Q$ and $p\neq 0$.
-	Now the coefficient of $v_p$ in $\tilde f_*(v_q)$ is
-	\[
-	\langle \delta_{v_p},\tilde f_*v_q\rangle=\langle\tilde f^*\delta_{v_p}, v_q\rangle=\langle\sum a_j\delta_{\vartheta\otimes v_j}, v_q\rangle=0,
-	\]
-	implying $\tilde f_*(x)\in \vartheta\otimes H_*^{\mathbb CG}$ for all $x\in H_*^{\mathbb CG}$. \fi
-	\iffalse
-	Also, the coefficient of $ v_p$ in $\tilde f_*(\vartheta\otimes v_q)$ is
-	\[
-	\langle \delta_{v_p},\tilde f_*(\vartheta\otimes v_q)\rangle=\langle\tilde f^*\delta_{v_p}, \vartheta\otimes v_q\rangle=\langle\sum b_j\delta_{v_j},\vartheta\otimes v_q\rangle=0.
-	\]
-	This ensures that $\tilde f_*(\vartheta\otimes x)\in H_*^{\mathbb CG}$ for all $\vartheta\otimes x\in \vartheta\otimes H_*^{\mathbb CG}$.
-	
-	
-	We refer to the above observations from any combination of one condition from 
-	$(\mathrm{i}),(\mathrm{ii})$ and one from $(\mathrm{iii}),(\mathrm{iv})$, by the symbol $\mathscr{X}$.
-	
-	
-	
-	%Summarizing above, we have for all $x\in H_{2i}^{\mathbb CG}$,
-	%\[
-	%\tilde f_*(x)=
-	%\begin{cases}
-	%   \lambda^ix  &\text{ if (i) and (iii) hold},\\
-	%    \lambda^ix +\vartheta\otimes y, \text{ for some }y\in H_*^{\mathbb CG}& \text{ if (i) and (iv) hold}.
-	%^\end{cases}
-%\]
-
-
-\vspace{.2in}\fi
-
-\iffalse
-******
-
-Thus, for all $x \in H^{\mathbb CG}_{2i}$, $\varphi \in H^{2i}_{\mathbb CG}$, and $y \in H^m_\times$, we have
-\begin{equation}\label{}
-	\langle \varphi, \tilde f_* x\rangle =
-	\begin{cases}
-		\langle \varphi, \lambda_1^i x\rangle & \text{if (i) holds,} \\
-		\langle u P_{\varphi}, x\rangle & \text{if (ii) holds},\\
-	\end{cases}
-	\quad \text{and} \quad
-	\langle u, \tilde f_* y\rangle =
-	\begin{cases}
-		\langle u, \mu_1 y\rangle & \text{if (iii) holds,} \\
-		& \text{if (iv) holds}.\\
-	\end{cases}
-\end{equation}
-
-Therefore, for all $x\in H_{2i}^{\mathbb CG}$, $\tilde f_*(x)=\lambda_1^ix$ if (i) holds, $\tilde f_*(x)\in [\mathbb S^m]\otimes H_{2i-m}^{\mathbb CG}$ if (ii) holds, and $\tilde f_*([\mathbb S^m])=\mu_1 [\mathbb S^m]$ if (iii) holds, where $[\mathbb S^m]\in H_m^{\mathbb S}$ denotes the fundamental class of $\mathbb S^m$ satisfying $\langle u,[\mathbb S^m]\rangle=1.$
-\fi
 
 
 \subsection{} The following theorems provide a criteria for the existence of coincidence points
@@ -4361,29 +4041,6 @@ Acknowledgment
 ## LaTeX snippet
 ```latex
 the details.
-
-\iffalse \begin{proposition}
-	Let $P(m,n,k)$ be a generalized Dold manifold. Consider two continuous maps $f,g$ on $P(m,n,k)$ and $\tilde f, \tilde g$ be their lifts as defined in  Remark \ref{lift}.
-	Suppose that the induced endomorphisms in cohomology satisfies:
-	\begin{enumerate}
-		\item $\tilde g^*(c_i)\in uH^*_{\mathbb CG},\forall i\in I$ and $\tilde g^*(u)=\mu_1u$ for some $\mu_1\in \mathbb Q$,
-		\item $\tilde f$ has nonzero Brouwer-degree.
-	\end{enumerate}
-	Then, there is a point of coincidence of $f$ and  $g$.
-\end{proposition}
-\fi
-
-
-
-
-\iffalse If we assume $m> 2k$, then we have more information about $\tilde f^*$ and in that case we don't have to assume hypothesis \textit{(2)}.
-
-We need to talk about the similar situations when we assume Hoffman instead of Glover-Homer.
-
-We should be able to find some GDS $P(m,n,k)$ which has FPP.
-
-What happens if we allow $m$ to be odd in $P(m,n,k)$?
-\fi
 
 \section*{Acknowledgements}
 Part of
