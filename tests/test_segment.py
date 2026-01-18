@@ -1,4 +1,4 @@
-from texpdfedits.segmentsource import segment, getWordBoxes
+from texpdfedits.segmentsource import segment, getWordBoxes, unMarkWithPositions
 from texpdfedits.prompt import rectangleToLatex
 import logging
 import argparse
@@ -67,7 +67,7 @@ def testRectangleToLatex(
     )
 
     if latex_snippet is not None:
-        latex_box = page.add_freetext_annot((5,5,350,350), latex_snippet, text_color=(1,.25,.7), fontsize=8, fontname="Cour")
+        latex_box = page.add_freetext_annot((5,5,580,100), latex_snippet, text_color=(1,.25,.7), fontsize=8, fontname="Cour")
         latex_box.set_border(width=.5)
         latex_box.update()
 
@@ -91,23 +91,33 @@ if __name__ == '__main__':
         "--page",
         type=int,
         help='Page number for the rectangle'
-    )    
+    )
+
+    parser.add_argument("-emen", "--extra-marked-environment-names", type=str, help='Comma-separated extra environment names to mark in---last resort')
     
     args = parser.parse_args()
+    
     _level = logging.DEBUG if args.debug else logging.INFO
     logging.basicConfig(level=_level, format='%(asctime)s - %(levelname)s - %(message)s')
 
     if args.rectangle:
         in_rectangle = pymupdf.Rect(args.rectangle)
     else:
-        in_rectangle = pymupdf.Rect(500, 405, 550, 417)
+        in_rectangle = pymupdf.Rect(250, 605, 300, 617)
 
     if args.page:
         in_recpage = args.page
     else:
         in_recpage = 0
 
-    num_marks, marked_tex, unmarked_str, mark_positions, document_word_boxes, all_metadata = segment(args.filename)
+    if args.extra_marked_environment_names:
+        extra_names = set(args.extra_marked_environment_names.split(','))
+    else:
+        extra_names = set()
+
+    num_marks, marked_tex, unmarked_str, mark_positions, document_word_boxes, all_metadata = segment(args.filename, extra_names)
+
+    logging.info("Finished segment().")
     
     output_dir = 'bbox_drawings'
     pdf_filename = Path(args.filename).parent / f'{Path(args.filename).stem}.pdf'

@@ -30,3 +30,10 @@ L = largest_common_substring(A, B)
 print(L)
 
 
+C = r"NSF grant No. 329532MF."
+D = r"The author gratefully acknowledges support from NSF grant No.\ 329532MF\@."
+
+print(largest_common_substring(C, D))
+
+
+

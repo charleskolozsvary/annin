@@ -6,7 +6,7 @@ import logging
 import re
 
 from pylatexenc.latexwalker import LatexWalker, LatexNode, LatexMacroNode, LatexEnvironmentNode, LatexGroupNode, LatexMathNode, LatexCharsNode, LatexCommentNode
-from pylatexenc.macrospec import LatexContextDb, std_macro, std_environment
+from pylatexenc.macrospec import LatexContextDb, std_macro, std_environment, MacroSpec, ParsedMacroArgs
 
 from itertools import count
 from pathlib import Path
@@ -20,11 +20,47 @@ from collections.abc import Callable
 import pymupdf
 import time
 
+
+# TEST: ADD IGNORE PARSING >>>
+class IgnoreRegionArgsParser:
+    def parse_args(self, w, pos, parsing_state, **kwargs):
+        r"""Skip until \endignorepylatexenc using get_token
+        use in rare circumstances where the pylatexenc parser fails on something (typically in the preamble)
+        just add
+        \def\startignorepylatexenc{}
+        \def\endignorepylatexenc{}
+
+        and then
+        \startignorepylatexenc
+        ...
+        \endignorepylatexenc
+
+        around any problematic code before running segmentsource
+        """
+        current_pos = pos
+        while True:
+            try:
+                # get_token returns (token_object, new_pos)
+                tok = w.get_token(current_pos, parsing_state=parsing_state)
+            except:
+                raise ValueError("No matching \\endignorepylatexenc found")
+            
+            if tok.tok == 'macro' and tok.arg == 'endignorepylatexenc':
+                end_pos = tok.pos + tok.len
+                break
+            
+            current_pos = tok.pos + tok.len
+        
+        return (ParsedMacroArgs(argnlist=[]), end_pos, 0)
+# <<<
+
 RECOGNIZED_CSNAMES = {'emph': '{',
+                      'textup': '{',
                       'textit': '{',
                       'textbf': '{',
                       'textsc': '{',
                       'texttt': '{',
+                      'url': '{',
                       'underline': '{',
                       'markbox': '{{',
                       'part': '*[{',
@@ -37,33 +73,40 @@ RECOGNIZED_CSNAMES = {'emph': '{',
                       'datereceived': '{',
                       'daterevised': '{',
                       'commby': '{',
+                      'dedication' : '{',
                       'title': '[{',
                       'author': '[{',
                       'address': '[{',
+                      'curraddr' : '[{',
                       'email': '[{',
                       'keywords': '{',
                       'footnote': '[{', # \footnote[10]{text} sets the footnote to be footnote 10---only a number can be passed
+                      'footnotemark': '[',
+                      'footnotetext': '[{',
                       'caption': '[{',
                       'item': '[',
                       'renewcommand': '*{[{',
                       'newcommand': '*{[{',
                       'theoremstyle' : '{',
                       'bibitem': '[{',
-                      'bib': '{{',
-                      'newtheorem': '*{[{['} # greedily read all possible arguments to newtheorem, even if optional is not quite right, but that's okay
+                      'bib': '{{{',
+                      'newtheorem': '*{[{[',
+                      'newenvironment': '{[[{{',
+                      'cite': '[{',
+                      'label': '[{'}# greedily read all possible arguments to newtheorem, even if optional is not quite right, but that's okay
 
 OPTIONAL_ARG = ('[', ']')
 
 REQUIRED_ARG = ('{', '}')
 
 # macros which themselves get marked like \markbox{<key>}{\macro{...}}
-MARKED_CSNAMES = {'emph', 'textit', 'textbf', 'textsc', 'underline', 'texttt'}
+MARKED_CSNAMES = {'emph', 'textit', 'textbf', 'textsc', 'underline', 'texttt', 'textup', 'url'}
 # any of these fail if they're arguments are abnormal, like a \[...\] in a \textit
 # we should probably do some checking for something like that like
 # "check nested nodes are valid. They're shouldn't be any display math nodes inside the argument to any of these commands...
 
 # macros whose contents are marked
-# MARKED_CONTENTS_MACROS = {'footnote', 'thanks', 'title', 'address', 'email', 'author', 'keywords'} # no, this was a bad idea
+# MARKED_CONTENTS_MACROS = {'footnote', 'thanks', 'title', 'address', 'email', 'author', 'keywords'} # no, this was a bad idea without further thought
 
 MARK_IDENTIFIERS = {'inline math': 'm'}
 
@@ -79,19 +122,11 @@ UNIQUE_FIELDS = {'title', 'subjclass', 'keywords', 'datereceived', 'commby', 'ab
 ALLOWED_MARK_ENVIRONMENTS = {'proof', 'enumerate', 'itemize', 'document', 'thebibliography', 'biblist', 'bibdiv', 'bibsec'}
 
 DIFFPDF_DPI = 175
-r"""
-so far it appears for some reason \eqrefs produce very small differences in
-the PDF output when the \markboxes are inserted
-(but from what I can tell nothing else causes differences)
 
-If there are 93 eqrefs on a page less than 50_000 pixels are marxed different
-(when using DPI = 175; the larger the DPI, the larger the number of pixel differences)
-And if a page breaks early by just one line the difference on that and subsequent pages is at
-least 275_000
-(based on from `diff-pdf teichmuller.pdf breakteich.pdf -v -s -m -g --output-diff=diff_break.pdf --dpi=175`), # also teichmuller.tex is now arxiv15.tex
-so I think marking a page as not different if it differs by less than 50_000 pixels at this DPI is quite conservative.
-"""
-DIFFPDF_PER_PAGE_PIXEL_TOLERANCE = 80_000
+# now just setting the tolerance to 50_000. Unfortunately italic correction can be inserted *before* a markbox still, too.
+# Take '(\emph{Boundary depletion})' (\markbox{}{\emph{Boundary depletion}}) will prevent space from being inserted after the
+# first open parenthesis.
+DIFFPDF_PER_PAGE_PIXEL_TOLERANCE = 50_000
 
 SCALED_POINTS_PER_TEX_POINT = 2 ** 16 # 65536
 
@@ -126,38 +161,35 @@ def joinNodesVerbatim(nodelist, start: int = 0, end: int | None = None) -> str:
         return ''.join([node.latex_verbatim() for node in nodelist[start:end+1]])
 
 def getEnunciations(preamble_nodes) -> tuple[list[str], str]:
-    enunciation_names = set()
-    start_idx, end_idx = -1, -1
+    enunciations = []
     for i, node in enumerate(preamble_nodes):
-        if node.isNodeType(LatexMacroNode) and node.macroname in {'theoremstyle', 'newtheorem'}:
-            if start_idx < 0:
-                start_idx = i
-            end_idx = i
-            if node.macroname == 'theoremstyle':
-                continue
-            # otherwise try to process \newtheorem
+        if node.isNodeType(LatexMacroNode) and node.macroname == 'newtheorem':
             node_args = node.nodeargd.argnlist
             len_arg_spec = len(RECOGNIZED_CSNAMES[node.macroname])
             if len(node_args) == len_arg_spec and len_arg_spec > 1:
                 arg_one = node_args[1]
                 try:
-                    # currently fails with \\newtheorem{%\nthm}{Theorem}, which I think is fine for now                                        
-                    enunciation_names.add(arg_one.nodelist[0].chars)
+                    # currently fails with \\newtheorem{%\nthm}{Theorem}, which I think is fine
+                    enun_name = arg_one.nodelist[0].chars
                 except Exception as e: 
                     logging.warning(
                         f"Attempting to extract second argument of '{node.latex_verbatim()}' "
                         f"raised {type(e).__name__}: {e}; "
                         f"node.nodeargs[1] was {arg_one}; ignoring"
-                    )                    
+                    )
+                enunciations.append(
+                    {'name': enun_name,
+                     'start end': (node.pos, node.pos+node.len),
+                     'verbatim': node.latex_verbatim()}
+                )
             else:
                 logging.warning(
                     f"Malformed {node.macroname}, '{node.latex_verbatim()}', "
                     f"did not match it's argument specification: {RECOGNIZED_CSNAMES[node.macroname]}"
                 )
-    if start_idx < 0:
+    if not enunciations:
         logging.warning("No enunciations (newtheorem commands) found; continuing without them.")
-    enunciation_source = joinNodesVerbatim(preamble_nodes, start_idx, end_idx)
-    return enunciation_names, enunciation_source
+    return enunciations
 
 def getEnvironmentSources(node, recognized_environments, environments):
     """recognized environments as a dictionary with keys as the environment names
@@ -316,7 +348,7 @@ def markNode(start_node: LatexNode, allowed_environments: set[str], chars_node_m
     def markStr(string: str, mark_identifier: str) -> str:
         return rf'\markbox{{{mark_identifier}{next(counter)}}}{{{string}}}'
         
-    def recMark(node):
+    def recMark(node, parent_node, prev_node):
         node_verbatim = node.latex_verbatim()
         if node.isNodeType(LatexEnvironmentNode):
             verbatim_contents =  joinNodesVerbatim(node.nodelist) # every LatexEnvironmentNode has a nodelist
@@ -330,16 +362,22 @@ def markNode(start_node: LatexNode, allowed_environments: set[str], chars_node_m
             
             if node.envname in allowed_environments:
                 marked_contents = ''
+                this_prev_node = None
                 for nested_node in node.nodelist:
-                    marked_contents += recMark(nested_node)
+                    marked_contents += recMark(nested_node, node, this_prev_node)
+                    this_prev_node = nested_node
                 return rf'\begin{{{node.envname}}}{marked_contents}\end{{{node.envname}}}'
             else:
                 return joined_whole
         elif node.isNodeType(LatexMacroNode):
-            if node.macroname in MARKED_CSNAMES:
-                return markStr(node_verbatim, '')
+            if node.macroname in MARKED_CSNAMES and prev_node is not None:
+                prev_ends_italcorr = re.search(r'[(\[]\s*$', prev_node.latex_verbatim())
+                if prev_ends_italcorr is None:
+                    return markStr(node_verbatim, '')
+                else:
+                    return node_verbatim
             elif node.macroname == 'item':
-                return f'{node_verbatim}{{}}\\segmentgobble{{{job_id}}}\\leavevmode ' # this helps and I think it's benign (from my testing so far)
+                return node_verbatim
             # elif node.macroname in MARKED_CONTENTS_MACROS: 
             #     return markMacro(node, recMark)
             else:
@@ -351,24 +389,49 @@ def markNode(start_node: LatexNode, allowed_environments: set[str], chars_node_m
                 return node_verbatim
         elif node.isNodeType(LatexCharsNode):
             # mark every span in safe envs
-            marked_str, num_subs = re.subn(chars_node_match_regex, lambda m: markStr(m.group(0), ''), node_verbatim)
+            pattern = chars_node_match_regex
+            if prev_node is not None and (prev_node.isNodeType(LatexMacroNode) or prev_node.isNodeType(LatexGroupNode) or prev_node.isNodeType(LatexCommentNode)):
+                    left = r"[\n\t $(~]"
+                    inside = r"[a-zA-Z0-9!?.,'`/;:\-()]+"
+                    right = r"[\n\t $)~]"
+                    pattern = rf"(?<={left}){inside}(?:(?={right})|$)"
+                    
+            marked_str, num_subs = re.subn(pattern, lambda m: markStr(m.group(0), ''), node_verbatim)
             return marked_str
         elif node.isNodeType(LatexGroupNode):
-            # for the time being this means that naked group blocks are ignored---will need to revisit
-            # I have to be careful though, because if I encounter an unrecognized macro then one of 
-            # its arguments could be in a group node.
-            return node_verbatim
+            if prev_node is not None:
+                prev_ends_square = re.search(r'[\]\}]\s*$', prev_node.latex_verbatim())
+            
+            if prev_node is not None and prev_node.isNodeType(LatexCharsNode) and prev_ends_square is None:
+                # logging.debug(f"Prev node in marked group node: {prev_node.latex_verbatim()}")
+                verbatim_contents =  joinNodesVerbatim(node.nodelist) # every LatexGroupNode has a nodelist
+                # logging.debug(f"contents of marked group node: {verbatim_contents}\n")
+                
+                joined_whole = rf'{{{verbatim_contents}}}'
+                if node_verbatim != joined_whole:
+                    logging.error(f"Group node '{node_verbatim}' in markNode was malformed or parsed incorrectly")
+                    logging.debug(f"{verbatim_contents} != {joined_whole}")                
+                    sys.exit(1)
+
+                marked_contents = ''
+                this_prev_node = None
+                for nested_node in node.nodelist:
+                    marked_contents += recMark(nested_node, node, this_prev_node)
+                    this_prev_node = nested_node
+                return rf'{{{marked_contents}}}'
+            else:
+                return node_verbatim
         elif node.isNodeType(LatexCommentNode):
             return node_verbatim
         else:
             logging.warning(f"Unrecognized latex node '{node.nodeType()}' during markNode(); writing node.latex_verbatim(): '{node_verbatim}'")
             return node_verbatim
         
-    return recMark(start_node), next(counter)
+    return recMark(start_node, None, None), next(counter)
 
 def getPreambleAndDocument(nodelist):
     """Read in a list of pylatexenc.latexwalker.<Node>s and return the nodes which belong to the
-       preamble and document"""
+       preamble and document"""        
     num_document_envs = len(list(filter(lambda n: n.isNodeType(LatexEnvironmentNode) and n.envname == 'document', nodelist)))
     if num_document_envs != 1:
         logging.error(r"Found more (or less) than one `\begin{document}`s during getPreambleAndDocument().")
@@ -396,26 +459,32 @@ def unzipHbox(hbox):
 def unzipPos(stend_xy):
     return stend_xy[0], tuple(map(lambda spts: scaledPointsToPDFpoints(int(spts)), stend_xy[1:-1]))
 
-def boxinfoToPDFRectangle(key: str, hbox, start_xy, end_xy):
+def boxinfoToPDFRectangle(key: str, hbox, start_xy):
+    """No longer using the end position to avoid minor issues with italic correction.
+    However, this also means that boxes which actually break across a line just extend into the margin, which is fine
+    if the layout is not two-column.
+    """
     pgA, (width, height, depth) = unzipHbox(hbox)
     pgB, (x0, sy) = unzipPos(start_xy)
-    pgC, (x1, ey) = unzipPos(end_xy)
+    # pgC, (x1, ey) = unzipPos(end_xy)
 
-    if pgB != pgC:
-        logging.debug(f"ignoring box '{key}': spanned multiple pages ({pgA} {pgB} {pgC}")
-        return None
-    if sy != ey:
-        logging.debug(f"ignoring box '{key}': start and end y positions were not equal: '{sy} != {ey}'")
-        return None
-    if abs(x0 + width - x1) > WORD_BOX_WIDTH_TOLERANCE:
-        logging.debug(f"ignoring box '{key}': abs(x0 + width - x1) = {abs(x0 + width - x1)} > {WORD_BOX_WIDTH_TOLERANCE}")
-        return None
+    # if pgB != pgC:
+    #     logging.debug(f"ignoring box '{key}': spanned multiple pages ({pgA} {pgB})")
+    #     return None
+    
+    # if sy != ey:
+    #     logging.debug(f"ignoring box '{key}': start and end y positions were not equal: '{sy} != {ey}'")
+    #     return None
+    
+    # if abs(x0 + width - x1) > WORD_BOX_WIDTH_TOLERANCE:
+    #     logging.debug(f"ignoring box '{key}': abs(x0 + width - x1) = {abs(x0 + width - x1)} > {WORD_BOX_WIDTH_TOLERANCE}")
+    #     return None
 
     # lower y values are closer to the top of the page
     # return pageno, (x0, y0, x1, y1), where
     # (x0, y0) is the top left corner and
     # (x1, y1) is the bottom right corner of the rectangle
-    return pgB, pymupdf.Rect(x0, sy - height, x1, sy + depth)
+    return pgB, pymupdf.Rect(x0, sy - height, x0 + width, sy + depth)
         
 def getWordBoxes(boxpositions_filename: Path, tot_num_boxes):
     word_boxes = dict()
@@ -445,8 +514,8 @@ def getWordBoxes(boxpositions_filename: Path, tot_num_boxes):
             line = f.readline().strip()
             line_no += 1
 
-    if not all(map(lambda x: len(x) == 3, word_boxes.values())):
-        # all marks should have exactly three fields, the hbox dimensions, start xy, and end xy positions        
+    if not all(map(lambda x: len(x) == 2, word_boxes.values())):
+        # all marks should have exactly two fields, the hbox dimensions and the start xy
         logging.error(f"Box information in '{boxpositions_filename}' differed from specification")
         sys.exit(1)
 
@@ -454,7 +523,7 @@ def getWordBoxes(boxpositions_filename: Path, tot_num_boxes):
 
     document_word_boxes = dict()
     for key, info in word_boxes.items():
-        res = boxinfoToPDFRectangle(key, info['pwhd'], info['spxy'], info['epxy'])
+        res = boxinfoToPDFRectangle(key, info['pwhd'], info['spxy'])
         if res is None:
             continue
         one_indexed_pageno, rectangle = res
@@ -468,31 +537,28 @@ def getWordBoxes(boxpositions_filename: Path, tot_num_boxes):
     logging.info(f"Used {num_used_boxes}/{tot_num_boxes} marked boxes.")
     return document_word_boxes
 
-
-def readBalancedBraces(idx, string):
-    """Read balanced braces, return (contents without outer braces, chars_read)."""
-    contents = ''
+def readBalancedBraces(idx: int, s: str) -> tuple[str, int]:
+    """Read unescaped balanced braces, return (contents without outer braces, chars_read)."""
     depth = 1  # Already past opening brace
-    chars_read = 0
+    start_idx = idx
         
-    while idx < len(string) and depth > 0:
-        char = string[idx]
-        if char == '}':
-            depth -= 1
-        elif char == '{':
-            depth += 1
+    while idx < len(s) and depth > 0:
+        if s[idx] == '\\' and idx + 1 < len(s):
+            idx += 2
+        else:
+            if s[idx] == '}':
+                depth -= 1
+            elif s[idx] == '{':
+                depth += 1
+            idx += 1
             
-        if depth > 0:  # Don't include final closing brace
-            contents += char
-            
-        idx += 1
-        chars_read += 1
-        
     if depth != 0:
         logging.error('Unbalanced braces in marked string')
         sys.exit(1)
-        
-    return contents, chars_read
+    
+    # Extract contents between start and the closing brace
+    contents = s[start_idx:idx-1]
+    return contents, idx - start_idx
 
 def unMarkWithPositions(marked_string: str, job_id: str) -> tuple[str, dict[str, tuple[int, int]]]:
     r"""Remove \markbox commands and track positions of marked content.
@@ -510,9 +576,12 @@ def unMarkWithPositions(marked_string: str, job_id: str) -> tuple[str, dict[str,
     current_pos = 0  # Position in unmarked string
     idx = 0
     MARKBOX = '\\markbox{'
+    MARKBOX_LEN = len(MARKBOX)
+
+    unmarked_parts = []
     
     while idx < len(marked_string):
-        if marked_string[idx:].startswith(MARKBOX):
+        if marked_string[idx:idx+MARKBOX_LEN] == MARKBOX:
             idx += len(MARKBOX)
             # Read first arg (mark_id)
             mark_id, chars_read = readBalancedBraces(idx, marked_string)
@@ -526,15 +595,15 @@ def unMarkWithPositions(marked_string: str, job_id: str) -> tuple[str, dict[str,
             mark_positions[mark_id] = (start_pos, end_pos)
             
             # Add content to unmarked string
-            unmarked_str += content
+            unmarked_parts.append(content)
             current_pos += len(content)
             idx += chars_read
         else:
-            unmarked_str += marked_string[idx]
+            unmarked_parts.append(marked_string[idx])
             current_pos += 1
             idx += 1
     
-    return unmarked_str, mark_positions
+    return ''.join(unmarked_parts), mark_positions
 
 def validateMarkPositions(mark_positions: dict[str, tuple[int, int]], document_word_boxes: dict[int, dict[str, pymupdf.Rect]]) -> None:
     """Verify that no mark positions overlap and that the mark position keys are a superset of the document word box keys. Raises ValueError if they do.
@@ -596,34 +665,45 @@ def validateMarkPositions(mark_positions: dict[str, tuple[int, int]], document_w
 
     logging.info("All mark positions are valid.")
 
-def segment(tex_filename: str):
+def segment(tex_filename: str, extra_marked_environment_names: set[str] = set()):
     tex_filename = Path(tex_filename)
     tex_str = sourceAsString(tex_filename)
 
     # Setup parser context with recognized commands and environments
     latex_context = LatexContextDb()
     _macro_specs = [std_macro(csname, args_format) for csname, args_format in RECOGNIZED_CSNAMES.items()]
-    latex_context.add_context_category('segmentspec', macros=_macro_specs)    
+    latex_context.add_context_category('segmentspec', macros=_macro_specs)
 
+    # TEST: ADD IGNORE PARSING >>>
+    custom_macros = [MacroSpec('startignorepylatexenc', args_parser=IgnoreRegionArgsParser())]
+    latex_context.add_context_category(
+        'ignore-regions',
+        macros=custom_macros,
+        prepend=True
+    )
+    # <<<
+    
     # parse LaTeX file
     logging.info(f"Parsing {tex_filename}...")
     (nodelist, _, _) = LatexWalker(tex_str, latex_context=latex_context).get_latex_nodes(pos=0)
 
     if joinNodesVerbatim(nodelist) != tex_str:
         logging.error(f"Verbatim string tex source was not preserved after LatexWalker parsing; the parser has likely failed.")
-        sys.exit(1)        
+        sys.exit(1)
            
     preamble_nodes, document_node, post_document_nodes = getPreambleAndDocument(nodelist)
     logging.info("Done.")
 
     # get metadata
     logging.info("Getting metadata...")
-    enunciation_names, enunciation_source = getEnunciations(preamble_nodes)
+    enunciations = getEnunciations(preamble_nodes)
+    enunciation_names = set([enun['name'] for enun in enunciations])
+    
     metadata, metadata_source, environments = getMetadataAndSelectEnvironments(preamble_nodes, document_node)
 
     # need to review what the eventual functions of each of these will be
     all_metadata = {'enunciation_names': enunciation_names,
-                    'enunciation_source': enunciation_source,
+                    'enunciation_source': '',
                     'metadata': metadata,
                     'metadata_source': metadata_source,
                     'environments': environments}
@@ -638,13 +718,14 @@ def segment(tex_filename: str):
 """
     markbox_defs = r"""
 \newcommand{\markbox}[2]{%
+  \leavevmode%
   \setbox0=\hbox{#2}%
   \immediate\write\markfile{#1:pwhd:\the\value{page}:\the\wd0:\the\ht0:\the\dp0}%
   \pdfsavepos
   \write\markfile{#1:spxy:\the\value{page}:\the\pdflastxpos:\number\dimexpr\pdfpageheight-\pdflastypos sp\relax:}%
   #2% 
-  \pdfsavepos
-  \write\markfile{#1:epxy:\the\value{page}:\the\pdflastxpos:\number\dimexpr\pdfpageheight-\pdflastypos sp\relax:}%
+%% \pdfsavepos
+%% \write\markfile{#1:epxy:\the\value{page}:\the\pdflastxpos:\number\dimexpr\pdfpageheight-\pdflastypos sp\relax:}%
 }
 
 \newcommand{\segmentgobble}[1]{}
@@ -654,12 +735,17 @@ def segment(tex_filename: str):
     
     logging.info("Inserting marks...")
 
-    left = r"[\t $(]"
+    left = r"[\n\t $(~]"
     inside = r"[a-zA-Z0-9!?.,'`/;:\-()]+"
-    right = r"[\t $)]"
-    chars_node_match_regex = rf"(?<={left}){inside}(?={right})"
+    right = r"[\n\t $)~]"
+    chars_node_match_regex = rf"(?:(?<={left})|^){inside}(?:(?={right})|$)"
     
-    marked_document, num_marks = markNode(document_node, ALLOWED_MARK_ENVIRONMENTS.union(enunciation_names), chars_node_match_regex, job_id)
+    marked_document, num_marks = markNode(
+        document_node,
+        ALLOWED_MARK_ENVIRONMENTS.union(enunciation_names).union(extra_marked_environment_names),
+        chars_node_match_regex,
+        job_id
+    ) # job_id will probably be deprecated
     logging.info("Done.")
 
     preamble_str = joinNodesVerbatim(preamble_nodes)
@@ -692,17 +778,24 @@ def segment(tex_filename: str):
     
     process3 = runDiffpdf(pdfFname(tex_filename), pdfFname(marked_filename), tmp_dir)
 
+    logging.info("Getting word boxes...")
     document_word_boxes = getWordBoxes(tmp_dir / boxpositions_filename, num_marks)
+    logging.info("Done.")    
 
     # I should eventually delete the tmp directory at this point
 
-    # do not concatenate the inserted preamble definitions 
+    # do not concatenate the inserted preamble definitions
+    logging.info("Unmarking LaTeX...")    
     unmarked_str, mark_positions = unMarkWithPositions(preamble_str + marked_document + post_document_str, job_id)
+    logging.info("Done.")
 
     if unmarked_str != tex_str:
-        logging.warning("Unmarked LaTeX does NOT match original LaTeX! I need to elevate this to an error later.")
+        logging.error("Unmarked LaTeX does NOT match original LaTeX!")
+        sys.exit(1)
 
+    logging.info("Validating mark positions...")
     validateMarkPositions(mark_positions, document_word_boxes)
+    logging.info("Done.")    
 
     # segment should output all the information necessary for rectangleToLatex in prompt.py
     

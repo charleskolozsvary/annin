@@ -1,0 +1,532 @@
+\documentclass{amsart}
+\def\publname{NOT A REAL JOURNAL}
+
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+
+\usepackage{amsrefs}
+
+%% \usepackage{subfigure}
+
+
+\title[shorter title]{The title or whatever}
+
+\author[The name that will be repeated over and over\dots.]{Full name}
+\address[sure]{The address or whatever}
+\curraddr[something]{The current address}
+\urladdr[url]{url addr}
+\email{some\_email@gmail.com}
+
+\thanks{So this is where we say thanks to grant No.\ 325349M\@.}
+\subjclass{Primary 1586; Secondary 314, 159, 2653, 58579}
+
+\dedicatory{In memory of Vladimir Zelovsky}
+\commby{Arlene Belfans}
+\translator{Julia Gusteau}
+\copyrightinfo{XXXX}{American Mathematical Society}
+
+\begin{document}
+\begin{abstract}
+  This is an abstract with some words. But no words that are particularly meaningful at all.\footnotemark But if you just use a straight \protect\footnote{stuff that won't appear anywhere at all: mingus} that won't work (ERROR). Well not compile erorr, but the mark will appear and the footnote contents will \dots dissappear\dots.
+\end{abstract}\footnotetext{I would guess that this behaves like footnotes in captions?}
+
+\makeatletter
+\def\@maketitle{%
+  \normalfont\normalsize
+  \@adminfootnotes
+  \@mkboth{\@nx\shortauthors}{\@nx\shorttitle}%
+  \global\topskip42\p@\relax % 5.5pc   "   "   "     "     "
+  \@settitle
+  \ifx\@empty\authors \else \@setauthors \fi
+  \ifx\@empty\@dedicatory
+  \else
+    \baselineskip18\p@
+    \vtop{\centering{\footnotesize\itshape\@dedicatory\@@par}%
+      \global\dimen@i\prevdepth}\prevdepth\dimen@i
+    \fi
+    \ifx\@empty\@commby
+    \else
+    \baselineskip18\p@
+    \vtop{\centering{\footnotesize\@commby\@@par}%
+      \global\dimen@i\prevdepth}\prevdepth\dimen@i
+    \fi
+  \@setabstract
+  \normalsize
+  \if@titlepage
+    \newpage
+  \else
+    \dimen@34\p@ \advance\dimen@-\baselineskip
+    \vskip\dimen@\relax
+  \fi
+} % end \@maketitle
+\makeatother
+
+\maketitle
+
+\section[but running head?]{A section title\protect\footnote{section one}}
+
+\begin{figure}
+  figure stuff
+  \caption[]{A caption for a figure. This can't have a footnote in it, I believe\footnotemark}
+\end{figure}\footnotetext{And that's where you're wrong. (If you give the {\tt \string\caption} command an empty optional argument---{\tt\string\caption[]}---so that the toc figurelist name is empty so that there's no issue with {\tt \string\par} in the caption body, then you can put {\tt \string\footnotemark} in the caption argument and then put {\tt \string\footnotetext} outside of the figure so that it behaves as normal: wild! But if you just use {\tt\string\footnote} in the caption argument even with giving it an empty optional argument, it will appear just like a {\tt\string\footnotemark} without a {\tt\string\footnotetext}.)}
+
+Oh so does the footnote actually work?\footnote{Let's see\dots.} It looks like if you give 
+
+% subfigure with \subfigure
+%% \begin{figure}
+%%   \subfigure[][Here's a caption\footnotemark]{subfigure one \qquad\qquad\qquad}
+%%   \subfigure[][Here's the second caption\footnotemark]{subfigure two \qquad\qquad\qquad}
+%%   \caption[]{Two subfigures\footnotemark}
+%% \end{figure}
+%% \footnotetext[3]{what will this go to?}
+%% \footnotetext[4]{and of this?}
+%% \footnotetext{Same thing in figure with subfigures.}
+
+\vspace{12pt}
+
+By default, you can put almost anything in a footnote, right?\footnote{This is maybe true---let's see:
+
+\[
+\prod_{e \in \mathbb{E}}^{\Omega} x^2 - \varphi^3
+\]
+
+well? Yes, it looks like everything is fine. Other than maybe\dots an enumerate?
+
+\begin{enumerate}
+\item first
+  \item second
+\end{enumerate} Yeah\dots no problem.
+\begin{itemize}
+\item bullet
+\item list
+\item of
+\item stuff
+\end{itemize} But you can't put a figure in a footnote, right?
+
+\begin{center}
+  \begin{tabular}{|c|c|}
+  \hline
+  stuff & more \\
+  \hline
+  And things & you hear?\\
+  \hline
+  \end{tabular}
+\end{center}
+
+But you cannot put a float in a footnote. Thank goodness.
+
+You cannot put a verbatim environment either it seems.
+{\tt\string\controlsequence}
+}
+
+%% subfigure with \begin{subfigure} %lookslike we can only load one of subcaption and subfigure
+\begin{figure}
+  \begin{subfigure}[t]{14.5pc}
+    subfigure one
+    \caption{Here's the first subcaption. It is relatievley long for a subfigure caption. Wait so \footnote{won't work without optional argument to caption, right?} wow. Well this must be specifically provided by subcaption, of course.}
+  \end{subfigure}
+  \begin{subfigure}[t]{14.5pc}
+    subfigure two
+    \caption{Here's the second subcaption\footnote{So you're telling me that subcaption supports footntoes in subcaptions?} Okay\dots wow you are.\footnote[26]{This is crazy\dots.}. Just absolutely bonkers!\footnote{Yes, it is.}}
+  \end{subfigure}
+  \caption{Two subfigures}
+\end{figure}
+
+
+\newpage
+
+And finally some text on a new page!
+
+\begin{bibdiv}
+  \begin{biblist}
+\bibitem[B]{brewster} S. Brewster, \textit{Automorphisms of the cohomology ring of finite Grassmann manifolds}, Thesis (Ph.D.)--The Ohio State University, ProQuest LLC, Ann Arbor, MI (1978), 102 pp. \url{http://gateway.proquest.com/openurl?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/fmt:kev:mtx:dissertation&res_dat=xri:pqdiss&rft_dat=xri:pqdiss:7908118}
+	
+
+\bib{Aptekarev}{article}{
+   author={Aptekarev, A.I.},
+   title={Multiple orthogonal polynomials},
+   journal={J. Comput. Appl. Math.},
+   volume={99},
+   year={1998},
+   pages={423--447},
+}
+
+\bibitem[BH]{brewster-homer} S. Brewster and W. Homer, \textit{Rational automorphisms of Grassmann manifolds}, Proc. Amer. Math. Soc. \textbf{88} (1983), no. 1, 181--183, \url{https://doi.org/10.2307/2045137}.
+	
+
+\bib{Baker}{book}{
+    AUTHOR = {Baker, G.A.},
+    AUTHOR = {Graves-Morris, P.},
+     TITLE = {Pad\'e{} approximants},
+    SERIES = {Encyclopedia of Mathematics and its Applications},
+    VOLUME = {59},
+   EDITION = {Second},
+ PUBLISHER = {Cambridge University Press, Cambridge},
+      YEAR = {1996},
+     PAGES = {xiv+746},
+}
+
+
+\bibitem[Do]{dold} A. Dold, \textit{Erzeugende der Thomschen Algebra }$\mathfrak{N}$, Math. Z. \textbf{65} (1956), 25--35, \url{https://doi.org/10.1007/BF01473868}.
+
+
+\bib{BCVA}{article}{
+   author={Beckermann, B.},
+   author={Coussement, J.},
+   author={Van Assche, W.},
+   title={Multiple Wilson and Jacobi-Pi\~neiro polynomials},
+   journal={J. Approx. Theory},
+   volume={132},
+   date={2005},
+   number={2},
+   pages={155--181}
+}
+
+
+\bibitem[Du]{duan} H. Duan, \textit{Self-maps of the Grassmannian of complex structures}, Compositio Math. \textbf{132} (2002), no. 2, 159--175, \url{https://doi.org/10.1023/A:1015885227445}.
+	
+
+\bib{Bultheel}{book}{
+    AUTHOR = {Bultheel, A.},
+     TITLE = {Laurent series and their {P}ad\'e{} approximations},
+    SERIES = {Operator Theory: Advances and Applications},
+    VOLUME = {27},
+ PUBLISHER = {Birkh\"auser Verlag, Basel},
+      YEAR = {1987},
+     PAGES = {xii+274},
+}
+
+
+\bibitem[DF]{duan-fang} H. Duan and L. Fang, \textit{Homology rigidity of Grassmannians}, Acta Math. Sci. Ser. B \textbf{29} (2009), no. 3, 697--704, \url{https://doi.org/10.1016/S0252-9602(09)60065-5}.
+
+
+\bib{Chihara}{book}{
+   author={Chihara, T.S.},
+   title={An Introduction to Orthogonal Polynomials},
+   isbn={9780486479293},
+   series={Mathematics and Its Applications},
+   volume={13},
+   publisher={Gordon and Breach Science Publishers, Inc.},
+   year={1978},
+}
+
+
+\bibitem[DZ]{duan-zhao} H. Duan and X. Zhao, \textit{The classification of cohomology endomorphisms of certain flag manifolds}, Pacific J. Math. \textbf{192} (2000), no. 1, 93--102, \url{https://doi.org/10.2140/pjm.2000.192.93}.
+
+\bib{MOPUC2}{article}{
+   author={Cruz-Barroso, R.},
+   author={D{\'i}az Mendoza, C.},
+   author={Orive, R.},
+   title={Multiple orthogonal polynomials on the unit circle. Normality and recurrence relations},
+   journal={J. Comput. Appl. Math.},
+   volume={284},
+   year={2015},
+   pages={115--132},
+}
+
+
+
+\bibitem[GH1]{glover-homer} H. Glover and B. Homer, \textit{Endomorphisms of the cohomology ring of finite Grassmann manifolds}, Geometric applications of homotopy theory (Proc. Conf., Evanston, Ill., 1977), I, pp. 170--193.
+
+%\bib{DaeKui}{article}{
+%    AUTHOR = {Daems, E.},
+%    AUTHOR = {Kuijlaars, A.B.J.},
+%     TITLE = {A {C}hristoffel-{D}arboux formula for multiple orthogonal
+%              polynomials},
+%   JOURNAL = {J. Approx. Theory},
+%  FJOURNAL = {Journal of Approximation Theory},
+%    VOLUME = {130},
+%      YEAR = {2004},
+%    NUMBER = {2},
+%     PAGES = {190--202},
+%      ISSN = {0021-9045,1096-0430},
+   %MRCLASS = {42C05},
+  %MRNUMBER = {2100703},
+%MRREVIEWER = {K.\ Pan},
+       %DOI = {10.1016/j.jat.2004.07.003},
+       %URL = {https://doi.org/10.1016/j.jat.2004.07.003},
+%}
+
+\bib{DerSim18}{article}{
+    AUTHOR = {Derevyagin, M.},
+    AUTHOR = {Simanek, B.},
+     TITLE = {Asymptotics for polynomials orthogonal in an indefinite
+              metric},
+   JOURNAL = {J. Math. Anal. Appl.},
+  FJOURNAL = {Journal of Mathematical Analysis and Applications},
+    VOLUME = {460},
+      YEAR = {2018},
+    NUMBER = {2},
+     PAGES = {777--793},
+}
+
+
+\bibitem[GH2]{glover-homer coin} H. Glover and W. Homer, \textit{Fixed points on flag manifolds}, Pacific J. Math. \textbf{101} (1982), no. 2, 303--306, \url{http://projecteuclid.org/euclid.pjm/1102724776}.
+	
+
+\bib{GeronimusRelations}{article}{
+    AUTHOR = {Geronimus, Ya.L.},
+     TITLE = {On the trigonometric moment problem},
+   JOURNAL = {Ann. of Math. (2)},
+  FJOURNAL = {Annals of Mathematics. Second Series},
+    VOLUME = {47},
+      YEAR = {1946},
+     PAGES = {742--761},
+}
+
+\bibitem[GS]{goswami-sarkar} A. Goswami and S. Sarkar, \textit{Endomorphisms of the Cohomology Algebra of Certain Homogeneous Spaces}, \url{https://arxiv.org/abs/2509.09363}
+
+
+\bib{GeronimusBook}{book}{
+    AUTHOR = {Geronimus, Ya.L.},
+     TITLE = {Teoriya ortogonal\cprime nyh mnogo\v clenov},
+ PUBLISHER = {Gosudarstv. Izdat. Tehn.-Teor. Lit., Moscow-Leningrad},
+      YEAR = {1950},
+     PAGES = {164},
+}
+
+
+\bibitem[Ho1]{hoffman} M. Hoffman, \textit{Endomorphisms of the cohomology of complex Grassmannians}, Trans. Amer. Math. Soc. \textbf{281} (1984), no. 2, 745--760, \url{https://doi.org/10.2307/2000083}.
+
+\bibitem[Ho2]{hoffman-noncoin} M. Hoffman, Noncoincidence index of manifolds, Pacific J. Math. \textbf{115}(2) (1984), 373--383, \url{http://projecteuclid.org/euclid.pjm/1102708254}.
+
+
+\bib{HueMan}{article}{
+    AUTHOR={Huertas, E.J.},
+    AUTHOR={Ma\~{n}as, M.},
+     TITLE = {Mixed-type multiple orthogonal {L}aurent polynomials on the
+              unit circle},
+   JOURNAL = {J. Comput. Appl. Math.},
+  FJOURNAL = {Journal of Computational and Applied Mathematics},
+    VOLUME = {475},
+      YEAR = {2026},
+     PAGES = {Paper No. 117037},
+}
+
+
+\bib{Ismail}{book}{
+   author={Ismail, M.E.H.},
+   title={Classical and Quantum Orthogonal
+Polynomials in One Variable},
+   isbn={9780521782012},
+   series={Encyclopedia of Mathematics and its Applications},
+   Volume={98},
+   publisher={Cambridge University Press},
+   year={2005},
+}
+
+\bib{JNT}{article}{
+    author={Jones, W.B.},
+    author={Nj{\r a}stadt, O.},
+    author={Thron, W.J.},
+    title={Moment Theory, Orthogonal Polynomials, Quadrature, and Continued Fractions Associated with the unit Circle},
+    journal={Bulletin of the London Mathematical Society},
+    volume={21},
+    number={2},
+    year={1989},
+    pages={113--152}
+}
+
+\bib{KNik}{article}{
+    AUTHOR={Kozhan, R.},
+    TITLE={Nikishin Systems on the Unit Circle},
+  journal={},
+   volume={},
+   date={},
+   number={},
+   pages={under submission, arXiv:2410.20813},
+}
+
+
+\bibitem[HH]{hoffman-homer} M. Hoffman and W. Homer, \textit{On cohomology automorphisms of complex flag manifolds}, Proc. Amer. Math. Soc. \textbf{91} (1984), no. 4, 643--648, \url{https://doi.org/10.2307/2044817}.
+
+    
+\bibitem[L]{lin} X. Z. Lin, \textit{Geometric realization of Adams maps}, Acta Math. Sin. \textbf{27} (2011), no. 5, 863--870, \url{https://doi.org/10.1007/s10114-011-0164-y}.
+
+\bibitem[M]{mandal} M. Mandal, Cohomology of generalized Dold manifolds, Thesis (Ph.D.), Homi Bhabha National Institute, The Institute of Mathematical Sciences (2024).
+	
+\bibitem[MS1]{mandal-sankaran} M. Mandal and P. Sankaran, \textit{Cohomology of generalized Dold spaces}, Topology Appl. \textbf{310} (2022), Paper No. 108040, 16 pp, \url{https://doi.org/10.1016/j.topol.2022.108040}.
+
+
+\bib{KVMLOPUC1}{article}{
+    AUTHOR={Kozhan, R.},
+    AUTHOR={Vaktn{\"a}s, M.},
+    TITLE={Angelesco and AT Systems on the Unit Circle},
+    journal={},
+    volume={},
+    date={},
+    number={},
+    pages={under submission, arXiv:2410.12094},
+}
+
+\bib{KVChristoffel}{article}{
+   author={Kozhan, R.},
+   author={Vaktn\"{a}s, M.},
+   title={Christoffel transform and multiple orthogonal polynomials},
+      JOURNAL = {J. Comput. Appl. Math.},
+    VOLUME = {476},
+      YEAR = {2026},
+     PAGES = {Paper No. 117121},
+}
+
+\bib{KVMOPUC}{article}{
+    AUTHOR={Kozhan, R.},
+    AUTHOR={Vaktn{\"a}s, M.},
+    TITLE={Szeg\H{o} recurrence for multiple orthogonal polynomials on the unit circle},
+    JOURNAL={Proc. Amer. Math. Soc.},
+    VOLUME={152},
+    NUMBER={11},
+    YEAR={2024},
+    PAGES={2983-2997},
+    ISSN={1088-6826,0002-9939},
+}
+
+\bibitem[MS2]{mandal-sankaran2} M. Mandal and P. Sankaran, \textit{Cohomology and K-theory of generalized Dold manifolds fibred by complex flag manifolds}, \url{https://arxiv.org/abs/2407.03932}.
+
+\bib{KVInterlacing}{article}{
+    AUTHOR={Kozhan, R.},
+    AUTHOR={Vaktn{\"a}s, M.},
+    TITLE={Zeros of multiple orthogonal polynomials: location and interlacing},
+    journal={Bull. of London Math. Soc.},
+    volume={},
+    date={},
+    number={},
+    pages={to appear, arXiv:2503.15122},
+}
+
+
+ 
+\bib{Kui}{article}{
+   AUTHOR = {Kuijlaars, A.B.J.},
+     TITLE = {Multiple orthogonal polynomial ensembles},
+    JOURNAL = {Recent trends in orthogonal polynomials and approximation
+              theory, Contemp. Math., Amer. Math. Soc., Providence, RI},
+    VOLUME = {507},
+     PAGES = {155--176},
+      YEAR = {2010},
+      ISBN = {978-0-8218-4803-6},
+}
+
+\bib{Applications}{article}{
+   author={Mart{\'i}nez-Finkelshtein, A.},
+   author={Van Assche, W.},
+   title={WHAT IS...A Multiple Orthogonal Polynomial?},
+   journal={Not. Am. Math. Soc.},
+   volume={63},
+   year={2016},
+   pages={1029--1031},
+}
+
+\bib{MOPUC1}{article}{
+   author={M{\'i}nguez Ceniceros, J.},
+   author={Van Assche, W.},
+   title={Multiple orthogonal polynomials on the unit circle},
+   journal={Constr. Approx.},
+   volume={28},
+   year={2008},
+   pages={173--197},
+}
+
+\bibitem[NS]{nath-sankaran} A. Nath and P. Sankaran, \textit{On generalized Dold manifolds}, Osaka J. Math. \textbf{56} (2019), no. 1, 75--90, Errata, \textbf{57} (2020), no. 2, 505--506, \url{https://projecteuclid.org/euclid.ojm/1547607627}.
+
+\bib{Nikishin}{book}{
+    AUTHOR = {Nikishin, E.M.},
+    AUTHOR = {Sorokin, V.N.},
+     TITLE = {Rational approximations and orthogonality},
+    SERIES = {Translations of Mathematical Monographs},
+    VOLUME = {92},
+      NOTE = {Translated from the Russian by Ralph P. Boas},
+ PUBLISHER = {American Mathematical Society, Providence, RI},
+      YEAR = {1991},
+     PAGES = {viii+221},
+      ISBN = {0-8218-4545-4},
+}
+
+\bib{PeherstorferSteinbauer}{article}{
+    author={Peherstorfer, F.},
+    author={Steinbauer, R.},
+    title={Characterization of orthogonal polynomials with respect to a functional},
+    journal={Journal of Computational and Applied Mathematics},
+    volume={65},
+    year={1995},
+    pages={339-355},
+}
+
+
+\bibitem[O]{O} L.S. O'Neill, \textit{On the fixed point property for Grassmann manifolds}, Thesis (Ph.D.)--The Ohio State University ProQuest LLC, Ann Arbor, MI (1974). 52 pp, \url{http://gateway.proquest.com/openurl?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/fmt:kev:mtx:dissertation&res_dat=xri:pqdiss&rft_dat=xri:pqdiss:7511411}.
+
+\bib{OPUC1}{book}{
+   author={Simon, B.},
+   title={Orthogonal Polynomials on the Unit Circle, Part 1: Classical Theory},
+   isbn={0-8218-3446-0},
+   series={Colloquium Lectures},
+   Volume={54},
+   publisher={American Mathematical Society},
+   year={2004},
+}
+
+\bibitem[P]{Papadima} S. Papadima, \textit{Rigidity properties of compact Lie groups modulo maximal tori}, Math. Ann. \textbf{275} (1986), no. 4, 637--652, \url{https://doi.org/10.1007/BF01459142}.
+
+\bib{OPUC2}{book}{
+   author={Simon, B.},
+   title={Orthogonal Polynomials on the Unit Circle, Part 2: Spectral Theory},
+   isbn={978-0-8218-4864-7},
+   series={Colloquium Lectures},
+   Volume={54},
+   publisher={American Mathematical Society},
+   year={2005},
+}
+
+
+\bib{SimonL2}{book}{
+   author={Simon, B.},
+   title={Szeg\H{o}'s Theorem and Its Descendants: Spectral Theory for $L^2$ Perturbations of Orthogonal Polynomials},
+   isbn={9780691147048},
+   series={Porter Lectures},
+   publisher={Princeton University Press},
+   year={2011},
+}
+
+\bibitem[ST1]{shiga-tezuka} H. Shiga and M. Tezuka, \textit{Rational fibrations, homogeneous spaces with positive Euler characteristics and Jacobians}, Ann. Inst. Fourier (Grenoble) \textbf{37} (1987), no. 1, 81--106, \url{https://doi.org/10.5802/aif.1078}.
+
+\bib{SzegoBook}{book}{
+    AUTHOR = {Szeg\H o, G.},
+     TITLE = {Orthogonal polynomials},
+    SERIES = {American Mathematical Society Colloquium Publications},
+    VOLUME = {Vol. XXIII, 4th ed},
+   %EDITION = {Fourth},
+ PUBLISHER = {American Mathematical Society, Providence, RI},
+      YEAR = {1975},
+     PAGES = {xiii+432},
+}
+
+  \bibitem[ST2]{shiga-tezuka2} H. Shiga and M. Tezuka, \textit{Cohomology automorphisms of some homogeneous spaces}, Singapore topology conference (Singapore, 1985), Topology Appl. \textbf{25} (1987), no. 2, 143--150, Errata, \textbf{34} (1990), no. 2, 207, \url{https://doi.org/10.1016/0166-8641(87)90007-1}.
+
+\bib{Szego}{article}{
+    author={Szeg\H{o}, G.},
+    title={{\"U}ber die Entwickelung einer analytischen Funktion nach den Polynomen eines Orthogonalsystems},
+    issn={0025-5831},
+    journal={Mathematische Annalen},
+    volume={82},
+    year={1921},
+    pages={188-212},
+}
+
+\bibitem[W]{wong} P. Wong, \textit{Fixed point theory for homogeneous spaces. II}, Fund. Math. \textbf{186} (2005), no. 2, 161--175, \url{https://doi.org/10.4064/fm186-2-4}.
+	
+\bib{NNRR}{article}{
+   author={Van Assche, W.},
+   title={Nearest neighbor recurrence relations for multiple
+orthogonal polynomials},
+   journal={J. Approx. Theory},
+   volume={163},
+   year={2011},
+   pages={1427--1448},
+}
+
+\end{biblist}
+\end{bibdiv}
+
+\end{document}

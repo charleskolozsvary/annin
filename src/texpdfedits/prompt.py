@@ -55,6 +55,9 @@ def rectangleToLatex(
     If the inputted rectangle doesn't intersect any document_word_boxes, then the "before" box is the one with the largest id whose topline (y0) is less than
     (higher up the page) than the topline of the inputted box, and the "after" box is the one with the smallest id whose topline is greater than the inputted box.
     """
+    if pageno not in document_word_boxes:
+        logging.warning(f"Cannot extract LaTeX: pageno {pageno} not in document_word_boxes")
+        return None, None
 
     page_word_boxes = document_word_boxes[pageno]
     intersecting_word_boxes = {k: rect for k, rect in page_word_boxes.items() if in_rectangle.intersects(rect)} 

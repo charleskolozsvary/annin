@@ -109,17 +109,10 @@
 
 %% 1. ENVIRONMENT FOR LISTING EQUIVALENT CONDITIONS
 
-\newcounter{eqc}
-\newenvironment{eqc}{\begin{list}{\upshape (\textit{\roman{eqc}})}%
-    {\usecounter{eqc}%
-      \setlength{\leftmargin}{\thmlistleft}%
-      \setlength{\labelwidth}{\thmlistleft}%
-      \setlength{\rightmargin}{\thmlistright}%
-      \setlength{\partopsep}{\thmlistpartopsep}%
-      \setlength{\topsep}{\thmlisttopsep}%
-      \setlength{\parsep}{\thmlistparsep}%
-      \setlength{\itemsep}{\thmlistitemsep}}}%
-  {\end{list}}%
+\def\startignorepylatexenc{}
+\def\endignorepylatexenc{}
+
+\startignorepylatexenc
 
 %% 2. ENVIRONMENT FOR LISTING PROPERTIES
 
@@ -168,7 +161,9 @@
     \setcounter{equation}{0}
     \renewcommand{\theequation}{\arabic{equation}}}
   {\end{proof}
-}
+  }
+
+\endignorepylatexenc
 
 %%%%%%%%%%%%%%%%%%%%%%% REFERENCES AND CITATIONS %%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -13,8 +13,9 @@
 \usepackage{csquotes}
 \usepackage{lipsum}
 
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+%% \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%%     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
 \usepackage{hyperref}
 \usepackage[margin=1.75cm]{geometry}
 \usepackage[hpos=0.17\paperwidth,vpos=0.97\paperheight,angle=0,scale=0.3]{draftwatermark}
@@ -439,26 +440,6 @@ To demonstrate this, we choose a basis \( \beta = \{b_{v} \in \mathbb{Z}^{n} \mi
   If $w'\in \mathbb{Z}^n\backslash\mathcal{W}(C,n)$ then no $\omega$ with $\iota(\omega)=w'$ exists.
 \end{proof}
 
-%% Because of the embedding we might in future refer to wealth distributions as wealth vectors.
-%% From the lemma and the stars and bars theorem\footnote{\url{https://en.wikipedia.org/wiki/Stars_and_bars_(combinatorics)}} it follows that the number $|\mathcal{W}(C,n)|$ of wealth distributions of $n$ users with a fixed number of total of coins $C$ is
-
-%% \begin{equation}
-%% vol(\mathcal{W}(C,n):=|\mathcal{W}(C,n)| = {{C + n - 1}\choose {n - 1}}
-%% \end{equation}
-
-%% For example assume the $n=3$ users Alice, Bob and Carol have $C=21$ coins that they wish to split among themselves.
-%% They would have a total of $253$ ways to do so.
-%% Those can be observed in the $2$-dimensional polytope:
-%% \begin{figure}[h]
-
-%% \centering
-%% \includegraphics[width=0.5\textwidth]{polytope_of_bitcoin_wealth_distributions}
-%% \caption{$3$-dimensional embedding of the $2$-dimensional polytope of wealth distributions of $C=21$ coins among $n=3$ users.} 
-%% \label{fig:wealthPolytope}
-%% \end{figure}
-
-%% Knowing the volume of the polytope of feasible bitcoin wealth distributions will serve as reference point when studying the feasible wealth distributions $W_G$ in a payment channel network $G$. 
-
 Because of the embedding, we may refer to wealth distributions as wealth vectors. From the lemma and the stars and bars theorem\footnote{\url{https://en.wikipedia.org/wiki/Stars_and_bars_(combinatorics)}}, it follows that the number \( |\mathcal{W}(C,n)| \) of wealth distributions for \( n \) users with a fixed total of \( C \) coins is given by:
 
 \begin{equation}
@@ -549,34 +530,6 @@ By construction, we have \( C = \sum_{x \in V} \omega(x) \). Thus, \( \omega \) 
 To conclude the proof, assume \( \omega \in W_G \). Due to the conservation of liquidity (equation \ref{eq:conservationOfLiquidity}) and the definition of \( \omega \) as a feasible wealth function in \( G \), we know that \( \omega(u) + \omega(v) \geq c_e \). This contradicts the assumption that the capacity of the channel was non-zero.
 \end{proof}
 
-
-%% \begin{corollary}
-%% The number $|W|$ of feasibile wealth distributions of $C$ coins between $n>2$ users in a payment channel network is strictly smaller than the number $|W_C|$ of wealth distributions that are feasible with on chain transactions.  
-%% \end{corollary}
-
-%% We will be interested how the topology of $G$ impacts the relative volume $r(G)$ that $W_G$ has in comparison to $\mathcal{W}(C,n)$ 
-%% \begin{equation}
-%%   r(G) = \frac{|W_G|}{|\mathcal{W}(C,n)|}
-%% \label{eq:relVolume}
-%% \end{equation}
-
-%% For example if we take the network from the last section in figure \ref{fig:statePolytopeExample} we can observe the feasible region $W_G$ as a subpolytope of $\mathcal{W}(21,3)$ in figure \ref{fig:wealthPolytope}
-%% \begin{figure}[h]
-%%   \label{fig:wealthPolytope}
-%% \centering
-%% \includegraphics[width=0.5\textwidth]{polytope_of_wealth_distributions_inequal}
-%% \caption{Only $52.17\%$ of all wealth distributions of $\mathcal{W}(21,3)$ are feasible if Alice Bob and Carol allocate the $21$ coins into $2$ channels of capacity $10$ and $11$.} 
-%% \end{figure}
-
-%% We are not aware of an alytically closed formula that describes the volume $|W_G|$ for a given network $G$. 
-%% However we can estimate the volume throgh statistical sampling via Monte Carlo methods.
-%% Utilizing the Dirichlet Rescale Algorithm\cite{griffin2020generating} we are able to uniformly randomly select wealth distributions $\omega$ from $\mathcal{W}(C,n)$.\footnote{an open source implementation can be found at: \url{https://github.com/dgdguk/drs}}
-%% We can then check how often they are feasible for a given network $G$.
-%% This gives us an estimate for $r(G)$:
-%% \begin{equation}
-%%   r(G)\approx \frac{\text{number of $\omega$ such that $\omega$ is feasible in $G$}}{\text{number of sampled $\omega\in\mathcal{W}(C,n)$}}
-%% \end{equation}
-
 \begin{corollary}
 The number \( |W_G| \) of feasible wealth distributions of \( C \) coins among \( n > 2 \) users in a payment channel network is strictly smaller than the number \( |\mathcal{W}(C,n)| \) of wealth distributions that are feasible with on-chain transactions.
 \end{corollary}
@@ -621,32 +574,6 @@ In order to be able to evaluate this we need to be able to decide if a given wea
 
 \subsection{Deciding if a Wealth Distribution $\omega\in\mathcal{W}(C,n)$ is also feasible in $W_G$}
 \label{sec:isomorphism}
-%% Due to lemma \ref{lem:subset} we know there exists at least one vector $\omega\in \mathcal{W}(C,n)$ that is infeasible and not in $W_G$.
-%% For an arbitrary vector $\omega\in \mathcal{W}(C,n)$ we can decide if it is also an Element of $W_G$ and thus a feasible welth distribution on the payment channel network.
-%% According to the definition of being a feasible wealth distribution in $W_G$ we need to provide $\lambda\in L_G$ such that $\forall e \in E, v\in V$ the following $n$ linear equations hold:
-%% \begin{equation}
-%%   \label{eq:wealthConstraints}
-%%   \sum_{e\in E: v\in e}\lambda(e,v)=\omega(v)
-%%   \end{equation}
-%%   Because of conservation of liquidity $\lambda$ requires an additional $m$ equations $\forall e\in E$:
-%%   \begin{equation}
-%%     \label{eq:channelConstraints}
-%%     \lambda(e,v)+\lambda(e,u)=cap(e)
-%%   \end{equation}
-%%   Thus we need to solve a system of $n+m$ linear equations in $2\cdot m$ variables:
-%%   $$\{e_{1,{u_1}},e_{1,v_1},\dots,e_{m,u_m},e_{m,v_m}\}$$
-%%   Those equations are not fully independent because summing up the $n$ equations from equation \ref{eq:wealthConstraints} we get the same value as summing up the $m$ equations from equation \ref{eq:channelConstraints}:
-%%   $$\sum_{v\in V}\sum_{e\in E: v\in e}\lambda(e,v) = C = \sum_{e=(u,v)\in E}\left(\lambda(e,v)+\lambda(e,u)\right)$$
-%%   Therefor we can eliminate one of the constraints and have in total only $m+n-1$ independent equations.
-%%   Let $\sigma(G,\omega)$ be the solution space of feasible liquidity functions on $G$ for the the above system of linear equations over intergers. 
-%%   If solved over $\mathbb{Z}^{2\cdot m}$ the space $\sigma(G,\omega)$ is at least $2\cdot m-(m+n-1)=(m-n+1)$-dimensional.
-%%   However we are seeking solutions over $L_G$ which is isomorph to the bounded hypercube:
-%%   $$H_G=\{0,\dots,c_1\}\times\{0,\dots,c_m\}$$
-%%   Thus for a wealth distribution to be feasible and a liquidity function $\lambda$ to exist we must require:
-%%   \begin{equation}
-%%     \sigma(G,\omega)\cap H_G \neq\emptyset
-%%   \end{equation}
-%%   Finding a solution for the system of linear equations over intergers in a bounded region can be done through integer linear programming.\footnote{As discussed with Stefan Richter. Instead of solving a system of linear equations over a bounded region one could solve a max flow problem to test feasibility. For this one would take an arbitrary wealth vector $w'$ and compute $w-w'´$. The components of the difference are the supply and demand of the nodes in the network. If a multi source multi sink flow exists that fulfills the supply and demand then $w\in W_G$}
 
 Due to Lemma \ref{lem:subset}, we know there exists at least one vector \( \omega \in \mathcal{W}(C,n) \) that is infeasible and not in \( W_G \).  
 For an arbitrary vector \( \omega \in \mathcal{W}(C,n) \), we can determine if it is also an element of \( W_G \) and thus a feasible wealth distribution on the payment channel network.  
@@ -689,29 +616,9 @@ However this geometric insight shows how difficult it is to create trustless ele
 
 
 \subsection{Application: Deciding the Feasibility of Payments}
-%% Making a payment is the same as changing the wealth vector.
-%% Let us assume $w=(w_1,\dots,w_n)\in W_G$ is the current wealth distribution of the network.
-%% If the $i$-th user wishes to pay user $j$ the amount $a$ we can test the feasibility of the payment by checking if
-%% \begin{equation}
-%%   \label{eq:payment}
-%% w' = w + a\cdot b_j - a\cdot b_i
-%% \end{equation}
-%% is still inside the polytope $W_G$ of feasible wealth distributions.
-%% If $w'\not\in W_G$ then given our initial wealth distribution $w$ the payment between $i$ and $j$ of amount $a$ will fail.
-
-%% In particular because of lemma \ref{lem:subset}  payments between users may be infeasible within the payment channel network.
-%% Importantly we note that in payment channel networks it is impossible that 100\% of all thinkable payment requests are feasible!
-
-%% Quite remarkably, deciding weather a payment is feasible in a given network without conducting additional on chain operations does not depend on the exact state of the network.
-%% Instead feasibility of a payment does only depend on the network topology and the current wealth distribution.
-%% In particular the payment of amount $a$ between user $i$ and $j$ can be feasible or infeasible, depending on the current wealth distribution.
-%% Of course similar to the liquidity state of the network the current wealth distribution is unkown.
 
 %% Similarly to estimating $r(G)$ we can estimate the the likelihood that a payment is feasible through Monte Carlo methods.
 %% For this we uniformly randomly sample several feasible wealth distributions in $W_G$ and compute how often the adopted distribution that we receive after executing the payment is feasible.
-%% This method has already been shared in public before this paper was published.\footnote{\url{https://delvingbitcoin.org/t/estimating-likelihood-for-lightning-payments-to-be-in-feasible/973}}
-%% It can help node operators in their decision making about opening or closing channels. 
-%% Before we investige the relation between the polytope of liquidity states and the polytope of feasible wealth distributions we will illustrate our current understanding through a low dimensional example. 
 
 Making a payment is equivalent to changing the wealth vector.  
 Let us assume \( w = (w_1, \dots, w_n) \in W_G \) is the current wealth distribution of the network.  
@@ -910,7 +817,7 @@ Thus it contributes $c_{e^k}$ to the cut width of the hypergraph.
 If $c_{e^k}\subset S$ or $c_{e^k}\subset\bar S$, it contributes $0$ to the width and $c_{e^k}$
 to the corresponding internal sum in~\eqref{eq:cut-interval}.
 
-For the following we randomly fix $m$ arbitrary $k$-party channels, each of capacity $c$.\footnote{The choice of a uniform hypergraph seems like a strong assumption. It was chosen to show the mathematical principle with rather simple formulars at hand. Yet without proof we believe a different topology could be choosen to carry out a similar argument.}
+For the following we randomly fix $m$ arbitrary $k$-party channels, each of capacity $c$\footnote{The choice of a uniform hypergraph seems like a strong assumption. It was chosen to show the mathematical principle with rather simple formulars at hand. Yet without proof we believe a different topology could be choosen to carry out a similar argument.}.
 
 
 %or a $k$-pool uniformly from $\binom{n}{k}$ $k$-sets
@@ -1069,15 +976,14 @@ For $s=1$ and $k\ge 2$ we have
 Summary:
 \[
 \boxed{q_k(1)=\begin{cases}
-0,&k=1 \footnote{For the edge case of $k=1$ we have: $q_1(1)=1-\frac{\binom{1}{1}+\binom{n-1}{1}}{\binom{n}{1}}=1-\frac{1+(n-1)}{n}=0$. This makes sense as $1$-party channel means there are not channels which means the cutwidth should be $0$ for any cut.}
+0,&k=1 \footnotemark
 \\
 k/n,&2\le k\le n
 \end{cases}}
-\]
+\]\footnotetext[6]{For the edge case of $k=1$ we have: $q_1(1)=1-\frac{\binom{1}{1}+\binom{n-1}{1}}{\binom{n}{1}}=1-\frac{1+(n-1)}{n}=0$. This makes sense as $1$-party channel means there are not channels which means the cutwidth should be $0$ for any cut.}
 So for $s=1$, the cross cut straddle probability is \textbf{linear} in $k$ (starting at $0$ for $k=1$, then $(2/n,3/n,\dots,n/n = 1)$.
 
 This means that the maximum expected wealth of a node $v$ in a $k$-party channel network with $m$ channels of capacity $c$ is:
-
 \[
 m\cdot c \frac{k}{n}
 \]
@@ -1173,8 +1079,8 @@ Taking the minimum over all cuts preserves the inequality.
 \begin{corollary}\label{cor:maxflow-feasibility}
 For all ordered pairs $(s,t)\in V\times V$, $s\neq t$,
 \[
-\operatorname{maxflow}_{k\text{-party}}(s,t)\ \ge\ \operatorname{maxflow}_{\text{2PC}}(s,t)\footnote{more generally we could have conducted the same argument not from $k$-party channels to $2$-party but from $(k+1)$-party channels to $k$-party channels. All the set theoretic arguments stay the same in the general case.},
-\]
+\operatorname{maxflow}_{k\text{-party}}(s,t)\ \ge\ \operatorname{maxflow}_{\text{2PC}}(s,t)\footnotemark[7]{},
+\]\footnotetext[7]{more generally we could have conducted the same argument not from $k$-party channels to $2$-party but from $(k+1)$-party channels to $k$-party channels. All the set theoretic arguments stay the same in the general case.}%%
 by the max–flow/min–cut theorem. Moreover, the feasible-wealth set defined by the cut–interval constraints
 \[
 \sum_{e\in E[S]} c_e \;\le\; \omega(S) \;\le\; \sum_{e\in E[S]} c_e \;+\; \sum_{r=1}^m C^{(\cdot)}_r(S)\qquad(\forall S\subset V)
@@ -1296,34 +1202,8 @@ It follows that
 for which we have explicitly provided the isomorphism.  
 In one direction, it is the projection of the channel states to the wealth distribution as defined by \( \pi \), and in the other direction, it is the construction of a feasible state for a feasible wealth distribution as described in Section \ref{sec:isomorphism}.
 
-
-
-
 \subsection{Rebalancing Payment Channels and Circulations}
 \label{sec:rebalancing}
-%% We wish to study the number of elements in the equivalance class $|[\lambda]|$.
-%% Remember for $\lambda,\mu\in[\lambda]$ we have: $\pi(\lambda)=\pi(\mu)$.
-%% Thus $\lambda$ and $\mu$ are projected to the same wealth distribution. 
-%% If routing fees are being ignored circular self payments which are also known as channel rebalancings are the only payments that do not change the wealth distribution.
-%% They do however change the liquidity state of the network.
-
-%% We will now proof that the size of the equivalence class $|[\lambda]|$ is equal to the number of stricht circulations that exist on $\mathcal{L}(G,\lambda)$.
-%% Also if $\pi(\lambda)=w$ then $|\pi^{-1}(\{w\})|$ is equal to the number of circulations.\footnote{We are not the first to note that circular self payments do not change the wealth distributions \cite{piatkivskyi2018rebalancing} of the participants of a payment channel network.}
-%% Counting the number of circulations is possible with Ehrhart's theory\cite{ehrhart1962polyhedra} or by applying Barvinok's algorithm\cite{barvinok1994polynomial}.
-%% In particular free open source software\footnote{\url{https://www.math.ucdavis.edu/~latte/}} exists\cite{de2004effective} that is able to achieve this.
-
-%% In order to follow this observations we review a few elements from the theory of network flows.
-%% \begin{definition}
-%% A flow network is a directed graph \( G = (V, E) \) with capacity function \( c: E \rightarrow \mathbb{Z}^+ \) and flow function \( f: E \rightarrow \mathbb{Z} \) such that \( 0 \leq f(e) \leq c(e) \) for all \( e \in E \).
-%% \end{definition}
-%% Some flows are of particular interest: 
-%% \begin{definition}
-%%   A flow \( f \) where the flow conservation constraints are satisfied at every vertex \( x \in V \), i.e.,
-%%   \begin{equation}
-%%     \sum_{(u,x) \in E} f(u,x) = \sum_{(x,v) \in E} f(x,v)
-%%   \end{equation}
-%% is called a circulation.
-%% \end{definition}
 
 We aim to study the number of elements in the equivalence class \( |[\lambda]| \).  
 Recall that for \( \lambda, \mu \in [\lambda] \), we have \( \pi(\lambda) = \pi(\mu) \).  
@@ -2052,49 +1932,196 @@ The machinery we propose to widen feasibility is necessary precisely because we 
 \end{displayquote}
 Our results delineate the engineering frontier within those constraints and show what is possible to be achieved: Channel factories and coin-pools measurably enlarge $W_G$ without reintroducing trusted intermediaries. The remaining task is to scale these levers into deployable, privacy-preserving protocols.
 
-
-
-
-%\section{Conclusion}
-%This work reframes PCNs around two geometric primitives---\emph{quotients} and \emph{cuts}---and derives system-level consequences.
-
-%\paragraph{Feasible wealth as the primary object.}
-%By projecting $\pi:L_G\to W_G$ and modding out strict circulations, feasibility questions become statements about $W_G$ alone. The \emph{cut-interval} characterization makes constraints transparent and yields a back-of-the-envelope throughput law:
-%\[
-%S \;\asymp\; \frac{\zeta}{\rho},
-%\]
-%linking sustainable off-chain success $S$ to on-chain bandwidth $\zeta$ and the expected infeasible rate $\rho$. In particular, any design that reduces $\rho$ (by widening cuts) or raises $\zeta$ (cheaper/parallel settlement) scales off-chain capacity proportionally.
-
-%\paragraph{Why two-party meshes struggle, and how multiparty helps.}
-%Two-party graphs leave many wealth targets outside $W_G$ because cut widths are small in sparse topologies. Replacing edges by $k$-party pools (hyperedges) strictly widens cuts in expectation, for every cut and monotonically in $k$; closed forms give simple design rules (e.g., single-node accessibility grows like $k/n$). This strongly motivates \emph{channel-factory} style architectures. In particular, \emph{Ark-like channel factories} compress internal liquidity without per-payment coordination and can be interconnected via light two-party links or cross-pool swaps—providing a practical route to the theoretical benefits of multiparty channels. Further work should pin down concrete operating envelopes (security assumptions, exit capacity, fee/latency trade-offs) and how factory scheduling interacts with external cuts.
-
-%\paragraph{Depletion is generic; fee shaping is local.}
-%Maximizing fee revenue within a fiber is a linear program whose free directions are cycle pushes; any nonzero cycle imbalance forces boundary optima (directional depletion), with at least the cycle rank of edges depleted and a residual spanning forest. Convex, utilization-responsive fees (``rate cards'') can stall some cycles by creating local interior equalities of cycle marginals, but cannot eliminate global depletion without cross-cycle coordination.
-
-%\paragraph{Replenishment as geometry.}
-%Within a fixed wealth fiber, “best-effort” rebalancing is an \emph{optimal circulation} problem: relax, project, and perform a small integer search in the strict-circulation lattice. This converts bimodal channel marginals into centered ones in simulation, improving short-term reliability. Deployments must balance coordination effort, privacy leakage (wealth disclosure), and timing.
-
-%\paragraph{Outlook.}
-%The quotient-and-cut viewpoint yields crisp levers: (i) widen cuts (multiparty/factories; better inter-pool topology), (ii) raise $\zeta$ (batching/rollups), and (iii) keep fibers near interior via coordinated replenishment. Pure fee tuning helps locally but cannot defeat the geometry of cycles. We view \emph{Ark-class channel factories} as the most promising near-term path to materially larger $W_G$ with manageable operational overhead; the open problems are implementational (factory governance, exit guarantees, and privacy-preserving cross-pool settlement) rather than conceptual.
-
-
-
-
-%==========================================================================
-
-
-
 \section{Acknowledgements}
 This work was funded by Open Sats Inc. and various Patreons. I would like to thank the reviewers of earlier versions. In particular Stefan Richter, Christian Decker, Christian Kuemmerle, Anastasios Sidiropoulos (who pointed out an error in my initial description of the wealth distributions), Elias Roher and bitromortac. Thanks to Rene Treffer for sharing an example with me that indicated how dropping the assumption that liquidity in channels is distributed independently can be used to show how bimodal liquidity distributions emerge.
 I am not a native English speaker. The first full draft was copy-edited with the help of ChatGPT. I reviewed and revised all suggested changes, and the original text is preserved as comments in the LaTeX source. In subsequent revisions and extensions I adopted a more vibe-writing approach, so sentence-level attribution of AI-assisted phrasing is no longer practical. Conceptually, while I was working to formalize results on the feasibility region of multi-party channels, the AI—building on my initial ideas suggested the perspective of analyzing expected cut widths, which informed parts of this manuscript.
-%Furthermore since I am not a native english speaker I passed the first version of the manuscript through chatGPT for copy editing and revised its output. My origninal manuscript is as comments in the latex files. For the second iteration and extension of the original script I switched more to a vibe-writing style so it is harder to mark the AI generated parts of this manuscript explicitely. It is noteworthy while I was struggeling to formalize proofs about multiparty channels the AI suggested based on my ideas to study expected cut widths.
-\bibliography{references}
-\bibliographystyle{plain}
 
+%% \bibliography{references}
+%% \bibliographystyle{plain}
+
+\begin{thebibliography}{10}
+\bibitem{alscher2023price}
+Sebastian Alscher.
+\newblock Price of anarchy in the lightning network.
+\newblock 2023.
+
+\bibitem{barvinok1994polynomial}
+Alexander~I Barvinok.
+\newblock A polynomial time algorithm for counting integral points in polyhedra
+  when the dimension is fixed.
+\newblock {\em Mathematics of Operations Research}, 19(4):769--779, 1994.
+
+\bibitem{bitromortac2024blazing}
+bitromortac.
+\newblock Blazing the trails: Improving lnd pathfinding reliability, 2024.
+
+\bibitem{burchert2018scalable}
+Conrad Burchert, Christian Decker, and Roger Wattenhofer.
+\newblock Scalable funding of bitcoin micropayment channel networks.
+\newblock {\em Royal Society open science}, 5(8):180089, 2018.
+
+\bibitem{chen2022maximum}
+Li~Chen, Rasmus Kyng, Yang~P Liu, Richard Peng, Maximilian~Probst Gutenberg,
+  and Sushant Sachdeva.
+\newblock Maximum flow and minimum-cost flow in almost-linear time.
+\newblock In {\em 2022 IEEE 63rd Annual Symposium on Foundations of Computer
+  Science (FOCS)}, pages 612--623. IEEE, 2022.
+
+\bibitem{chen2023almost}
+Li~Chen, Rasmus Kyng, Yang~P Liu, Richard Peng, Maximilian~Probst Gutenberg,
+  and Sushant Sachdeva.
+\newblock Almost-linear-time algorithms for maximum flow and minimum-cost flow.
+\newblock {\em Communications of the ACM}, 66(12):85--92, 2023.
+
+\bibitem{dandekar2011liquidity}
+Pranav Dandekar, Ashish Goel, Ramesh Govindan, and Ian Post.
+\newblock Liquidity in credit networks: A little trust goes a long way.
+\newblock In {\em Proceedings of the 12th ACM conference on Electronic
+  commerce}, pages 147--156, 2011.
+
+\bibitem{de2004effective}
+Jes{\'u}s~A De~Loera, Raymond Hemmecke, Jeremiah Tauzer, and Ruriko Yoshida.
+\newblock Effective lattice point counting in rational convex polytopes.
+\newblock {\em Journal of symbolic computation}, 38(4):1273--1302, 2004.
+
+\bibitem{decker2018eltoo}
+Christian Decker, Rusty Russell, and Olaoluwa Osuntokun.
+\newblock eltoo: A simple layer2 protocol for bitcoin.
+\newblock {\em White paper: https://blockstream. com/eltoo. pdf}, 2018.
+
+\bibitem{ehrhart1962polyhedra}
+Eugene Ehrhart.
+\newblock On homothetic rational poly{e}dras {\`a} n dimensions.
+\newblock {\em CR Acad. Sci. Paris}, 254:616, 1962.
+
+\bibitem{elias1956note}
+P.~Elias, A.~Feinstein, and C.~Shannon.
+\newblock A note on the maximum flow through a network.
+\newblock {\em IRE Transactions on Information Theory}, 2(4):117--119, 1956.
+
+\bibitem{FordFulkerson1956}
+L.~R. Ford and D.~R. Fulkerson.
+\newblock Maximal flow through a network.
+\newblock {\em Canadian Journal of Mathematics}, 8:399–404, 1956.
+
+\bibitem{griffin2020generating}
+David Griffin, Iain Bate, and Robert~I Davis.
+\newblock Generating utilization vectors for the systematic evaluation of
+  schedulability tests.
+\newblock In {\em 2020 IEEE Real-Time Systems Symposium (RTSS)}, pages 76--88.
+  IEEE, 2020.
+
+\bibitem{guidi2019steadystate}
+Gregorio Guidi.
+\newblock Paper - modeling a steady-state lightning network economy, 2019.
+
+\bibitem{harris2020flood}
+Jona Harris and Aviv Zohar.
+\newblock Flood \& loot: A systemic attack on the lightning network.
+\newblock In {\em Proceedings of the 2nd ACM Conference on Advances in
+  Financial Technologies}, pages 202--213, 2020.
+
+\bibitem{Neigut2022}
+Lisa Neigut.
+\newblock Fee ratecards (your gateway to negativity), Sep 2022.
+
+\bibitem{delpia2014mixedintegerquadraticprogrammingnp}
+Alberto~Del Pia, Santanu~S. Dey, and Marco Molinaro.
+\newblock Mixed-integer quadratic programming is in np, 2014.
+
+\bibitem{piatkivskyi2018rebalancing}
+Dmytro Piatkivskyi.
+\newblock Rebalancing argument, 2018.
+
+\bibitem{pickhardt2022valves}
+Rene Pickhardt.
+\newblock The power of valves for better flow control, improved reliability and
+  lower expected payment failure rates on the lightning network, 2022.
+
+\bibitem{Pickhardt2025}
+Rene Pickhardt.
+\newblock Ark as a channel factory: Compressed liquidity management for
+  improved payment feasibility, Dec 2025.
+
+\bibitem{pickhardt2019imbalancemeasureproactivechannel}
+Rene Pickhardt and Mariusz Nowostawski.
+\newblock Imbalance measure and proactive channel rebalancing algorithm for the
+  lightning network, 2019.
+
+\bibitem{pickhardt2020imbalance}
+Rene Pickhardt and Mariusz Nowostawski.
+\newblock Imbalance measure and proactive channel rebalancing algorithm for the
+  lightning network.
+\newblock In {\em 2020 IEEE International Conference on Blockchain and
+  Cryptocurrency (ICBC)}, pages 1--5. IEEE, 2020.
+
+\bibitem{pickhardt2021optimally}
+Rene Pickhardt and Stefan Richter.
+\newblock Optimally reliable \& cheap payment flows on the lightning network.
+\newblock {\em arXiv preprint arXiv:2107.05322}, 2021.
+
+\bibitem{pickhardt2021security}
+Rene Pickhardt, Sergei Tikhomirov, Alex Biryukov, and Mariusz Nowostawski.
+\newblock Security and privacy of lightning network payments with uncertain
+  channel balances.
+\newblock {\em arXiv preprint arXiv:2103.08576}, 2021.
+
+\bibitem{poon2016bitcoin}
+Joseph Poon and Thaddeus Dryja.
+\newblock The bitcoin lightning network: Scalable off-chain instant payments,
+  2016.
+
+\bibitem{ren2018optimal}
+Alvin Heng~Jun Ren, Ling Feng, Siew~Ann Cheong, and Rick Siow~Mong Goh.
+\newblock Optimal fee structure for efficient lightning networks.
+\newblock In {\em 2018 IEEE 24th International Conference on Parallel and
+  Distributed Systems (ICPADS)}, pages 980--985. IEEE, 2018.
+
+\bibitem{rossi2024channel}
+Emanuele Rossi, Vikash Singh, et~al.
+\newblock Channel balance interpolation in the lightning network via machine
+  learning.
+\newblock {\em arXiv preprint arXiv:2405.12087}, 2024.
+
+\bibitem{shikhelman2022unjamming}
+Clara Shikhelman and Sergei Tikhomirov.
+\newblock Unjamming lightning: A systematic approach.
+\newblock {\em Cryptology ePrint Archive}, 2022.
+
+\bibitem{steele2004cauchy}
+J~Michael Steele.
+\newblock {\em The Cauchy-Schwarz master class: an introduction to the art of
+  mathematical inequalities}.
+\newblock Cambridge University Press, 2004.
+
+\bibitem{tikhomirov2020probing}
+Sergei Tikhomirov, Rene Pickhardt, Alex Biryukov, and Mariusz Nowostawski.
+\newblock Probing channel balances in the lightning network.
+\newblock {\em arXiv preprint arXiv:2004.00333}, 2020.
+
+\bibitem{tochner2020route}
+Saar Tochner, Aviv Zohar, and Stefan Schmid.
+\newblock Route hijacking and dos in off-chain networks.
+\newblock In {\em Proceedings of the 2nd ACM Conference on Advances in
+  Financial Technologies}, pages 228--240, 2020.
+
+\bibitem{van2023deterministic}
+Jan Van Den~Brand, Li~Chen, Richard Peng, Rasmus Kyng, Yang~P Liu,
+  Maximilian~Probst Gutenberg, Sushant Sachdeva, and Aaron Sidford.
+\newblock A deterministic almost-linear time algorithm for minimum-cost flow.
+\newblock In {\em 2023 IEEE 64th Annual Symposium on Foundations of Computer
+  Science (FOCS)}, pages 503--514. IEEE, 2023.
+
+\bibitem{zhang2023rethinking}
+Yunqi Zhang and Shaileshh~Bojja Venkatakrishnan.
+\newblock Rethinking incentive in payment channel networks.
+\newblock In {\em 2023 IEEE 43rd International Conference on Distributed
+  Computing Systems Workshops (ICDCSW)}, pages 61--66. IEEE, 2023.
+\end{thebibliography}
 
 \appendix
 
-  \section{Low Dimensional Example}
+\section{Low Dimensional Example}
 \label{sec:paymentsExample}
 We have already seen that for different topologies the feasible region and thus $r(G)$.
 For our example we set:
@@ -2235,6 +2262,5 @@ If $y$ wants to make a payment of $2$ coins to $z$ we take the wealth vector $w=
   Thus the payment of $10$ coins is infeasible. 
 
 
-
-\end {document}
+\end{document}
 
