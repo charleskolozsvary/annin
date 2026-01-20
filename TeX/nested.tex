@@ -10,17 +10,48 @@
 
 %% \usepackage{subfigure}
 
+\newcommand{\thing}[1]{$\mathcal{#1}$}
+
+\def\startignorepylatexenc{}
+\def\endignorepylatexenc{}
+
+
+\def\sillything{\begin{proof}
+    this is something that shouldn't really exit,
+    but it $\alpha$ would \textit{pose a problem}.
+\end{proof}}
+
+\def%
+%
+%
+\problem%
+%
+%
+{\textit{yeah...} this is no good, right?}
+
+%% metadata
 
 \title[shorter title]{The title or whatever}
 
-\author[The name that will be repeated over and over\dots.]{Full name}
+\author[The name that will be repeated over and over\dots.]{Full name one}
 \address[sure]{The address or whatever}
 \curraddr[something]{The current address}
 \urladdr[url]{url addr}
 \email{some\_email@gmail.com}
 
+\author[name two]{Full name two}
+\address[]{another address}
+\curraddr[something]{second curr address}
+\urladdr[url]{https://ams.org/}
+\email{cak@ams.org}
+
 \thanks{So this is where we say thanks to grant No.\ 325349M\@.}
-\subjclass{Primary 1586; Secondary 314, 159, 2653, 58579}
+
+\thanks{L.\ E.\ is the corresopnding author.}
+
+\subjclass{Primary 1586: Secondary 314, 159, 2653, 58579}
+
+\keywords{Something, else, that, we, need}
 
 \dedicatory{In memory of Vladimir Zelovsky}
 \commby{Arlene Belfans}
@@ -28,7 +59,7 @@
 \copyrightinfo{XXXX}{American Mathematical Society}
 
 \begin{document}
-\begin{abstract}
+\begin{abstract}[does this take an optional argument?]
   This is an abstract with some words. But no words that are particularly meaningful at all.\footnotemark But if you just use a straight \protect\footnote{stuff that won't appear anywhere at all: mingus} that won't work (ERROR). Well not compile erorr, but the mark will appear and the footnote contents will \dots dissappear\dots.
 \end{abstract}\footnotetext{I would guess that this behaves like footnotes in captions?}
 
@@ -64,6 +95,8 @@
 \makeatother
 
 \maketitle
+
+Here is some text and a \problem. I think.
 
 \section[but running head?]{A section title\protect\footnote{section one}}
 

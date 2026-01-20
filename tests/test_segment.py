@@ -24,7 +24,7 @@ def drawWordBoxes(pdf_filename, document_word_boxes, output_dir):
         page = doc[pg_no]
         for key, rectangle in document_word_boxes[pg_no].items():
             try:
-                box = page.add_freetext_annot(rectangle, key, text_color=(0,.25,.7), fontsize=3, fontname="Cour")
+                box = page.add_freetext_annot(rectangle, key, text_color=(0,.25,.7), fontsize=1, fontname="Cour")
                 box.set_border(width=.3)
                 box.update()
             except Exception as e:
