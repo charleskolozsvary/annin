@@ -24,13 +24,14 @@ def drawAnnots(filename, output_dir, unique_ending = 'orig_annots'):
             box.set_border(width=.5)
             box.update()
     doc.save(save_filename)
-    logging.info(f"Done.")
-    return 0
+    logging.info(f"Done. Results saved to {save_filename}.")
 
 
 def drawRobustAnnots(filename, robust_annots, output_dir, unique_ending = 'robust_annots'):
     """draw bounding boxes of robust annotations"""
     doc = pymupdf.open(filename)
+    save_filename = shipPdfFilename(filename, output_dir, unique_ending)    
+    logging.info(f"Drawing robust annotations to {save_filename}...")    
     for pageno,page in enumerate(doc):
         for annot in annots[pageno]:
             if annot.type == PDF_ANNOT_TEXT:
@@ -38,9 +39,21 @@ def drawRobustAnnots(filename, robust_annots, output_dir, unique_ending = 'robus
             box = page.add_freetext_annot(annot.rect, '', text_color=(1,0,1))
             box.set_border(width=.5)
             box.update()
-    doc.save(shipPdfFilename(filename, output_dir, unique_ending))
-    return 0
+    doc.save(save_filename)
+    logging.info(f"Done. Results saved to {save_filename}")    
 
+def drawWords(filename, output_dir, unique_ending = 'pymupdf_words'):
+    logging.info(f"Drawing word boxes in {filename}.")
+    doc = pymupdf.open(filename)
+    save_filename = shipPdfFilename(filename, output_dir, unique_ending)
+    for page in doc:
+        words = page.get_text('words', sort=True)
+        for word in words:
+            box = page.add_freetext_annot(word[0:4], f'{word[5]}:{word[6]}:{word[7]}', text_color=(1,0,1), fontsize=2, fontname="Cour")
+            box.set_border(width=0.5)
+            box.update()
+    doc.save(save_filename)
+    logging.info(f"Done. Results saved to {save_filename}.")
 
 def drawLines(filename, output_dir, unique_ending = 'lines'):
     """draw the bounding boxes of the lines from page.get_text('dict', sort=True)['blocks']"""
@@ -56,7 +69,7 @@ def drawLines(filename, output_dir, unique_ending = 'lines'):
             box.set_border(width=.5)
             box.update()
     doc.save(save_filename)
-    logging.info(f"Done. Results saved to {save_filename}...")    
+    logging.info(f"Done. Results saved to {save_filename}.")    
     return 0
 
 def drawEdits(filename, output_dir, edits, unique_ending = 'edit_selections'):
@@ -76,17 +89,30 @@ def drawEdits(filename, output_dir, edits, unique_ending = 'edit_selections'):
             doc.delete_pages(from_page=0, to_page=edit.pageno-1)
         assert doc.page_count == 1, "doc.page_count != 1"
         page = doc[0]
-        bbs = edit.selection_bbs
-        colors = [(1,0,0), (0,0,1)] if edit.type == PDF_ANNOT_CARET[1] else [(1,.25,.25), (.25,1,.25), (.25,.25,1)]
-        for j, bb in enumerate(bbs):
-            if bb.width == 0:
+        selection_bbs = edit.selection_bbs
+
+        box2 = page.add_freetext_annot(edit.annot_rect, '', fontsize=8, text_color=(1,.5,1))
+        box2.set_border(width=.75)
+        box2.update()
+        
+        for bbs in selection_bbs:
+            if len(bbs) == 2:
+                colors = [(1,0,0), (0,0,1)]
+            elif len(bbs) == 3:
+                colors = [(1,.25,.25), (.25,1,.25), (.25,.25,1)]
+            else:
+                logging.warning("an individual selection bb did not have two or three members when drawing...; continuing")
                 continue
-            if bb.height == 0:
-                logging.warning("bb height was zero that ... shouldn't happen, continuing with modified height")
-                bb.y1 = bb.y0 + 5 ## see endomorphism_ann page 13
-            box = page.add_freetext_annot(bb, '', text_color=colors[j])
-            box.set_border(width=.75)
-            box.update()
+            for j, bb in enumerate(bbs):
+                if bb.width == 0:
+                    continue
+                if bb.height == 0:
+                    logging.warning("bb height was zero that ... shouldn't happen, continuing with modified height")
+                    bb.y1 = bb.y0 + 5 ## see endomorphism_ann page 13
+                box = page.add_freetext_annot(bb, '', text_color=colors[j])
+                box.set_border(width=.75)
+                box.update()
+        
         box = page.add_freetext_annot((5,5,500,350), str(edit), fontsize=8, fontname="Cour", text_color=(.5, 0, .75))
         box.update()
 
@@ -120,6 +146,7 @@ if __name__ == '__main__':
     parser.add_argument('filename')
     parser.add_argument("-d", "--debug", action="store_true", help='debugging output')
     parser.add_argument("-l", "--draw-lines", action="store_true", help='draw line boxes')
+    parser.add_argument("-w", "--draw-words", action="store_true", help='draw word boxes')    
     parser.add_argument("-a", "--draw-annots", action="store_true", help='draw original and robust annot boxes')    
     parser.add_argument("-e", "--draw-edits", action="store_true", help='draw edit selections')    
     
@@ -131,6 +158,12 @@ if __name__ == '__main__':
     
     bb_dir = Path('bbox_drawings')
 
+    if args.draw_lines:
+        drawLines(filename, bb_dir)
+
+    if args.draw_words:
+        drawWords(filename, bb_dir)
+
     if args.draw_annots:
         drawAnnots(filename, bb_dir)
 
@@ -138,14 +171,12 @@ if __name__ == '__main__':
         annots = getRobustAnnots(doc) # from extract.py    
         drawRobustAnnots(filename, annots, bb_dir)
 
-    if args.draw_lines:
-        drawLines(filename, bb_dir)
 
     logging.info(f'Running getEdits({filename})...')
     edits = getEdits(filename)
     logging.info("Done.")
-
-    if args.draw_edits:
+        
+    if args.draw_edits:    
         drawEdits(filename, bb_dir, edits)
 
     json_edits_dir = Path('extracted_edit_txts')
@@ -154,6 +185,7 @@ if __name__ == '__main__':
     json_edits_filename = f'{Path(json_edits_dir) / Path(filename).stem}_edits.txt'
     logging.info(f"Writing list of json edits to {json_edits_filename}")
     edits_str = ''
+        
     for i, edit in enumerate(edits):
         edits_str += f'{i} {edit}\n\n'
     with open(json_edits_filename, 'w') as f:

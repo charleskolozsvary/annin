@@ -4,6 +4,7 @@ import argparse
 import logging
 import sys
 from copy import deepcopy
+from types import SimpleNamespace
 
 import re
 
@@ -16,8 +17,9 @@ SELECT_TEXT_ANNOTS = {"Replace", "StrikeOut", "Highlight", "Underline"}
 # When extracting selection text I alter the bounding boxes slightly to avoid repeating or missing symbols.
 # The value of two points was chosen heuristically; it works well enough for the time being on the PDFs I've tested.
 # It is possible that this approach will fail on very small or large text and will need to updated in the future.
-CARET_BUFF = 2 # in pymupdf points
-EXTRACT_TEXT_BUFFER_WIDTH = 2 # also in pymupdf points
+
+### CARET_BUFF = 2 # in pymupdf points
+### EXTRACT_TEXT_BUFFER_WIDTH = 2 # also in pymupdf points
 
 # set surrounding lines to at most the line above and below
 # if set to two, include two lines above and two lines below
@@ -28,18 +30,18 @@ NORMALIZATION_HEIGHT_PROPORTION = 1/3 # bottom and top thirds
 
 class Annot:
     """Revised version of pymupdf's Annot which fixes the bounding box of the Caret annotation and isn't fragile. See getRobustAnnots()"""
-    def __init__ (self, _pageno, _type, _info, _xref, _irt_xref, _rect, _line_bb, _surr_lines):
+    def __init__ (self, _pageno, _type, _info, _xref, _irt_xref, _rect): #, _line_bb, _surr_lines):
         self.pageno = _pageno        
         self.type = _type
         self.info = _info                
         self.xref = _xref
         self.irt_xref = _irt_xref
         self.rect = _rect
-        self.line_bb = _line_bb
-        self.surr_lines = _surr_lines
+        # self.line_bb = _line_bb
+        # self.surr_lines = _surr_lines
         
     def __str__ (self):
-        return str({'pageno':self.pageno, 'type':self.type, 'info':self.info})
+        return str({'pageno':self.pageno, 'type':self.type, 'info':self.info['content'], 'rect':self.rect})
     
     def __repr__ (self):
         return str(
@@ -49,8 +51,8 @@ class Annot:
              'xref':self.xref,
              'irt_xref':self.irt_xref,
              'rect':self.rect,
-             'line_bb':self.line_bb,
-             'surr_lines':self.surr_lines
+             # 'line_bb':self.line_bb,
+             # 'surr_lines':self.surr_lines
              }
         )
     
@@ -84,13 +86,13 @@ class Edit:
     }
 
     """
-    def __init__ (self, _pageno, _type, _message, _selection, _selection_bbs, _selection_line_rect):
+    def __init__ (self, _pageno, _type, _message, _selection, _selection_bbs, _annot_rect):
         self.pageno = _pageno 
         self.type = _type
         self.message = _message
         self.selection = _selection
         self.selection_bbs = _selection_bbs # will not be sent to the model
-        self.selection_line_rect = _selection_line_rect # will also not be sent to the model, but is used in segmentsource routines
+        self.annot_rect = _annot_rect # will also not be sent to the model, but is used in segmentsource routines
         
     def __str__ (self): # json is getting scrapped for markdown, but this is still fine for debugging
         return json.dumps({
@@ -106,140 +108,6 @@ class Edit:
     def __repr__ (self):
         return str(self)
 
-def normalizeLineRectYs(line_bb, line_bbs):
-    """Every now and then I  see the top of one line extend into the line above it,
-    which is what this definition addresses, but I have never seen the bottom of a line
-    extend into the line below it, though I also handle this here just in case.
-    
-    Rect corrdinates = (x0, y0, x1, y1)"""
-    line_rect = pymupdf.Rect(line_bb)
-    intersecting_lines = list(filter(lambda l: line_rect.intersects(l), line_bbs))
-    num_isec_lines = len(intersecting_lines)
-    if line_rect not in intersecting_lines:
-        logging.error(f"""line_rect {line_rect} is not in intersecting_lines, {intersecting_lines}.
-        It should always intersect itself. Exiting...""")
-        sys.exit(1)
-    if num_isec_lines == 1:
-        return line_rect # nothing to normalize
-
-    if num_isec_lines > 3:
-        logging.debug(f"""line {line_bb} intersected {len(intersecting_lines)} other lines,
-        {intersecting_lines}, which is more than usual, but it shouldn't be a problem""")
-
-    # sorting the lines by y0 or y1 is an arbitrary decision, but our logic should give identical results in either case
-    # so that would be a good thing to test. 
-    lines_by_y1 = list(sorted(intersecting_lines, key = lambda bb: bb[3]))
-    idx = lines_by_y1.index(line_rect)
-
-    lines_before = lines_by_y1[:idx]
-    lines_after = lines_by_y1[idx+1:]    
-
-    # new line normalization >>>
-    # add a filter so that we only keep
-    # (1) lines before whose baselines (y1s) are *above* the bottom_thresh 
-    # (2) lines after  whose toplines  (y0s) are *below* the top_thresh
-
-    # of course, if line_bb itself is already quite compromised (say, it extends very far into the line
-    # above or below it) this doesn't work too well but I think it's the best I can do right now
-    thresh_height_proportion = line_rect.height * NORMALIZATION_HEIGHT_PROPORTION
-    bottom_thresh = line_rect.y1 - thresh_height_proportion
-    top_thresh = line_rect.y0 + thresh_height_proportion
-    
-    lines_before = list(filter(lambda bb: bb[3] < bottom_thresh, lines_before))
-    lines_after = list(filter(lambda bb: bb[1] > top_thresh, lines_after))
-    # <<<
-
-    # plus or minus fraction of a point to prevent intersection
-    buff = 0.25
-    
-    # set y0 to below lowest baseline of lines before
-    if lines_before == []:
-        normalized_y0 = line_rect.y0        
-    else:
-        normalized_y0 = max(lines_before, key = lambda bb: bb[3])[3] + buff
-        logging.debug(f"Lines before = {lines_before}")
-        logging.debug(f"normalized_y0 = {normalized_y0}")        
-
-    # set y1 of line to above highest topline of lines after            
-    if lines_after == []:
-        normalized_y1 = line_rect.y1        
-    else:
-        normalized_y1 = min(lines_after,  key = lambda bb: bb[1])[1] - buff
-        logging.debug(f"Lines after = {lines_after}")
-        logging.debug(f"normalized_y1 = {normalized_y1}")
-
-    return pymupdf.Rect(line_rect.x0, normalized_y0, line_rect.x1, normalized_y1)         
-
-def getAnnotAndSurrLineRects(annot_type, annot_info, annot_rect, page_lines):
-    """Return a corrected annotation bounding box (if its a caret)
-       And the (normalized) bounding boxes of the line the annotation appears on and the line(s) above and
-       below it (if present).
-    """
-    lines_that_intersect_annot = list(filter(lambda l: annot_rect.intersects(l), page_lines))
-    num_lines_isec_annot = len(lines_that_intersect_annot)
-    
-    if num_lines_isec_annot < 1:
-        # might turn this into a warning and just ignore the annotation, but this really shouldn't ever happen...
-        logging.error(f"""Annotation {annot_info} of type {annot_type} and with rectangle {annot_rect}
-        did not intersect any PDF line bounding boxes. Exiting...""")
-        sys.exit(1)
-
-    if num_lines_isec_annot > 1:
-        # this very much seems to only happen with caret annotation rectangles
-        logging.debug(f"Annot intersects more than one line bbox: {annot_info}")        
-
-    if num_lines_isec_annot > 2 and annot_type == PDF_ANNOT_CARET:
-        logging.warning(f"""A caret annotation, {annot_info}, intersected more than two lines.
-        This is somewhat unusual. There's probably a lot of tall inline math near the annotation""")
-
-    # bb (bounding box)/rectangle = (x0, y0, x1, y1)
-    # where x0,y0 is top left and x1, y1 is bottom right
-    
-    # PDF coordinate system is with (0,0) as the top left corner of the page,
-    # (page width, page height) as the bottom right corner
-
-    # by highest I mean highest up the page, closer to y = 0
-
-    # so in the case of a caret, we set its y1 to the value of the line it is inserted on.
-    # as far as I can tell, this is always the line the caret annotation rectangle intersects which
-    # has the highest baseline. Typically the caret only intersects at most two lines:
-    # the line it's on and the line below it.
-    # although in the what I believe to be impossible situation where the line above the line the caret is
-    # inserted extends so far down into the caret's line that the caret intersects the line above,
-    # this would fail. But again, I have never seen that happen and I have good reason to suspect that it won't
-
-    # we make our "chosen line", annot_line_bb, the one which has the highest y1 which is below some threshold based on the annotation's
-    # y info
-    threshold = annot_rect.y0 + (annot_rect.height)/4
-    lines_that_intersect_annot = list(filter(lambda bb: bb[3] > threshold, lines_that_intersect_annot))
-    
-    annot_line_bb = list(sorted(lines_that_intersect_annot, key = lambda bb: bb[3]))[0]
-
-    if annot_line_bb == []:
-        logging.warning(f"""None of the lines that intersected the annotation '{annot_info}'
-        had a baseline below the annotations vertical midpoint. Returning no surrounding lines,
-        just the original annotation rectangle""")
-        return annot_rect, None, None
-        
-    # fix caret rect
-    if annot_type == PDF_ANNOT_CARET:
-        raised_rect = pymupdf.Rect(annot_rect.top_left, annot_rect.bottom_right)
-        raised_rect.y1 = annot_line_bb[3]
-        annot_rect = raised_rect
-
-    lines_by_y0 = list(sorted(page_lines, key = lambda bb: bb[1]))
-    idx = lines_by_y0.index(annot_line_bb)
-
-    lines_before = lines_by_y0[:idx][-NUM_SURROUNDING_LINES:]
-    lines_after = lines_by_y0[idx+1:][:NUM_SURROUNDING_LINES]
-    
-    annot_line_bb = normalizeLineRectYs(annot_line_bb, page_lines)
-    lines_before = list(map(lambda l: normalizeLineRectYs(l, page_lines), lines_before))
-    lines_after = list(map(lambda l: normalizeLineRectYs(l, page_lines), lines_after))
-
-    return annot_rect, annot_line_bb, {'lines before': lines_before, 'lines_after': lines_after}
-    
-
 def getRobustAnnots(doc):
     """
     The bounding boxes of the original caret annotations often extend below the line they
@@ -250,24 +118,38 @@ def getRobustAnnots(doc):
     with using the provided methods to update the annotations, so I'll just store the
     annotations with my own class which isn't tied to the page and correctly stores the information.
     """
+    CARET_V_PROPORTION = 0.2
+    CARET_H_PROPORTION = 0.2
+    
     robust_annots = {pageno:[] for pageno in range(doc.page_count)}
     for pageno, page in enumerate(doc):
-        blocks = page.get_text('dict', sort=True)['blocks']
-        page_lines = [line['bbox'] for block in blocks for line in block['lines']]
         for annot in page.annots():
+            new_ann_rect = pymupdf.Rect(annot.rect.top_left, annot.rect.bottom_right)            
             if annot.type == PDF_ANNOT_TEXT:
-                robust_annots[pageno].append(Annot(pageno, annot.type, annot.info, annot.xref, annot.irt_xref, annot_rect, None, None))
+                robust_annots[pageno].append(Annot(pageno, annot.type, annot.info, annot.xref, annot.irt_xref, new_ann_rect))
                 continue
-            annot_rect, line_bb, surrounding_lines = getAnnotAndSurrLineRects(annot.type, annot.info, annot.rect, page_lines)
+            (x0, y0, x1, y1) = new_ann_rect
+            # hacky heuristic adjustment of annot rectangles
+            REDUCE_AMMOUNT = 2.5 # in points
+            if annot.type == PDF_ANNOT_CARET:
+                extension = CARET_V_PROPORTION * (y1 - y0)
+                new_ann_rect.y1 = y0 + extension
+                new_ann_rect.y0 = y0 - 0.75 * extension
+
+                reduction = CARET_H_PROPORTION * (x1 - x0)
+                new_ann_rect.x0 += reduction
+                new_ann_rect.x1 -= reduction
+            else:
+            #if annot.type[1] in SELECT_TEXT_ANNOTS:
+                new_ann_rect.y0 = y0 + REDUCE_AMMOUNT
+                # new_ann_rect.y1 = y1 - REDUCE_AMMOUNT
             robust_annots[pageno].append(
                 Annot(pageno,
                       annot.type,
                       annot.info,
                       annot.xref,
                       annot.irt_xref,
-                      annot_rect,
-                      line_bb,
-                      surrounding_lines)
+                      new_ann_rect)
             )
     return robust_annots
 
@@ -305,38 +187,219 @@ def getResponses(annot, all_responses):
     
     return resps_by_type
 
-def getSelection(ann, doc):
-    """return an annotation's selected text (and the bounding boxes for debugging purposes)"""
-    buff = EXTRACT_TEXT_BUFFER_WIDTH
-    selection_name = ann.type[1]
-    page = doc[ann.pageno]
-    # if there's no supplied line_bb for the annotation, just extend the annotation's rectangle across the width of the page
-    if ann.line_bb == None:
-        x0, y0, x1, y1 = 0, ann.rect.y0, page.rect.width, ann.rect.y1
-    else:
-        x0, y0, x1, y1 = ann.line_bb
+def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, int, int, int]], doc: pymupdf.Document):
+    """
+    return annotation's selected text, rectangle for latex source extraction,
+    and selection bounding boxes for debugging
 
-    # as of this moment, surrounding lines are not added/considered
-
-    ann_rect = pymupdf.Rect(x0, y0, x1, y1)
+    page_words is list of (x0, y0, x1, y1, "word", block_no, line_no, word_no) tuples
+    """
+    page = doc[annot.pageno]
     
-    if selection_name == PDF_ANNOT_CARET[1]:
-        insertion_point_x = ann.rect.x0 + ann.rect.width/2
-        left_rect = pymupdf.Rect(x0, y0, insertion_point_x-CARET_BUFF, y1)
-        right_rect = pymupdf.Rect(insertion_point_x+CARET_BUFF, y0, x1, y1)
-        return '{left}<Caret></Caret>{right}'.format(left = page.get_textbox(left_rect),
-                                                     right = page.get_textbox(right_rect)), (left_rect, right_rect), ann_rect
+    intersecting_words = []
+    
+    INTERSECTION_PROP_THRESH = 0.02 # 2 percent
+    
+    for word in page_words:
+        word_rect = pymupdf.Rect(word[0:4])
+        word_intersects = annot.rect.intersects(word_rect)
 
-    elif selection_name in SELECT_TEXT_ANNOTS:
-        left_rect = pymupdf.Rect(x0, y0, ann.rect.x0-buff, y1)
-        middle_rect = pymupdf.Rect(ann.rect.x0+buff/2, y0, ann.rect.x1-buff/2, y1)
-        right_rect = pymupdf.Rect(ann.rect.x1+buff, y0, x1, y1)
-        return '{left}<{name}>{middle}</{name}>{right}'.format(left = page.get_textbox(left_rect),
-                                                               middle = page.get_textbox(middle_rect),
-                                                               right = page.get_textbox(right_rect),
-                                                               name = selection_name), (left_rect, middle_rect, right_rect), ann_rect
-    else:
-        return None
+        if not word_intersects:
+            continue
+
+        ### ignore intersection proportion for now
+        
+        # word_area = word_rect.get_area()
+        # word_rect.intersect(annot.rect) # modifies word_rect to become the largest intersecting rectangle
+        # intersection_area = word_rect.get_area()
+
+        # by their nature, caret and strikeout annotations will have small overlapping intersections
+        # if annot.type == PDF_ANNOT_CARET or annot.type == PDF_ANNOT_STRIKE_OUT or (intersection_area / word_area) > INTERSECTION_PROP_THRESH:
+        #     intersecting_words.append(word)
+        # else:
+        #     logging.debug(f"Area calc for {annot.type[1]} on page {annot.pageno}: and word '{word[4]}': {intersection_area} vs. {word_area}: {intersection_area / word_area}")            
+
+        intersecting_words.append(word)
+    
+    if not intersecting_words:
+        logging.warning(
+            f"No selection text for {annot}: "
+            "ann rectangle did not intersect ANY PDF word boxes"
+        )
+        return None, None, None
+
+    CARET_X_BUFF = 1 # one point
+    OTHER_ANN_X_BUFF = .75 # one point
+
+    # if annot.type == PDF_ANNOT_CARET and len(intersecting_words) > 1:
+    #     logging.warning(
+    #         f"No selection text for {annot}: "
+    #         "Caret ann rectangle intersects multiple PDF word boxes"
+    #     )
+    #     return None, None, None
+        
+    NUM_CONTEXT_WORDS = 1 # words to add before and after which are not selected
+    first_sel_word = intersecting_words[0]
+    last_sel_word = intersecting_words[-1]
+
+    logging.debug(
+        f"annot page {annot.pageno} with content '{annot.info['content']}':\n"
+        f"intersecting_words: {intersecting_words}"
+    )
+
+    logging.debug(
+        f"annot page {annot.pageno} with content '{annot.info['content']}':\n"
+        f"first_sel_word: {first_sel_word}\nlast_sel_word: {last_sel_word}"
+    )
+
+    intersecting_words = {word : '' for word in intersecting_words} # make dict for fast lookup later
+
+    start_word_idx = max(0, page_words.index(first_sel_word) - NUM_CONTEXT_WORDS)
+    end_word_idx = min(len(page_words)-1, page_words.index(last_sel_word) + NUM_CONTEXT_WORDS)
+
+    logging.debug(
+        f"annot page {annot.pageno} with content '{annot.info['content']}':\n"
+        f"start_word: {page_words[start_word_idx]}\nend_word: {page_words[end_word_idx]}"
+    )    
+
+    selection_name = annot.type[1]
+
+    selection_bbs = []
+
+    DIFF_THRESH = 1 # one point
+
+    def wordGetTextToStr(word_selection):
+        return ' '.join([word[4] for word in word_selection])
+
+    def insideAnnotRect(word_box):
+        """ only call on words which intersect annot """
+        left_diff = abs(annot.rect.x0 - word_box.x0)
+        right_diff = abs(annot.rect.x1 - word_box.x1)
+        
+        return annot.rect.x0 < word_box.x0 and left_diff > DIFF_THRESH and word_box.x1 < annot.rect.x1 and right_diff > DIFF_THRESH
+
+    def getCaretSelection(word_box):
+        """word_box intersects the annot rectangle, but it is not "inside" it according to insideAnnotRect"""        
+        x0 = annot.rect.x0 if annot.rect.x0 <= word_box.x0 else word_box.x0
+        insertion_x = annot.rect.x0 + annot.rect.width / 2
+        x1 = annot.rect.x1 if word_box.x1 <= annot.rect.x1 else word_box.x1
+
+        y0, y1 = annot.rect.y0, annot.rect.y1
+        left_rect = pymupdf.Rect(x0, y0, insertion_x - CARET_X_BUFF, y1)
+        right_rect = pymupdf.Rect(insertion_x + CARET_X_BUFF, y0, x1, y1,)
+
+        selection_bbs.append([left_rect, right_rect])
+
+        left = wordGetTextToStr(page.get_text('words', clip=left_rect, sort=True))
+        right = wordGetTextToStr(page.get_text('words', clip=right_rect, sort=True))
+        return f"{left}<Caret></Caret>{right}"
+
+    def getOtherSelection(word_box):
+        """
+        word_box intersects the annot rectangle, but it is not
+        "inside" it according to insideAnnotRect---it is on the annotation "boundary"
+        """
+        word_boxes_that_intersect_this_word_box = [wb for wb in page_words if word_box.intersects(wb[0:4])]
+        
+        # if len(word_boxes_that_intersect_this_word_box) > 1:
+        #     logging.warning(
+        #         f"No selection text for {annot}: "
+        #         "Word box intersects another word box"
+        #     )
+        #     return None
+        
+        # elif len(word_boxes_that_intersect_this_word_box) == 0:
+        #     logging.warning(
+        #         f"No selection text for {annot}: "
+        #         "Word box does not intersect itself"
+        #     )
+        #     return None
+        
+        tag_insertion_xs = {'start': None, 'end': None}
+        a_rect = annot.rect
+
+        x0_diff = abs(a_rect.x0 - word_box.x0)
+        x1_diff = abs(a_rect.x1 - word_box.x1)
+
+        if (word_box.x0 <= a_rect.x0 or x0_diff < DIFF_THRESH)  and a_rect.x0 < word_box.x1:
+            tag_insertion_xs['start'] = a_rect.x0
+        if word_box.x0 < a_rect.x1 and (a_rect.x1 <= word_box.x1 or x1_diff < DIFF_THRESH):
+            tag_insertion_xs['end'] = a_rect.x1
+
+        y0, y1 = a_rect.y0, a_rect.y1
+        
+        if tag_insertion_xs['start'] is not None and tag_insertion_xs['end'] is None:
+            left_rect  = pymupdf.Rect(word_box.x0, y0, tag_insertion_xs['start'] - OTHER_ANN_X_BUFF, y1)
+            right_rect = pymupdf.Rect(tag_insertion_xs['start'] + OTHER_ANN_X_BUFF, y0, word_box.x1, y1)
+
+            selection_bbs.append([left_rect, right_rect])
+
+            left = wordGetTextToStr(page.get_text('words', clip=left_rect, sort=True)) if left_rect.is_valid else ''    
+            right= wordGetTextToStr(page.get_text('words', clip=right_rect, sort=True))
+            return f"{left}<{selection_name}>{right}"
+            
+        elif tag_insertion_xs['end'] is not None and tag_insertion_xs['start'] is None:
+            left_rect  = pymupdf.Rect(word_box.x0, y0, tag_insertion_xs['end'] - OTHER_ANN_X_BUFF, y1)
+            right_rect = pymupdf.Rect(tag_insertion_xs['end'] + OTHER_ANN_X_BUFF, y0, word_box.x1, y1)
+
+            selection_bbs.append([left_rect, right_rect])
+            
+            left = wordGetTextToStr(page.get_text('words', clip=left_rect, sort=True))
+            right= wordGetTextToStr(page.get_text('words', clip=right_rect, sort=True)) if right_rect.is_valid else ''
+                
+            return f"{left}</{selection_name}>{right}"
+            
+        elif tag_insertion_xs['start'] is not None and tag_insertion_xs['end'] is not None:
+            left_rect = pymupdf.Rect(word_box.x0, y0, tag_insertion_xs['start'] - OTHER_ANN_X_BUFF, y1)
+            middle_rect = pymupdf.Rect(tag_insertion_xs['start']+OTHER_ANN_X_BUFF, y0, tag_insertion_xs['end']-OTHER_ANN_X_BUFF, y1)
+            right_rect = pymupdf.Rect(tag_insertion_xs['end'] + OTHER_ANN_X_BUFF, y0, word_box.x1, y1)
+
+            selection_bbs.append([left_rect, middle_rect, right_rect])
+
+            left = wordGetTextToStr(page.get_text('words', clip=left_rect, sort=True)) if left_rect.is_valid else ''
+            middle = wordGetTextToStr(page.get_text('words', clip=middle_rect, sort=True))
+            right = wordGetTextToStr(page.get_text('words', clip=right_rect, sort=True)) if right_rect.is_valid else ''
+
+            return f"{left}<{selection_name}>{middle}</{selection_name}>{right}"
+
+        else:
+            logging.warning(
+                f"Could not produce selection text for annot {annot}: "
+                "There was neither a start or end boundary of the annotation on the word box"
+            )
+            return None
+            
+    selected_text = []
+    caret_inserted = False
+    for idx in range(start_word_idx, end_word_idx + 1):
+        word = page_words[idx]
+        word_box = pymupdf.Rect(word[0:4])
+        word_str = word[4]
+        if word not in intersecting_words:
+            # logging.debug(f"word '{word_str}' in {annot} doesn't intersect annot Rect")
+            word_block_no = word[5]
+            if word_block_no == first_sel_word[5]:
+                selected_text.append(word_str)
+            continue
+
+        if insideAnnotRect(word_box):
+            # logging.debug(f"word '{word_str}' with box '{word_box}' in {annot} inside annot Rect")
+            selected_text.append(word_str)
+            continue
+        
+        if annot.type == PDF_ANNOT_CARET:
+            if caret_inserted:
+                continue
+            selected_text.append(getCaretSelection(word_box))
+            caret_inserted = True
+        else:
+            res = getOtherSelection(word_box)
+            if res is None:
+                return None, None, None
+            selected_text.append(res)
+    # logging.debug(f"selected_text for {annot} is {selected_text}")
+    return ' '.join(selected_text), selection_bbs, annot.rect
+    
 
 def isNotForCOMP(message: dict[str, str | list[str]]) -> bool:
     head_comment = message['comment']
@@ -395,7 +458,11 @@ def getEdits(filename):
                     return False, None
                 other_ann = ann_resps[other_ann_type][0]
 
-                return ann.rect.intersects(other_ann.rect) and other_ann.info['content'] == '', other_ann
+                if not (ann.rect.intersects(other_ann.rect) and other_ann.info['content'] == ''):
+                    return False, None
+
+                return True, other_ann
+                # return ann.rect.intersects(other_ann.rect) and other_ann.info['content'] == '', other_ann
                 
             is_replace, other_ann = isReplaceAnnot(annot, responses)
             
@@ -404,14 +471,18 @@ def getEdits(filename):
                     annot.rect = other_ann.rect
                 annot.type = (None, 'Replace')
 
-            res = getSelection(annot, doc)
-            if res is None:
-                # I don't think I've seen this happen before in testing
-                logging.warning("getSelection() returned None; skipping---did not produce an edit for this annotation")
+            page_words = page.get_text('words', sort=True)
+            
+            # the sort option doesn't actually sort in lexicographic order, it seems... maybe it secretely does it by rectangle positions.
+            page_words = list(sorted(page_words, key = lambda w: (w[5], w[6], w[7])))
+            
+            selection_text, selection_bbs, latex_extraction_bb = getSelection(annot, page_words, doc)
+            
+            if selection_text is None:
                 continue
             
-            selection_text, selection_bbs, selection_line_rect = getSelection(annot, doc)
-            edits.append(Edit(annot.pageno, annot.type[1], message, selection_text, selection_bbs, selection_line_rect))
+            edits.append(Edit(annot.pageno, annot.type[1], message, selection_text, selection_bbs, latex_extraction_bb))
+            
         logging.info(f"Extracted annotations on page {pageno:3d}/{doc.page_count-1:3d}")
         
     logging.info(f"Created {len(edits)} edits from {target_num_edits} PDF annotations")

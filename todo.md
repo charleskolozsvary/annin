@@ -1,29 +1,36 @@
-In roughly decreasing priority:
+# update rectangleToLatex
+Use the new nested marking system in `prompt.py`
 
-# Identify overlapping corrections
-Do this with the output of getCorrections in `prompt.py`
+If only document boxes are intersected, nothing new needs to be done: Look up the box before the earliest intersection and the box after the latest intersection.
 
-For now we'll just flag these and set them aside
+If all the boxes intersected are nested the same, nothing new really needs to be done: use the box before the earliest intersection and the box after the latest intersection at the furthest level of nesting.
 
-# Send prompts to LLM and retreive repsponses
-I need to extract the desired information from the responses.
-* check that there's only one markdown codeblock
-* try to check leading or trailing whitespace
+If the intersecting boxes are at different levels of nesting I can't extract the latex. Or at least I don't see why it would be useful. Most likely the rectangle is not reasonable.
 
-Overwrite original snippets with edited ones.
+Different levels would also mean that the head values are different so 'DOCUMENT0;0,FOOTNOTE0;0' and 'DOCUMENT0;0,FOOTNOTE1;0' are different
 
-I can make a no-change response which just returns something like
-```
-```latex
-<original snippet>
-```
-This is a dummy response.
-```
+If I don't intersect anything, I just look at the earliest document box before the rectangle and the next document box after the rectangle.
 
-For testing the response extraction
+So really the only important thing for me to figure out is if a list of intersecting boxes are really "together"
 
-In the case of corrections which overlap, find the start:end span which contains all the overlapping snippets and change each snippet to the entire start:end span and then make sure to put the overlapping edits in sequence, replacing the subsequent one's snippet with the just edited snippet.
+The requirement is that they all are nested the same and the deepest counter has the same head. So all of the parent counters are equal and the deepest counter
+head is the same. And then we positioning given by the stem_count of the deepest counter.
 
-# Flag AU: and PE: directed corrections
-Do this at the getCorrections level
+# review gemini 3 flash output on arxiv13_ann.pdf
+With the improved source marking, I don't need to worry about edits to footnotes, captions, etc.
+
+However, there is still maybe one last step in connecting the complete metadata commands and float environments to the associated markboxes and marked captions
+That would be an enhancement if solely markboxes works well enough. As of right now, I'm not doing anything with the dedicated metadata and environment extraction (which is different from the newly added marking of footnotes, captions, and metadata commands).
+
+# make changes to source based on LLM changes
+This is the last step before we get a completely closed loop program. Exciting!
+
+# main next enhancements
+- label standardization
+- determining if no rectangle intersects/specified whether to give snippet of preamble to insert a missing metadata like `\datereceived`, `\subjclass`, etc.
+- screening multi-line annotations (maybe can be done without opencv)
+- correctly extracting multi-line annotations with opencv
+- extracting line and polygon annotations (may or may not require opencv)
+
+
 
