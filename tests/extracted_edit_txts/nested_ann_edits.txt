@@ -1,0 +1,560 @@
+0 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "lowercase",
+        "responses": []
+    },
+    "PDF text selection": "T<Highlight>HE TITLE OR WHATEVER</Highlight>"
+}
+
+1 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "vLoDiMar ZelOnsKY",
+        "responses": []
+    },
+    "PDF text selection": "of <Replace>Vladimir Zelovsky</Replace>"
+}
+
+2 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "JarJar Binks",
+        "responses": []
+    },
+    "PDF text selection": "by <Replace>Arlene Belfans)</Replace>"
+}
+
+3 {
+    "pageno": 0,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "Abstract. <StrikeOut>[does this take an optional argument?]</StrikeOut> This"
+}
+
+4 {
+    "pageno": 0,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "straight <StrikeOut>2</StrikeOut> that"
+}
+
+5 {
+    "pageno": 0,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "compile erorr<StrikeOut>,</StrikeOut> but"
+}
+
+6 {
+    "pageno": 0,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "will <StrikeOut>. . .</StrikeOut> dissappear."
+}
+
+7 {
+    "pageno": 0,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": ". dissappear<StrikeOut>. . .</StrikeOut> ."
+}
+
+8 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "make upright",
+        "responses": []
+    },
+    "PDF text selection": "a <Highlight>yeah</Highlight>... this"
+}
+
+9 {
+    "pageno": 0,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "good, right?<StrikeOut>.</StrikeOut> I"
+}
+
+10 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "Set beneath section",
+        "responses": []
+    },
+    "PDF text selection": "section title<Highlight>1</Highlight>"
+}
+
+11 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": ";",
+        "responses": []
+    },
+    "PDF text selection": "Primary 1586<Replace>:</Replace> Secondary"
+}
+
+12 {
+    "pageno": 0,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "phrases. <StrikeOut>Something, else, that, we, need.</StrikeOut> So"
+}
+
+13 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "set as acknowledgments section at the end as per journal style",
+        "responses": []
+    },
+    "PDF text selection": "author. The first author gratefully acknolwedgaes the fruitful conversations they had with Jocaib nerous y.</Highlight> <Highlight>The Gewald. The accomod The second author would like to thank the University of California Irvine for it’s h Jocaib generous ely.</Highlight> <Highlight>The first au Gewald. The second accomodations for research and spaces for exchanging ideas and collaborating productively. 1section"
+}
+
+14 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "set as one para",
+        "responses": []
+    },
+    "PDF text selection": "need. <Highlight>So L. this is where we say thanks to grant No. 325349M.</Highlight> <Highlight>So L. E. is the corresopnding author. The"
+}
+
+15 {
+    "pageno": 0,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "wrong. <StrikeOut>(</StrikeOut>If you"
+}
+
+16 {
+    "pageno": 0,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "a \\footnotetext.<StrikeOut>)</StrikeOut> 3Let’s"
+}
+
+17 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "Check why spacey",
+        "responses": []
+    },
+    "PDF text selection": "you’re wr<Highlight>ong. (</Highlight>If you"
+}
+
+18 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "set as one footnote",
+        "responses": []
+    },
+    "PDF text selection": ". <Highlight>4This 5Here is a footnote that is very closely followed by another footnote.</Highlight> <Highlight>4This is 5Here’s the other footnote, just as described. . ."
+}
+
+19 {
+    "pageno": 0,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "figure. <StrikeOut>This can’t have a footnote in</StrikeOut> it,"
+}
+
+20 {
+    "pageno": 0,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "in <StrikeOut>it, I believe</StrikeOut>2"
+}
+
+21 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "2026",
+        "responses": []
+    },
+    "PDF text selection": "©<Replace>XXXX</Replace> American"
+}
+
+22 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "by Austin Coolege",
+        "responses": []
+    },
+    "PDF text selection": "©XXXX <Replace>American Mathematical Society</Replace>"
+}
+
+23 {
+    "pageno": 1,
+    "type": "Highlight",
+    "message": {
+        "comment": "The name et al.",
+        "responses": []
+    },
+    "PDF text selection": "2 <Highlight>THE NAME THAT WILL BE REPEATED OVER AND OVER. . . . AND NAME TWO</Highlight>"
+}
+
+24 {
+    "pageno": 1,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "Wait <StrikeOut>so a wow.</StrikeOut> Well"
+}
+
+25 {
+    "pageno": 1,
+    "type": "Replace",
+    "message": {
+        "comment": "will not",
+        "responses": []
+    },
+    "PDF text selection": "a<Replace>won’t</Replace> work"
+}
+
+26 {
+    "pageno": 1,
+    "type": "Replace",
+    "message": {
+        "comment": "footnotes",
+        "responses": []
+    },
+    "PDF text selection": "supports <Replace>footntoes</Replace> in"
+}
+
+27 {
+    "pageno": 1,
+    "type": "Highlight",
+    "message": {
+        "comment": "insert comma at end of equation",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>X2 = Y x × iy − ΘΩ ωˆi ¯ i + iz</Highlight> = ηℵ ℶ X"
+}
+
+28 {
+    "pageno": 1,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "cleanser, maybe6<StrikeOut>.</StrikeOut>"
+}
+
+29 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ".",
+        "responses": []
+    },
+    "PDF text selection": "cleanser, maybe<Caret></Caret>6"
+}
+
+30 {
+    "pageno": 1,
+    "type": "Highlight",
+    "message": {
+        "comment": "insert comma at end of equation",
+        "responses": []
+    },
+    "PDF text selection": "Ω <Highlight>Ω Y e∈E <Highlight>Ω Y e∈E x2 −</Highlight>φ3"
+}
+
+31 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "(1) first<Caret></Caret> (2)"
+}
+
+32 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ".",
+        "responses": []
+    },
+    "PDF text selection": "(2) second<Caret></Caret> Yeah."
+}
+
+33 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "• bullet<Caret></Caret> •"
+}
+
+34 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "• list<Caret></Caret> •"
+}
+
+35 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "• of<Caret></Caret> •"
+}
+
+36 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ".",
+        "responses": []
+    },
+    "PDF text selection": "• stuf<Caret></Caret> But"
+}
+
+37 {
+    "pageno": 1,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "seems. <StrikeOut>\\controlsequence</StrikeOut>"
+}
+
+38 {
+    "pageno": 2,
+    "type": "Highlight",
+    "message": {
+        "comment": "uppercase every first letter",
+        "responses": []
+    },
+    "PDF text selection": "the <Highlight>cohomology ring</Highlight> of"
+}
+
+39 {
+    "pageno": 2,
+    "type": "Highlight",
+    "message": {
+        "comment": "F",
+        "responses": []
+    },
+    "PDF text selection": "of <Highlight>f</Highlight>nite Grassmann"
+}
+
+40 {
+    "pageno": 2,
+    "type": "Highlight",
+    "message": {
+        "comment": "M",
+        "responses": []
+    },
+    "PDF text selection": "Grassmann <Highlight>m</Highlight>anifolds, Thesis"
+}
+
+41 {
+    "pageno": 2,
+    "type": "Caret",
+    "message": {
+        "comment": "insert space",
+        "responses": []
+    },
+    "PDF text selection": "[1] A.<Caret></Caret>I. Aptekarev,"
+}
+
+42 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": "Sullivan",
+        "responses": []
+    },
+    "PDF text selection": "[BH] <Replace>S.</Replace> Brewster"
+}
+
+43 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": "Winston",
+        "responses": []
+    },
+    "PDF text selection": "and <Replace>W.</Replace> Homer,"
+}
+
+44 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": "G. A.",
+        "responses": []
+    },
+    "PDF text selection": "[2] <Replace>G.A.</Replace> Baker"
+}
+
+45 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": "59",
+        "responses": []
+    },
+    "PDF text selection": "Applications, <Replace>vol. 59</Replace>, Cambridge"
+}
+
+46 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": "Th.",
+        "responses": []
+    },
+    "PDF text selection": "Approx. <Replace>Theory</Replace> 132"
+}
+
+47 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": "vol. 132",
+        "responses": []
+    },
+    "PDF text selection": "Theory <Replace>132</Replace> (2005),"
+}
+
+48 {
+    "pageno": 2,
+    "type": "Highlight",
+    "message": {
+        "comment": "S",
+        "responses": []
+    },
+    "PDF text selection": "Laurent <Highlight>s</Highlight>eries and"
+}
+
+49 {
+    "pageno": 2,
+    "type": "Highlight",
+    "message": {
+        "comment": "A",
+        "responses": []
+    },
+    "PDF text selection": "Pad´e <Highlight>a</Highlight>pproximations, Operator"
+}
+
+50 {
+    "pageno": 2,
+    "type": "Highlight",
+    "message": {
+        "comment": "T",
+        "responses": []
+    },
+    "PDF text selection": "and <Highlight>t</Highlight>heir Pad´e"
+}
+
+51 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": "27 <bold>",
+        "responses": []
+    },
+    "PDF text selection": "Applications, <Replace>vol. 27</Replace>, Birkh¨auser"
+}
+
+52 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": "R",
+        "responses": []
+    },
+    "PDF text selection": "Homology <Replace>r</Replace>igidity of"
+}
+
+53 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": "Op. Th.",
+        "responses": []
+    },
+    "PDF text selection": "approximations, <Replace>Operator Theory</Replace>: Advances"
+}
+
+54 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": "Adv.",
+        "responses": []
+    },
+    "PDF text selection": "Theory: <Replace>Advances</Replace> and"
+}
+
+55 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": "App.",
+        "responses": []
+    },
+    "PDF text selection": "and <Replace>Applications</Replace>, vol."
+}
+

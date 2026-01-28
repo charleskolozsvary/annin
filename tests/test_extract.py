@@ -43,7 +43,7 @@ def drawRobustAnnots(filename, robust_annots, output_dir, unique_ending = 'robus
     logging.info(f"Done. Results saved to {save_filename}")    
 
 def drawWords(filename, output_dir, unique_ending = 'pymupdf_words'):
-    logging.info(f"Drawing word boxes in {filename}.")
+    logging.info(f"Drawing word boxes in {filename}...")
     doc = pymupdf.open(filename)
     save_filename = shipPdfFilename(filename, output_dir, unique_ending)
     for page in doc:

@@ -325,7 +325,10 @@ def markNodes(
         job_id: str
 ) -> tuple[str, dict[str, dict[str, int]]]:
     """Recursively mark the passsed start_node. Return the marked string and the mark counters"""
-    counters = {} 
+    counters = {}
+
+    # macro names where are acceptable to match the beggining of the string when marking a chars node after it
+    OTHER_PREV_MACRO_NODE_EXCEPTIONS = {' ', 'item'} # control space or item
     
     def markStr(string: str, parent_counter_keys: list[str]) -> str:
         """
@@ -488,6 +491,8 @@ def markNodes(
             pattern = chars_node_match_regex
             if prev_node is not None and (prev_node.isNodeType(LatexMacroNode) or prev_node.isNodeType(LatexGroupNode) or prev_node.isNodeType(LatexCommentNode)):
                 if parent_is_distinctly_marked_macro:
+                    pass
+                elif prev_node.isNodeType(LatexMacroNode) and prev_node.macroname in OTHER_PREV_MACRO_NODE_EXCEPTIONS: 
                     pass
                 else:
                     left = r"[\n\t $(~]"
@@ -702,10 +707,10 @@ def unMarkWithPositions(marked_string: str, job_id: str, markids_to_delete: set[
     while idx < len(marked_string):
         if marked_string[idx:idx+MARKBOX_LEN] == MARKBOX:
             idx += len(MARKBOX)
-            # Read first arg (mark_id)
+          
             mark_id, chars_read = readBalancedBraces(idx, marked_string)
             idx += chars_read + 1  # +1 for opening brace of second arg
-            # Read second arg (content)
+          
             content, chars_read = readBalancedBraces(idx, marked_string)
             
             # Track position in unmarked string
@@ -715,7 +720,6 @@ def unMarkWithPositions(marked_string: str, job_id: str, markids_to_delete: set[
             if mark_id not in markids_to_delete:
                 mark_positions[mark_id] = (start_pos, end_pos)
             
-            # Add content to unmarked string
             unmarked_parts.append(content)
             current_pos += len(content)
             idx += chars_read
@@ -794,7 +798,6 @@ def validateMarkPositions(mark_positions: dict[str, tuple[int, int]], document_w
     # Sort by start position
     sorted_marks = sorted(mark_positions.items(), key=lambda x: x[1][0])
 
-    # check that all mark_ids have head 0
     for mark_id in mark_positions:
         count_info = markIdToCountInfo(mark_id)
         if count_info[0]['name'] == 'document' and count_info[0]['head'] != 0:
@@ -805,7 +808,6 @@ def validateMarkPositions(mark_positions: dict[str, tuple[int, int]], document_w
         id_i, (start_i, end_i) = sorted_marks[i]
         id_j, (start_j, end_j) = sorted_marks[i + 1]
         
-        # Validity check for current mark
         if start_i >= end_i:
             raise ValueError(
                 f"Invalid mark position for '{id_i}': "
@@ -820,7 +822,6 @@ def validateMarkPositions(mark_positions: dict[str, tuple[int, int]], document_w
                 f"mark '{id_j}' at [{start_j}, {end_j})"
             )
     
-    # Check last mark validity
     if sorted_marks:
         id_last, (start_last, end_last) = sorted_marks[-1]
         if start_last >= end_last:

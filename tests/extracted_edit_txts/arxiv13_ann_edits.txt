@@ -5,7 +5,7 @@
         "comment": "lowercase",
         "responses": []
     },
-    "PDF text selection": "R<Highlight>ATIONAL COHOMOLOGY ENDOMORPHISMS OF PRODUCT</Highlight>"
+    "PDF text selection": "R<Highlight>ATIONAL OF SPHE COHOMOLOGY ENDOMORPHISMS OF PRODUCT CIDENCE</Highlight> OF SPHERE WITH GRASSMANNIAN AND COINCIDENCE THEORY"
 }
 
 1 {
@@ -15,7 +15,7 @@
         "comment": "lowercase",
         "responses": []
     },
-    "PDF text selection": "OF SPHERE WITH G<Highlight>RASSMANNIAN AND COINCIDENCE</Highlight>"
+    "PDF text selection": "WITH G<Highlight>RASSMANNIAN THEORY AND COINCIDENCE</Highlight> THEORY"
 }
 
 2 {
@@ -25,60 +25,40 @@
         "comment": "classes",
         "responses": []
     },
-    "PDF text selection": "nal homotopy <Replace>class</Replace> of self-maps are completely determined by the induced graded"
+    "PDF text selection": "homotopy <Replace>class</Replace> of"
 }
 
 3 {
-    "pageno": 0,
-    "type": "Replace",
-    "message": {
-        "comment": "AU: \"a/the complex Grassmannian\" or \"complex Grassmannians\"?",
-        "responses": []
-    },
-    "PDF text selection": "phisms of the rational cohomology algebra of <Replace>complex Grassmannian</Replace>. Their results"
-}
-
-4 {
-    "pageno": 0,
-    "type": "Replace",
-    "message": {
-        "comment": "AU: again, should \"Grassmannian\" be plural---\"Grassmannians\"? The \"which\" would suggest that.",
-        "responses": []
-    },
-    "PDF text selection": "the rational cohomology algebra of <Replace>complex Grassmannian</Replace> which are nonzero on"
-}
-
-5 {
     "pageno": 0,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "spaces<Caret></Caret> G/H, where G is a compact connected Lie group and H is a closed subgroup"
+    "PDF text selection": "homogeneous spaces<Caret></Caret> G/H,"
 }
 
-6 {
+4 {
     "pageno": 0,
     "type": "Replace",
     "message": {
         "comment": "for the",
         "responses": []
     },
-    "PDF text selection": "of maximal rank. This is a topic of interest <Replace>since</Replace> past fifty years and are studied"
+    "PDF text selection": "interest <Replace>since</Replace> past"
 }
 
-7 {
+5 {
     "pageno": 0,
     "type": "Replace",
     "message": {
         "comment": "is",
         "responses": []
     },
-    "PDF text selection": "of maximal rank. This is a topic of interest since past fifty years and <Replace>are</Replace> studied"
+    "PDF text selection": "and <Replace>are</Replace> studied"
 }
 
-8 {
+6 {
     "pageno": 0,
     "type": "Replace",
     "message": {
@@ -87,377 +67,397 @@
             "COMP: ignore"
         ]
     },
-    "PDF text selection": "CGn,k because the sphere Sm has a simple, <Replace>singly</Replace> generated cohomology algebra,"
+    "PDF text selection": "simple, <Replace>singly</Replace> generated cohomology algebra, while the Grassmannian CGn,k (of k-planes in Cn) carries"
 }
 
-9 {
+7 {
     "pageno": 0,
     "type": "Caret",
     "message": {
         "comment": ", <COMP: insert comma>",
         "responses": []
     },
-    "PDF text selection": "and<Caret></Caret> in particular, fixed-point theory."
+    "PDF text selection": "theory and<Caret></Caret> in"
+}
+
+8 {
+    "pageno": 0,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "Classification. Primary<Remove>:</Remove> 55S37,"
+}
+
+9 {
+    "pageno": 0,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "55M20; Secondary<Remove>:</Remove> 14M15."
 }
 
 10 {
-    "pageno": 0,
-    "type": "StrikeOut",
-    "message": {
-        "comment": "",
-        "responses": []
-    },
-    "PDF text selection": "2020 Mathematics Subject Classification. Primary<StrikeOut>:</StrikeOut> 55S37, 08A35, 55M20; Secondary: 14M15."
-}
-
-11 {
-    "pageno": 0,
-    "type": "StrikeOut",
-    "message": {
-        "comment": "",
-        "responses": []
-    },
-    "PDF text selection": "2020 Mathematics Subject Classification. Primary: 55S37, 08A35, 55M20; Secondary<StrikeOut>:</StrikeOut> 14M15."
-}
-
-12 {
     "pageno": 0,
     "type": "Replace",
     "message": {
         "comment": "C",
         "responses": []
     },
-    "PDF text selection": "Key words and phrases. <Replace>c</Replace>ohomology endomorphisms, complex Grassmann manifolds, general-"
+    "PDF text selection": "phrases. <Replace>c</Replace>ohomology endomorphisms,"
 }
 
-13 {
+11 {
     "pageno": 0,
     "type": "Replace",
     "message": {
         "comment": "14M16.",
         "responses": []
     },
-    "PDF text selection": "2020 Mathematics Subject Classification. Primary: 55S37, 08A35, 55M20; Secondary: <Replace>14M15.</Replace>"
+    "PDF text selection": "Secondary: <Replace>14M15.</Replace> Key"
 }
 
-14 {
+12 {
     "pageno": 1,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "by certain Chern classes c1, . . . , ck (resp. u). Now<StrikeOut>,</StrikeOut> we are ready to state one of the"
+    "PDF text selection": "u). Now<Remove>,</Remove> we"
 }
 
-15 {
+13 {
     "pageno": 1,
     "type": "Highlight",
     "message": {
         "comment": "roman",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(1)</Highlight> If k < n −k,"
+    "PDF text selection": "<Highlight>(1)</Highlight> If"
 }
 
-16 {
+14 {
     "pageno": 1,
     "type": "Caret",
     "message": {
         "comment": ". <COMP: insert period>",
         "responses": []
     },
-    "PDF text selection": "ϕ(ci) = λici, ∀i ∈{1, 2, . . . , k}<Caret></Caret>"
+    "PDF text selection": ", k}<Caret></Caret> If"
 }
 
-17 {
-    "pageno": 1,
-    "type": "Replace",
-    "message": {
-        "comment": "AU: \"that $\\phi$ is\"?",
-        "responses": []
-    },
-    "PDF text selection": "If k = n −k, there is an additional possibility <Replace>of ϕ that it</Replace> is induced by the"
-}
-
-18 {
+15 {
     "pageno": 1,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(2)</Highlight> The image of H∗(Sm; Q) under ϕ lies in H∗(Sm; Q) or in H∗(CGn,k; Q)"
+    "PDF text selection": "C2k. <Highlight>(2)</Highlight> The"
 }
 
-19 {
+16 {
     "pageno": 1,
     "type": "Highlight",
     "message": {
         "comment": "COMP: commas before and after \"i.e.\"",
         "responses": []
     },
-    "PDF text selection": "<Highlight>i.e.</Highlight>"
+    "PDF text selection": "Q) <Highlight>i.e.</Highlight>"
 }
 
-20 {
-    "pageno": 1,
-    "type": "Highlight",
-    "message": {
-        "comment": "AU: <global> \"the Grassmannian\"?",
-        "responses": []
-    },
-    "PDF text selection": "if a continuous function on Sm × CGn,k stabilizes a copy of <Highlight>Grassmannian</Highlight> then the"
-}
-
-21 {
+17 {
     "pageno": 1,
     "type": "Replace",
     "message": {
         "comment": "the same",
         "responses": []
     },
-    "PDF text selection": "if g is the identity map, then the coincidence property is <Replace>same</Replace> as the fixed-point"
+    "PDF text selection": "is <Replace>same</Replace> as"
 }
 
-22 {
+18 {
     "pageno": 1,
     "type": "Replace",
     "message": {
         "comment": "[GH1, Theorem 2] <COMP: use \\cite>",
         "responses": []
     },
-    "PDF text selection": "We have generalized <Replace>Theorem 2 of [GH1]</Replace> to the setting of coincidence theory and"
+    "PDF text selection": "generalized <Replace>Theorem 2 of [GH1]</Replace> to the setting of coincidence theory and proved that the pair ed<Replace>Theo g)"
 }
 
-23 {
+19 {
     "pageno": 2,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "From now on<StrikeOut>,</StrikeOut> we denote the indexing set {1, 2, . . . , k} by I."
+    "PDF text selection": "now on<Remove>,</Remove> we"
 }
 
-24 {
+20 {
     "pageno": 2,
     "type": "Highlight",
     "message": {
         "comment": "COMP: pls link",
         "responses": []
     },
-    "PDF text selection": "In <Highlight>Section 2</Highlight> we develop the necessary background and recall some relevant results."
+    "PDF text selection": "In <Highlight>Section 2</Highlight> we"
 }
 
-25 {
+21 {
     "pageno": 2,
     "type": "Highlight",
     "message": {
         "comment": "COMP: pls link",
         "responses": []
     },
-    "PDF text selection": "are applied in Section <Highlight>4</Highlight> to obtain the coincidence-theoretic results."
+    "PDF text selection": "Section <Highlight>4</Highlight> to"
 }
 
-26 {
+22 {
     "pageno": 2,
     "type": "Highlight",
     "message": {
         "comment": "<global for remarks per journal style> lightface ",
         "responses": []
     },
-    "PDF text selection": "<Highlight>Remark 2.1.</Highlight> We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to"
+    "PDF text selection": "<Highlight>Remark 2.1.</Highlight> We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to <Highlight>Remark by"
 }
 
-27 {
+23 {
     "pageno": 2,
     "type": "Replace",
     "message": {
         "comment": "2.1 <rom>",
         "responses": []
     },
-    "PDF text selection": "Remark <Replace>2.1</Replace>. We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to"
+    "PDF text selection": "Remark <Replace>2.1</Replace>. We"
 }
 
-28 {
+24 {
     "pageno": 2,
     "type": "Highlight",
     "message": {
         "comment": "<global for remarks per journal style> set text roman",
         "responses": []
     },
-    "PDF text selection": "<Highlight>Remark 2.1. We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to</Highlight>"
+    "PDF text selection": "<Highlight>Remark CGn,n−k 2.1. We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to</Highlight> <Highlight>Remark CGn,n−k by using orthogonal complementation."
 }
 
-29 {
+25 {
     "pageno": 2,
     "type": "Replace",
     "message": {
         "comment": ". That is,",
         "responses": []
     },
-    "PDF text selection": "U(k) × U(n −k) <Replace>that is</Replace>"
+    "PDF text selection": "−k) <Replace>that is</Replace>"
 }
 
-30 {
+26 {
     "pageno": 3,
     "type": "Replace",
     "message": {
         "comment": "[ST1, Theorem A']",
         "responses": []
     },
-    "PDF text selection": "Theorem 2.2 (<Replace>[ST1], Theorem A\n′</Replace>"
+    "PDF text selection": "2.2 (<Replace>[ST1], Theorem A ′</Replace>). Let Di(H∗(G/H; Q)) be the Q-vector space of Q-derivations of H∗(G/H; Q) which"
 }
 
-31 {
+27 {
     "pageno": 3,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "of Q-derivations of H∗(G/H; Q) which decreases the degree by i > 0<Caret></Caret> where G is a"
+    "PDF text selection": "> 0<Caret></Caret> where"
 }
 
-32 {
+28 {
     "pageno": 3,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "connected, compact Lie group and H is a closed subgroup of maximal rank. Then<StrikeOut>,</StrikeOut>"
+    "PDF text selection": "rank. Then<Remove>,</Remove> for"
 }
 
-33 {
-    "pageno": 3,
-    "type": "Highlight",
-    "message": {
-        "comment": "AU: does the \"H\" and \"G\" need to be bold in math, or are you just setting it like that to match the rest of the subsection heading? The very next appearance of $H^\\ast_{\\mathbb{C}G}$ is not bold.",
-        "responses": []
-    },
-    "PDF text selection": "2.2. Graded endomorphisms on <Highlight>H∗\nCG</Highlight>"
-}
-
-34 {
+29 {
     "pageno": 3,
     "type": "Replace",
     "message": {
         "comment": "[GH1, Theorem 1]",
         "responses": []
     },
-    "PDF text selection": "Theorem 2.3 (<Replace>[GH1], Theorem 1</Replace>, [Ho1], Theorem 1.1). (i) Assume that the hy-"
+    "PDF text selection": "2.3 (<Replace>[GH1], Theorem 1</Replace>, [Ho1],"
 }
 
-35 {
+30 {
     "pageno": 3,
     "type": "Replace",
     "message": {
         "comment": "[Ho1, Theorem 1.1]",
         "responses": []
     },
-    "PDF text selection": "Theorem 2.3 ([GH1], Theorem 1, <Replace>[Ho1], Theorem 1.1</Replace>). (i) Assume that the hy-"
+    "PDF text selection": "1, <Replace>[Ho1], Theorem 1.1</Replace>). (i)"
 }
 
-36 {
+31 {
     "pageno": 3,
     "type": "Replace",
     "message": {
         "comment": "(i) <rom>",
         "responses": []
     },
-    "PDF text selection": "Theorem 2.3 ([GH1], Theorem 1, [Ho1], Theorem 1.1). <Replace>(i)</Replace> Assume that the hy-"
+    "PDF text selection": "1.1). <Replace>(i)</Replace> Assume"
 }
 
-37 {
+32 {
     "pageno": 3,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(ii)</Highlight> Assume that the hypothesis (4) is satisfied. Then, we have"
+    "PDF text selection": "<Highlight>(ii)</Highlight> Assume"
 }
 
-38 {
-    "pageno": 3,
-    "type": "Highlight",
-    "message": {
-        "comment": "AU: put the two \"where\" statements in parentheses and connect them with \"and\"? So something like \"(where $...$ and the involution $...$ on $...$ is induced from the standard conjugation on $...$)\"",
-        "responses": []
-    },
-    "PDF text selection": "<Highlight>classical Dold manifolds P(m, n) := Sm × CP n/∼where (s, L) ∼(−s, ¯L), where</Highlight>"
-}
-
-39 {
+33 {
     "pageno": 4,
-    "type": "Highlight",
-    "message": {
-        "comment": "AU: again does math need to be bold?",
-        "responses": []
-    },
-    "PDF text selection": "2.4. Rational cohomology of <Highlight>P(Sm, CGn,k)</Highlight>. The GDS P(Sm, CGn,k) is defined"
-}
-
-40 {
-    "pageno": 4,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "for which<StrikeOut>,</StrikeOut> Sm is equipped with the free action generated by the antipodal map"
+    "PDF text selection": "for which<Remove>,</Remove> Sm"
 }
 
-41 {
+34 {
     "pageno": 4,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "α<Caret></Caret> and the involution σ : L �→¯L on CGn,k is induced from the standard complex"
+    "PDF text selection": "map α<Caret></Caret> and"
 }
 
-42 {
+35 {
     "pageno": 4,
     "type": "Highlight",
     "message": {
         "comment": "COMP: insert comma at end of equation",
         "responses": []
     },
-    "PDF text selection": "<Highlight>Q[u, c1, . . . , ck]</Highlight>"
+    "PDF text selection": "∼= Q[u, c1, . . . , ck] <Highlight>Q ⟨u2, hn−k+1, . . . , ] hn⟩</Highlight>"
 }
 
-43 {
+36 {
     "pageno": 4,
     "type": "Replace",
     "message": {
         "comment": "3.14",
         "responses": []
     },
-    "PDF text selection": "Theorem 2.4 ([MS2, Theorem <Replace>3.13</Replace>]). The cohomology algebra H∗(P(m, n, k); Q)"
+    "PDF text selection": "Theorem <Replace>3.13</Replace>]). The"
 }
 
-44 {
+37 {
     "pageno": 4,
     "type": "Highlight",
     "message": {
         "comment": "no indent at the start of para",
         "responses": []
     },
-    "PDF text selection": "<Highlight>A description of</Highlight> the cohomology algebra H∗(P(m, n, k); Q), as a quotient of a"
+    "PDF text selection": "<Highlight>A description of</Highlight> the"
 }
 
-45 {
+38 {
     "pageno": 4,
     "type": "Replace",
     "message": {
         "comment": "Theorem 3.1. <COMP: pls link>",
         "responses": []
     },
-    "PDF text selection": "∗\n×. <Replace>The following</Replace>"
+    "PDF text selection": "×. <Replace>The following</Replace> is"
+}
+
+39 {
+    "pageno": 5,
+    "type": "Highlight",
+    "message": {
+        "comment": "rom",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>(1)</Highlight> Either"
+}
+
+40 {
+    "pageno": 5,
+    "type": "Highlight",
+    "message": {
+        "comment": "rom",
+        "responses": []
+    },
+    "PDF text selection": "×. <Highlight>(2)</Highlight> There"
+}
+
+41 {
+    "pageno": 5,
+    "type": "Highlight",
+    "message": {
+        "comment": "insert period at the end of equation (11)",
+        "responses": []
+    },
+    "PDF text selection": "CG <Highlight>H∗ C ∗ CG</Highlight>"
+}
+
+42 {
+    "pageno": 5,
+    "type": "Highlight",
+    "message": {
+        "comment": "rom",
+        "responses": []
+    },
+    "PDF text selection": "part <Highlight>(ii)</Highlight>, we"
+}
+
+43 {
+    "pageno": 5,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "we have<Remove>,</Remove>"
+}
+
+44 {
+    "pageno": 5,
+    "type": "Highlight",
+    "message": {
+        "comment": "rom",
+        "responses": []
+    },
+    "PDF text selection": "part <Highlight>(2)</Highlight> first."
+}
+
+45 {
+    "pageno": 5,
+    "type": "Highlight",
+    "message": {
+        "comment": "P",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>p</Highlight>roof of"
 }
 
 46 {
@@ -467,190 +467,120 @@
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(1)</Highlight> Either ϕ(u) = au for some a ∈Q, or ϕ(u) ∈H∗\nC"
+    "PDF text selection": "part <Highlight>(2)</Highlight>: Using"
 }
 
 47 {
     "pageno": 5,
-    "type": "Highlight",
-    "message": {
-        "comment": "rom",
-        "responses": []
-    },
-    "PDF text selection": "<Highlight>(2)</Highlight> There exists λ ∈Q\\{0} such that"
-}
-
-48 {
-    "pageno": 5,
-    "type": "Highlight",
-    "message": {
-        "comment": "insert period at the end of equation (11)",
-        "responses": []
-    },
-    "PDF text selection": "<Highlight>H∗</Highlight>"
-}
-
-49 {
-    "pageno": 5,
-    "type": "Highlight",
-    "message": {
-        "comment": "rom",
-        "responses": []
-    },
-    "PDF text selection": "∗\nCG. By Theorem 2.3 part <Highlight>(ii)</Highlight>,"
-}
-
-50 {
-    "pageno": 5,
-    "type": "StrikeOut",
-    "message": {
-        "comment": "",
-        "responses": []
-    },
-    "PDF text selection": "we have<StrikeOut>,</StrikeOut>"
-}
-
-51 {
-    "pageno": 5,
-    "type": "Highlight",
-    "message": {
-        "comment": "rom",
-        "responses": []
-    },
-    "PDF text selection": "∗\nCG. Using the observations given above it is convenient to prove part <Highlight>(2)</Highlight> first."
-}
-
-52 {
-    "pageno": 5,
-    "type": "Highlight",
-    "message": {
-        "comment": "P",
-        "responses": []
-    },
-    "PDF text selection": "<Highlight>p</Highlight>roof of part (2): Using (12) and (13), it is sufficient to prove that Pi = 0, ∀i ∈I."
-}
-
-53 {
-    "pageno": 5,
-    "type": "Highlight",
-    "message": {
-        "comment": "rom",
-        "responses": []
-    },
-    "PDF text selection": "proof of part <Highlight>(2)</Highlight>: Using (12) and (13), it is sufficient to prove that Pi = 0, ∀i ∈I."
-}
-
-54 {
-    "pageno": 5,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": ". <COMP: period; also set heading as proof environment if not already>",
         "responses": []
     },
-    "PDF text selection": "proof of part (2)<StrikeOut>:</StrikeOut> Using (12) and (13), it is sufficient to prove that Pi = 0, ∀i ∈I."
+    "PDF text selection": "part (2)<Remove>:</Remove> Using"
 }
 
-55 {
+48 {
     "pageno": 6,
     "type": "Caret",
     "message": {
         "comment": ", <COMP: comma>",
         "responses": []
     },
-    "PDF text selection": "= (ϕ1(x) + uPx)(ϕ1(y) + uPy) −ϕ1(x)ϕ1(y)<Caret></Caret>"
+    "PDF text selection": "uPy) −ϕ1(x)ϕ1(y)<Caret></Caret>"
 }
 
-56 {
+49 {
     "pageno": 6,
     "type": "Highlight",
     "message": {
         "comment": "COMP: center both lines",
         "responses": []
     },
-    "PDF text selection": "<Highlight>D(tϕ1(x)) = tD(ϕ1(x)),\nD(ϕ1(x) + ϕ1(y)) = D(ϕ1(x)) + D(ϕ1(y)),</Highlight>"
+    "PDF text selection": "<Highlight>D(tϕ1(x)) D(ϕ1(x)ϕ1 = tD(ϕ1(x)), D(ϕ1(x) + ϕ1(y)) = D(ϕ1(x)) + D(ϕ1(y)),</Highlight> <Highlight>D(tϕ1(x)) = tD D(ϕ1(x)ϕ1(y)) = D(ϕ1(x))ϕ1(y) + ϕ1(x)D(ϕ1(y))."
 }
 
-57 {
+50 {
     "pageno": 6,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "Theorem 2.2, we get that D is a zero derivation. In particular<Caret></Caret>"
+    "PDF text selection": "In particular<Caret></Caret>"
 }
 
-58 {
+51 {
     "pageno": 6,
     "type": "Replace",
     "message": {
         "comment": "P",
         "responses": []
     },
-    "PDF text selection": "<Replace>p</Replace>roof of part (1): Since ϕ is a graded endomorphism on H∗\n×"
+    "PDF text selection": "<Replace>p</Replace>roof of"
 }
 
-59 {
+52 {
     "pageno": 6,
     "type": "Highlight",
     "message": {
         "comment": "rom and COMP pls LINK",
         "responses": []
     },
-    "PDF text selection": "proof of part <Highlight>(1)</Highlight>: Since ϕ is a graded endomorphism on H∗\n×"
+    "PDF text selection": "part <Highlight>(1)</Highlight>: Since"
 }
 
-60 {
+53 {
     "pageno": 6,
     "type": "Replace",
     "message": {
         "comment": ".",
         "responses": []
     },
-    "PDF text selection": "proof of part (1)<Replace>:</Replace> Since ϕ is a graded endomorphism on H∗\n×"
+    "PDF text selection": "part (1)<Replace>:</Replace> Since"
 }
 
-61 {
+54 {
     "pageno": 6,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "∗\n×, <StrikeOut>therefore</StrikeOut>"
+    "PDF text selection": "×, <Remove>therefore</Remove>"
 }
 
-62 {
+55 {
     "pageno": 6,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "On the other hand, when n = 2, CGn,k is either a point or S2<Caret></Caret> and the classifi-"
+    "PDF text selection": "or S2<Caret></Caret> and"
 }
 
-63 {
+56 {
     "pageno": 6,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "case where ϕ(c1) = µu. To address this, we use <StrikeOut>part (i) of</StrikeOut> Theorem 2.3 which leads"
+    "PDF text selection": "use <Remove>part (i) of</Remove> Theorem"
 }
 
-64 {
+57 {
     "pageno": 6,
     "type": "Replace",
     "message": {
         "comment": "2.3(i) <COMP: keep \"2.3\" linked>",
         "responses": []
     },
-    "PDF text selection": "case where ϕ(c1) = µu. To address this, we use part (i) of Theorem <Replace>2.3</Replace> which leads"
+    "PDF text selection": "Theorem <Replace>2.3</Replace> which"
 }
 
-65 {
+58 {
     "pageno": 6,
     "type": "Replace",
     "message": {
@@ -660,547 +590,517 @@
     "PDF text selection": "to <Replace>the following proposition</Replace>."
 }
 
-66 {
+59 {
     "pageno": 6,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(1)</Highlight> Either ϕ(u) = au for some a ∈Q, or ϕ(u) ∈H∗\nC"
+    "PDF text selection": "Then <Highlight>(1)</Highlight> Either"
 }
 
-67 {
+60 {
     "pageno": 6,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(2)</Highlight> ϕ(c) = uP, ∀i > 1, where P ∈H2i−m"
+    "PDF text selection": "×. <Highlight>(2)</Highlight> ϕ(ci)"
 }
 
-68 {
+61 {
     "pageno": 6,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "Proof. <Highlight>(1)</Highlight>: The proof of part (1) is exactly the same as the proof of part (1) of"
+    "PDF text selection": "Proof. <Highlight>(1)</Highlight>: The"
 }
 
-69 {
+62 {
     "pageno": 6,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "Proof. (1): The proof of part <Highlight>(1)</Highlight> is exactly the same as the proof of part (1) of"
+    "PDF text selection": "part <Highlight>(1)</Highlight> is"
 }
 
-70 {
+63 {
     "pageno": 6,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "Proof. (1): The proof of part (1) is exactly the same as the proof of part <Highlight>(1)</Highlight> of"
+    "PDF text selection": "part <Highlight>(1)</Highlight> of"
 }
 
-71 {
+64 {
     "pageno": 6,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(2)</Highlight>: Using (11), we have that the map ϕ is a graded endomorphism on H∗"
+    "PDF text selection": "details. <Highlight>(2)</Highlight>: Using"
 }
 
-72 {
+65 {
     "pageno": 7,
     "type": "Replace",
     "message": {
         "comment": "Proposition 3.5 <COMP: link>",
         "responses": []
     },
-    "PDF text selection": "2\nCG. <Replace>The following proposition</Replace> provides such examples when m is even"
+    "PDF text selection": "CG. <Replace>The following proposition</Replace> provides"
 }
 
-73 {
+66 {
     "pageno": 7,
     "type": "Replace",
     "message": {
         "comment": "(2) <COMP: roman>",
         "responses": []
     },
-    "PDF text selection": "Proof. The proof of this corollary is similar to the proof of part <Replace>2</Replace> of Theorem 3.1."
+    "PDF text selection": "part <Replace>2</Replace> of"
 }
 
-74 {
+67 {
     "pageno": 7,
     "type": "Highlight",
     "message": {
         "comment": "COMP: set display math",
         "responses": []
     },
-    "PDF text selection": "<Highlight>Apply induction on r and replace CGn,k with ˆX := S2m1 × · · · × S2mi−1 × S2mi+1 ×</Highlight>"
+    "PDF text selection": "3.1. <Highlight>Apply · · · × S induction on r and replace CGn,k with ˆX := S2m1 × · · · × S2mi−1 × S2mi+1 ×</Highlight> <Highlight>A · · · × S2mr × CGn,k, and the sphere Sm with S2mi in Theorem 3.1. Since"
 }
 
-75 {
+68 {
     "pageno": 7,
     "type": "Highlight",
     "message": {
         "comment": "COMP: comma at end of equation",
         "responses": []
     },
-    "PDF text selection": "S2mj = SO(2mj + 1)/SO(2mj<Highlight>)</Highlight>"
+    "PDF text selection": "+ 1)/SO(2mj<Highlight>)</Highlight>"
 }
 
-76 {
+69 {
     "pageno": 7,
     "type": "Replace",
     "message": {
         "comment": "S",
         "responses": []
     },
-    "PDF text selection": "in <Replace>Subs</Replace>ection 2.4. The following remark helps us to describe endomorphisms of"
+    "PDF text selection": "in <Replace>Subs</Replace>ection 2.4."
 }
 
-77 {
+70 {
     "pageno": 8,
     "type": "Replace",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "H∗(Sm × CGn,k; Q)<Replace>.</Replace>"
+    "PDF text selection": "CGn,k; Q)<Replace>.</Replace>"
 }
 
-78 {
+71 {
     "pageno": 8,
     "type": "Replace",
     "message": {
         "comment": "Corollaries 3.8 and 3.9. <COMP: link>",
         "responses": []
     },
-    "PDF text selection": "<Replace>two corollaries.</Replace>"
+    "PDF text selection": "<Replace>where two co π∗is an injective map. Using Theorem 2.4 and (18) we obtain the following</Replace> <Replace>whe two corollaries."
 }
 
-79 {
+72 {
     "pageno": 8,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "subring Fix(θ∗) of H∗\n×<Caret></Caret>"
+    "PDF text selection": "of H∗ ×<Caret></Caret> where"
 }
 
-80 {
+73 {
     "pageno": 8,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "to the fixed subring Fix(θ∗) of H∗\n×<Caret></Caret>"
+    "PDF text selection": "of H∗ ×<Caret></Caret> where"
 }
 
-81 {
-    "pageno": 8,
-    "type": "Highlight",
-    "message": {
-        "comment": "AU: do you mean \"with\" instead of \"in\" or to say \"Corollary 3.8 from Theorem 3.1\"? ",
-        "responses": []
-    },
-    "PDF text selection": "<Highlight>Using Theorem 3.1 in Corollary 3.8, and Proposition 3.3 in Corollary 3.9</Highlight> along"
-}
-
-82 {
+74 {
     "pageno": 8,
     "type": "Highlight",
     "message": {
         "comment": "COMP: set text roman as per journal style <global for examples>",
         "responses": []
     },
-    "PDF text selection": "<Highlight>complex projective space CP n−1 over the real projective space RP m. In this case,</Highlight>"
+    "PDF text selection": "<Highlight>Example complex p H∗ × ∼= Q[u ring 3.10. If m odd, n > 2 and k = 1, then P(m, n, 1) is fibered by the ase, ogy</Highlight> <Highlight>Examp complex H∗ × ∼= Q ring projective space CP n−1 over the real projective space RP m. In this y the case, ology</Highlight> <Highlight>Ex com H∗ × rin × ∼= Q[u, c1]/⟨u2, cn 1⟩and using (10) and Theorem 2.4, the rational bered by the n this case, cohomology</Highlight> <Highlight>Exa com H∗ × ring"
 }
 
-83 {
-    "pageno": 8,
-    "type": "Replace",
-    "message": {
-        "comment": "where (AU: okay?)",
-        "responses": []
-    },
-    "PDF text selection": "λ ∈Q, <Replace>and</Replace> λ2 ̸= −1."
-}
-
-84 {
+75 {
     "pageno": 8,
     "type": "Replace",
     "message": {
         "comment": "Corollary 3.11 <COMP: link>",
         "responses": []
     },
-    "PDF text selection": "<Replace>The following corollary</Replace> helps us to understand the relationship between the"
+    "PDF text selection": "<Replace>The following corollary</Replace> helps"
 }
 
-85 {
+76 {
     "pageno": 9,
     "type": "Highlight",
     "message": {
         "comment": "COMP: remove no indent",
         "responses": []
     },
-    "PDF text selection": "<Highlight>By Theorem</Highlight> 3.1, ˜f ∗(ci) is of the form given in (2) of Theorem 3.1. Also,"
+    "PDF text selection": "0. <Highlight>By Theorem</Highlight> 3.1,"
 }
 
-86 {
+77 {
     "pageno": 9,
     "type": "Highlight",
     "message": {
         "comment": "comma at end of equation",
         "responses": []
     },
-    "PDF text selection": "˜f ∗(u) <Highlight>= Q</Highlight>"
+    "PDF text selection": "∗(u) <Highlight>= Q</Highlight>"
 }
 
-87 {
+78 {
     "pageno": 9,
     "type": "Highlight",
     "message": {
         "comment": "remove no indent",
         "responses": []
     },
-    "PDF text selection": "<Highlight>Suppose that</Highlight> ˜f ∗(u) = Q, then the image set Im ˜f ∗⊆H∗\nC"
+    "PDF text selection": "0. <Highlight>Suppose that</Highlight> ˜f"
 }
 
-88 {
+79 {
     "pageno": 9,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "This is a contradiction to the assumption that f ∗is an automorphism because<Caret></Caret>"
+    "PDF text selection": "automorphism because<Caret></Caret> using"
 }
 
-89 {
+80 {
     "pageno": 9,
     "type": "Replace",
     "message": {
         "comment": "Theorem 3.12 <COMP: link>",
         "responses": []
     },
-    "PDF text selection": "<Replace>The following theorem</Replace> provides a criterion for the image of the spherical coho-"
+    "PDF text selection": "3.4. <Replace>The following theorem</Replace> provides"
 }
 
-90 {
+81 {
     "pageno": 9,
     "type": "Replace",
     "message": {
         "comment": "of the",
         "responses": []
     },
-    "PDF text selection": "lizes a copy <Replace>of </Replace> Grassmannian {x0} × CGn,k for some x0 ∈Sm. Then the induced"
+    "PDF text selection": "copy <Replace>of Grassmannian"
 }
 
-91 {
+82 {
     "pageno": 9,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "pi the i-th projection map on Sm × CGn,k for i = 1, 2 and s : Sm \\ {x0} →D <StrikeOut>is</StrikeOut> the"
+    "PDF text selection": "→D <Remove>is</Remove> the"
 }
 
-92 {
+83 {
     "pageno": 9,
     "type": "Highlight",
     "message": {
         "comment": "COMP: insert period at end of equation",
         "responses": []
     },
-    "PDF text selection": "Sm × <Highlight>CGn,</Highlight>k"
+    "PDF text selection": "× <Highlight>CGn,</Highlight>k"
 }
 
-93 {
+84 {
     "pageno": 9,
     "type": "Highlight",
     "message": {
         "comment": "remove paragraph indent",
         "responses": []
     },
-    "PDF text selection": "<Highlight>Si</Highlight>nce, the quotient map q has Brouwer degree 1, the induced map on ratio-"
+    "PDF text selection": "<Highlight>Si</Highlight>nce, the"
 }
 
-94 {
+85 {
     "pageno": 9,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "Since<StrikeOut>,</StrikeOut> the quotient map q has Brouwer degree 1, the induced map on ratio-"
+    "PDF text selection": "Since<Remove>,</Remove> the"
 }
 
-95 {
+86 {
     "pageno": 9,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "nal cohomology q∗: H∗(Sm; Z) →H∗(Tm; Z) sends u �→1 · u1u2 . . . um<Caret></Caret> where ui"
+    "PDF text selection": ". um<Caret></Caret> where"
 }
 
-96 {
+87 {
     "pageno": 10,
     "type": "Replace",
     "message": {
         "comment": ":",
         "responses": []
     },
-    "PDF text selection": "The induced diagram in cohomology implies the following commutative diagram<Replace>.</Replace>"
+    "PDF text selection": "commutative diagram<Replace>.</Replace>"
 }
 
-97 {
+88 {
     "pageno": 10,
     "type": "Highlight",
     "message": {
         "comment": "COMP: insert period at end of equation",
         "responses": []
     },
-    "PDF text selection": "<Highlight>f ∗(u)</Highlight>"
+    "PDF text selection": "u <Highlight>f ∗(u)</Highlight>"
 }
 
-98 {
+89 {
     "pageno": 10,
     "type": "Replace",
     "message": {
         "comment": "S",
         "responses": []
     },
-    "PDF text selection": "P(m, n, k) defined in <Replace>Subs</Replace>ection 2.4."
+    "PDF text selection": "in <Replace>Subs</Replace>ection 2.4."
 }
 
-99 {
+90 {
     "pageno": 10,
     "type": "Replace",
     "message": {
         "comment": "for",
         "responses": []
     },
-    "PDF text selection": "space X. The pair (X, g) is said to have the coincidence property (<Replace>in</Replace> short, CP)"
+    "PDF text selection": "property (<Replace>in</Replace> short,"
 }
 
-100 {
+91 {
     "pageno": 10,
     "type": "Replace",
     "message": {
         "comment": "Definition 4.2 <COMP: link>",
         "responses": []
     },
-    "PDF text selection": "reduces to that of a fixed point, resulting in <Replace>the following definition</Replace>."
+    "PDF text selection": "in <Replace>the following definition</Replace>."
 }
 
-101 {
-    "pageno": 10,
-    "type": "Replace",
-    "message": {
-        "comment": "either (AU: okay?)",
-        "responses": []
-    },
-    "PDF text selection": "generalized Dold space P(S, X). Then (P(S, X), g) does not have the CP if <Replace>one</Replace> of"
-}
-
-102 {
+92 {
     "pageno": 10,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(1)</Highlight> The continuous map g is a fiber bundle map and the pair (Y, p ◦g ◦s) does"
+    "PDF text selection": "<Highlight>(1)</Highlight> The"
 }
 
-103 {
+93 {
     "pageno": 10,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(2)</Highlight> There exists a σ-equivariant map f (i.e. f ◦σ = σ ◦f) on X and a α × σ-"
+    "PDF text selection": "(6). <Highlight>(2)</Highlight> There"
 }
 
-104 {
+94 {
     "pageno": 10,
     "type": "Replace",
     "message": {
         "comment": "an",
         "responses": []
     },
-    "PDF text selection": "(2) There exists a σ-equivariant map f (i.e. f ◦σ = σ ◦f) on X and <Replace>a</Replace> α × σ-"
+    "PDF text selection": "and <Replace>a</Replace> α"
 }
 
-105 {
+95 {
     "pageno": 10,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "Proof. <Highlight>(1)</Highlight> Suppose that the pair (Y, p ◦g ◦s) does not have the CP. Then there"
+    "PDF text selection": "Proof. <Highlight>(1)</Highlight> Suppose"
 }
 
-106 {
+96 {
     "pageno": 11,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(2)</Highlight> Let G denote the group of deck transformations of the double covering π :"
+    "PDF text selection": "(19). <Highlight>(2)</Highlight> Let"
 }
 
-107 {
+97 {
     "pageno": 11,
     "type": "Replace",
     "message": {
         "comment": "the",
         "responses": []
     },
-    "PDF text selection": "from <Replace>a</Replace> general observation that if for two G-equivariant maps ˜ϕ, ˜ψ on S × X, the"
+    "PDF text selection": "from <Replace>a</Replace> general observation that if for two G-equivariant maps ˜ϕ, ˜ψ on S × X, the maps a</Replace> and"
 }
 
-108 {
+98 {
     "pageno": 11,
     "type": "Replace",
     "message": {
         "comment": "(for any $t \\in G$)",
         "responses": []
     },
-    "PDF text selection": "maps ˜ϕ and t · ˜ψ have no point of coincidence<Replace>, for any t ∈G</Replace>; then the maps they"
+    "PDF text selection": "of coincidence<Replace>, for any t ∈G</Replace>; then"
 }
 
-109 {
+99 {
     "pageno": 11,
     "type": "Replace",
     "message": {
         "comment": "Lemma 4.5 <COMP: link>",
         "responses": []
     },
-    "PDF text selection": "now prove <Replace>the following lemma</Replace> (cf. Theorem 2, [GH1]) to prove Proposition 4.6."
+    "PDF text selection": "prove <Replace>the following lemma</Replace> (cf."
 }
 
-110 {
+100 {
     "pageno": 11,
     "type": "Replace",
     "message": {
         "comment": "[GH1, Theorem 2]",
         "responses": []
     },
-    "PDF text selection": "now prove the following lemma (cf. <Replace>Theorem 2, [GH1]</Replace>) to prove Proposition 4.6."
+    "PDF text selection": "(cf. <Replace>Theorem 2, [GH1]</Replace>) to"
 }
 
-111 {
+101 {
     "pageno": 12,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "�d\ni=0 d2i(−1)i = χ(RGn,k)<Caret></Caret> where d2i = dim H2i(CGn,k; Q) = dim Hi(RGn,k; Z2)."
+    "PDF text selection": "= χ(RGn k)<Caret></Caret> where"
 }
 
-112 {
+102 {
     "pageno": 12,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "root theorem<Caret></Caret> p|1 and q|1. Hence, λ = ±1, which is a contradiction. Therefore, we"
+    "PDF text selection": "root theorem<Caret></Caret> p|1"
 }
 
-113 {
+103 {
     "pageno": 12,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "Denote the i-th homology groups Hi(CGn,k; Q), Hi(Sm; Q)<Caret></Caret> and Hi(Sm×CGn,k; Q),"
+    "PDF text selection": "Hi(Sm; Q)<Caret></Caret> and"
 }
 
-114 {
+104 {
     "pageno": 12,
     "type": "Highlight",
     "message": {
         "comment": "COMP: break after semicolon",
         "responses": []
     },
-    "PDF text selection": "Denote the i-th homology groups Hi(CGn,k; Q), Hi(Sm; Q) and Hi(Sm×CGn,k<Highlight>; Q),</Highlight>"
+    "PDF text selection": "and Hi(Sm×CGn,k<Highlight>; Q),</Highlight> by HCG i , HS i and H× i , respectively. Let d denote the complex dimension of Gn,k<Highlight>; Q given"
 }
 
-115 {
+105 {
     "pageno": 12,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "nal cohomology algebra. Using Theorem 2.3 part <Highlight>(i)</Highlight>, there exist a nonzero rational"
+    "PDF text selection": "part <Highlight>(i)</Highlight>, there"
 }
 
-116 {
+106 {
     "pageno": 12,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "Theorem 2.3 part <Highlight>(i)</Highlight>, there exists µ ∈Q such that"
+    "PDF text selection": "part <Highlight>(i)</Highlight>, there"
 }
 
-117 {
+107 {
     "pageno": 12,
     "type": "Replace",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "2i\nCG<Replace>.</Replace>"
+    "PDF text selection": "H2i 2i CG<Replace>.</Replace>"
 }
 
-118 {
+108 {
     "pageno": 12,
     "type": "Highlight",
     "message": {
         "comment": "COMP: adjust to fit within margin",
         "responses": []
     },
-    "PDF text selection": "D◦g∗◦D−1◦f∗(x) = <Highlight>D◦g∗◦D−1(µix) = µiD◦g∗(D−1x) = µiD(λd−iD−1x) = µiλd−ix.</Highlight>"
+    "PDF text selection": "= <Highlight>D◦g∗◦D−1(µix) = µiD◦g∗(D−1x) = µiD(λd−iD−1x) = µiλd−ix.</Highlight>"
 }
 
-119 {
+109 {
     "pageno": 12,
     "type": "Highlight",
     "message": {
         "comment": "close up space between L(f, g) and this first equals sign",
         "responses": []
     },
-    "PDF text selection": "<Highlight>= �</Highlight>d\ni="
+    "PDF text selection": "g) <Highlight>= P</Highlight>d i= i=0(−1)2itr(D"
 }
 
-120 {
+110 {
     "pageno": 12,
     "type": "Highlight",
     "message": {
@@ -1210,397 +1110,387 @@
     "PDF text selection": "(∵λ <Highlight>= 0)</Highlight>"
 }
 
-121 {
+111 {
     "pageno": 12,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "2i\nCG<Caret></Caret> and the last equation holds by using Lemma 4.5."
+    "PDF text selection": "H2i 2i CG<Caret></Caret> and"
 }
 
-122 {
+112 {
     "pageno": 12,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "δvq(vp) = δqp<Caret></Caret> where δqp is the Kronecker delta function. Without loss of generality,"
+    "PDF text selection": "= δqp<Caret></Caret> where"
 }
 
-123 {
+113 {
     "pageno": 12,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "∗\nCG<StrikeOut>,</StrikeOut> such that"
+    "PDF text selection": "H∗ ∗ CG<Remove>,</Remove> such"
 }
 
-124 {
+114 {
     "pageno": 13,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "×\n∗; Q) satisfying<StrikeOut>:</StrikeOut>"
+    "PDF text selection": "Q) satisfying<Remove>:</Remove>"
 }
 
-125 {
+115 {
     "pageno": 13,
     "type": "Replace",
     "message": {
         "comment": "The Poincaré",
         "responses": []
     },
-    "PDF text selection": "<Replace>Poincar´e</Replace> duality on Sm × CGn,k can be described in terms of the duality on"
+    "PDF text selection": "<Replace>Poincare</Replace> duality"
 }
 
-126 {
+116 {
     "pageno": 13,
     "type": "Replace",
     "message": {
         "comment": "Lemmas 4.7 and 4.8 <COMP: link>",
         "responses": []
     },
-    "PDF text selection": "We are now ready to establish <Replace>the following lemmas</Replace>, which will be useful in the"
+    "PDF text selection": "establish <Replace>the following lemmas</Replace>, which"
 }
 
-127 {
+117 {
     "pageno": 13,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(1)</Highlight> Either ˜f∗(ϑ ⊗x) = µλi(ϑ ⊗x), ∀x ∈HCG"
+    "PDF text selection": "<Highlight>(1)</Highlight> Either"
 }
 
-128 {
+118 {
     "pageno": 13,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(2)</Highlight> ˜f∗(x) = λix + ϑ ⊗y, for some y ∈HCG\n2i−"
+    "PDF text selection": ". <Highlight>(2)</Highlight> ˜f∗(x)"
 }
 
-129 {
+119 {
     "pageno": 14,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(1)</Highlight> ˜f∗(x) ∈ϑ ⊗HCG\n2i−"
+    "PDF text selection": "<Highlight>(1) (2)</Highlight> ˜f∗(x) ∈ϑ ⊗HCG 2i−m, ∀x ∈HCG 2i , ∀i > 0. <Highlight>(1) (2)</Highlight> ˜f∗(ϑ"
 }
 
-130 {
+120 {
     "pageno": 14,
     "type": "Caret",
     "message": {
         "comment": ".",
         "responses": []
     },
-    "PDF text selection": "CG\n2i , i > 0 if ˜f ∗(u) = µu, µ ∈Q<Caret></Caret>"
+    "PDF text selection": "µ ∈Q<Caret></Caret>"
 }
 
-131 {
+121 {
     "pageno": 14,
     "type": "Highlight",
     "message": {
         "comment": "adjust to fit equation within margin",
         "responses": []
     },
-    "PDF text selection": "<Highlight>˜f ∗(δvp) =\n�\najpδϑ⊗vj, ∀vp ∈HCG\n2i ,\n˜f ∗(δϑ⊗1) = µδϑ⊗1,\n˜f ∗(δϑ⊗vp) = 0, ∀vp ∈HCG\n2i .</Highlight>"
+    "PDF text selection": "(28) <Highlight>f ∗ ∗(δvp) = X ajpδϑ⊗vj, ∀vp ∈HCG 2i , ˜f ∗(δϑ⊗1) = µδϑ⊗1, ˜f ∗(δϑ⊗vp) = 0, ∀vp ∈HCG 2i .</Highlight>"
 }
 
-132 {
-    "pageno": 14,
-    "type": "Highlight",
-    "message": {
-        "comment": "AU: \", which concludes the ...\" or \". That concludes the ...\"?",
-        "responses": []
-    },
-    "PDF text selection": "<Highlight>that</Highlight> concludes the result."
-}
-
-133 {
+122 {
     "pageno": 14,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "CG\n2i , ∀i > 0<Caret></Caret>"
+    "PDF text selection": "> 0<Caret></Caret> which"
 }
 
-134 {
+123 {
     "pageno": 14,
     "type": "Replace",
     "message": {
         "comment": "Theorems 4.9 and 4.10 <COMP: link>",
         "responses": []
     },
-    "PDF text selection": "<Replace>The following theorems</Replace> provide a criteria for the existence of coincidence"
+    "PDF text selection": "4.4. <Replace>The following theorems</Replace> provide"
 }
 
-135 {
+124 {
     "pageno": 14,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(1)</Highlight> g∗is an automorphism of H∗(P(m, n, k); Q)."
+    "PDF text selection": "<Highlight>(1) (2) (3)</Highlight> g∗is an automorphism of H∗(P(m, n, k); Q). <Highlight>(1) (2) (3)</Highlight> ˜f ∗(c1) ̸= au, a ∈Q. <Highlight>(1) (2) (3)</Highlight> deg(p"
 }
 
-136 {
+125 {
     "pageno": 14,
     "type": "Replace",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "(1) g∗is an automorphism of H∗(P(m, n, k); Q)<Replace>.</Replace>"
+    "PDF text selection": "k); Q)<Replace>.</Replace> (2)"
 }
 
-137 {
+126 {
     "pageno": 14,
     "type": "Replace",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "(2) ˜f ∗(c1) ̸= au, a ∈Q<Replace>.</Replace>"
+    "PDF text selection": "a ∈Q<Replace>.</Replace> (3)"
 }
 
-138 {
+127 {
     "pageno": 14,
     "type": "Replace",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "(3) deg(p ◦g ◦s) ̸= −deg(p ◦f ◦s) if m is odd<Replace>.</Replace>"
+    "PDF text selection": "is odd<Replace>.</Replace> where"
 }
 
-139 {
+128 {
     "pageno": 15,
     "type": "Replace",
     "message": {
         "comment": "et al.",
         "responses": []
     },
-    "PDF text selection": "M. MANDAL <Replace>AND D. SETIA</Replace>"
+    "PDF text selection": "MANDAL <Replace>AND D. SETIA</Replace>"
 }
 
-140 {
+129 {
     "pageno": 15,
     "type": "Highlight",
     "message": {
         "comment": "center equations",
         "responses": []
     },
-    "PDF text selection": "<Highlight>˜f∗(x) = λix + ϑ ⊗y, for some y ∈HCG\n2i−m, ∀x ∈HCG\n2i</Highlight>"
+    "PDF text selection": "form, ˜f∗(x) = λix + ϑ ⊗y, for some y ∈HCG 2i−m, ∀x ∈HCG 2i ∈HCG 2i</Highlight> 2i <Highlight>˜f∗(ϑ ⊗x) = µλi(ϑ ⊗x), or ˜f∗(ϑ ⊗x) = z, for some z ∈HCG 2i+m, ∀x ∈HCG 2i ∈HCG 2i</Highlight> 2i (29)"
 }
 
-141 {
+130 {
     "pageno": 15,
     "type": "Highlight",
     "message": {
         "comment": "center equations",
         "responses": []
     },
-    "PDF text selection": "<Highlight>D˜g∗D−1 ˜f∗(x) = µ1λiλd−i\nx + ϑ ⊗y′ for some y′ ∈HCG</Highlight>"
+    "PDF text selection": "D˜g∗D−1 ˜f∗(x) = µ1λiλd−i 1 x + ϑ ⊗y′ for some y′ ∈HCG CG 2i−m CG 2i+m.</Highlight> <Highlight>D˜g D˜g∗D−1 ˜f∗(ϑ ⊗x) = µλiλd−i 1 (ϑ ⊗x) + z′ for some z′ ∈HCG HCG 2i−m CG 2i+m.</Highlight>"
 }
 
-142 {
+131 {
     "pageno": 15,
     "type": "Replace",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "CG\n2i+m<Replace>.</Replace>"
+    "PDF text selection": "∈HCG 2i+m<Replace></Replace>"
 }
 
-143 {
+132 {
     "pageno": 15,
     "type": "Replace",
     "message": {
         "comment": "denotes",
         "responses": []
     },
-    "PDF text selection": "′ = 0 or µ = 0 depending on the image of ˜f∗(ϑ ⊗x). Recall that d2i <Replace>denote</Replace>"
+    "PDF text selection": "d2i <Replace>denote</Replace> the"
 }
 
-144 {
+133 {
     "pageno": 15,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "Using <StrikeOut>the</StrikeOut> Lemma 4.5 and the fact that λ1 ̸= 0, the sum"
+    "PDF text selection": "Using <Remove>the</Remove> Lemma"
 }
 
-145 {
+134 {
     "pageno": 15,
     "type": "Replace",
     "message": {
         "comment": ".",
         "responses": []
     },
-    "PDF text selection": "d2i(λ/λ1)i ̸= 0<Replace>,</Replace>"
+    "PDF text selection": "̸= 0<Replace>,</Replace>"
 }
 
-146 {
+135 {
     "pageno": 15,
     "type": "Highlight",
     "message": {
         "comment": "center equations or align equal signs",
         "responses": []
     },
-    "PDF text selection": "<Highlight>D˜g∗D−1(θ ◦˜f)∗(x) = µ1(−λ)iλd−i\nx + ϑ ⊗y′′ for some y′′ ∈HCG</Highlight>"
+    "PDF text selection": "D˜g∗D−1(θ ◦˜f)∗(x) = µ1(−λ)iλd−i 1 x + ϑ ⊗y′′ for some y′′ ∈HCG CG 2i−m CG 2i+m.</Highlight> <Highlight>D˜g∗D D˜g∗D−1(θ ◦˜f)∗(ϑ ⊗x) = −µ(−λ)iλd−i 1 ϑ ⊗x + z′′ for some z′′ ∈HCG HCG 2i−m CG 2i+m.</Highlight>"
 }
 
-147 {
+136 {
     "pageno": 15,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(1)</Highlight> g∗is an automorphism of H∗(P(m, n, k); Q)."
+    "PDF text selection": "<Highlight>(1)</Highlight> g∗is"
 }
 
-148 {
+137 {
     "pageno": 16,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(2)</Highlight> ˜f ∗(u) = µu, µ ∈Q if ˜f ∗(H∗\nC"
+    "PDF text selection": "<Highlight>(2) (3)</Highlight> ˜f ∗(u) = µu, µ ∈Q if ˜f ∗(H∗ CG) ⊈H∗ CG and m is even. <Highlight>(2) (3)</Highlight> deg(p"
 }
 
-149 {
+138 {
     "pageno": 16,
     "type": "Highlight",
     "message": {
         "comment": "remove no indent",
         "responses": []
     },
-    "PDF text selection": "<Highlight>Let us</Highlight> consider the other case when ˜f ∗(c1) = au, a ∈Q, using Theorem 3.3 we"
+    "PDF text selection": "4.9. <Highlight>Let us</Highlight> consider the other case when ˜f ∗(c1) = au, a ∈Q, using Theorem 3.3 we have us</Highlight> ∗(ci)"
 }
 
-150 {
+139 {
     "pageno": 16,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "∗\nCG. Since ˜f ∗is graded and by <Highlight>(2)</Highlight>"
+    "PDF text selection": "by <Highlight>(2)</Highlight> we"
 }
 
-151 {
+140 {
     "pageno": 16,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(2)</Highlight> The map p1 ◦˜f ∗◦i1 : H∗\nC"
+    "PDF text selection": "<Highlight>(1) (2) (3)</Highlight> The lift ˜f stabilizes a copy of Grassmannian, i.e., ˜f({x0}×CGn,k) ⊆{x0}× CGn,k for some x0 ∈Sm. <Highlight>(1) (2) (3)</Highlight> The map p1 ◦˜f ∗◦i1 : H∗ CG →H∗ CG is an automorphism, equivalently, f ∗(c2 1) = λ2c2 1, λ ∈Q\\{0}, where p1 and i1 are defined in (11). <Highlight>(1) (2) (3)</Highlight> The"
 }
 
-152 {
+141 {
     "pageno": 16,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "hypothesis <Highlight>(2)</Highlight> considered in Theorem 4.9 or Theorem 4.10. Some of them are as"
+    "PDF text selection": "hypothesis <Highlight>(2)</Highlight> considered"
 }
 
-153 {
+142 {
     "pageno": 16,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "Hence condition <Highlight>(2)</Highlight> of Theorem 4.10 may be omitted, and one obtains the following"
+    "PDF text selection": "condition <Highlight>(2)</Highlight> of"
 }
 
-154 {
+143 {
     "pageno": 17,
     "type": "Highlight",
     "message": {
         "comment": "break before \"continuous\"",
         "responses": []
     },
-    "PDF text selection": "both even. Assume m > 2k, and the hypothesis (3) is satisfied. Then, for any <Highlight>con-</Highlight>"
+    "PDF text selection": "any <Highlight>con-</Highlight> tinuous function g on P(m, n, k) that induces an automorphism on H∗(P(m, n, k); n-</Highlight> the"
 }
 
-155 {
+144 {
     "pageno": 17,
     "type": "Highlight",
     "message": {
         "comment": "break before math",
         "responses": []
     },
-    "PDF text selection": "tinuous function g on P(m, n, k) that induces an automorphism on <Highlight>H∗(P(m, n, k); Q),</Highlight>"
+    "PDF text selection": "on <Highlight>H∗(P(m, n, k); Q),</Highlight> the"
 }
 
-156 {
+145 {
     "pageno": 17,
     "type": "Highlight",
     "message": {
         "comment": "remove no indent",
         "responses": []
     },
-    "PDF text selection": "<Highlight>In particular,</Highlight> for g = id, the space P(m, n, k) has the fixed-point property."
+    "PDF text selection": "property. <Highlight>In particular,</Highlight> for"
 }
 
-157 {
+146 {
     "pageno": 17,
     "type": "Highlight",
     "message": {
         "comment": "break before inline math",
         "responses": []
     },
-    "PDF text selection": "In Theorem 4.10, the first assumption that g∗is an automorphism of <Highlight>H∗(P(m, n, k); Q)</Highlight>"
+    "PDF text selection": "of <Highlight>H∗(P(m, n, k); Q)</Highlight> can"
 }
 
-158 {
+147 {
     "pageno": 17,
     "type": "Replace",
     "message": {
         "comment": "Proposition 4.13 <COMP: link>",
         "responses": []
     },
-    "PDF text selection": "can be relaxed by assuming µ is nonzero, which leads to <Replace>the following proposition</Replace>."
+    "PDF text selection": "to <Replace>the following proposition</Replace>."
 }
 
-159 {
+148 {
     "pageno": 17,
     "type": "Highlight",
     "message": {
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(1)</Highlight> ˜g∗(H∗\nC"
+    "PDF text selection": "<Highlight>(1) (2)</Highlight> ˜g∗(H∗ CG) = H∗ CG. <Highlight>(1) (2)</Highlight> ˜f"
 }
 
-160 {
+149 {
     "pageno": 17,
     "type": "Replace",
     "message": {
@@ -1610,103 +1500,103 @@
     "PDF text selection": "<Replace>Acknowledgements</Replace>"
 }
 
-161 {
+150 {
     "pageno": 17,
     "type": "Replace",
     "message": {
         "comment": "p. 102",
         "responses": []
     },
-    "PDF text selection": "<Replace>pp. http://gateway.proquest.com/openurl?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/</Replace>"
+    "PDF text selection": "The- <Replace>sis pp (Ph.D.)—The Ohio State University, ProQuest LLC, Ann Arbor, MI (1978), 102 fi/</Replace> <Replace>sis pp. (Ph.D.)—The Ohio State University, ProQuest LLC, Ann Arbor, MI (1978), 102 http://gateway.proquest.com/openurl?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/</Replace> fmt:kev:mtx:dissertation&res_dat=xri:pqdiss&rft_dat=xri:pqdiss:7908118"
 }
 
-162 {
+151 {
     "pageno": 17,
     "type": "Replace",
     "message": {
         "comment": "pp. 181--183",
         "responses": []
     },
-    "PDF text selection": "Math. Soc. 88 (1983), no. 1, <Replace>181–183</Replace>, https://doi.org/10.2307/2045137."
+    "PDF text selection": "1, <Replace>181–183</Replace>, https://doi.org/10.2307/2045137."
 }
 
-163 {
+152 {
     "pageno": 18,
     "type": "Highlight",
     "message": {
         "comment": "F",
         "responses": []
     },
-    "PDF text selection": "<Highlight>f</Highlight>ixed"
+    "PDF text selection": "the <Highlight>f</Highlight>xed point"
 }
 
-164 {
+153 {
     "pageno": 18,
     "type": "Highlight",
     "message": {
         "comment": "P",
         "responses": []
     },
-    "PDF text selection": "<Highlight>p</Highlight>oint"
+    "PDF text selection": "fixed <Highlight>p</Highlight>oint property"
 }
 
-165 {
+154 {
     "pageno": 18,
     "type": "Highlight",
     "message": {
         "comment": "P",
         "responses": []
     },
-    "PDF text selection": "<Highlight>p</Highlight>roperty"
+    "PDF text selection": "point <Highlight>p</Highlight>roperty for"
 }
 
-166 {
+155 {
     "pageno": 18,
     "type": "Highlight",
     "message": {
         "comment": "M",
         "responses": []
     },
-    "PDF text selection": "<Highlight>m</Highlight>anifolds,"
+    "PDF text selection": "Grassmann <Highlight>m</Highlight>anifolds, Thesis"
 }
 
-167 {
+156 {
     "pageno": 18,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "Indian Institute of Technology Kanpur, Kanpur<Caret></Caret> 208016, India"
+    "PDF text selection": "Kanpur, Kanpur<Caret></Caret> 208016,"
 }
 
-168 {
+157 {
     "pageno": 18,
     "type": "Caret",
     "message": {
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "Institute of Mathematics, Polish Academy of Sciences, Krak´ow<Caret></Caret> 31-027, Poland"
+    "PDF text selection": "Sciences, Krakow<Caret></Caret> 31-027,"
 }
 
-169 {
+158 {
     "pageno": 18,
     "type": "Replace",
     "message": {
         "comment": " at the",
         "responses": []
     },
-    "PDF text selection": "Institute of Mathematics<Replace>,</Replace> Polish Academy of Sciences, Krak´ow 31-027, Poland"
+    "PDF text selection": "of Mathematics<Replace>,</Replace> Polish"
 }
 
-170 {
+159 {
     "pageno": 18,
     "type": "Replace",
     "message": {
         "comment": "_",
         "responses": []
     },
-    "PDF text selection": "Email address: manasm<Replace>.</Replace>imsc@gmail.com"
+    "PDF text selection": "address: manasm<Replace>.</Replace>imsc@gmail.com"
 }
 

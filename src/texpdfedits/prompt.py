@@ -7,26 +7,77 @@ import pickle
 import re
 
 from texpdfedits.extract import getEdits
-from texpdfedits.segmentsource import segment, sourceAsString
+from texpdfedits.segmentsource import segment, sourceAsString, numericComponent, alphaComponent, markIdToCountInfo
 
 import google.genai as genai
+from google.genai import types
 
 from dotenv import load_dotenv
 load_dotenv()
 
 from pathlib import Path
 
+THINKING_GEMINI_MODELS = {'gemini-3-flash-preview', 'gemini-3-pro-preview'}
+
 
 BOXES_ORDER_THRESHOLD_BUFF = 6
 """
-when a rectangle doesn't intersect any word boxes we look for the word boxes before and after the rectangle.
-If the inputted rectangle has y0 Y and a word box has y0 Y+.01 it is still recognized as coming "after" the inputted
+When a rectangle doesn't intersect any word boxes, we look for the word boxes before and after the rectangle.
+If the inputted rectangle has y0 Y and a word box has y0 Y+.01 it would by default be recognized as coming "after" the inputted
 rectangle when very often it could actually appear earlier in the line. To mitigate this, we extend the threshold a little, so
-for a word box to be considered "after" (or before) its y0 needs to be greater than the inputted rectangle's y0 plus this buffer
+for a word box to be considered "after" (or before), its y0 needs to be greater than the inputted rectangle's y0 plus this buffer
 (and less than the inputted buffer's y0 minus this buffer). This is used in determining boxes_before and boxes_after.
 We may need to eventually find a new and better way to determine word box order if we continue to encounter issues.
 """
 
+def categorizeMarkIDs(mark_ids: list[str]) -> int:
+    """
+    if the marks are all structured the same level of nesting, e.g., all boxes within the same footnote, return 'compatible'
+    if the marks are all the same level of nesting except for the head count, e.g., all boxes within thanks but includes boxes in two different thanks,
+    return 'maybe compatible'
+    if the marks are not the same at all, e.g., one is in just in the document and another is in a footnote (inside the document), return 'incompatible'
+    """
+    sets_of_counter_info = {}
+    count_info_lens = set()
+    for mark_id in mark_ids:
+        count_info = markIdToCountInfo(mark_id)
+        count_info_lens.add(len(count_info))
+        for i, name_head_stem in enumerate(count_info):
+            if i not in sets_of_counter_info:
+                sets_of_counter_info[i] = {'names': set(), 'heads': set(), 'stems': set()}
+            sets_of_counter_info[i]['names'].add(name_head_stem['name'])
+            sets_of_counter_info[i]['heads'].add(name_head_stem['head'])
+            sets_of_counter_info[i]['stems'].add(name_head_stem['stem'])
+            
+    if len(count_info_lens) != 1:
+        return 'incompatible'
+
+    max_counter_idx = max(sets_of_counter_info.keys())
+    # walk through lengths piece by piece
+    for index, set_of_c_info in sets_of_counter_info.items():
+        if len(set_of_c_info['names']) != 1:
+            return 'incompatible'
+        if len(set_of_c_info['heads']) != 1:
+            if index < max_counter_idx:
+                return 'incompatible'
+            else:
+                return 'maybe same'
+        if len(set_of_c_info['stems']) != 1 and index < max_counter_idx:
+            return 'incompatible'
+        
+    return 'compatible'
+
+def isOnlyDocumentID(mark_id: str) -> bool:
+    count_info = markIdToCountInfo(mark_id)
+    return len(count_info) == 1 and count_info[0]['name'] == 'DOCUMENT'
+
+def getTerminalStem(mark_id: str) -> int:
+    count_info = markIdToCountInfo(mark_id)
+    return count_info[-1]['stem']
+
+def infoToMarkID(count_info: list[dict[str, str]]):
+    return ','.join([f"{piece['name']}{piece['head']};{piece['stem']}" for piece in count_info])
+                
 def rectangleToLatex(
         pageno: int,
         in_rectangle: pymupdf.Rect,
@@ -44,79 +95,134 @@ def rectangleToLatex(
 
     Returns: The (unmarked) source LaTeX snippet which "contains" the rectangle.
 
-    Given some rectangle, we find the closest word box before and after that rectangle
-    then return all of the LaTeX between (and including) those two word boxes.
+    If the inputted rectangle intersects at least one word box -> 
+    We handle three possibilities
+         1. the word boxes are "compatible" -> we use the boxes within that level, first preceding, next following
+         2. the word boxes are "maybe compatible" -> we have partitions of ids by head value
+                     we check the pairs last stem of head i versus first stem of head i + 1
+                     and see if their distance in source position (in characters) is more than some threshold
+                     if all of these distances are less than a threshold, then we give all the source between the box before the earliest
+                     intersected head and the box after the last intersected head
 
-    If the inputted rectangle intersects at least one word box, finding the preceding and following word boxes is simple:
-    out of the word boxes that intersect, find the one with the smallest id and the one with the largest id, then just use the first
-    existing id (because not all \markbox commands make it to the document_work_boxes dictionary) before the smallest and the next existing id
-    after the largest.
+                     if the distances are not all within that threshold then we don't extract the source
+          3. the word boxes are "incompatible" -> we don't extract any source
 
-    If the inputted rectangle doesn't intersect any document_word_boxes, then the "before" box is the one with the largest id whose topline (y0) is less than
-    (higher up the page) than the topline of the inputted box, and the "after" box is the one with the smallest id whose topline is greater than the inputted box.
+    if the inputted rectangle does not intersect any boxes -> 
+    we simply use the boxes only numbered within the document and use the range of the first document box before the rectangle through (and including) the
+    first document box after the rectangle
     """
     if pageno not in document_word_boxes:
         logging.warning(f"Cannot extract LaTeX: pageno {pageno} not in document_word_boxes")
         return None, None
 
+    def getAdjacentKey(mark_id: str, plus_minus: int, page: int) -> str:
+        """ return the previous key based on the terminal stem value. So document0;0,caption0;1,footnote5;10 should return
+        document0;0,caption0;1,footnote5;9
+        """
+        count_info = markIdToCountInfo(mark_id)
+        stem_val = int(count_info[-1]['stem']) 
+        count_info[-1]['stem'] = str(stem_val + plus_minus)
+        adjacentMark = infoToMarkID(count_info) 
+        
+        if adjacentMark in document_word_boxes[page]:
+            return adjacentMark
+        elif page + plus_minus in document_word_boxes and adjacentMark in document_word_boxes[page + plus_minus]:
+            return adjacentMark
+        else:
+            return None
+
+    def checkMaybeCompatible(mark_ids: list[str]) -> tuple[str, str]:
+        """ mark_ids are maybe compatible, so their counters other than the last are known to be all equal
+        
+        In word's the intention on this function is to look at each group of counters which have the same head value and compare the last in that group to the
+        first in the next group with the same head value (typically it will have head value of just one more, but we don't require this)
+        
+        If the number of characters between the end and the start for each of these pairs is less than some arbitrary threshold, say 100 characters,
+        Then we'll return the key of the first id in the lowest head count group and the key of the last id in the largest head count group as our
+        start_ and end_ extraction keys.
+        """
+        count_infos = [markIdToCountInfo(m_id) for m_id in mark_ids]
+        head_partitions = {}
+        for c_info in count_infos:
+            head_count = c_info[-1]['head'] # [-1] because we already know that all preceding count information is the same
+            if head_count in head_partitions:
+                head_partitions[head_count].append(c_info[-1])
+            else:
+                head_partitions[head_count] = [c_info[-1]]
+        sorted_head_counts = list(sorted(head_partitions.keys()))
+
+        def returnCinfoStem(single_c_info: dict[str, str | int]):
+            return single_c_info['stem']
+        
+        for i in range(len(sorted_head_counts)-1):
+            curr_hcount = sorted_head_counts[i]
+            next_hcount = sorted_head_counts[i+1]
+            last_curr = infoToMarkID(max(head_partitions[curr_hcount], key=returnCinfoStem))
+            first_next = infoToMarkID(min(head_partitions[next_hcount], key=returnCinfoStem))
+
+            start_pos = mark_positions[last_curr][1]
+            end_pos = mark_positions[first_next][0]
+            if not (start_pos < end_pos and end_pos - start_pos < MAYBE_COMPATIBLE_POSITION_DIFFERENCE_THRESH):
+                logging.debug(
+                    f"Mark IDs are not compatible for source extraction:\n"
+                    f"markId {last_curr} had end {start_pos} and id {first_next} had start {end_pos}"
+                )
+                return None, None
+
+        start_key = infoToMarkID(min(head_partitions[sorted_head_counts[0]], key=returnCinfoStem))
+        end_key = infoToMarkID(max(head_partitions[sorted_head_counts[-1]], key=returnCinfoStem))
+        return start_key, end_key
+
     page_word_boxes = document_word_boxes[pageno]
-    intersecting_word_boxes = {k: rect for k, rect in page_word_boxes.items() if in_rectangle.intersects(rect)} 
+    intersecting_word_boxes = {k: rect for k, rect in page_word_boxes.items() if in_rectangle.intersects(rect)}
 
-    def getNumericComponent(k: str) -> int:
-        return int(''.join(filter(str.isdigit, k)))
-
-    def getPrevKey(key: str, all_keys: list[str]) -> str | None:
-        target_num = getNumericComponent(key)        
-        prev_keys = [k for k in all_keys if getNumericComponent(k) < target_num]
-        return max(prev_keys, key = getNumericComponent) if prev_keys else None
-
-    def getNextKey(key: str, all_keys: list[str]) -> str | None:
-        target_num = getNumericComponent(key)
-        next_keys = [k for k in all_keys if getNumericComponent(k) > target_num]
-        return min(next_keys, key = getNumericComponent) if next_keys else None        
-
-    all_keys = [k for page_boxes in document_word_boxes.values() for k in page_boxes.keys()]
-    
     if intersecting_word_boxes:
-        logging.debug(f"Rectangle {in_rectangle} on page {pageno} did intersect word boxes")
-        min_key = min(intersecting_word_boxes.keys(), key = getNumericComponent)
-        max_key = max(intersecting_word_boxes.keys(), key = getNumericComponent)
-        before_key = getPrevKey(min_key, all_keys)
-        after_key = getNextKey(max_key, all_keys)
+        logging.debug(f"Rectangle {in_rectangle} on page {pageno} intersected {len(intersecting_word_boxes)} word boxes")
+        mark_ids = list(intersecting_word_boxes.keys())
+        category = categorizeMarkIDs(mark_ids)
+        if category == 'compatible':
+            min_key = min(mark_ids, key=getTerminalStem)
+            max_key = max(mark_ids, key=getTerminalStem)
+            before_min = getAdjacentKey(min_key, -1, pageno)
+            after_max = getAdjacentKey(max_key, 1, pageno)
+            
+            start_key = before_min if before_min is not None else min_key
+            end_key = after_max if after_max is not None else max_key
+        elif category == 'maybe compatible':
+            start_key, end_key = checkMaybeCompatible(mark_ids)
+        else:
+            logging.warning(f"Cannot extract LaTeX: intersected mark IDs were not compatible.")
+            logging.debug(f"Incompatible mark IDs were\n{mark_ids}")
+            return None, None
     else:
-        # the boxes before and after are on the same page
-        logging.debug(f"No word box was intersected by rectangle {in_rectangle} on page {pageno}")
-        boxes_before = {k: rect for k, rect in page_word_boxes.items() if rect.y0 < in_rectangle.y0 - BOXES_ORDER_THRESHOLD_BUFF}
-        boxes_after = {k: rect for k, rect in page_word_boxes.items() if rect.y0 > in_rectangle.y0 + BOXES_ORDER_THRESHOLD_BUFF}
+        logging.debug(f"Rectangle {in_rectangle} did not intersect any word box on page {pageno}")
+        boxes_before = {k: rect for k, rect in page_word_boxes.items() if rect.y0 < in_rectangle.y0 - BOXES_ORDER_THRESHOLD_BUFF and isOnlyDocumentID(k)}
+        boxes_after = {k: rect for k, rect in page_word_boxes.items() if rect.y0 > in_rectangle.y0 + BOXES_ORDER_THRESHOLD_BUFF and isOnlyDocumentID(k)}
 
         # logging.debug(f"boxes before: {boxes_before}\n\n")
         # logging.debug(f"boxes after: {boxes_after}\n\n")        
         
-        before_key = max(boxes_before.keys(), key=getNumericComponent) if boxes_before else None
-        after_key = min(boxes_after.keys(), key=getNumericComponent) if boxes_after else None
+        start_key = max(boxes_before.keys(), key=getTerminalStem) if boxes_before else None
+        end_key = min(boxes_after.keys(), key=getTerminalStem) if boxes_after else None
+        
+        if start_key is None:
+            start_key = max(filter(isOnlyDocumentID, document_word_boxes[pageno - 1].keys()), key=getTerminalStem) if pageno-1 in document_word_boxes else None
 
-    if before_key is None:
-        before_key = max(document_word_boxes[pageno-1].keys(), key=getNumericComponent) if pageno-1 in document_word_boxes else None
+        if end_key is None:
+            end_key = min(filter(isOnlyDocumentID, document_word_boxes[pageno + 1].keys()), key=getTerminalStem) if pageno+1 in document_word_boxes else None
 
-    if after_key is None:
-        after_key = min(document_word_boxes[pageno+1].keys(), key=getNumericComponent) if pageno+1 in document_word_boxes else None
-
-    if before_key is None or after_key is None:
-        # This should only happen if the rectangle is before or after ALL marked boxes in the document.
-        # This is a situation where we should check metadata, but I'll have to think more about that in general
-        logging.warning(f"Cannot extract LaTeX: Rectangle outside marked boxes (before_key={before_key}, after_key={after_key})")
+    if start_key is None or end_key is None:
+        # This should only happen if
+        # (1) the rectangle doesn't intersect any boxes and it comes before or after all of them
+        # (2) the rectangle intersects boxes which have incompatible ids
+        # (2.1) the rectangle intersects boxes which are maybe compatible that are actually deemed incompatible by checkMaybeCompatible
+        logging.warning(f"Cannot extract LaTeX: Rectangle outside marked boxes (start_key={start_key}, end_key={end_key})")
         return None, None
 
-    logging.debug(f"Before key is {before_key} and after key is {after_key}")
+    logging.debug(f"Before key is {start_key} and after key is {end_key}")
 
-    # NEW
-    # the mark_positions.keys() should be a superset of the document_word_boxes.keys()
-    # document_word_boxes should only not contain the keys whose individual word boxes were rejected---mark_positions has all of them
-    # we could simplify what is above to just take the adjacent key by numeric component (checking if its just the number or preceded by 'm')
-    # and this would actually slightly enhance the extraction---it would on average make the snippet smaller, including only what is needed
-    # excluding, obviously, the cases where what needs to be edited is very far from the original inputted rectangle (like far down in an enumerate list)
-    start_pos = mark_positions[before_key][0]
-    end_pos = mark_positions[after_key][1]
+    start_pos = mark_positions[start_key][0]
+    end_pos = mark_positions[end_key][1]
 
     if start_pos > end_pos:
         # this shouldn't happen thanks to BOXES_ORDER_THRESHOLD_BUFF
@@ -128,9 +234,9 @@ def rectangleToLatex(
 def markdownReplies(replies: list[str]):
     if not replies:
         return ''
-    output = '\n\n## Replies '
+    output = '\n\n### Replies '
     for i in range(len(replies)):
-        output += f'\n\n### Reply {i+1}\n```text\n{replies[i]}\n```'
+        output += f'\n\n#### Reply {i+1}\n```text\n{replies[i]}\n```'
     return output
 
 class Correction:
@@ -159,11 +265,11 @@ class Correction:
             for annotations which select multiple lines of text because the
             required bounding box information is missing
 
-    pdf_selection_line_rect: the rectangle used to select the text
+    pdf_annot_rect: the rectangle used to select the text
             on that page of the PDF.
 
     pdf_selection_bbs: the rectangles used to partition the text
-            extracted from the pdf_selection_line_rect into
+            extracted from the pdf_annot_rect into
             pieces which are and are not inside the HTML-like
             focus tags. See getSelection in extract.py for more on this
     
@@ -181,7 +287,7 @@ class Correction:
             _type: str,
             _messages: dict[str, str | list[str]],
             _pdf_selected_text: str,
-            _pdf_selection_line_rect: pymupdf.Rect,
+            _pdf_annot_rect: pymupdf.Rect,
             _pdf_selection_bbs: list[pymupdf.Rect],
             _latex_snippet: str,
             _snippet_source_positions: tuple[int, int]
@@ -192,7 +298,7 @@ class Correction:
         self.type = _type
         self.messages = _messages
         self.pdf_selected_text = _pdf_selected_text
-        self.pdf_selection_line_rect = _pdf_selection_line_rect
+        self.pdf_annot_rect = _pdf_annot_rect
         self.pdf_selection_bbs = _pdf_selection_bbs
         self.latex_snippet = _latex_snippet
         self.snippet_source_positions = _snippet_source_positions
@@ -207,7 +313,7 @@ class Correction:
                 "responses": self.messages['responses']
             },
             "PDF selected text": self.pdf_selected_text,
-            "PDF selection line rectangle": str(self.pdf_selection_line_rect),
+            "PDF selection line rectangle": str(self.pdf_annot_rect),
             "LaTeX snippet": self.latex_snippet,
             "Snippet source positions": self.snippet_source_positions
         }, indent=4, ensure_ascii=False)
@@ -217,20 +323,19 @@ class Correction:
 
     def asMarkdownPrompt(self):
         replies = markdownReplies(self.messages['responses'])
-        return rf"""## Type
-{self.type}
+        return rf"""### Annotation: {self.type}
 
-## Comment
+### Comment
 ```text
 {self.messages['comment']}
 ```{replies}
 
-## PDF selected text
+### PDF selected text
 ```text
 {self.pdf_selected_text}
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 {self.latex_snippet}
 ```"""
@@ -253,10 +358,10 @@ def getCorrections(annot_filename: str, latex_filename: str) -> list[Correction]
             logging.warning(f"Could not create correction {progress}: Page '{pageno}' not in `document_word_boxes` for edit {edit}")
             continue
         
-        pdf_selection_line_rect = edit.selection_line_rect
+        pdf_annot_rect = edit.annot_rect
         latex_snippet, snippet_source_positions = rectangleToLatex(
             pageno,
-            pdf_selection_line_rect,
+            pdf_annot_rect,
             document_word_boxes,
             mark_positions,
             unmarked_str
@@ -269,7 +374,7 @@ def getCorrections(annot_filename: str, latex_filename: str) -> list[Correction]
         corrections.append(
             Correction(
                 i, pageno, edit.type, edit.message, edit.selection,
-                pdf_selection_line_rect, edit.selection_bbs, latex_snippet,
+                pdf_annot_rect, edit.selection_bbs, latex_snippet,
                 snippet_source_positions
             )
         )
@@ -314,30 +419,35 @@ def groupOverlaps(keyed_start_ends: dict[int, tuple[int]]) -> list[list[int]]:
     return groups
 
 def groupOverlappingCorrections(corrections: list[Correction], tex_filename: str, key_to_correction: dict[int, Correction]) -> tuple[list[list[int]], list[str]]:
+    """find which corrections overlap"""
     if not corrections:
         return [], []
-    tex_str = sourceAsString(tex_filename)
+    ### Don't extend snippets based on groups now. If one correction fails it compromises the entire group. I think it's more clean if a little more challenging to just compose the individual edits (and individuall screen them, too).
+    # tex_str = sourceAsString(tex_filename)
+    
     keyed_start_ends = {corr.index: corr.snippet_source_positions for corr in corrections}
+    
     groups = groupOverlaps(keyed_start_ends)
 
-    snippets = []
-    for group in groups:
-        spans_in_group = [keyed_start_ends[k] for k in group]
-        min_start = min(spans_in_group, key = lambda span: span[0])[0]
-        max_end = max(spans_in_group, key = lambda span: span[1])[1]
-        containing_snippet = tex_str[min_start:max_end]
-        snippets.append(containing_snippet)
-        for k in group:
-            corr = key_to_correction[k]
-            if not corr.latex_snippet in containing_snippet:
-                logging.error(
-                     "Failed to create overlapping groups: "
-                    f"a snippet \n{corr.snippetToCodeblock()}\n was not in its spanning snippet \n{toCodeblock(containing_snippet)}\n"
-                )
-                sys.exit(1)
-            corr.updateSnippet((min_start, max_end), containing_snippet)
+    ### Don't extend snippets based on groups now. If one correction fails it compromises the entire group. I think it's more clean if a little more challenging to just compose the individual edits (and individuall screen them, too).
+    # snippets = [] 
+    # for group in groups:
+    #     spans_in_group = [keyed_start_ends[k] for k in group]
+    #     min_start = min(spans_in_group, key = lambda span: span[0])[0]
+    #     max_end = max(spans_in_group, key = lambda span: span[1])[1]
+    #     containing_snippet = tex_str[min_start:max_end]
+    #     snippets.append(containing_snippet)
+    #     for k in group:
+    #         corr = key_to_correction[k]
+    #         if not corr.latex_snippet in containing_snippet:
+    #             logging.error(
+    #                  "Failed to create overlapping groups: "
+    #                 f"a snippet \n{corr.snippetToCodeblock()}\n was not in its spanning snippet \n{toCodeblock(containing_snippet)}\n"
+    #             )
+    #             sys.exit(1)
+    #         corr.updateSnippet((min_start, max_end), containing_snippet)
     
-    return groups, snippets # will probably not return snippets in future: unnecessary
+    return groups
 
 def writeListOfPrompts(corrections: list[Correction], tex_filename: str) -> None:
     prompt_dir = Path('markdown_prompts')
@@ -346,25 +456,64 @@ def writeListOfPrompts(corrections: list[Correction], tex_filename: str) -> None
     savefile = f"{prompt_dir / Path(tex_filename).stem}_list_of_prompts.md"
 
     with open(savefile, 'w') as f:
-        f.write('\n\n---\n\n'.join([f"#{corr.index}\n\n" + corr.asMarkdownPrompt() for corr in corrections if corr is not None]))
+        f.write('\n\n---\n\n'.join([f"# {corr.index}\n\n" + corr.asMarkdownPrompt() for corr in corrections if corr is not None]))
     logging.info(f"The list of prompts have been written to {savefile}.")
 
-def writePromptsWithResponses(corrections: list[Correction], updated_snippets, explanations, tex_filename, model):
+def writePromptsWithResponses(
+        corrections: list[Correction],
+        updated_snippets,
+        explanations,
+        tex_filename,
+        identifying_run_str,
+        system_prompt,
+        standalone_corridxs: list[int],
+        group_corridxs: list[list[int]],
+):
     prompt_dir = Path('markdown_prompts')
     Path.mkdir(prompt_dir, exist_ok=True)
     
-    savefile = f"{prompt_dir / Path(tex_filename).stem}_responses_{model}.md"
+    savefile = f"{prompt_dir / Path(tex_filename).stem}_responses_{identifying_run_str}.md"
+
+    prompts_with_responses = []
+
+    corridx_to_correction = {corr.index: corr for corr in corrections}
+
+    def writePromptsAndResponses(corr_idxs: list[int]):
+        for corridx in corr_idxs:
+            corr = corridx_to_correction[corridx]
+            if corr is None:
+                continue
+            prompt = corr.asMarkdownPrompt()
+            updated_snippet = updated_snippets[corr.index] if corr.index in updated_snippets else None
+            if updated_snippet is None:
+                continue
+            explanation = explanations[corr.index] if corr.index in explanations else 'No explanation found'
+            if re.search(r'(?:\s*#{5} Before codeblock\s*#{5} After codeblock|^\s*$)', explanation):
+                explanation = ''
+            else:
+                explanation = '\n#### Explanation\n' + explanation
+
+            if updated_snippet.startswith("#### FAILURE:"):
+                beneath_response = updated_snippet
+            else:
+                beneath_response = f"```latex\n{updated_snippet}\n```"
+            
+            prompts_with_responses.append(
+                f"## {corr.index}\n\n{prompt}\n### Response\n{beneath_response}\n{explanation}"
+            )
+
+    writePromptsAndResponses(standalone_corridxs)
+    for g in group_corridxs:
+        prompts_with_responses.append(f"# Overlapping corrections: {g}")
+        writePromptsAndResponses(g)
 
     with open(savefile, 'w') as f:
-        f.write(
-            '\n\n---\n\n'.join(
-                [f"#{corr.index}\n\n" + corr.asMarkdownPrompt() + f"\n## Response\n```latex\n{updated_snippets[corr.index]}\n```\n### Explanation\n{explanations[corr.index]}"
-                 for corr in corrections if corr is not None]
-            )
-        )
+        f.write(f"# System prompt\n{system_prompt}\n---\n")
+        f.write('\n\n'.join(prompts_with_responses))
+
     logging.info(f"The prompts with their responses have been written to {savefile}.")    
 
-def callGemini(prompt: str, model: str, system_prompt: str = None, history: list = None):
+def callGemini(prompt: str, model: str, system_prompt: str, temperature: float, top_p: float, history: list = None, **kwargs):
     """
     Call Google's Gemini API with chat history support.
     
@@ -379,36 +528,54 @@ def callGemini(prompt: str, model: str, system_prompt: str = None, history: list
     """
     client = genai.Client()
     
-    # Build message history
     messages = []
     if history:
         for exchange in history:
             messages.append({'role': 'user', 'parts': [{'text': exchange['prompt']}]})
             messages.append({'role': 'model', 'parts': [{'text': exchange['response']}]})
     
-    # Add current prompt
     messages.append({'role': 'user', 'parts': [{'text': prompt}]})
-    
-    # Build config
-    config = {}
-    if system_prompt:
-        config['system_instruction'] = system_prompt
-    
-    # Make API call
+
+    if model not in THINKING_GEMINI_MODELS:
+        config = types.GenerateContentConfig(
+            response_mime_type = 'text/plain',
+            system_instruction=system_prompt,
+            temperature=temperature,   
+            top_p=top_p,
+        )
+    else:
+        if model == 'gemini-3-pro-preview':
+            thinking_level = 'high'
+            temperature = 0.25
+            top_p = .85
+        else:
+            thinking_level = 'minimal'
+            
+        config = types.GenerateContentConfig(
+            response_mime_type = "text/plain",
+            system_instruction=system_prompt,
+            temperature=temperature,   
+            top_p=top_p,         
+            thinking_config=types.ThinkingConfig(
+                include_thoughts=False, 
+                thinking_level=thinking_level # can be minimal, low, medium, or (default) high
+            )
+        )
+
     response = client.models.generate_content(
         model=model,
         contents=messages,
-        config=config if config else None
+        config=config
     )
     
     return response.text
 
-def callClaude(prompt: str, model: str, system_prompt: str = None, history: list = None):
+def callClaude(prompt: str, model: str, system_prompt: str, temperature: float, top_p: float, history: list = None, **kwargs):
     """Call Anthropic's Claude API (to be implemented)"""
     # TODO: implement with anthropic package
     return prompt
 
-def callEcho(prompt: str, model: str, system_prompt: str = None, history: list = None):
+def callEcho(prompt: str, model: str, system_prompt: str, history: list = None, **kwargs):
     """ Just return the first supplied latex code block """
     codeblocks = []
     matches = re.finditer(r'```(\w+)\n(.*?)\n?```', prompt, re.DOTALL)
@@ -430,7 +597,7 @@ def callEcho(prompt: str, model: str, system_prompt: str = None, history: list =
     
     return '\nEcho explanation (nothing)'.join([block['full-match'] for block in latex_blocks])
 
-def callLLM(prompt: str, model: str, system_prompt: str = None, history: list = None):
+def callLLM(prompt: str, model: str, system_prompt: str, model_temp: float, model_top_p: float, history: list | None = None):
     """
     Dispatch to appropriate LLM based on model name.
     
@@ -450,12 +617,13 @@ def callLLM(prompt: str, model: str, system_prompt: str = None, history: list = 
     elif 'echo' in model.lower():
         llm = callEcho
     else:
-        raise ValueError(f"Unsupported model: {model}")
+        raise ValueError(f"Unrecognized model: {model}")
 
-    logging.info(f"Calling {model}...")
+    # logging.info(f"Calling {model}...")
     start = time.time()    
-    response = llm(prompt, model, system_prompt, history)
-    logging.info(f"Call to {model} completed in {time.time() - start:.2f}s")    
+    response = llm(prompt, model, system_prompt, model_temp, model_top_p, history)
+    logging.info(f"{model} responded to prompt after {time.time() - start:.2f}s")
+    
     return response
 
 def getChunks(
@@ -488,6 +656,15 @@ def parseResponse(response_str: str, corrections: list[Correction], model_name: 
     """
     codeblocks = []
     matches = re.finditer(r'```(\w+)\n(.*?)\n?```', response_str, re.DOTALL)
+
+    default_return = [{'code':response_str} for _ in corrections]
+
+    if matches is None:
+        logging.warning(
+            "Could not parse Response: "
+            f"No matching codeblocks found.\n\nBAD RESPONSE:\n{reseponse_str}"
+        )
+        return default_return, 1
     
     for match in matches:
         codeblocks.append({
@@ -499,9 +676,11 @@ def parseResponse(response_str: str, corrections: list[Correction], model_name: 
     
     if len(codeblocks) != len(corrections):
         logging.warning(
-            f"Response from {model_name} returned {len(codeblocks)} codeblocks "
-            f"but expected {len(corrections)} corrections"
+            f"Could not parse response: "
+            f"{len(codeblocks)} codeblocks were returned when expecting {len(corrections)}"
+            f"\n\nBAD RESPONSE:\n{response_str}"
         )
+        return default_return, 1
     
     languages = {block['language'] for block in codeblocks}
     if not languages.issubset({'latex', 'tex'}):
@@ -512,40 +691,67 @@ def parseResponse(response_str: str, corrections: list[Correction], model_name: 
     
     # Extract explanations after codeblocks
     for i, block in enumerate(codeblocks):
-        start = block['end']
-        end = codeblocks[i+1]['start'] if i < len(codeblocks)-1 else len(response_str)
-        block['explanation'] = response_str[start:end].strip()
+        explanation = []
+        before_start = codeblocks[i+1]['end'] if i+1 < len(codeblocks) else 0
+        before_end = block['start']
+        explanation.append('##### Before codeblock\n' + response_str[before_start:before_end].strip())
+        
+        after_start = block['end']
+        after_end = codeblocks[i+1]['start'] if i < len(codeblocks)-1 else len(response_str)
+        explanation.append('##### After codeblock\n' + response_str[after_start:after_end].strip())
+        
+        block['explanation'] = '\n'.join(explanation)
     
-    return codeblocks
+    return codeblocks, 0
 
 def processStandaloneChunks(
         chunks: list[list[Correction]],
         model: str,
         updated_snippets: dict[int, str],
         explanations: dict[int, str],
-        _system_prompt: str | None = None
+        system_prompt: str,
+        model_temp: float,
+        model_top_p: float
 ) -> None:
     """Process standalone corrections in batches."""
-    num_chunks = len(chunks)-1
+    num_chunks = len(chunks)
     for i, chunk in enumerate(chunks):
         prompt = writeBatchPrompt(chunk)
-        try:
-            response = callLLM(prompt, model, system_prompt = _system_prompt)
-            print(response)
-        except Exception as e:
-            logging.error(f"You got an error from calling the LLM: {e}\nQuitting with the current updated_snippets variable")
-            return 
-        parsed = parseResponse(response, chunk, model)
+        correction_indices = [corr.index for corr in chunk]
         
-        if not parsed:
-            logging.error(f"No codeblocks found in response for corrections {[c.index for c in chunk]}")
+        logging.debug(f"\nSTANDALONE PROMPT {correction_indices}:\n{prompt}")
+
+        def writeFailure(f_chunk, failure_response):
+            for correction in f_chunk:
+                updated_snippets[correction.index] = f'#### FAILURE:\n{failure_response}'
+                explanations[correction.index] = ''
+        
+        response = callLLM(prompt, model, system_prompt, model_temp, model_top_p)
+
+        if response is None or not response:
+            logging.warning(
+                f"Could not process standalone corrections {correction_indices}: "
+                f"Response from callLLM was None or falsy (empty).\n\nBAD RESPONSE:\n{response}"
+            )
+            writeFailure(chunk, response)
+            continue
+
+        logging.debug(f"\nSTANDALONE RESPONSE {correction_indices}:\n{response}")
+        parsed, status = parseResponse(response, chunk, model)
+        
+        if status != 0:
+            logging.warning(
+                f"Could not process standalone corrections {correction_indices}: "
+                f"parseResponse returned failure status"
+            )
+            writeFailure(chunk, response)
             continue
         
-        # Update snippets with parsed codeblocks
         for correction, block in zip(chunk, parsed):
             updated_snippets[correction.index] = block['code']
             explanations[correction.index] = block['explanation']
-        logging.info(f"Processed standalone snippets {i:3d}/{num_chunks:3d}")
+            
+        logging.info(f"Processed standalone correction   {i:3d}/{num_chunks-1:3d}")
 
 def processOverlappingGroups(
     overlapping_groups: list[list[int]], 
@@ -553,39 +759,83 @@ def processOverlappingGroups(
     model: str, 
     updated_snippets: dict[int, str],
     explanations: dict[int, str],
-    _system_prompt: str | None = None
+    system_prompt: str,
+    model_temp: float,
+    model_top_p: float,
 ):
-    """Process overlapping corrections sequentially with chat history."""
-    MAX_HISTORY = 10
-    num_overlapping_groups = len(overlapping_groups)-1
+    """Process overlapping corrections. The difference between these and the standalone corrections is that the entire spanning
+    snippet needs to be updated with each edit for easy substitution with the source later. So these cannot be processed in batches. At least
+    not without reconstructing the original source from the several conflicting versions.
+
+    We're actually not going to update the "entire spanning snippet anymore, so this is very redundant with process standalone corrections---
+    desperately need refactoring
+    """
+    def writeFailure(f_correction, failure_response):
+        updated_snippets[f_correction.index] = f'#### FAILURE:\n{failure_response}'
+        explanations[f_correction.index] = ''
+                
+    num_overlapping_groups = len(overlapping_groups)
+
+    running_index = 0
+    tot_num_group_corrections = sum(map(lambda g: len(g), overlapping_groups))
+    
     for i, group_indices in enumerate(overlapping_groups):
-        group = [key_to_correction[i] for i in group_indices]
-        chat_history = []
+        # could maybe make a deep copy of corrections in group in future to not modify original
+        group = [key_to_correction[idx] for idx in group_indices]
         
-        for correction in group:
-            prompt = writeSinglePrompt(correction)
-            response = callLLM(prompt, model, system_prompt = _system_prompt, history=chat_history)
-            parsed = parseResponse(response, [correction], model)
+        for j, correction in enumerate(group):
+            prompt = correction.asMarkdownPrompt()
+            logging.debug(f"\nGROUP PROMPT {correction.index}:\n{prompt}")
             
-            if not parsed:
-                logging.error(f"No codeblock found in response for correction {correction.index}")
-                # Still add to chat history so conversation continues
-                chat_history.append({'prompt': prompt, 'response': response})
-                if len(chat_history) > MAX_HISTORY:
-                    chat_history = chat_history[-MAX_HISTORY:]
+            response = callLLM(prompt, model, system_prompt, model_temp, model_top_p)
+            logging.debug(f"\nGROUP RESPONSE {correction.index}:\n{response}")
+
+            if response is None or not response:
+                logging.warning(
+                    f"Could not process response for correction {correction.index}: "
+                    f"Response from callLLM was None or falsy. Response: {response}\n"
+                )
+                writeFailure(correction, response)
+                running_index += 1
                 continue
             
-            block = parsed[0]
-            # Update all corrections in this group with the new snippet
-            for c in group:
-                updated_snippets[c.index] = block['code']
-            explanations[correction.index] = block['explanation']
+            parsed, status = parseResponse(response, [correction], model)
             
-            # Maintain chat history with sliding window
-            chat_history.append({'prompt': prompt, 'response': response})
-            if len(chat_history) > MAX_HISTORY:
-                chat_history = chat_history[-MAX_HISTORY:]
-        logging.info(f"Processed overlapping snippets {i:3d}/{num_overlapping_groups:3d}")
+            if status != 0:
+                logging.warning(
+                    f"Could not process correction {correction.index} in group {group_indices}: "
+                    f"parseResponse returned failure status"
+                )
+                writeFailure(correction, response)
+                running_index += 1
+                continue
+
+            # if len(parsed) != 1:
+            #     warning_text = f"Could not process correction {correction.index} in group {group_indices}: "
+            #     warning_text += f"Model returned {len(parsed)} codeblocks, not 1."
+            #     logging.warning(warning_text)
+            #     # updated_snippets[correction.index] = correction.latex_snippet                
+            #     explanations[correction.index] = warning_text
+            #     running_index += 1
+            #     continue
+
+            parsed_response = parsed[0]
+            language = parsed_response['language']
+            
+            if language not in {'latex', 'tex'}:
+                logging.warning(
+                    f"Could not process correction {correction.index} in group {group_indices}: "
+                    f"Response code block language was '{language}', not latex!"
+                )
+                writeFailure(correction, parsed_response)
+                running_index += 1
+                continue
+
+            updated_snippets[correction.index] = parsed_response['code']
+            explanations[correction.index] = parsed_response['explanation']
+
+            logging.info(f"Processed overlapping correction {running_index:3d}/{tot_num_group_corrections-1:3d}")            
+            running_index += 1
 
 def writeBatchPrompt(chunk: list[Correction]) -> str:
     """Create prompt for multiple standalone corrections."""
@@ -599,20 +849,20 @@ def writeBatchPrompt(chunk: list[Correction]) -> str:
         prompt += f'# Correction #{i+1}:\n{correction.asMarkdownPrompt()}\n\n'
     return prompt
 
-def writeSinglePrompt(correction: Correction) -> str:
-    """Create prompt for a single correction."""
-    return correction.asMarkdownPrompt()
-
 def processCorrections(*args, **kwargs):
     """
     *args are the annotated pdf file name followed by the LaTeX file name
     **kwargs are for now chunksize and model. Will add further options later
     """
+    
     annot_filename, tex_filename = args
     
     chunksize = kwargs.get('chunksize', 1)
     model = kwargs.get('model', 'echo')
-    system_prompt = kwargs.get('sysprompt', None)
+    model_temp = kwargs.get('temp', 0.1)
+    model_top_p = kwargs.get('top_p', 0.9)
+    
+    system_prompt = kwargs.get('sysprompt', '')
     corrections = kwargs.get('corrections', None)
 
     if corrections is None:
@@ -621,7 +871,7 @@ def processCorrections(*args, **kwargs):
     key_to_correction = {corr.index: corr for corr in corrections}
 
     # modifies corrections so that all snippets in a group are the same---they span the group
-    overlapping_corrections, _ = groupOverlappingCorrections(corrections, tex_filename, key_to_correction) # returns tuple[list[list[int]], list[str]], second argument currently unused.
+    overlapping_corrections = groupOverlappingCorrections(corrections, tex_filename, key_to_correction) # returns tuple[list[list[int]], list[str]], second argument currently unused.
 
     ## chunk corrections
     standalone_keys = [corridx for corridx in key_to_correction if corridx not in {idx for group in overlapping_corrections for idx in group}]    
@@ -631,24 +881,38 @@ def processCorrections(*args, **kwargs):
     updated_snippets = {}
     explanations = {}
 
-    processStandaloneChunks(chunks['standalone'], model, updated_snippets, explanations)
-    processOverlappingGroups(overlapping_corrections, key_to_correction, model, updated_snippets, explanations)
+    logging.info(f"QUERYING {model}...")
+    start_time = time.time()    
+
+    processStandaloneChunks(chunks['standalone'], model, updated_snippets, explanations, system_prompt, model_temp, model_top_p)
+    processOverlappingGroups(overlapping_corrections, key_to_correction, model, updated_snippets, explanations, system_prompt, model_temp, model_top_p)
+
+    logging.info(f"DONE QUEREYING {model}. Total elapsed time: {(time.time() - start_time)/60:.2f} minutes")
 
     ## apply updates to source file
     # TODO: implement later
     
-    return updated_snippets, explanations
+    return updated_snippets, explanations, standalone_keys, overlapping_corrections
     
     
 if __name__ == '__main__':
+    default_model = 'gemini-3-flash-preview'
+    default_chunksize = 1
+    default_system_prompt = 'syst_prompt.md'
+    default_temp = 0.025  # low temperature ideal for precise, non-novel and non-creative outputs
+    default_topp = 0.5 # top_p = p \in [0, 1] means bottom 1-p% likely tokens ignored
+
     parser = argparse.ArgumentParser()
-    parser.add_argument('annot_filename')
+    parser.add_argument('annotated_PDF_filename')
     parser.add_argument('latex_filename')    
     parser.add_argument("-d", "--debug", action="store_true", help='debugging output')
     parser.add_argument("-p", "--load-pickle", action="store_true", help='load pickle file of corrections if available')
-    parser.add_argument("-m", "--model", type=str, help="specify the LLM model")
-    parser.add_argument("-c", "--chunksize", type=int, help="specify chunk size for standalone snippets")        
-    parser.add_argument("-sp", "--system-prompt", type=str, help="filename of text containing system prompt")
+    parser.add_argument("-m", "--model", type=str, help=f"specify the LLM model; default: {default_model}")
+    parser.add_argument("-c", "--chunksize", type=int, help=f"specify chunk size for standalone snippets; default: {default_chunksize}")        
+    parser.add_argument("-sp", "--system-prompt", type=str, help=f"filename of text containing system prompt; default: {default_system_prompt}")
+    parser.add_argument("-lpo", "--load-previous-output", action="store_true", help="Do not query the model and load the updated_snippets and explanations from most recent pickle file if it exists")
+    parser.add_argument("--temp", type=float, help=f"model temperature; default: {default_temp}")
+    parser.add_argument("--top-p", type=float, help=f"model top_p; default: {default_topp}")
     
     args = parser.parse_args()
     _level = logging.DEBUG if args.debug else logging.INFO
@@ -662,59 +926,82 @@ if __name__ == '__main__':
     if sp_file and Path(sp_file).exists():
         with open(sp_file, 'r') as f:
             _system_prompt = f.read()
-        logging.info(f"Read system prompt from {sp_file}")
+        logging.info(f"Read system prompt from '{sp_file}'")
+    elif Path(default_system_prompt).exists():
+        with open(default_system_prompt, 'r') as f:
+            _system_prompt = f.read()
+        logging.info(f"Read system prompt from '{default_system_prompt}'")
     else:
-        _system_prompt = None
+        logging.warning(f"NO SYSTEM PROMPT SUPPLIED; continuing with simple default system prompt")
+        _system_prompt = "You are a LaTeX compositor. Your role is to carry out changes to source LaTeX based on instructions. You are NOT responsible for identifying any errors in the text---you are only to make the changes instructed. You must respond with just a single LaTeX markdown codeblock with the entire original snipet edited as instructed. Do not add or remove any text from the supplied snippet other than what is specifically asked. Do not add elipses or reflow text or change whitespace. For whatever piece of the snippet you do change, do not insert any non-ASCII characters. If you are at all uncertain for how to change the document, echo back the LaTeX snippet as it was given to you."
 
     if not (corr_file.exists() and args.load_pickle):
-        corrections = getCorrections(args.annot_filename, args.latex_filename)
-
+        corrections = getCorrections(args.annotated_PDF_filename, args.latex_filename)
         with open(corr_file, 'wb') as f:
             pickle.dump(corrections, f)
     else:
         with open(corr_file, 'rb') as f:
             corrections = pickle.load(f)
 
-    if args.model:
+    if args.model is not None:
         model = args.model
     else:
-        model = 'echo' # for now
+        model = default_model
 
-    if args.chunksize:
+    if args.chunksize is not None:
         _chunksize = args.chunksize
     else:
-        _chunksize = 1
+        _chunksize = default_chunksize
+
+    if args.temp is not None:
+        temp = args.temp
+    else:
+        temp = default_temp
+
+    if args.top_p is not None:
+        top_p = args.top_p
+    else:
+        top_p = default_topp
+
+    temp_as_str = 'temp' + re.sub(r'\.', '-', str(temp))
+    top_p_as_str = 'topp' + re.sub(r'\.', '-', str(top_p))
             
     writeListOfPrompts(corrections, args.latex_filename)
 
-    updated_snippets, explanations = processCorrections(
-        args.annot_filename,
+    identifying_run_str = f'{model}_{temp_as_str}_{top_p_as_str}'
+    updated_snippets_pickle_file = f'pickle/updated_snippets_and_explanations_{Path(args.annotated_PDF_filename).stem}_{identifying_run_str}.pkl'
+
+    if args.load_previous_output:
+        logging.info(f"Loading pickle file {updated_snippets_pickle_file}...")
+        with open(updated_snippets_pickle_file, 'rb') as f:
+            (updated_snippets, explanations, standalone_keys, group_keys) = pickle.load(f)
+        logging.info("Done.")
+    else:
+        updated_snippets, explanations, standalone_keys, group_keys = processCorrections(
+            args.annotated_PDF_filename,
+            args.latex_filename,
+            corrections=corrections,
+            system_prompt=_system_prompt,
+            chunksize=_chunksize,
+            model=model,
+            temp=temp,
+            top_p=top_p,
+        )
+
+        logging.info(f"Dumping updated snippets and explanations to {updated_snippets_pickle_file}...")
+        with open(updated_snippets_pickle_file, "wb") as f:
+            pickle.dump((updated_snippets, explanations, standalone_keys, group_keys), f)
+        logging.info("Done.")
+
+    logging.info("Writing prompts and responses to .md file...")
+    writePromptsWithResponses(
+        corrections,
+        updated_snippets,
+        explanations,
         args.latex_filename,
-        corrections=corrections,
-        system_prompt = _system_prompt,
-        chunksize = _chunksize,
-        model=model
+        identifying_run_str,
+        _system_prompt,
+        standalone_keys,
+        group_keys
     )
-
-    writePromptsWithResponses(corrections, updated_snippets, explanations, args.latex_filename, model)
-
-    # for correction in corrections:
-    #     if corr.index in groupKs:
-    #         logging.info(f"{correction.index}: \n{correction.snippetToCodeblock()}\n")
-
-    # o_groups, o_snippets = groupOverlappingCorrections(corrections, args.latex_filename)
-
-    # groupKs = [k for group in o_groups for k in group]    
-
-    # for corr in corrections:
-    #     if corr.index in groupKs:
-    #         logging.info(f"{corr.index}: \n{corr.snippetToCodeblock()}\n")
-
-    # print(sum([len(group) for group in o_groups]))
-
-    # assert len(o_groups) == len(o_snippets)
-    
-    # for i in range(len(o_groups)):
-    #     logging.info(f"This group is made up of {len(o_groups[i])} corrections")
-    #     logging.info(f"Corrections {o_groups[i]} overlap")
-    #     logging.info(f"Here's the spanning snippet for these corrections:\n```latex\n{o_snippets[i]}\n```\n")    
+    logging.info("Done.")

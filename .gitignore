@@ -8,6 +8,9 @@
 .AppleDouble
 .LSOverride
 
+# obsidian
+.obsidian
+
 tmp_segmentsource
 
 bbox_drawings

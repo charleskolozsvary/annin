@@ -3,6 +3,7 @@ import json
 import argparse
 import logging
 import sys
+import math
 from copy import deepcopy
 from types import SimpleNamespace
 
@@ -130,7 +131,8 @@ def getRobustAnnots(doc):
                 continue
             (x0, y0, x1, y1) = new_ann_rect
             # hacky heuristic adjustment of annot rectangles
-            REDUCE_AMMOUNT = 2.5 # in points
+            REDUCE_AMMOUNT_ABOVE = 2.5 # in points
+            REDUCE_AMMOUNT_BELOW = 1.5 # in points
             if annot.type == PDF_ANNOT_CARET:
                 extension = CARET_V_PROPORTION * (y1 - y0)
                 new_ann_rect.y1 = y0 + extension
@@ -141,8 +143,8 @@ def getRobustAnnots(doc):
                 new_ann_rect.x1 -= reduction
             else:
             #if annot.type[1] in SELECT_TEXT_ANNOTS:
-                new_ann_rect.y0 = y0 + REDUCE_AMMOUNT
-                # new_ann_rect.y1 = y1 - REDUCE_AMMOUNT
+                new_ann_rect.y0 = y0 + REDUCE_AMMOUNT_ABOVE
+                new_ann_rect.y1 = y1 - REDUCE_AMMOUNT_BELOW
             robust_annots[pageno].append(
                 Annot(pageno,
                       annot.type,
@@ -207,18 +209,6 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
         if not word_intersects:
             continue
 
-        ### ignore intersection proportion for now
-        
-        # word_area = word_rect.get_area()
-        # word_rect.intersect(annot.rect) # modifies word_rect to become the largest intersecting rectangle
-        # intersection_area = word_rect.get_area()
-
-        # by their nature, caret and strikeout annotations will have small overlapping intersections
-        # if annot.type == PDF_ANNOT_CARET or annot.type == PDF_ANNOT_STRIKE_OUT or (intersection_area / word_area) > INTERSECTION_PROP_THRESH:
-        #     intersecting_words.append(word)
-        # else:
-        #     logging.debug(f"Area calc for {annot.type[1]} on page {annot.pageno}: and word '{word[4]}': {intersection_area} vs. {word_area}: {intersection_area / word_area}")            
-
         intersecting_words.append(word)
     
     if not intersecting_words:
@@ -230,13 +220,6 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
 
     CARET_X_BUFF = 1 # one point
     OTHER_ANN_X_BUFF = .75 # one point
-
-    # if annot.type == PDF_ANNOT_CARET and len(intersecting_words) > 1:
-    #     logging.warning(
-    #         f"No selection text for {annot}: "
-    #         "Caret ann rectangle intersects multiple PDF word boxes"
-    #     )
-    #     return None, None, None
         
     NUM_CONTEXT_WORDS = 1 # words to add before and after which are not selected
     first_sel_word = intersecting_words[0]
@@ -292,7 +275,7 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
 
         left = wordGetTextToStr(page.get_text('words', clip=left_rect, sort=True))
         right = wordGetTextToStr(page.get_text('words', clip=right_rect, sort=True))
-        return f"{left}<Caret></Caret>{right}"
+        return f"{left}<Insert comment contents here>{right}"
 
     def getOtherSelection(word_box):
         """
@@ -368,6 +351,17 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
                 "There was neither a start or end boundary of the annotation on the word box"
             )
             return None
+
+    def wordDistance(w1: tuple[int, int, int, int, str, int, int, int], w2) -> float:
+        rect1 = pymupdf.Rect(w1[0:4])
+        rect2 = pymupdf.Rect(w2[0:4])
+        def getCenter(rect):
+            return (rect.x0 + rect.width / 2, rect.y0 + rect.height/2)
+        c_1 = getCenter(rect1)
+        c_2 = getCenter(rect2)
+        return math.sqrt((c_1[0] - c_2[0]) ** 2 + (c_1[1] - c_2[1]) ** 2)
+
+    MAX_WORD_DISTANCE_IF_DIFF_BLOCK = 24 # in points
             
     selected_text = []
     caret_inserted = False
@@ -378,7 +372,7 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
         if word not in intersecting_words:
             # logging.debug(f"word '{word_str}' in {annot} doesn't intersect annot Rect")
             word_block_no = word[5]
-            if word_block_no == first_sel_word[5]:
+            if word_block_no == first_sel_word[5] or wordDistance(word, first_sel_word) < MAX_WORD_DISTANCE_IF_DIFF_BLOCK:
                 selected_text.append(word_str)
             continue
 
@@ -471,6 +465,13 @@ def getEdits(filename):
                     annot.rect = other_ann.rect
                 annot.type = (None, 'Replace')
 
+            # rename strikeout to remove
+            if annot.type == PDF_ANNOT_STRIKE_OUT:
+                annot.type = (None, 'Remove')
+
+            # if annot.type == PDF_ANNOT_CARET:
+            #     annot.type = (None, 'Insert')
+
             page_words = page.get_text('words', sort=True)
             
             # the sort option doesn't actually sort in lexicographic order, it seems... maybe it secretely does it by rectangle positions.
@@ -482,11 +483,12 @@ def getEdits(filename):
                 continue
             
             edits.append(Edit(annot.pageno, annot.type[1], message, selection_text, selection_bbs, latex_extraction_bb))
-            
-        logging.info(f"Extracted annotations on page {pageno:3d}/{doc.page_count-1:3d}")
+
+        if robust_annots[pageno]:
+            logging.info(f"Extracted annotations on page {pageno:3d}/{doc.page_count-1:3d}")
         
     logging.info(f"Created {len(edits)} edits from {target_num_edits} PDF annotations")
-    logging.info(f"Ignored {num_not_for_comp} annotations deemed not for COMP")
+    logging.info(f"Ignored {num_not_for_comp} annotation(s) deemed not for COMP")
     return edits
             
 if __name__ == '__main__':

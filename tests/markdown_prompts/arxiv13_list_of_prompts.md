@@ -1,325 +1,314 @@
+#0
+
+### Type
+Highlight
+
+### Comment
+```text
+lowercase
+```
+
+### PDF selected text
+```text
+R<Highlight>ATIONAL OF SPHE COHOMOLOGY ENDOMORPHISMS OF PRODUCT CIDENCE</Highlight> OF SPHERE WITH GRASSMANNIAN AND COINCIDENCE THEORY
+```
+  
+### LaTeX snippet
+```latex
+Rational Cohomology Endomorphisms of product of Sphere with Grassmannian and coincidence theory
+```
+
+---
+
+#1
+
+### Type
+Highlight
+
+### Comment
+```text
+lowercase
+```
+
+### PDF selected text
+```text
+WITH G<Highlight>RASSMANNIAN THEORY AND COINCIDENCE</Highlight> THEORY
+```
+  
+### LaTeX snippet
+```latex
+with Grassmannian and coincidence theory
+```
+
+---
+
 #2
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 classes
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-nal homotopy <Replace>class</Replace> of self-maps are completely determined by the induced graded
+homotopy <Replace>class</Replace> of
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-that rational homotopy class of self-maps are completely determined by the induced graded endomorphisms
+homotopy class of
 ```
 
 ---
 
 #3
 
-## Type
-Replace
+### Type
+Caret
 
-## Comment
+### Comment
 ```text
-AU: "a/the complex Grassmannian" or "complex Grassmannians"?
+,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-phisms of the rational cohomology algebra of <Replace>complex Grassmannian</Replace>. Their results
+homogeneous spaces<Caret></Caret> G/H,
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-classifying automorphisms of the rational cohomology algebra of complex Grassmannian. Their results were
+homogeneous spaces $G/H$
 ```
 
 ---
 
 #4
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
-AU: again, should "Grassmannian" be plural---"Grassmannians"? The "which" would suggest that.
+for the
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-the rational cohomology algebra of <Replace>complex Grassmannian</Replace> which are nonzero on
+interest <Replace>since</Replace> past
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-of the rational cohomology algebra of complex Grassmannian which are nonzero on dimension
+interest since past
 ```
 
 ---
 
 #5
 
-## Type
-Caret
+### Type
+Replace
 
-## Comment
+### Comment
 ```text
-,
+is
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-spaces<Caret></Caret> G/H, where G is a compact connected Lie group and H is a closed subgroup
+and <Replace>are</Replace> studied
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-homogeneous spaces $G/H$, where $G$ is a compact connected Lie group and $H$ is a closed
-	subgroup of
+and are studied
 ```
 
 ---
 
 #6
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
-for the
+singely
 ```
 
-## PDF selected text
+### Replies 
+
+#### Reply 1
 ```text
-of maximal rank. This is a topic of interest <Replace>since</Replace> past fifty years and are studied
+COMP: ignore
+```
+
+### PDF selected text
+```text
+simple, <Replace>singly</Replace> generated cohomology algebra, while the Grassmannian CGn,k (of k-planes in Cn) carries
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-subgroup of maximal rank. This is a topic of interest since past fifty years and are studied in
+simple, singly generated
 ```
 
 ---
 
 #7
 
-## Type
-Replace
+### Type
+Caret
 
-## Comment
+### Comment
 ```text
-is
+, <COMP: insert comma>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-of maximal rank. This is a topic of interest since past fifty years and <Replace>are</Replace> studied
+theory and<Caret></Caret> in
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-subgroup of maximal rank. This is a topic of interest since past fifty years and are studied in
+theory and in
 ```
 
 ---
 
 #8
 
-## Type
-Replace
+### Type
+Remove
 
-## Comment
+### Comment
 ```text
-singely
+
 ```
 
-## Replies 
-
-### Reply 1
+### PDF selected text
 ```text
-COMP: ignore
-```
-
-## PDF selected text
-```text
-CGn,k because the sphere Sm has a simple, <Replace>singly</Replace> generated cohomology algebra,
+Classification. Primary<Remove>:</Remove> 55S37,
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-Grassmannian $\mathbb S^m\times \mathbb CG_{n,k}$ because the sphere $\mathbb{S}^m$ has a simple, singly generated cohomology algebra, while
+Primary: 55S37,
 ```
 
 ---
 
 #9
 
-## Type
-Caret
+### Type
+Remove
 
-## Comment
+### Comment
 ```text
-, <COMP: insert comma>
+
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-and<Caret></Caret> in particular, fixed-point theory.
+55M20; Secondary<Remove>:</Remove> 14M15.
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-theory and in particular, fixed-point theory.  
-	
-	The rational
+55M20; Secondary: 14M15
 ```
 
 ---
 
 #10
 
-## Type
-StrikeOut
+### Type
+Replace
 
-## Comment
+### Comment
 ```text
-
+C
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-2020 Mathematics Subject Classification. Primary<StrikeOut>:</StrikeOut> 55S37, 08A35, 55M20; Secondary: 14M15.
+phrases. <Replace>c</Replace>ohomology endomorphisms,
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-theory.  
-	
-	The rational
+cohomology endomorphisms,
 ```
 
 ---
 
 #11
 
-## Type
-StrikeOut
+### Type
+Replace
 
-## Comment
+### Comment
 ```text
-
+14M16.
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-2020 Mathematics Subject Classification. Primary: 55S37, 08A35, 55M20; Secondary<StrikeOut>:</StrikeOut> 14M15.
+Secondary: <Replace>14M15.</Replace> Key
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-theory.  
-	
-	The rational
+Secondary: 14M15
 ```
 
 ---
 
 #12
 
-## Type
-Replace
+### Type
+Remove
 
-## Comment
+### Comment
 ```text
-C
+
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Key words and phrases. <Replace>c</Replace>ohomology endomorphisms, complex Grassmann manifolds, general-
+u). Now<Remove>,</Remove> we
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-theory.  
-	
-	The rational
+). Now, we
 ```
 
 ---
 
 #13
 
-## Type
-Replace
-
-## Comment
-```text
-14M16.
-```
-
-## PDF selected text
-```text
-2020 Mathematics Subject Classification. Primary: 55S37, 08A35, 55M20; Secondary: <Replace>14M15.</Replace>
-```
-  
-## LaTeX snippet
-```latex
-theory.  
-	
-	The rational
-```
-
----
-
-#14
-
-## Type
-StrikeOut
-
-## Comment
-```text
-
-```
-
-## PDF selected text
-```text
-by certain Chern classes c1, . . . , ck (resp. u). Now<StrikeOut>,</StrikeOut> we are ready to state one of the
-```
-  
-## LaTeX snippet
-```latex
-generated by certain Chern classes $c_1, \dots, c_k$ (resp. $u$). Now, we are ready to state one of the main
-```
-
----
-
-#15
-
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 roman
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(1)</Highlight> If k < n −k,
+<Highlight>(1)</Highlight> If
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-following holds.
+holds.
 		\begin{enumerate}\label{result main}
 			\item If $k < n - k,$ 
 			$$ \phi(c_i) = \lambda^i c_i, \forall i \in \{1,2,\dots,k\}$$
@@ -328,22 +317,22 @@ following holds.
 
 ---
 
-#16
+#14
 
-## Type
+### Type
 Caret
 
-## Comment
+### Comment
 ```text
 . <COMP: insert period>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-ϕ(ci) = λici, ∀i ∈{1, 2, . . . , k}<Caret></Caret>
+, k}<Caret></Caret> If
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 $k < n - k,$ 
 			$$ \phi(c_i) = \lambda^i c_i, \forall i \in \{1,2,\dots,k\}$$
@@ -352,48 +341,24 @@ $k < n - k,$
 
 ---
 
-#17
+#15
 
-## Type
-Replace
-
-## Comment
-```text
-AU: "that $\phi$ is"?
-```
-
-## PDF selected text
-```text
-If k = n −k, there is an additional possibility <Replace>of ϕ that it</Replace> is induced by the
-```
-  
-## LaTeX snippet
-```latex
-$k < n - k,$ 
-			$$ \phi(c_i) = \lambda^i c_i, \forall i \in \{1,2,\dots,k\}$$
-			If $k = n - k$, there is an additional possibility of $\phi$ that it is induced by the homeomorphism
-```
-
----
-
-#18
-
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(2)</Highlight> The image of H∗(Sm; Q) under ϕ lies in H∗(Sm; Q) or in H∗(CGn,k; Q)
+C2k. <Highlight>(2)</Highlight> The
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$\mathbb{C}^{2k}$.
+.
 			
 			\item 
 			The image of $H^*(\mathbb{S}^m;\mathbb{Q})$ under $\phi$ lies in 
@@ -402,143 +367,114 @@ $\mathbb{C}^{2k}$.
 
 ---
 
-#19
+#16
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 COMP: commas before and after "i.e."
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>i.e.</Highlight>
+Q) <Highlight>i.e.</Highlight>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 $H^*(\mathbb{C}G_{n,k};\mathbb{Q})$ i.e. $$\phi(u) = \mu u,\, \mu \in \mathbb{Q}, \text{ or } \phi(u) \in H^*(\mathbb{C}G_{n,k};\mathbb{Q}), \text{ with } (\phi(u))^2 =0.$$
 			
 		\end{enumerate}
 	\end{theorem}
-	Unlike the
+	Unlike
+```
+
+---
+
+#17
+
+### Type
+Replace
+
+### Comment
+```text
+the same
+```
+
+### PDF selected text
+```text
+is <Replace>same</Replace> as
+```
+  
+### LaTeX snippet
+```latex
+is same as
+```
+
+---
+
+#18
+
+### Type
+Replace
+
+### Comment
+```text
+[GH1, Theorem 2] <COMP: use \cite>
+```
+
+### PDF selected text
+```text
+generalized <Replace>Theorem 2 of [GH1]</Replace> to the setting of coincidence theory and proved that the pair ed<Replace>Theo g)
+```
+  
+### LaTeX snippet
+```latex
+generalized Theorem $2$ of \cite{glover-homer} to
+```
+
+---
+
+#19
+
+### Type
+Remove
+
+### Comment
+```text
+
+```
+
+### PDF selected text
+```text
+now on<Remove>,</Remove> we
+```
+  
+### LaTeX snippet
+```latex
+now on, we
 ```
 
 ---
 
 #20
 
-## Type
+### Type
 Highlight
 
-## Comment
-```text
-AU: <global> "the Grassmannian"?
-```
-
-## PDF selected text
-```text
-if a continuous function on Sm × CGn,k stabilizes a copy of <Highlight>Grassmannian</Highlight> then the
-```
-  
-## LaTeX snippet
-```latex
-that if a continuous function on $\mathbb S^m \times \mathbb CG_{n,k}$ stabilizes a copy of Grassmannian then the induced
-```
-
----
-
-#21
-
-## Type
-Replace
-
-## Comment
-```text
-the same
-```
-
-## PDF selected text
-```text
-if g is the identity map, then the coincidence property is <Replace>same</Replace> as the fixed-point
-```
-  
-## LaTeX snippet
-```latex
-particular, if $g$ is the identity map, then the coincidence property is same as the fixed-point property
-```
-
----
-
-#22
-
-## Type
-Replace
-
-## Comment
-```text
-[GH1, Theorem 2] <COMP: use \cite>
-```
-
-## PDF selected text
-```text
-We have generalized <Replace>Theorem 2 of [GH1]</Replace> to the setting of coincidence theory and
-```
-  
-## LaTeX snippet
-```latex
-$X$.
-	%We are providing necessary conditions for certain generalized Dold spaces to satisfy coincidence property.
-	
-	We have generalized Theorem $2$ of \cite{glover-homer} to the setting of coincidence theory and proved
-```
-
----
-
-#23
-
-## Type
-StrikeOut
-
-## Comment
-```text
-
-```
-
-## PDF selected text
-```text
-From now on<StrikeOut>,</StrikeOut> we denote the indexing set {1, 2, . . . , k} by I.
-```
-  
-## LaTeX snippet
-```latex
-$r \leq n-k$.
-	
-	From now on, we denote the indexing set $\{1,2,\dots, k\}$ by $I$.
-	\begin{remark}
-		We can
-```
-
----
-
-#24
-
-## Type
-Highlight
-
-## Comment
+### Comment
 ```text
 COMP: pls link
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-In <Highlight>Section 2</Highlight> we develop the necessary background and recall some relevant results.
+In <Highlight>Section 2</Highlight> we
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 follows: \\
 	In \secref{section 2} we develop the necessary background and recall some relevant results. \secref{section 3} is
@@ -546,121 +482,123 @@ follows: \\
 
 ---
 
-#25
+#21
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 COMP: pls link
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-are applied in Section <Highlight>4</Highlight> to obtain the coincidence-theoretic results.
+Section <Highlight>4</Highlight> to
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 These are applied in \secref{section 4} to obtain the coincidence-theoretic results.
 	
 	\section{Preliminaries}  \label{section 2}
-	In this
+	In
 ```
 
 ---
 
-#26
+#22
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 <global for remarks per journal style> lightface 
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>Remark 2.1.</Highlight> We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to
+<Highlight>Remark 2.1.</Highlight> We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to <Highlight>Remark by
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$I$.
+.
 	\begin{remark}
 		We can assume  $k\leq n-k$ for  $\mathbb{C}G_{n,k}$ as $\mathbb{C}G_{n,k}$ is homeomorphic to $\mathbb{C}G_{n,n-k}$
 ```
 
 ---
 
-#27
+#23
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 2.1 <rom>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Remark <Replace>2.1</Replace>. We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to
+Remark <Replace>2.1</Replace>. We
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$I$.
+.
 	\begin{remark}
 		We can assume  $k\leq n-k$ for  $\mathbb{C}G_{n,k}$ as $\mathbb{C}G_{n,k}$ is homeomorphic to $\mathbb{C}G_{n,n-k}$
 ```
 
 ---
 
-#28
+#24
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 <global for remarks per journal style> set text roman
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>Remark 2.1. We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to</Highlight>
+<Highlight>Remark CGn,n−k 2.1. We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to</Highlight> <Highlight>Remark CGn,n−k by using orthogonal complementation.
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$I$.
+.
 	\begin{remark}
-		We can assume  $k\leq n-k$ for  $\mathbb{C}G_{n,k}$ as $\mathbb{C}G_{n,k}$ is homeomorphic to $\mathbb{C}G_{n,n-k}$
+		We can assume  $k\leq n-k$ for  $\mathbb{C}G_{n,k}$ as $\mathbb{C}G_{n,k}$ is homeomorphic to $\mathbb{C}G_{n,n-k}$ by using orthogonal complementation.
+	\end{remark}
+	The
 ```
 
 ---
 
-#29
+#25
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 . That is,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-U(k) × U(n −k) <Replace>that is</Replace>
+−k) <Replace>that is</Replace>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-subgroup $U(k)\times U(n-k)$ that is 
+$U(k)\times U(n-k)$ that is 
 	\begin{equation}\label{cgn as hom}
 		\mathbb{C}G_{n,k} = U(n)/ (U(k)\times U(n-k)). 
 	\end{equation} Now
@@ -668,69 +606,68 @@ subgroup $U(k)\times U(n-k)$ that is
 
 ---
 
-#30
+#26
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 [ST1, Theorem A']
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Theorem 2.2 (<Replace>[ST1], Theorem A
-′</Replace>
+2.2 (<Replace>[ST1], Theorem A ′</Replace>). Let Di(H∗(G/H; Q)) be the Q-vector space of Q-derivations of H∗(G/H; Q) which
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 in \cite{shiga-tezuka}.    
 	\begin{theorem}[\cite{shiga-tezuka}, Theorem \(A^{'}\)]\label{Tezuka}
-		Let $D_i(H^*(G/H;\mathbb{Q}))$
+		Let
 ```
 
 ---
 
-#31
+#27
 
-## Type
+### Type
 Caret
 
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-of Q-derivations of H∗(G/H; Q) which decreases the degree by i > 0<Caret></Caret> where G is a
+> 0<Caret></Caret> where
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-space of $\mathbb{Q}$-derivations of $H^*(G/H;\mathbb{Q})$ which decreases the degree by $i>0$ where $G$ is a connected,
+by $i>0$ where
 ```
 
 ---
 
-#32
+#28
 
-## Type
-StrikeOut
+### Type
+Remove
 
-## Comment
+### Comment
 ```text
 
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-connected, compact Lie group and H is a closed subgroup of maximal rank. Then<StrikeOut>,</StrikeOut>
+rank. Then<Remove>,</Remove> for
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 a connected, compact Lie group and $H$ is a closed subgroup of maximal rank.
 		%such that $\rank (H) = \rank (G)$.
@@ -739,261 +676,162 @@ a connected, compact Lie group and $H$ is a closed subgroup of maximal rank.
 
 ---
 
-#33
+#29
 
-## Type
-Highlight
+### Type
+Replace
 
-## Comment
+### Comment
 ```text
-AU: does the "H" and "G" need to be bold in math, or are you just setting it like that to match the rest of the subsection heading? The very next appearance of $H^\ast_{\mathbb{C}G}$ is not bold.
+[GH1, Theorem 1]
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-2.2. Graded endomorphisms on <Highlight>H∗
-CG</Highlight>
+2.3 (<Replace>[GH1], Theorem 1</Replace>, [Ho1],
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$i$, $$D_i(H^*(G/H;\mathbb{Q})) =0.$$  
-	\end{theorem}
-	\subsection{Graded endomorphisms on $\mathbf{H^*_{\mathbb{C}G}}$}
-	It was conjectured in \cite{O} that any graded endomorphism
+paper.  
+	\begin{theorem}[\cite{glover-homer}, Theorem 1, \cite{hoffman}, Theorem
+```
+
+---
+
+#30
+
+### Type
+Replace
+
+### Comment
+```text
+[Ho1, Theorem 1.1]
+```
+
+### PDF selected text
+```text
+1, <Replace>[Ho1], Theorem 1.1</Replace>). (i)
+```
+  
+### LaTeX snippet
+```latex
+1, \cite{hoffman}, Theorem 1.1]\label{hom and hof}
+		(i)
+```
+
+---
+
+#31
+
+### Type
+Replace
+
+### Comment
+```text
+(i) <rom>
+```
+
+### PDF selected text
+```text
+1.1). <Replace>(i)</Replace> Assume
+```
+  
+### LaTeX snippet
+```latex
+Theorem 1.1]\label{hom and hof}
+		(i) Assume
+```
+
+---
+
+#32
+
+### Type
+Highlight
+
+### Comment
+```text
+rom
+```
+
+### PDF selected text
+```text
+<Highlight>(ii)</Highlight> Assume
+```
+  
+### LaTeX snippet
+```latex
+that
+		\[\varphi(c_i) = \lambda^i c_i,  \quad \forall i \in I.\]
+		%where $c_i$ denotes the $i$-th Chern class of the canonical complex $k$-plane bundle $\gamma_{n,k}$ over the complex Grassmannian $\mathbb{C}G_{n,k}$.
+		(ii) Assume
+```
+
+---
+
+#33
+
+### Type
+Remove
+
+### Comment
+```text
+
+```
+
+### PDF selected text
+```text
+for which<Remove>,</Remove> Sm
+```
+  
+### LaTeX snippet
+```latex
+for which, $\mathbb S^m$
 ```
 
 ---
 
 #34
 
-## Type
-Replace
+### Type
+Caret
 
-## Comment
+### Comment
 ```text
-[GH1, Theorem 1]
+,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Theorem 2.3 (<Replace>[GH1], Theorem 1</Replace>, [Ho1], Theorem 1.1). (i) Assume that the hy-
+map α<Caret></Caret> and
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-paper.  
-	\begin{theorem}[\cite{glover-homer}, Theorem 1, \cite{hoffman}, Theorem 1.1]\label{hom and hof}
-		(i) Assume that the hypothesis \eqref{Homer} is
+map $\alpha$ and
 ```
 
 ---
 
 #35
 
-## Type
-Replace
-
-## Comment
-```text
-[Ho1, Theorem 1.1]
-```
-
-## PDF selected text
-```text
-Theorem 2.3 ([GH1], Theorem 1, <Replace>[Ho1], Theorem 1.1</Replace>). (i) Assume that the hy-
-```
-  
-## LaTeX snippet
-```latex
-paper.  
-	\begin{theorem}[\cite{glover-homer}, Theorem 1, \cite{hoffman}, Theorem 1.1]\label{hom and hof}
-		(i) Assume that the hypothesis \eqref{Homer} is
-```
-
----
-
-#36
-
-## Type
-Replace
-
-## Comment
-```text
-(i) <rom>
-```
-
-## PDF selected text
-```text
-Theorem 2.3 ([GH1], Theorem 1, [Ho1], Theorem 1.1). <Replace>(i)</Replace> Assume that the hy-
-```
-  
-## LaTeX snippet
-```latex
-paper.  
-	\begin{theorem}[\cite{glover-homer}, Theorem 1, \cite{hoffman}, Theorem 1.1]\label{hom and hof}
-		(i) Assume that the hypothesis \eqref{Homer} is
-```
-
----
-
-#37
-
-## Type
+### Type
 Highlight
 
-## Comment
-```text
-rom
-```
-
-## PDF selected text
-```text
-<Highlight>(ii)</Highlight> Assume that the hypothesis (4) is satisfied. Then, we have
-```
-  
-## LaTeX snippet
-```latex
-such that
-		\[\varphi(c_i) = \lambda^i c_i,  \quad \forall i \in I.\]
-		%where $c_i$ denotes the $i$-th Chern class of the canonical complex $k$-plane bundle $\gamma_{n,k}$ over the complex Grassmannian $\mathbb{C}G_{n,k}$.
-		(ii) Assume that the hypothesis \eqref{Hoff} is satisfied. Then, we have
-		$$\varphi(c_i) = \begin{cases}
-			\lambda^i c_i,   \forall i \in I& \text{ if } k<n-k,\\
-			\lambda^i c_i,  \forall i \in I \quad \text{ or } \quad(-\lambda)^i (c^{-1})_i,    \forall i \in I & \text{ if } k= n-k,
-		\end{cases}$$
-		where
-```
-
----
-
-#38
-
-## Type
-Highlight
-
-## Comment
-```text
-AU: put the two "where" statements in parentheses and connect them with "and"? So something like "(where $...$ and the involution $...$ on $...$ is induced from the standard conjugation on $...$)"
-```
-
-## PDF selected text
-```text
-<Highlight>classical Dold manifolds P(m, n) := Sm × CP n/∼where (s, L) ∼(−s, ¯L), where</Highlight>
-```
-  
-## LaTeX snippet
-```latex
-of \textit{classical Dold manifolds}  
-	$P(m,n) := \mathbb{S}^m \times \mathbb{C}P^n / \!\! \sim$  
-	where $ (s, L) \sim (-s, \bar{L}) $, where the
-```
-
----
-
-#39
-
-## Type
-Highlight
-
-## Comment
-```text
-AU: again does math need to be bold?
-```
-
-## PDF selected text
-```text
-2.4. Rational cohomology of <Highlight>P(Sm, CGn,k)</Highlight>. The GDS P(Sm, CGn,k) is defined
-```
-  
-## LaTeX snippet
-```latex
-$ X $.
-	
-	
-	
-	
-	
-	
-	\subsection{Rational cohomology of $\mathbf{P(\mathbb S^m,\mathbb CG_{n,k})}$} \label{gds}
-	%The rational cohomology ring of \textit{generalized Dold space} $ P(\mathbb{S}^m, \mathbb{C}G(\nu)) $, which are fibered by a partial complex flag manifold $ \mathbb{C}G(\nu) $ of type $ \nu = (\nu_1 \leq \nu_2 \leq \dots \leq \nu_s) $ over a real projective space $ \mathbb{R}P^m $, is computed in \cite{mandal-sankaran2}. In particular, and we recall some relevant facts here.
-	
-	
-	The GDS $P(\mathbb S^m,\mathbb CG_{n,k})$ is defined as
-	\[
-	\mathbb S^m\times \mathbb CG_{n,k}/\!\!\sim, \text { where } (s,L)\sim (-s,\bar L),
-	\]
-	for
-```
-
----
-
-#40
-
-## Type
-StrikeOut
-
-## Comment
-```text
-
-```
-
-## PDF selected text
-```text
-for which<StrikeOut>,</StrikeOut> Sm is equipped with the free action generated by the antipodal map
-```
-  
-## LaTeX snippet
-```latex
-defined as
-	\[
-	\mathbb S^m\times \mathbb CG_{n,k}/\!\!\sim, \text { where } (s,L)\sim (-s,\bar L),
-	\]
-	for which, $\mathbb S^m$ is equipped with the free action generated by the antipodal map $\alpha$
-```
-
----
-
-#41
-
-## Type
-Caret
-
-## Comment
-```text
-,
-```
-
-## PDF selected text
-```text
-α<Caret></Caret> and the involution σ : L �→¯L on CGn,k is induced from the standard complex
-```
-  
-## LaTeX snippet
-```latex
-map $\alpha$ and the involution $\sigma: L \mapsto \bar L$ on $\mathbb CG_{n,k}$ is induced from the standard complex conjugation
-```
-
----
-
-#42
-
-## Type
-Highlight
-
-## Comment
+### Comment
 ```text
 COMP: insert comma at end of equation
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>Q[u, c1, . . . , ck]</Highlight>
+∼= Q[u, c1, . . . , ck] <Highlight>Q ⟨u2, hn−k+1, . . . , ] hn⟩</Highlight>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-we have
+have
 	\begin{equation}\label{Cohomology of H_times}
 		H_{\times}^* := H^*(\mathbb{S}^m \times \mathbb{CG}_{n,k}; \mathbb{Q}) \cong H^*(\mathbb{S}^m; \mathbb{Q}) \otimes H^*(\mathbb{CG}_{n,k}; \mathbb{Q}) \cong \frac{\mathbb{Q}[u, c_1, \dots, c_k]}{\langle u^2, h_{n-k+1}, \dots, h_n \rangle}
 	\end{equation}
@@ -1002,151 +840,149 @@ we have
 
 ---
 
-#43
+#36
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 3.14
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Theorem 2.4 ([MS2, Theorem <Replace>3.13</Replace>]). The cohomology algebra H∗(P(m, n, k); Q)
+Theorem <Replace>3.13</Replace>]). The
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-was proved.
+proved.
 	\begin{theorem}[{\cite[Theorem 3.13]{mandal-sankaran2}}]\label{cohomology of P(m,n,k)}
 		The cohomology algebra \( H^*(P(m,n,k); \mathbb{Q}) \) is
 ```
 
 ---
 
-#44
+#37
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 no indent at the start of para
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>A description of</Highlight> the cohomology algebra H∗(P(m, n, k); Q), as a quotient of a
+<Highlight>A description of</Highlight> the
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-following elements:
+elements:
 		\begin{align*}
 			u \, c_{2p-1},\quad c_{2j},\quad c_{2p-1} \, c_{2q-1},\; \forall 2p-1, 2q-1, 2j \in I, \text{ if } m \text{ is even};\\
 			u,\quad c_{2j},\quad c_{2p-1} \, c_{2q-1},\; \forall 2p-1, 2q-1, 2j \in I, \text{ if } m \text{ is odd}.
 		\end{align*}
 	\end{theorem}
-	A description of the cohomology algebra $ H^*(P(m,n,k); \mathbb{Q}) $, as a quotient of a polynomial
+	A description of the
 ```
 
 ---
 
-#45
+#38
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 Theorem 3.1. <COMP: pls link>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-∗
-×. <Replace>The following</Replace>
+×. <Replace>The following</Replace> is
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-of $H_{\times}^*$. The following is
+. The following is
 ```
 
 ---
 
-#46
+#39
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(1)</Highlight> Either ϕ(u) = au for some a ∈Q, or ϕ(u) ∈H∗
-C
+<Highlight>(1)</Highlight> Either
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 holds, \begin{enumerate}
-			\item Either $\phi(u)=au$ for some $a \in \mathbb{Q}$, or $\phi(u) \in H^*_{\mathbb{C}G} \subseteq H^*_{\times}$ with
+			\item Either $\phi(u)=au$ for some $a \in \mathbb{Q}$, or $\phi(u) \in H^*_{\mathbb{C}G} \subseteq H^*_{\times}$ with $\phi(u)^2=0$ in $H^*_{\times}$
 ```
 
 ---
 
-#47
+#40
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(2)</Highlight> There exists λ ∈Q\{0} such that
+×. <Highlight>(2)</Highlight> There
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$H^*_{\times}$.
+.
 			\item There exists $\lambda \in \mathbb Q\backslash\{0\}$ such that
 			$$\phi(c_i) = \begin{cases}
 				\lambda^i c_i,   \forall i \in I& \text{ if } k<n-k,\\
 				\lambda^i c_i,  \forall i \in I \quad \text{ or } \quad(-\lambda)^i (c^{-1})_i,    \forall i \in I & \text{ if } k= n-k,
 			\end{cases}$$
-		\end{enumerate} where $ (c^{-1})_i $
+		\end{enumerate} where
 ```
 
 ---
 
-#48
+#41
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 insert period at the end of equation (11)
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>H∗</Highlight>
+CG <Highlight>H∗ C ∗ CG</Highlight>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-following diagram:
+diagram:
 		% https://q.uiver.app/#q=WzAsNCxbMCwwLCJIXipfe1xcbWF0aGJiIENHfVxcb3BsdXMgdSBIXipfe1xcbWF0aGJiIENHfSJdLFsxLDAsIkheKl97XFxtYXRoYmIgQ0d9IFxcb3BsdXMgdSBIXipfe1xcbWF0aGJiIENHfSJdLFswLDEsIkheKl97XFxtYXRoYmIgQ0d9Il0sWzEsMSwiSF4qX3tcXG1hdGhiYiBDR30iXSxbMCwxLCJcXHBoaSJdLFsyLDAsImlfMSIsMCx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Imhvb2siLCJzaWRlIjoidG9wIn19fV0sWzEsMywicF8xIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoiZXBpIn19fV0sWzIsMywiXFx0aWxkZVxccGhpIl1d
 		\begin{equation}\label{comm diagram}
 			\begin{tikzcd}
@@ -1163,47 +999,46 @@ following diagram:
 
 ---
 
-#49
+#42
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-∗
-CG. By Theorem 2.3 part <Highlight>(ii)</Highlight>,
+part <Highlight>(ii)</Highlight>, we
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-on $H^*_{\mathbb{C}G}$.  By \thmref{hom and hof} part \textit{(ii)}, we
+part \textit{(ii)}, we
 ```
 
 ---
 
-#50
+#43
 
-## Type
-StrikeOut
+### Type
+Remove
 
-## Comment
+### Comment
 ```text
 
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-we have<StrikeOut>,</StrikeOut>
+we have<Remove>,</Remove>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-\textit{(ii)}, we have, 
+we have, 
 		\begin{equation}\label{phi_1}
 			\phi_1(c_i) = \begin{cases}
 				\lambda^i c_i,   \forall i \in I& \text{ if } k<n-k,\\
@@ -1214,25 +1049,46 @@ we have<StrikeOut>,</StrikeOut>
 
 ---
 
-#51
+#44
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-∗
-CG. Using the observations given above it is convenient to prove part <Highlight>(2)</Highlight> first.
+part <Highlight>(2)</Highlight> first.
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-in $ H^*_{ CG} $. Using the observations given above it is convenient to prove part \textit{(2)} first. \\
+part \textit{(2)} first.
+```
+
+---
+
+#45
+
+### Type
+Highlight
+
+### Comment
+```text
+P
+```
+
+### PDF selected text
+```text
+<Highlight>p</Highlight>roof of
+```
+  
+### LaTeX snippet
+```latex
+first. \\
 		
 		
 		\textit{proof of part (2):} Using
@@ -1240,99 +1096,74 @@ in $ H^*_{ CG} $. Using the observations given above it is convenient to prove p
 
 ---
 
-#52
+#46
 
-## Type
+### Type
 Highlight
 
-## Comment
-```text
-P
-```
-
-## PDF selected text
-```text
-<Highlight>p</Highlight>roof of part (2): Using (12) and (13), it is sufficient to prove that Pi = 0, ∀i ∈I.
-```
-  
-## LaTeX snippet
-```latex
-first. \\
-		
-		
-		\textit{proof of part (2):} Using \eqref{defn of phi} and \eqref{phi_1}, it is sufficient to prove that $P_i =0, \, \forall i \in I$. By
-```
-
----
-
-#53
-
-## Type
-Highlight
-
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-proof of part <Highlight>(2)</Highlight>: Using (12) and (13), it is sufficient to prove that Pi = 0, ∀i ∈I.
+part <Highlight>(2)</Highlight>: Using
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 first. \\
 		
 		
-		\textit{proof of part (2):} Using \eqref{defn of phi} and \eqref{phi_1}, it is sufficient to prove that $P_i =0, \, \forall i \in I$. By
+		\textit{proof of part (2):} Using
 ```
 
 ---
 
-#54
+#47
 
-## Type
-StrikeOut
+### Type
+Remove
 
-## Comment
+### Comment
 ```text
 . <COMP: period; also set heading as proof environment if not already>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-proof of part (2)<StrikeOut>:</StrikeOut> Using (12) and (13), it is sufficient to prove that Pi = 0, ∀i ∈I.
+part (2)<Remove>:</Remove> Using
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 first. \\
 		
 		
-		\textit{proof of part (2):} Using \eqref{defn of phi} and \eqref{phi_1}, it is sufficient to prove that $P_i =0, \, \forall i \in I$. By
+		\textit{proof of part (2):} Using
 ```
 
 ---
 
-#55
+#48
 
-## Type
+### Type
 Caret
 
-## Comment
+### Comment
 ```text
 , <COMP: comma>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-= (ϕ1(x) + uPx)(ϕ1(y) + uPy) −ϕ1(x)ϕ1(y)<Caret></Caret>
+uPy) −ϕ1(x)ϕ1(y)<Caret></Caret>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-Leibniz rule.
+rule.
 		%Linearity over $\mathbb{Q}$ is immediate, since for $t \in \mathbb{Q}$ one has
 		\begin{equation}\label{D is linear}
 			\begin{split}
@@ -1348,23 +1179,22 @@ Leibniz rule.
 
 ---
 
-#56
+#49
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 COMP: center both lines
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>D(tϕ1(x)) = tD(ϕ1(x)),
-D(ϕ1(x) + ϕ1(y)) = D(ϕ1(x)) + D(ϕ1(y)),</Highlight>
+<Highlight>D(tϕ1(x)) D(ϕ1(x)ϕ1 = tD(ϕ1(x)), D(ϕ1(x) + ϕ1(y)) = D(ϕ1(x)) + D(ϕ1(y)),</Highlight> <Highlight>D(tϕ1(x)) = tD D(ϕ1(x)ϕ1(y)) = D(ϕ1(x))ϕ1(y) + ϕ1(x)D(ϕ1(y)).
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 get  \begin{align*}
 			& D(t\phi_1(x)) = tD(\phi_1(x)),\quad D(\phi_1(x)+\phi_1(y)) = D(\phi_1(x))+D(\phi_1(y)),\\
@@ -1375,24 +1205,49 @@ get  \begin{align*}
 
 ---
 
-#57
+#50
 
-## Type
+### Type
 Caret
 
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Theorem 2.2, we get that D is a zero derivation. In particular<Caret></Caret>
+In particular<Caret></Caret>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-and \thmref{Tezuka}, we get that $D$ is a zero derivation. In particular $$D(\phi_1(c_i))=P_i=0, \, \forall i \in I.$$
+In particular $$D(\phi_1(c_i))=P_i=0, \, \forall i \in I.$$
+		%This completes the proof of \textit{(1)} in both cases $k<n-k$ and $k=n-k$.
+		
+		\textit{proof of part (1):}
+```
+
+---
+
+#51
+
+### Type
+Replace
+
+### Comment
+```text
+P
+```
+
+### PDF selected text
+```text
+<Replace>p</Replace>roof of
+```
+  
+### LaTeX snippet
+```latex
+particular $$D(\phi_1(c_i))=P_i=0, \, \forall i \in I.$$
 		%This completes the proof of \textit{(1)} in both cases $k<n-k$ and $k=n-k$.
 		
 		\textit{proof of part (1):} Since
@@ -1400,245 +1255,238 @@ and \thmref{Tezuka}, we get that $D$ is a zero derivation. In particular $$D(\ph
 
 ---
 
-#58
+#52
 
-## Type
-Replace
+### Type
+Highlight
 
-## Comment
+### Comment
 ```text
-P
+rom and COMP pls LINK
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Replace>p</Replace>roof of part (1): Since ϕ is a graded endomorphism on H∗
-×
+part <Highlight>(1)</Highlight>: Since
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 particular $$D(\phi_1(c_i))=P_i=0, \, \forall i \in I.$$
 		%This completes the proof of \textit{(1)} in both cases $k<n-k$ and $k=n-k$.
 		
-		\textit{proof of part (1):} Since $\phi$ is a graded endomorphism on $H^*_{\times}$, therefore
+		\textit{proof of part (1):} Since
+```
+
+---
+
+#53
+
+### Type
+Replace
+
+### Comment
+```text
+.
+```
+
+### PDF selected text
+```text
+part (1)<Replace>:</Replace> Since
+```
+  
+### LaTeX snippet
+```latex
+particular $$D(\phi_1(c_i))=P_i=0, \, \forall i \in I.$$
+		%This completes the proof of \textit{(1)} in both cases $k<n-k$ and $k=n-k$.
+		
+		\textit{proof of part (1):} Since
+```
+
+---
+
+#54
+
+### Type
+Remove
+
+### Comment
+```text
+
+```
+
+### PDF selected text
+```text
+×, <Remove>therefore</Remove>
+```
+  
+### LaTeX snippet
+```latex
+, therefore $$\phi(u) = a u + P, \, a \in \mathbb{Q}, \text{ satisfying } (a u + P)^2 =0,$$ where
+```
+
+---
+
+#55
+
+### Type
+Caret
+
+### Comment
+```text
+,
+```
+
+### PDF selected text
+```text
+or S2<Caret></Caret> and
+```
+  
+### LaTeX snippet
+```latex
+or $\mathbb S^2$ and
+```
+
+---
+
+#56
+
+### Type
+Remove
+
+### Comment
+```text
+
+```
+
+### PDF selected text
+```text
+use <Remove>part (i) of</Remove> Theorem
+```
+  
+### LaTeX snippet
+```latex
+use part (i) of \thmref{hom and hof} which
+```
+
+---
+
+#57
+
+### Type
+Replace
+
+### Comment
+```text
+2.3(i) <COMP: keep "2.3" linked>
+```
+
+### PDF selected text
+```text
+Theorem <Replace>2.3</Replace> which
+```
+  
+### LaTeX snippet
+```latex
+other case where $\phi(c_1) = \mu u$. To address this, we use part (i) of \thmref{hom and hof} which leads to
+```
+
+---
+
+#58
+
+### Type
+Replace
+
+### Comment
+```text
+Proposition 3.3 <COMP: pls link>
+```
+
+### PDF selected text
+```text
+to <Replace>the following proposition</Replace>.
+```
+  
+### LaTeX snippet
+```latex
+to the following proposition.
+	
+	
+	\begin{proposition}\label{main thm 2}
+		Assume
 ```
 
 ---
 
 #59
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
-rom and COMP pls LINK
+rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-proof of part <Highlight>(1)</Highlight>: Since ϕ is a graded endomorphism on H∗
-×
+Then <Highlight>(1)</Highlight> Either
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-particular $$D(\phi_1(c_i))=P_i=0, \, \forall i \in I.$$
-		%This completes the proof of \textit{(1)} in both cases $k<n-k$ and $k=n-k$.
-		
-		\textit{proof of part (1):} Since $\phi$ is a graded endomorphism on $H^*_{\times}$, therefore
+Then
+		\begin{enumerate}
+			\item Either $\phi(u)=a u$ for some $a \in \mathbb{Q}$, or $\phi(u) \in H^*_{\mathbb{C}G} \subseteq H^*_{\times}$ with $\phi(u)^2=0$ in $H^*_{\times}$
 ```
 
 ---
 
 #60
 
-## Type
-Replace
+### Type
+Highlight
 
-## Comment
+### Comment
 ```text
-.
+rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-proof of part (1)<Replace>:</Replace> Since ϕ is a graded endomorphism on H∗
-×
+×. <Highlight>(2)</Highlight> ϕ(ci)
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-particular $$D(\phi_1(c_i))=P_i=0, \, \forall i \in I.$$
-		%This completes the proof of \textit{(1)} in both cases $k<n-k$ and $k=n-k$.
-		
-		\textit{proof of part (1):} Since $\phi$ is a graded endomorphism on $H^*_{\times}$, therefore
+.
+			\item  $\phi(c_i) = uP_i, \, \forall i >1,$ where $P_i \in H^{2i-m}_{\mathbb CG}\subseteq H^*_\times$. 
+		\end{enumerate}
+	\end{proposition}
+	\begin{proof} \textit{(1):}
 ```
 
 ---
 
 #61
 
-## Type
-StrikeOut
-
-## Comment
-```text
-
-```
-
-## PDF selected text
-```text
-∗
-×, <StrikeOut>therefore</StrikeOut>
-```
-  
-## LaTeX snippet
-```latex
-on $H^*_{\times}$, therefore $$\phi(u) = a u + P, \, a \in \mathbb{Q}, \text{ satisfying } (a u + P)^2 =0,$$ where
-```
-
----
-
-#62
-
-## Type
-Caret
-
-## Comment
-```text
-,
-```
-
-## PDF selected text
-```text
-On the other hand, when n = 2, CGn,k is either a point or S2<Caret></Caret> and the classifi-
-```
-  
-## LaTeX snippet
-```latex
-$\phi(c_1)\neq \mu u,\, \mu \in \mathbb Q.$ 
-			
-			On the other hand, when $n=2,$ $\mathbb CG_{n,k}$ is either a point or $\mathbb S^2$ and the classification of
-```
-
----
-
-#63
-
-## Type
-StrikeOut
-
-## Comment
-```text
-
-```
-
-## PDF selected text
-```text
-case where ϕ(c1) = µu. To address this, we use <StrikeOut>part (i) of</StrikeOut> Theorem 2.3 which leads
-```
-  
-## LaTeX snippet
-```latex
-other case where $\phi(c_1) = \mu u$. To address this, we use part (i) of \thmref{hom and hof} which leads to
-```
-
----
-
-#64
-
-## Type
-Replace
-
-## Comment
-```text
-2.3(i) <COMP: keep "2.3" linked>
-```
-
-## PDF selected text
-```text
-case where ϕ(c1) = µu. To address this, we use part (i) of Theorem <Replace>2.3</Replace> which leads
-```
-  
-## LaTeX snippet
-```latex
-other case where $\phi(c_1) = \mu u$. To address this, we use part (i) of \thmref{hom and hof} which leads to
-```
-
----
-
-#65
-
-## Type
-Replace
-
-## Comment
-```text
-Proposition 3.3 <COMP: pls link>
-```
-
-## PDF selected text
-```text
-to <Replace>the following proposition</Replace>.
-```
-  
-## LaTeX snippet
-```latex
-leads to the following proposition.
-	
-	
-	\begin{proposition}\label{main thm 2}
-		Assume that
-```
-
----
-
-#66
-
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(1)</Highlight> Either ϕ(u) = au for some a ∈Q, or ϕ(u) ∈H∗
-C
+Proof. <Highlight>(1)</Highlight>: The
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$H^*_{\times}$. Then
-		\begin{enumerate}
-			\item Either $\phi(u)=a u$ for some $a \in \mathbb{Q}$, or $\phi(u) \in H^*_{\mathbb{C}G} \subseteq H^*_{\times}$ with
-```
-
----
-
-#67
-
-## Type
-Highlight
-
-## Comment
-```text
-rom
-```
-
-## PDF selected text
-```text
-<Highlight>(2)</Highlight> ϕ(c) = uP, ∀i > 1, where P ∈H2i−m
-```
-  
-## LaTeX snippet
-```latex
-$H^*_{\times}$.
-			\item  $\phi(c_i) = uP_i, \, \forall i >1,$ where $P_i \in H^{2i-m}_{\mathbb CG}\subseteq H^*_\times$. 
+. 
 		\end{enumerate}
 	\end{proposition}
 	\begin{proof} \textit{(1):} The
@@ -1646,191 +1494,159 @@ $H^*_{\times}$.
 
 ---
 
-#68
+#62
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Proof. <Highlight>(1)</Highlight>: The proof of part (1) is exactly the same as the proof of part (1) of
+part <Highlight>(1)</Highlight> is
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$P_i \in H^{2i-m}_{\mathbb CG}\subseteq H^*_\times$. 
-		\end{enumerate}
-	\end{proposition}
-	\begin{proof} \textit{(1):} The proof of part \textit{(1)} is exactly the same as the proof of part \textit{(1)} of \thmref{main thm}. Therefore,
+part \textit{(1)} is
 ```
 
 ---
 
-#69
+#63
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Proof. (1): The proof of part <Highlight>(1)</Highlight> is exactly the same as the proof of part (1) of
+part <Highlight>(1)</Highlight> of
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$P_i \in H^{2i-m}_{\mathbb CG}\subseteq H^*_\times$. 
-		\end{enumerate}
-	\end{proposition}
-	\begin{proof} \textit{(1):} The proof of part \textit{(1)} is exactly the same as the proof of part \textit{(1)} of \thmref{main thm}. Therefore,
+part \textit{(1)} of
 ```
 
 ---
 
-#70
+#64
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Proof. (1): The proof of part (1) is exactly the same as the proof of part <Highlight>(1)</Highlight> of
+details. <Highlight>(2)</Highlight>: Using
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$P_i \in H^{2i-m}_{\mathbb CG}\subseteq H^*_\times$. 
-		\end{enumerate}
-	\end{proposition}
-	\begin{proof} \textit{(1):} The proof of part \textit{(1)} is exactly the same as the proof of part \textit{(1)} of \thmref{main thm}. Therefore,
-```
-
----
-
-#71
-
-## Type
-Highlight
-
-## Comment
-```text
-rom
-```
-
-## PDF selected text
-```text
-<Highlight>(2)</Highlight>: Using (11), we have that the map ϕ is a graded endomorphism on H∗
-```
-  
-## LaTeX snippet
-```latex
-the details.
+details.
 		
-		\textit{(2):} Using \eqref{comm diagram}, we have that the map $\phi_1$ is a graded endomorphism on $H^*_{\mathbb{C}G}$ such
+		\textit{(2):} Using
 ```
 
 ---
 
-#72
+#65
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 Proposition 3.5 <COMP: link>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-2
-CG. <Replace>The following proposition</Replace> provides such examples when m is even
+CG. <Replace>The following proposition</Replace> provides
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-on $H^2_{\mathbb CG}$. The following proposition provides   such examples when $m$ is even and
+. The following proposition provides
 ```
 
 ---
 
-#73
+#66
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 (2) <COMP: roman>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Proof. The proof of this corollary is similar to the proof of part <Replace>2</Replace> of Theorem 3.1.
+part <Replace>2</Replace> of
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$ H^*_{ \mathbb CG} $. 
-	\end{corollary}
-	\begin{proof}
-		The proof of this corollary is similar to the proof of part \textit{2} of \thmref{main thm}. Apply
+part \textit{2} of
 ```
 
 ---
 
-#74
+#67
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 COMP: set display math
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>Apply induction on r and replace CGn,k with ˆX := S2m1 × · · · × S2mi−1 × S2mi+1 ×</Highlight>
+3.1. <Highlight>Apply · · · × S induction on r and replace CGn,k with ˆX := S2m1 × · · · × S2mi−1 × S2mi+1 ×</Highlight> <Highlight>A · · · × S2mr × CGn,k, and the sphere Sm with S2mi in Theorem 3.1. Since
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-of \thmref{main thm}. Apply induction on $r$ and replace $\mathbb{C}G_{n,k}$ with $\hat{X} := \mathbb{S}^{2m_1}\times\cdots\times \mathbb{S}^{2m_{i-1}}\times \mathbb{S}^{2m_{i+1}}\times\cdots\times \mathbb{S}^{2m_r}\times \mathbb{C}G_{n,k},$ and
+of \thmref{main thm}. Apply induction on $r$ and replace $\mathbb{C}G_{n,k}$ with $\hat{X} := \mathbb{S}^{2m_1}\times\cdots\times \mathbb{S}^{2m_{i-1}}\times \mathbb{S}^{2m_{i+1}}\times\cdots\times \mathbb{S}^{2m_r}\times \mathbb{C}G_{n,k},$ and the sphere $\mathbb{S}^m$ with $\mathbb{S}^{2m_i}$ in \thmref{main thm}. Since \begin{equation}\label{Sm as hom}
+			\mathbb S^{2m_j}=SO(2m_j+1)/SO(2m_j)
+		\end{equation}
+		where
 ```
 
 ---
 
-#75
+#68
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 COMP: comma at end of equation
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-S2mj = SO(2mj + 1)/SO(2mj<Highlight>)</Highlight>
++ 1)/SO(2mj<Highlight>)</Highlight>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 Since \begin{equation}\label{Sm as hom}
 			\mathbb S^{2m_j}=SO(2m_j+1)/SO(2m_j)
@@ -1840,46 +1656,46 @@ Since \begin{equation}\label{Sm as hom}
 
 ---
 
-#76
+#69
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 S
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-in <Replace>Subs</Replace>ection 2.4. The following remark helps us to describe endomorphisms of
+in <Replace>Subs</Replace>ection 2.4.
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 defined in \subsecref{gds}. The following remark helps us to describe endomorphisms of $H^*(P(m,n,k);\mathbb{Q})$
 ```
 
 ---
 
-#77
+#70
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-H∗(Sm × CGn,k; Q)<Replace>.</Replace>
+CGn,k; Q)<Replace>.</Replace>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-commutative diagram,
+diagram,
 	
 	\begin{equation}\label{comm diag on H}
 		\begin{tikzcd}
@@ -1899,350 +1715,351 @@ commutative diagram,
 
 ---
 
-#78
+#71
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 Corollaries 3.8 and 3.9. <COMP: link>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Replace>two corollaries.</Replace>
+<Replace>where two co π∗is an injective map. Using Theorem 2.4 and (18) we obtain the following</Replace> <Replace>whe two corollaries.
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-following two corollaries. 
+diagram,
+	
+	\begin{equation}\label{comm diag on H}
+		\begin{tikzcd}
+			{H^*(P(m,n,k);\mathbb Q)}  & {H^*(\mathbb S^m\times \mathbb CG_{n,k};\mathbb Q)} \\
+			{H^*(P(m,n,k);\mathbb Q)} & {H^*(\mathbb S^m\times \mathbb CG_{n,k};\mathbb Q).}
+			\arrow["{\pi^*}", from=1-1, to=1-2]
+			\arrow["{f^*}"', from=1-1, to=2-1]
+			%\arrow[hook, from=1-2, to=1-3]
+			\arrow["{\bar f^*}", from=1-2, to=2-2]
+			%\arrow["{\bar f^*}", from=1-3, to=2-3]
+			\arrow["{\pi^*}", from=2-1, to=2-2]
+			%\arrow[hook, from=2-2, to=2-3]
+		\end{tikzcd}
+	\end{equation}
+	where $\pi^*$ is an injective map. Using \thmref{cohomology of P(m,n,k)} and \eqref{comm diag on H} we obtain the following two corollaries. 
 	%as an immediate application of respectively. 	
 	\begin{corollary}\label{cor3}
-		Let $f^*$
+		Let
 ```
 
 ---
 
-#79
+#72
 
-## Type
+### Type
 Caret
 
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-subring Fix(θ∗) of H∗
-×<Caret></Caret>
+of H∗ ×<Caret></Caret> where
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-fixed subring $\mathrm{Fix}(\theta^*)$ of $H^*_\times$ where
+of $H^*_\times$ where
 ```
 
 ---
 
-#80
+#73
 
-## Type
+### Type
 Caret
 
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-to the fixed subring Fix(θ∗) of H∗
-×<Caret></Caret>
+of H∗ ×<Caret></Caret> where
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$\tilde{f}^*(c_1) = au, a \in \mathbb{Q}$,  to the fixed subring $\mathrm{Fix}(\theta^*)$ of $H^*_\times$ where
+of $H^*_\times$ where
 ```
 
 ---
 
-#81
+#74
 
-## Type
+### Type
 Highlight
 
-## Comment
-```text
-AU: do you mean "with" instead of "in" or to say "Corollary 3.8 from Theorem 3.1"? 
-```
-
-## PDF selected text
-```text
-<Highlight>Using Theorem 3.1 in Corollary 3.8, and Proposition 3.3 in Corollary 3.9</Highlight> along
-```
-  
-## LaTeX snippet
-```latex
-$\theta = \alpha\times \sigma$.
-	\end{corollary}
-	Using \thmref{main thm} in \corref{cor3}, and \propref{main thm 2} in \corref{cor4} along with
-```
-
----
-
-#82
-
-## Type
-Highlight
-
-## Comment
+### Comment
 ```text
 COMP: set text roman as per journal style <global for examples>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>complex projective space CP n−1 over the real projective space RP m. In this case,</Highlight>
+<Highlight>Example complex p H∗ × ∼= Q[u ring 3.10. If m odd, n > 2 and k = 1, then P(m, n, 1) is fibered by the ase, ogy</Highlight> <Highlight>Examp complex H∗ × ∼= Q ring projective space CP n−1 over the real projective space RP m. In this y the case, ology</Highlight> <Highlight>Ex com H∗ × rin × ∼= Q[u, c1]/⟨u2, cn 1⟩and using (10) and Theorem 2.4, the rational bered by the n this case, cohomology</Highlight> <Highlight>Exa com H∗ × ring
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-then $P(m,n,1)$ is fibered by the complex projective space  $\mathbb{C} P^{n-1}$ over the real projective space $\mathbb{R} P^m$. In this case,  $H^*_\times\cong \mathbb Q[u,c_1]/\langle u^2, c_1^n\rangle$
-```
-
----
-
-#83
-
-## Type
-Replace
-
-## Comment
-```text
-where (AU: okay?)
-```
-
-## PDF selected text
-```text
-λ ∈Q, <Replace>and</Replace> λ2 ̸= −1.
-```
-  
-## LaTeX snippet
-```latex
-some $\lambda \in \mathbb{Q}$, and $\lambda^2 \neq -1$.
-	\end{example}
+endomorphism.
 	
-	The following
+	
+	%Also, there exist graded endomorphisms of $H^*(P(m,n,k); \mathbb{Q})$ which are not restriction of any graded endomorphism of $H^*_\times$, if the graded endomorphism is not induced from a continuous function on $P(m,n,k)$. Let us see an example of such graded endomorphism of $H^*(P(m,n,k);\mathbb{Q})$.
+	\begin{example}
+		If $m$ odd, $n>2$ and $k = 1$, then $P(m,n,1)$ is fibered by the complex projective space  $\mathbb{C} P^{n-1}$ over the real projective space $\mathbb{R} P^m$. In this case,  $H^*_\times\cong \mathbb Q[u,c_1]/\langle u^2, c_1^n\rangle$ and using \eqref{defn of theta*}\ and \thmref{cohomology of P(m,n,k)}, the rational cohomology ring $$H^*(P(m,n,1); \mathbb{Q}) \cong \mathbb{Q}[u, b] / \langle u^2, b^{\lfloor (n+1)/2 \rfloor} \rangle,$$ where
 ```
 
 ---
 
-#84
+#75
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 Corollary 3.11 <COMP: link>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Replace>The following corollary</Replace> helps us to understand the relationship between the
+<Replace>The following corollary</Replace> helps
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$\lambda^2 \neq -1$.
+.
 	\end{example}
 	
-	The following corollary helps us to understand the relationship between the automorphisms
+	The following corollary helps
 ```
 
 ---
 
-#85
+#76
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 COMP: remove no indent
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>By Theorem</Highlight> 3.1, ˜f ∗(ci) is of the form given in (2) of Theorem 3.1. Also,
+0. <Highlight>By Theorem</Highlight> 3.1,
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$\tilde{f}^*(c_1) = \lambda c_1, \lambda \neq 0$.\\
-		By \thmref{main thm}, $\tilde{f}^*(c_i)$ is of the form given in \textit{(2)} of \thmref{main thm}. Also, $$\tilde{f}^*(u) = \mu u, \, \mu \in \mathbb{Q} \quad \text{ or } \quad \tilde{f}^*(u) = Q$$ where
+.\\
+		By \thmref{main thm}, $\tilde{f}^*(c_i)$
 ```
 
 ---
 
-#86
+#77
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 comma at end of equation
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-˜f ∗(u) <Highlight>= Q</Highlight>
+∗(u) <Highlight>= Q</Highlight>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 Also, $$\tilde{f}^*(u) = \mu u, \, \mu \in \mathbb{Q} \quad \text{ or } \quad \tilde{f}^*(u) = Q$$ where
 ```
 
 ---
 
-#87
+#78
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 remove no indent
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>Suppose that</Highlight> ˜f ∗(u) = Q, then the image set Im ˜f ∗⊆H∗
-C
+0. <Highlight>Suppose that</Highlight> ˜f
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-that $\tilde{f}^*(u) = \mu u$ where $\mu \neq 0$. \\
-		Suppose that $\tilde{f}^*(u) = Q$, then the image set $\im \tilde{f}^*\subseteq H^*_{\mathbb{C}G}$. Using
+. \\
+		Suppose that $\tilde{f}^*(u) = Q$
 ```
 
 ---
 
-#88
+#79
 
-## Type
+### Type
 Caret
 
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-This is a contradiction to the assumption that f ∗is an automorphism because<Caret></Caret>
+automorphism because<Caret></Caret> using
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-get $$\im f^*  \cong \im \tilde{f^*}|_{Fix (\theta^*)}\subseteq H^*_{\mathbb{C}G}.$$ This is a contradiction to the assumption that $f^*$ is an automorphism because using
+automorphism because using
 ```
 
 ---
 
-#89
+#80
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 Theorem 3.12 <COMP: link>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Replace>The following theorem</Replace> provides a criterion for the image of the spherical coho-
+3.4. <Replace>The following theorem</Replace> provides
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-an automorphism.
+automorphism.
 	\end{proof}
-	\subsection{} The following theorem provides a criterion for the image of the spherical cohomology class
+	\subsection{} The following theorem provides
 ```
 
 ---
 
-#90
+#81
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 of the
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-lizes a copy <Replace>of </Replace> Grassmannian {x0} × CGn,k for some x0 ∈Sm. Then the induced
+copy <Replace>of Grassmannian
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-it stabilizes a copy of Grassmannian $\{{x_0}\}\times \mathbb CG_{n,k}$ for some $x_0\in \mathbb S^m.$ Then the induced endomorphism
+copy of Grassmannian
 ```
 
 ---
 
-#91
+#82
 
-## Type
-StrikeOut
+### Type
+Remove
 
-## Comment
+### Comment
 ```text
 
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-pi the i-th projection map on Sm × CGn,k for i = 1, 2 and s : Sm \ {x0} →D <StrikeOut>is</StrikeOut> the
+→D <Remove>is</Remove> the
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-Denote $p_i$ the $i$-th projection map on $\mathbb S^m\times \mathbb CG_{n,k}$ for $i=1,2$ and $s:\mathbb S^m\setminus\{x_0\}\to D$ is the inverse
+$s:\mathbb S^m\setminus\{x_0\}\to D$ is the
 ```
 
 ---
 
-#92
+#83
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 COMP: insert period at end of equation
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Sm × <Highlight>CGn,</Highlight>k
+× <Highlight>CGn,</Highlight>k
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-diagram commutes:
+commutes:
+		\[ \begin{tikzcd}
+			{\mathbb T^m\times \mathbb{C}G_{n,k}} & {\mathbb T^m\times \mathbb{C}G_{n,k}} \\
+			{\mathbb S^m\times \mathbb{C}G_{n,k}} & {\mathbb S^m\times \mathbb{C}G_{n,k}}
+			\arrow["{\tilde f}", from=1-1, to=1-2]
+			\arrow["{q\times \mathrm{id}}"', two heads, from=1-1, to=2-1]
+			\arrow["{q\times \mathrm{id}}", two heads, from=1-2, to=2-2]
+			\arrow["f", from=2-1, to=2-2]
+		\end{tikzcd}
+		\]
+		
+		Since,
+```
+
+---
+
+#84
+
+### Type
+Highlight
+
+### Comment
+```text
+remove paragraph indent
+```
+
+### PDF selected text
+```text
+<Highlight>Si</Highlight>nce, the
+```
+  
+### LaTeX snippet
+```latex
+commutes:
 		\[ \begin{tikzcd}
 			{\mathbb T^m\times \mathbb{C}G_{n,k}} & {\mathbb T^m\times \mathbb{C}G_{n,k}} \\
 			{\mathbb S^m\times \mathbb{C}G_{n,k}} & {\mathbb S^m\times \mathbb{C}G_{n,k}}
@@ -2258,24 +2075,24 @@ diagram commutes:
 
 ---
 
-#93
+#85
 
-## Type
-Highlight
+### Type
+Remove
 
-## Comment
+### Comment
 ```text
-remove paragraph indent
+
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>Si</Highlight>nce, the quotient map q has Brouwer degree 1, the induced map on ratio-
+Since<Remove>,</Remove> the
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-diagram commutes:
+commutes:
 		\[ \begin{tikzcd}
 			{\mathbb T^m\times \mathbb{C}G_{n,k}} & {\mathbb T^m\times \mathbb{C}G_{n,k}} \\
 			{\mathbb S^m\times \mathbb{C}G_{n,k}} & {\mathbb S^m\times \mathbb{C}G_{n,k}}
@@ -2286,116 +2103,49 @@ diagram commutes:
 		\end{tikzcd}
 		\]
 		
-		Since, the quotient map $q$ has Brouwer degree 1, the induced map on rational cohomology
+		Since, the
 ```
 
 ---
 
-#94
+#86
 
-## Type
-StrikeOut
-
-## Comment
-```text
-
-```
-
-## PDF selected text
-```text
-Since<StrikeOut>,</StrikeOut> the quotient map q has Brouwer degree 1, the induced map on ratio-
-```
-  
-## LaTeX snippet
-```latex
-diagram commutes:
-		\[ \begin{tikzcd}
-			{\mathbb T^m\times \mathbb{C}G_{n,k}} & {\mathbb T^m\times \mathbb{C}G_{n,k}} \\
-			{\mathbb S^m\times \mathbb{C}G_{n,k}} & {\mathbb S^m\times \mathbb{C}G_{n,k}}
-			\arrow["{\tilde f}", from=1-1, to=1-2]
-			\arrow["{q\times \mathrm{id}}"', two heads, from=1-1, to=2-1]
-			\arrow["{q\times \mathrm{id}}", two heads, from=1-2, to=2-2]
-			\arrow["f", from=2-1, to=2-2]
-		\end{tikzcd}
-		\]
-		
-		Since, the quotient map $q$ has Brouwer degree 1, the induced map on rational cohomology
-```
-
----
-
-#95
-
-## Type
+### Type
 Caret
 
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-nal cohomology q∗: H∗(Sm; Z) →H∗(Tm; Z) sends u �→1 · u1u2 . . . um<Caret></Caret> where ui
+. um<Caret></Caret> where
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-on rational cohomology $q^*: H^*(\mathbb{S}^m; \mathbb{Z}) \rightarrow H^*(\mathbb{T}^m;\mathbb{Z})$ sends $u\mapsto 1\cdot u_1 u_2 \dots u_m$ where $u_i$ denote
+rational cohomology $q^*: H^*(\mathbb{S}^m; \mathbb{Z}) \rightarrow H^*(\mathbb{T}^m;\mathbb{Z})$ sends $u\mapsto 1\cdot u_1 u_2 \dots u_m$ where $u_i$ denote
 ```
 
 ---
 
-#96
+#87
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 :
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-The induced diagram in cohomology implies the following commutative diagram<Replace>.</Replace>
+commutative diagram<Replace>.</Replace>
 ```
   
-## LaTeX snippet
-```latex
-$H^*(\mathbb S^m\times \mathbb CG_{n,k};\mathbb Z)$.
-		The induced diagram in cohomology implies the following commutative diagram.
-		\[
-		\begin{tikzcd}
-			{\prod_{i=1}^m u_i} & {\prod_{i=1}^m P_i(u_1,\ldots,u_m)} \\
-			u & {f^*(u)}
-			\arrow["{\tilde f^*}", maps to, from=1-1, to=1-2]
-			\arrow["{(q\times \mathrm{id})^*}"', maps to, from=2-1, to=1-1]
-			\arrow["{f^*}", maps to, from=2-1, to=2-2]
-			\arrow["{(q\times \mathrm{id})^*}"', maps to, from=2-2, to=1-2]
-		\end{tikzcd}
-		\]
-		This
-```
-
----
-
-#97
-
-## Type
-Highlight
-
-## Comment
-```text
-COMP: insert period at end of equation
-```
-
-## PDF selected text
-```text
-<Highlight>f ∗(u)</Highlight>
-```
-  
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 commutative diagram.
 		\[
@@ -2413,139 +2163,150 @@ commutative diagram.
 
 ---
 
-#98
+#88
 
-## Type
+### Type
+Highlight
+
+### Comment
+```text
+COMP: insert period at end of equation
+```
+
+### PDF selected text
+```text
+u <Highlight>f ∗(u)</Highlight>
+```
+  
+### LaTeX snippet
+```latex
+diagram.
+		\[
+		\begin{tikzcd}
+			{\prod_{i=1}^m u_i} & {\prod_{i=1}^m P_i(u_1,\ldots,u_m)} \\
+			u & {f^*(u)}
+			\arrow["{\tilde f^*}", maps to, from=1-1, to=1-2]
+			\arrow["{(q\times \mathrm{id})^*}"', maps to, from=2-1, to=1-1]
+			\arrow["{f^*}", maps to, from=2-1, to=2-2]
+			\arrow["{(q\times \mathrm{id})^*}"', maps to, from=2-2, to=1-2]
+		\end{tikzcd}
+		\]
+		This
+```
+
+---
+
+#89
+
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 S
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-P(m, n, k) defined in <Replace>Subs</Replace>ection 2.4.
+in <Replace>Subs</Replace>ection 2.4.
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-spaces $P(m,n,k)$ defined in \subsecref{gds}. We
+spaces $P(m,n,k)$ defined in \subsecref{gds}. We establish the necessary conditions for a
 ```
 
 ---
 
-#99
+#90
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 for
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-space X. The pair (X, g) is said to have the coincidence property (<Replace>in</Replace> short, CP)
+property (<Replace>in</Replace> short,
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-topological space $X$. The pair $(X,g)$ is said to have the \textbf{coincidence property} (in short, CP) if,
+\textbf{coincidence property} (in short,
 ```
 
 ---
 
-#100
+#91
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 Definition 4.2 <COMP: link>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-reduces to that of a fixed point, resulting in <Replace>the following definition</Replace>.
+in <Replace>the following definition</Replace>.
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-coincidence reduces to that of a fixed point, resulting in the following definition.
+in the following definition.
 	
 	
 	
 	\begin{definition}
-		A topological
+		A
 ```
 
 ---
 
-#101
+#92
 
-## Type
-Replace
-
-## Comment
-```text
-either (AU: okay?)
-```
-
-## PDF selected text
-```text
-generalized Dold space P(S, X). Then (P(S, X), g) does not have the CP if <Replace>one</Replace> of
-```
-  
-## LaTeX snippet
-```latex
-the generalized Dold space $P(S,X)$. Then $(P(S,X),g)$ does not have the CP if one of the
-```
-
----
-
-#102
-
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(1)</Highlight> The continuous map g is a fiber bundle map and the pair (Y, p ◦g ◦s) does
+<Highlight>(1)</Highlight> The
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-following hold:
+hold:
 		\begin{enumerate}
 			\item The continuous map $g$ is a fiber bundle map and the pair $(Y,p \circ g \circ s)$ does not
 ```
 
 ---
 
-#103
+#93
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(2)</Highlight> There exists a σ-equivariant map f (i.e. f ◦σ = σ ◦f) on X and a α × σ-
+(6). <Highlight>(2)</Highlight> There
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 and \eqref{proj}.
 			
@@ -2555,349 +2316,322 @@ and \eqref{proj}.
 
 ---
 
-#104
+#94
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 an
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-(2) There exists a σ-equivariant map f (i.e. f ◦σ = σ ◦f) on X and <Replace>a</Replace> α × σ-
+and <Replace>a</Replace> α
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-and \eqref{proj}.
-			
-			\item  
-			There exists a $\sigma$-equivariant map $f$ (i.e. $f\circ\sigma =\sigma\circ f$) on $X$ and a $\alpha \times \sigma$-equivariant map
+and a $\alpha \times \sigma$
 ```
 
 ---
 
-#105
+#95
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Proof. <Highlight>(1)</Highlight> Suppose that the pair (Y, p ◦g ◦s) does not have the CP. Then there
+Proof. <Highlight>(1)</Highlight> Suppose
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$(\alpha \times \sigma) \circ \tilde{g}$.
+.
 		\end{enumerate}
 		
 		
 		
 	\end{proposition}
 	\begin{proof} \textit{(1)}
-		Suppose that the pair $(Y,p \circ g \circ s)$ does not have the CP. 
-		Then there exists
+		Suppose
+```
+
+---
+
+#96
+
+### Type
+Highlight
+
+### Comment
+```text
+rom
+```
+
+### PDF selected text
+```text
+(19). <Highlight>(2)</Highlight> Let
+```
+  
+### LaTeX snippet
+```latex
+contradicts \eqref{pogos}.
+		
+		
+		\textit{(2)} %Let $G$ be a group of order $2$ generated by $\alpha \times \sigma$ acting on the topological space $S\times X$ by composition.
+		Let $G$
+```
+
+---
+
+#97
+
+### Type
+Replace
+
+### Comment
+```text
+the
+```
+
+### PDF selected text
+```text
+from <Replace>a</Replace> general observation that if for two G-equivariant maps ˜ϕ, ˜ψ on S × X, the maps a</Replace> and
+```
+  
+### LaTeX snippet
+```latex
+from a general
+```
+
+---
+
+#98
+
+### Type
+Replace
+
+### Comment
+```text
+(for any $t \in G$)
+```
+
+### PDF selected text
+```text
+of coincidence<Replace>, for any t ∈G</Replace>; then
+```
+  
+### LaTeX snippet
+```latex
+of coincidence, for any $t \in G$;
+```
+
+---
+
+#99
+
+### Type
+Replace
+
+### Comment
+```text
+Lemma 4.5 <COMP: link>
+```
+
+### PDF selected text
+```text
+prove <Replace>the following lemma</Replace> (cf.
+```
+  
+### LaTeX snippet
+```latex
+prove the following lemma (cf.
+```
+
+---
+
+#100
+
+### Type
+Replace
+
+### Comment
+```text
+[GH1, Theorem 2]
+```
+
+### PDF selected text
+```text
+(cf. <Replace>Theorem 2, [GH1]</Replace>) to
+```
+  
+### LaTeX snippet
+```latex
+(cf. Theorem 2, \cite{glover-homer}) to
+```
+
+---
+
+#101
+
+### Type
+Caret
+
+### Comment
+```text
+,
+```
+
+### PDF selected text
+```text
+= χ(RGn k)<Caret></Caret> where
+```
+  
+### LaTeX snippet
+```latex
+that 
+		$\sum_{i=0}^d d_{2i}(-1)^i = \chi(\mathbb{R}G_{n,k})$ where
+```
+
+---
+
+#102
+
+### Type
+Caret
+
+### Comment
+```text
+,
+```
+
+### PDF selected text
+```text
+root theorem<Caret></Caret> p|1
+```
+  
+### LaTeX snippet
+```latex
+root theorem $p|1$
+```
+
+---
+
+#103
+
+### Type
+Caret
+
+### Comment
+```text
+,
+```
+
+### PDF selected text
+```text
+Hi(Sm; Q)<Caret></Caret> and
+```
+  
+### LaTeX snippet
+```latex
+groups 
+	$H_i(\mathbb{C}G_{n,k}; \mathbb{Q}), \, H_i(\mathbb{S}^m; \mathbb{Q})$ and
+```
+
+---
+
+#104
+
+### Type
+Highlight
+
+### Comment
+```text
+COMP: break after semicolon
+```
+
+### PDF selected text
+```text
+and Hi(Sm×CGn,k<Highlight>; Q),</Highlight> by HCG i , HS i and H× i , respectively. Let d denote the complex dimension of Gn,k<Highlight>; Q given
+```
+  
+### LaTeX snippet
+```latex
+and 
+	$H_i(\mathbb{S}^m \times \mathbb{C}G_{n,k}; \mathbb{Q})$, by
+```
+
+---
+
+#105
+
+### Type
+Highlight
+
+### Comment
+```text
+rom
+```
+
+### PDF selected text
+```text
+part <Highlight>(i)</Highlight>, there
+```
+  
+### LaTeX snippet
+```latex
+part \textit{(i)}, there
 ```
 
 ---
 
 #106
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(2)</Highlight> Let G denote the group of deck transformations of the double covering π :
+part <Highlight>(i)</Highlight>, there
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-contradicts \eqref{pogos}.
-		
-		
-		\textit{(2)} %Let $G$ be a group of order $2$ generated by $\alpha \times \sigma$ acting on the topological space $S\times X$ by composition.
-		Let $G$ denote the group of deck transformations of the double covering $\pi : S \times X \to P(S, X)$, generated
+part \textit{(i)}, there
 ```
 
 ---
 
 #107
 
-## Type
+### Type
 Replace
 
-## Comment
-```text
-the
-```
-
-## PDF selected text
-```text
-from <Replace>a</Replace> general observation that if for two G-equivariant maps ˜ϕ, ˜ψ on S × X, the
-```
-  
-## LaTeX snippet
-```latex
-follows from a general observation that if for two $G$-equivariant maps $\tilde\phi, \tilde\psi$ on $S\times X$, the maps
-```
-
----
-
-#108
-
-## Type
-Replace
-
-## Comment
-```text
-(for any $t \in G$)
-```
-
-## PDF selected text
-```text
-maps ˜ϕ and t · ˜ψ have no point of coincidence<Replace>, for any t ∈G</Replace>; then the maps they
-```
-  
-## LaTeX snippet
-```latex
-the maps $\tilde \phi$ and $t \cdot \tilde\psi$ have no point of coincidence, for any $t \in G$; then the maps they induce
-```
-
----
-
-#109
-
-## Type
-Replace
-
-## Comment
-```text
-Lemma 4.5 <COMP: link>
-```
-
-## PDF selected text
-```text
-now prove <Replace>the following lemma</Replace> (cf. Theorem 2, [GH1]) to prove Proposition 4.6.
-```
-  
-## LaTeX snippet
-```latex
-We now prove the following lemma (cf. Theorem 2, \cite{glover-homer}) to prove \propref{CP of CGnk}.
-	\begin{lemma}\label{sum neq 0}
-		Let $d_{2i}$
-```
-
----
-
-#110
-
-## Type
-Replace
-
-## Comment
-```text
-[GH1, Theorem 2]
-```
-
-## PDF selected text
-```text
-now prove the following lemma (cf. <Replace>Theorem 2, [GH1]</Replace>) to prove Proposition 4.6.
-```
-  
-## LaTeX snippet
-```latex
-We now prove the following lemma (cf. Theorem 2, \cite{glover-homer}) to prove \propref{CP of CGnk}.
-	\begin{lemma}\label{sum neq 0}
-		Let $d_{2i}$
-```
-
----
-
-#111
-
-## Type
-Caret
-
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-�d
-i=0 d2i(−1)i = χ(RGn,k)<Caret></Caret> where d2i = dim H2i(CGn,k; Q) = dim Hi(RGn,k; Z2).
+H2i 2i CG<Replace>.</Replace>
 ```
   
-## LaTeX snippet
-```latex
-that 
-		$\sum_{i=0}^d d_{2i}(-1)^i = \chi(\mathbb{R}G_{n,k})$ where $d_{2i} = \operatorname{dim} H^{2i}(\mathbb{C}G_{n,k}; \mathbb{Q}) = \dim H^{i}(\mathbb{R}G_{n,k}; \mathbb{Z}_2)$. 
-		It
-```
-
----
-
-#112
-
-## Type
-Caret
-
-## Comment
-```text
-,
-```
-
-## PDF selected text
-```text
-root theorem<Caret></Caret> p|1 and q|1. Hence, λ = ±1, which is a contradiction. Therefore, we
-```
-  
-## LaTeX snippet
-```latex
-rational root theorem $p|1$ and $q|1$. Hence, $\lambda = \pm 1$, which is a contradiction. Therefore, we conclude
-```
-
----
-
-#113
-
-## Type
-Caret
-
-## Comment
-```text
-,
-```
-
-## PDF selected text
-```text
-Denote the i-th homology groups Hi(CGn,k; Q), Hi(Sm; Q)<Caret></Caret> and Hi(Sm×CGn,k; Q),
-```
-  
-## LaTeX snippet
-```latex
-$\lambda\in \mathbb Q$. 
-	\end{proof}
-	
-	
-	
-	Denote the $i$-th homology groups 
-	$H_i(\mathbb{C}G_{n,k}; \mathbb{Q}), \, H_i(\mathbb{S}^m; \mathbb{Q})$ and 
-	$H_i(\mathbb{S}^m \times \mathbb{C}G_{n,k}; \mathbb{Q})$, by
-```
-
----
-
-#114
-
-## Type
-Highlight
-
-## Comment
-```text
-COMP: break after semicolon
-```
-
-## PDF selected text
-```text
-Denote the i-th homology groups Hi(CGn,k; Q), Hi(Sm; Q) and Hi(Sm×CGn,k<Highlight>; Q),</Highlight>
-```
-  
-## LaTeX snippet
-```latex
-$\lambda\in \mathbb Q$. 
-	\end{proof}
-	
-	
-	
-	Denote the $i$-th homology groups 
-	$H_i(\mathbb{C}G_{n,k}; \mathbb{Q}), \, H_i(\mathbb{S}^m; \mathbb{Q})$ and 
-	$H_i(\mathbb{S}^m \times \mathbb{C}G_{n,k}; \mathbb{Q})$, by
-```
-
----
-
-#115
-
-## Type
-Highlight
-
-## Comment
-```text
-rom
-```
-
-## PDF selected text
-```text
-nal cohomology algebra. Using Theorem 2.3 part <Highlight>(i)</Highlight>, there exist a nonzero rational
-```
-  
-## LaTeX snippet
-```latex
-the rational cohomology algebra. Using Theorem \ref{hom and hof} part \textit{(i)}, there exist a nonzero rational $\lambda$
-```
-
----
-
-#116
-
-## Type
-Highlight
-
-## Comment
-```text
-rom
-```
-
-## PDF selected text
-```text
-Theorem 2.3 part <Highlight>(i)</Highlight>, there exists µ ∈Q such that
-```
-  
-## LaTeX snippet
-```latex
-using \thmref{hom and hof} part \textit{(i)}, there exists $\mu \in \mathbb Q$ such that
-		\[
-		f^*(c_i)=\mu^ic_i, \forall i\in I.
-		\]
-		Then
-```
-
----
-
-#117
-
-## Type
-Replace
-
-## Comment
-```text
-,
-```
-
-## PDF selected text
-```text
-2i
-CG<Replace>.</Replace>
-```
-  
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 that 
 		\begin{align*}
@@ -2910,22 +2644,22 @@ that
 
 ---
 
-#118
+#108
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 COMP: adjust to fit within margin
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-D◦g∗◦D−1◦f∗(x) = <Highlight>D◦g∗◦D−1(µix) = µiD◦g∗(D−1x) = µiD(λd−iD−1x) = µiλd−ix.</Highlight>
+= <Highlight>D◦g∗◦D−1(µix) = µiD◦g∗(D−1x) = µiD(λd−iD−1x) = µiλd−ix.</Highlight>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 by 
 		\[
@@ -2936,25 +2670,24 @@ by
 
 ---
 
-#119
+#109
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 close up space between L(f, g) and this first equals sign
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>= �</Highlight>d
-i=
+g) <Highlight>= P</Highlight>d i= i=0(−1)2itr(D
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-given by
+by
 		\[
 		\begin{array}{ll}
 			L(f,g) &= \sum_{i=0}^d (-1)^{2i}
@@ -2968,24 +2701,24 @@ given by
 
 ---
 
-#120
+#110
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 insert comma at end of equation
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
 (∵λ <Highlight>= 0)</Highlight>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-given by
+by
 		\[
 		\begin{array}{ll}
 			L(f,g) &= \sum_{i=0}^d (-1)^{2i}
@@ -2999,96 +2732,91 @@ given by
 
 ---
 
-#121
+#111
 
-## Type
+### Type
 Caret
 
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-2i
-CG<Caret></Caret> and the last equation holds by using Lemma 4.5.
+H2i 2i CG<Caret></Caret> and
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-denotes $\dim_{\mathbb Q}H^{2i}_{\mathbb CG}$ and the last equation holds by using \lemref{sum neq 0}. Therefore,
+denotes $\dim_{\mathbb Q}H^{2i}_{\mathbb CG}$ and
 ```
 
 ---
 
-#122
+#112
 
-## Type
+### Type
 Caret
 
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-δvq(vp) = δqp<Caret></Caret> where δqp is the Kronecker delta function. Without loss of generality,
+= δqp<Caret></Caret> where
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 that  
-	$ \delta_{v_q} (v_p) = \delta_{qp}$ where $\delta_{qp}$ is the Kronecker delta function. Without loss of generality, assume
+	$ \delta_{v_q} (v_p) = \delta_{qp}$ where
 ```
 
 ---
 
-#123
+#113
 
-## Type
-StrikeOut
+### Type
+Remove
 
-## Comment
+### Comment
 ```text
 
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-∗
-CG<StrikeOut>,</StrikeOut> such that
+H∗ ∗ CG<Remove>,</Remove> such
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-of  
-	$\operatorname{Hom}(H_*^{\mathbb{C}G}, \mathbb Q) \cong H^*_{\mathbb{C}G}$, such that  
-	$ \delta_{v_q} (v_p) = \delta_{qp}$
+$\operatorname{Hom}(H_*^{\mathbb{C}G}, \mathbb Q) \cong H^*_{\mathbb{C}G}$, such
 ```
 
 ---
 
-#124
+#114
 
-## Type
-StrikeOut
+### Type
+Remove
 
-## Comment
+### Comment
 ```text
 
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-×
-∗; Q) satisfying<StrikeOut>:</StrikeOut>
+Q) satisfying<Remove>:</Remove>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-of $\hom (H_*^{\times};\mathbb{Q})$ satisfying:
+$\hom (H_*^{\times};\mathbb{Q})$ satisfying:
 	%\[\{v_i\} \cup \{\vartheta \otimes v_i\} \subseteq H_*^\times, \qquad 	\{\delta_{v_i}\} \cup \{\delta_{\vartheta \otimes v_i}\} \subseteq H^*_\times.\]
 	%Since $\delta_{U \otimes 1} = \delta_U = u \in H^m_{\mathbb S}$, we write $\delta_{U \otimes v_i}$ simply as $u\,\delta_{v_i}$.With respect to these bases, the Kronecker pairing  $\langle\,\cdot\,,\cdot\,\rangle : H^*_\times \times H_*^\times \longrightarrow \mathbb Q$satisfies 
 	\begin{equation}\label{Kronecker relations}
@@ -3103,187 +2831,172 @@ of $\hom (H_*^{\times};\mathbb{Q})$ satisfying:
 
 ---
 
-#125
+#115
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 The Poincaré
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Replace>Poincar´e</Replace> duality on Sm × CGn,k can be described in terms of the duality on
+<Replace>Poincare</Replace> duality
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 satisfying \begin{equation}\label{comm with phi}
 		\varphi \circ \tilde{f}_* = \tilde{f}^*(\varphi) , \, \forall
 		\varphi \in \hom _{\mathbb Q}\big(H_{2i}^{\mathbb CG}, \mathbb Q\big)\cong H^{2i}_{\mathbb CG}.
 	\end{equation}
 	
-		Poincar\'e duality on $\mathbb S^{m}\times \mathbb C G_{n,k}$ can be described in terms of the duality on the
+		Poincar\'e duality
 ```
 
 ---
 
-#126
+#116
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 Lemmas 4.7 and 4.8 <COMP: link>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-We are now ready to establish <Replace>the following lemmas</Replace>, which will be useful in the
+establish <Replace>the following lemmas</Replace>, which
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-by  
-		\begin{equation}
-			D\colon H^{j}_{\times}\to H_{m+2d-j}^{\times}, \quad \delta_{v_i}\mapsto \vartheta\otimes D_{\mathbb C G}(\delta_{v_i})\quad\text{and}\quad \delta_{\vartheta\otimes v_i} \mapsto D_{\mathbb C G}(\delta_{v_i}).
-		\end{equation}
-		We are now ready to establish the following lemmas, which will be useful in the sequel.
-	\begin{lemma}\label{image of homf}
-		Let $f$
+establish the following lemmas, which
 ```
 
 ---
 
-#127
+#117
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(1)</Highlight> Either ˜f∗(ϑ ⊗x) = µλi(ϑ ⊗x), ∀x ∈HCG
+<Highlight>(1)</Highlight> Either
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-following form.
+form.
 		\begin{enumerate}
-			\item Either $\tilde{f}_*(\vartheta\otimes x) = \mu \lambda^i (\vartheta \otimes x),\, \forall x\in H_{2i}^{\mathbb{C}G}$ or
+			\item Either $\tilde{f}_*(\vartheta\otimes x) = \mu \lambda^i (\vartheta \otimes x),\, \forall x\in H_{2i}^{\mathbb{C}G}$ or $\tilde{f}_*(\vartheta\otimes x) \in H_*^{\mathbb{CG}},\, \forall x \in H_*^{\mathbb{C}G}$.
+			\item $\tilde{f}_*(x) = \lambda^i x + \vartheta\otimes y,$
 ```
 
 ---
 
-#128
+#118
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(2)</Highlight> ˜f∗(x) = λix + ϑ ⊗y, for some y ∈HCG
-2i−
+. <Highlight>(2)</Highlight> ˜f∗(x)
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$\tilde{f}_*(\vartheta\otimes x) \in H_*^{\mathbb{CG}},\, \forall x \in H_*^{\mathbb{C}G}$.
+.
 			\item $\tilde{f}_*(x) = \lambda^i x + \vartheta\otimes y,$ for some $y \in H_{2i-m}^{\mathbb{C}G}, \, \forall x \in H_{2i}^{\mathbb{C}G}.$
 		\end{enumerate}
-		Moreover, $y=0$
+		Moreover,
 ```
 
 ---
 
-#129
+#119
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(1)</Highlight> ˜f∗(x) ∈ϑ ⊗HCG
-2i−
+<Highlight>(1) (2)</Highlight> ˜f∗(x) ∈ϑ ⊗HCG 2i−m, ∀x ∈HCG 2i , ∀i > 0. <Highlight>(1) (2)</Highlight> ˜f∗(ϑ
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-following form.
+form.
 		\begin{enumerate}
 			\item $\tilde f_* (x)\in \vartheta\otimes H_{2i-m}^{\mathbb CG},\, \forall x\in H_{2i}^{\mathbb CG},\, \forall i>0$.
-			\item $\tilde{f}_*(\vartheta\otimes 1) = \mu (\vartheta\otimes 1 )+y, \, y\in H_{m}^{\mathbb{C}G}, \quad\\ \tilde f_*(\vartheta \otimes x)\in H_{2i+m}^{\mathbb{C}G},\, \forall x \in H_{2i}^{\mathbb{C}G}, i>0\;$ if
+			\item $\tilde{f}_*(\vartheta\otimes 1) = \mu (\vartheta\otimes 1 )+y, \, y\in H_{m}^{\mathbb{C}G}, \quad\\ \tilde f_*(\vartheta \otimes x)\in H_{2i+m}^{\mathbb{C}G},\, \forall x \in H_{2i}^{\mathbb{C}G}, i>0\;$
 ```
 
 ---
 
-#130
+#120
 
-## Type
+### Type
 Caret
 
-## Comment
+### Comment
 ```text
 .
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-CG
-2i , i > 0 if ˜f ∗(u) = µu, µ ∈Q<Caret></Caret>
+µ ∈Q<Caret></Caret>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$\tilde f_* (x)\in \vartheta\otimes H_{2i-m}^{\mathbb CG},\, \forall x\in H_{2i}^{\mathbb CG},\, \forall i>0$.
-			\item $\tilde{f}_*(\vartheta\otimes 1) = \mu (\vartheta\otimes 1 )+y, \, y\in H_{m}^{\mathbb{C}G}, \quad\\ \tilde f_*(\vartheta \otimes x)\in H_{2i+m}^{\mathbb{C}G},\, \forall x \in H_{2i}^{\mathbb{C}G}, i>0\;$ if $\tilde{f}^*(u) = \mu u,\,  \mu \in \mathbb{Q}$ 
+if $\tilde{f}^*(u) = \mu u,\,  \mu \in \mathbb{Q}$ 
 		\end{enumerate}
 	\end{lemma}
 	\begin{proof}
-		Using \propref{main thm 2}, we
+		Using
 ```
 
 ---
 
-#131
+#121
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 adjust to fit equation within margin
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>˜f ∗(δvp) =
-�
-ajpδϑ⊗vj, ∀vp ∈HCG
-2i ,
-˜f ∗(δϑ⊗1) = µδϑ⊗1,
-˜f ∗(δϑ⊗vp) = 0, ∀vp ∈HCG
-2i .</Highlight>
+(28) <Highlight>f ∗ ∗(δvp) = X ajpδϑ⊗vj, ∀vp ∈HCG 2i , ˜f ∗(δϑ⊗1) = µδϑ⊗1, ˜f ∗(δϑ⊗vp) = 0, ∀vp ∈HCG 2i .</Highlight>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 $i>0$ 
 		\begin{equation}\label{fstarcom}
@@ -3294,98 +3007,72 @@ $i>0$
 
 ---
 
-#132
+#122
 
-## Type
-Highlight
-
-## Comment
-```text
-AU: ", which concludes the ..." or ". That concludes the ..."?
-```
-
-## PDF selected text
-```text
-<Highlight>that</Highlight> concludes the result.
-```
-  
-## LaTeX snippet
-```latex
-$ v_p\neq 1$
-		$$\delta_{v_p}\circ \tilde{f}_*(v_q) = 0,\, \forall v_q \in H_{2i}^{\mathbb{C}G},\quad \delta_{\vartheta\otimes v_p}\circ \tilde{f}_*(\vartheta\otimes v_q) =0,\, \forall v_q \in H_{2i}^{*}$$ that concludes the result.
-		
-		When $\tilde{f}^*(u)\in H^*_{\mathbb{C}G}$
-```
-
----
-
-#133
-
-## Type
+### Type
 Caret
 
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-CG
-2i , ∀i > 0<Caret></Caret>
+> 0<Caret></Caret> which
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 have $\tilde{f}^*(\delta_{v_p}) = \sum a_{jp}\delta_{\vartheta \otimes v_j} , \, \forall v_{p}\in H_{2i}^{\mathbb{C}G},\, \forall i>0$ which
 ```
 
 ---
 
-#134
+#123
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 Theorems 4.9 and 4.10 <COMP: link>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Replace>The following theorems</Replace> provide a criteria for the existence of coincidence
+4.4. <Replace>The following theorems</Replace> provide
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 $\delta_{v_p}\circ \tilde{f}_*(v_q) = 0,\, \forall v_q \in H_{2i}^{\mathbb{C}G},\,\forall i>0.$   		
 	\end{proof}
 
 
-\subsection{} The following theorems provide a criteria for the existence of coincidence points
+\subsection{} The following theorems provide
 ```
 
 ---
 
-#135
+#124
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(1)</Highlight> g∗is an automorphism of H∗(P(m, n, k); Q).
+<Highlight>(1) (2) (3)</Highlight> g∗is an automorphism of H∗(P(m, n, k); Q). <Highlight>(1) (2) (3)</Highlight> ˜f ∗(c1) ̸= au, a ∈Q. <Highlight>(1) (2) (3)</Highlight> deg(p
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-such that
+that
 	%and suppose that the induced endomorphisms in cohomology satisfies:	
 	\begin{enumerate}	
 		\item $g^*$ is an automorphism of $H^*(P(m,n,k);\mathbb Q)$. 
@@ -3394,124 +3081,118 @@ such that
 
 ---
 
-#136
+#125
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-(1) g∗is an automorphism of H∗(P(m, n, k); Q)<Replace>.</Replace>
+k); Q)<Replace>.</Replace> (2)
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-such that
-	%and suppose that the induced endomorphisms in cohomology satisfies:	
-	\begin{enumerate}	
-		\item $g^*$ is an automorphism of $H^*(P(m,n,k);\mathbb Q)$. 
+of $H^*(P(m,n,k);\mathbb Q)$. 
 		\item $\tilde{f}^*(c_1) \neq au,\, a \in \mathbb{Q}$
 ```
 
 ---
 
-#137
+#126
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-(2) ˜f ∗(c1) ̸= au, a ∈Q<Replace>.</Replace>
+a ∈Q<Replace>.</Replace> (3)
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$H^*(P(m,n,k);\mathbb Q)$. 
+. 
 		\item $\tilde{f}^*(c_1) \neq au,\, a \in \mathbb{Q}$.
 		\item $\deg(p\circ g \circ s)\neq -\deg (p\circ f\circ s)$
 ```
 
 ---
 
-#138
+#127
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-(3) deg(p ◦g ◦s) ̸= −deg(p ◦f ◦s) if m is odd<Replace>.</Replace>
+is odd<Replace>.</Replace> where
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$\tilde{f}^*(c_1) \neq au,\, a \in \mathbb{Q}$.
-		\item $\deg(p\circ g \circ s)\neq -\deg (p\circ f\circ s)$ if $m$ is odd.
+is odd.
 	\end{enumerate}
-	where $s$
+	where
 ```
 
 ---
 
-#139
+#128
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 et al.
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-M. MANDAL <Replace>AND D. SETIA</Replace>
+MANDAL <Replace>AND D. SETIA</Replace>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$g$.
+.
 \end{theorem}
 \begin{proof}
-	Using \corref{automor}, we
+	Using
 ```
 
 ---
 
-#140
+#129
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 center equations
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>˜f∗(x) = λix + ϑ ⊗y, for some y ∈HCG
-2i−m, ∀x ∈HCG
-2i</Highlight>
+form, ˜f∗(x) = λix + ϑ ⊗y, for some y ∈HCG 2i−m, ∀x ∈HCG 2i ∈HCG 2i</Highlight> 2i <Highlight>˜f∗(ϑ ⊗x) = µλi(ϑ ⊗x), or ˜f∗(ϑ ⊗x) = z, for some z ∈HCG 2i+m, ∀x ∈HCG 2i ∈HCG 2i</Highlight> 2i (29)
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 form, 
 	\begin{equation}\label{flower star}
@@ -3525,23 +3206,22 @@ form,
 
 ---
 
-#141
+#130
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 center equations
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>D˜g∗D−1 ˜f∗(x) = µ1λiλd−i
-x + ϑ ⊗y′ for some y′ ∈HCG</Highlight>
+D˜g∗D−1 ˜f∗(x) = µ1λiλd−i 1 x + ϑ ⊗y′ for some y′ ∈HCG CG 2i−m CG 2i+m.</Highlight> <Highlight>D˜g D˜g∗D−1 ˜f∗(ϑ ⊗x) = µλiλd−i 1 (ϑ ⊗x) + z′ for some z′ ∈HCG HCG 2i−m CG 2i+m.</Highlight>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 have 
 	\begin{equation*}\label{D cal}
@@ -3555,23 +3235,22 @@ have
 
 ---
 
-#142
+#131
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 ,
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-CG
-2i+m<Replace>.</Replace>
+∈HCG 2i+m<Replace></Replace>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 have 
 	\begin{equation*}\label{D cal}
@@ -3585,78 +3264,68 @@ have
 
 ---
 
-#143
+#132
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 denotes
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-′ = 0 or µ = 0 depending on the image of ˜f∗(ϑ ⊗x). Recall that d2i <Replace>denote</Replace>
+d2i <Replace>denote</Replace> the
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-where $z^{'} =0$ or $\mu =0$ depending on the image of $\tilde{f}_*(\vartheta \otimes x)$.
-	%Now we compute the Lefschetz number of the map $L(\tilde{f},\tilde g)$  and $L(\theta\circ \tilde f, \tilde g)$ under the consideration that $\lambda=0$ if (ii) holds and $\mu=0$ if (iv) holds. 
-	Recall that  $d_{2i}$ denote the
+$d_{2i}$ denote the
 ```
 
 ---
 
-#144
+#133
 
-## Type
-StrikeOut
+### Type
+Remove
 
-## Comment
+### Comment
 ```text
 
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Using <StrikeOut>the</StrikeOut> Lemma 4.5 and the fact that λ1 ̸= 0, the sum
+Using <Remove>the</Remove> Lemma
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$L(\tilde{f},\tilde g)$ is
-	\begin{equation*}\label{L(f,g)}
-		L(\tilde f,\tilde g) =(\mu_1 + \mu) \sum_{i=0}^{k(n-k)} d_{2i} \lambda^i\lambda_1^{d-i}.
-	\end{equation*}
-	Using the \lemref{sum neq 0} and the fact that $\lambda_1\neq 0$, the sum
-	\[
-	\sum_{i=0}^{k(n-k)} d_{2i} \lambda^i\lambda_1^{d-i}=\lambda_1^d\sum_{i=0}^{k(n-k)} d_{2i} (\lambda/\lambda_1)^i\neq 0,
-	\]
-	Since
+Using the \lemref{sum neq 0} and
 ```
 
 ---
 
-#145
+#134
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 .
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-d2i(λ/λ1)i ̸= 0<Replace>,</Replace>
+̸= 0<Replace>,</Replace>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-the sum
+sum
 	\[
 	\sum_{i=0}^{k(n-k)} d_{2i} \lambda^i\lambda_1^{d-i}=\lambda_1^d\sum_{i=0}^{k(n-k)} d_{2i} (\lambda/\lambda_1)^i\neq 0,
 	\]
@@ -3665,23 +3334,22 @@ the sum
 
 ---
 
-#146
+#135
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 center equations or align equal signs
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>D˜g∗D−1(θ ◦˜f)∗(x) = µ1(−λ)iλd−i
-x + ϑ ⊗y′′ for some y′′ ∈HCG</Highlight>
+D˜g∗D−1(θ ◦˜f)∗(x) = µ1(−λ)iλd−i 1 x + ϑ ⊗y′′ for some y′′ ∈HCG CG 2i−m CG 2i+m.</Highlight> <Highlight>D˜g∗D D˜g∗D−1(θ ◦˜f)∗(ϑ ⊗x) = −µ(−λ)iλd−i 1 ϑ ⊗x + z′′ for some z′′ ∈HCG HCG 2i−m CG 2i+m.</Highlight>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
 then  
 	\begin{equation*}\label{D with theta}
@@ -3695,24 +3363,24 @@ then
 
 ---
 
-#147
+#136
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(1)</Highlight> g∗is an automorphism of H∗(P(m, n, k); Q).
+<Highlight>(1)</Highlight> g∗is
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-such that
+that
 	%and suppose that the induced endomorphisms in cohomology satisfies:	
 	\begin{enumerate}	
 		\item $g^*$ is an automorphism of $H^*(P(m,n,k);\mathbb Q)$. 
@@ -3721,301 +3389,272 @@ such that
 
 ---
 
-#148
+#137
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(2)</Highlight> ˜f ∗(u) = µu, µ ∈Q if ˜f ∗(H∗
-C
+<Highlight>(2) (3)</Highlight> ˜f ∗(u) = µu, µ ∈Q if ˜f ∗(H∗ CG) ⊈H∗ CG and m is even. <Highlight>(2) (3)</Highlight> deg(p
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$H^*(P(m,n,k);\mathbb Q)$. 
-		\item $\tilde{f}^*(u) = \mu u,\, \mu \in \mathbb{Q}$ if $\tilde{f}^*(H^*_{\mathbb CG}) \nsubseteq H^*_{\mathbb CG}$ and
+. 
+		\item $\tilde{f}^*(u) = \mu u,\, \mu \in \mathbb{Q}$ if $\tilde{f}^*(H^*_{\mathbb CG}) \nsubseteq H^*_{\mathbb CG}$ and $m$ is even.
+		\item $\deg(p\circ g \circ s)\neq -\deg (p\circ f\circ s)$
 ```
 
 ---
 
-#149
+#138
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 remove no indent
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>Let us</Highlight> consider the other case when ˜f ∗(c1) = au, a ∈Q, using Theorem 3.3 we
+4.9. <Highlight>Let us</Highlight> consider the other case when ˜f ∗(c1) = au, a ∈Q, using Theorem 3.3 we have us</Highlight> ∗(ci)
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-by \thmref{coincidence thm}.\\ Let us consider the other case when $\tilde{f}^*(c_1) = au, \, a\in \mathbb{Q}$, using \thmref{main thm 2} we have
+by \thmref{coincidence thm}.\\ Let us consider
 ```
 
 ---
 
-#150
+#139
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-∗
-CG. Since ˜f ∗is graded and by <Highlight>(2)</Highlight>
+by <Highlight>(2)</Highlight> we
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-then $\tilde{f}^*(H^*_{\mathbb CG}) \nsubseteq H^*_{\mathbb CG}$. Since $\tilde{f}^*$ is graded and by \textit{(2)} we
+by \textit{(2)} we
 ```
 
 ---
 
-#151
+#140
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(2)</Highlight> The map p1 ◦˜f ∗◦i1 : H∗
-C
+<Highlight>(1) (2) (3)</Highlight> The lift ˜f stabilizes a copy of Grassmannian, i.e., ˜f({x0}×CGn,k) ⊆{x0}× CGn,k for some x0 ∈Sm. <Highlight>(1) (2) (3)</Highlight> The map p1 ◦˜f ∗◦i1 : H∗ CG →H∗ CG is an automorphism, equivalently, f ∗(c2 1) = λ2c2 1, λ ∈Q\{0}, where p1 and i1 are defined in (11). <Highlight>(1) (2) (3)</Highlight> The
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$x_0\in \mathbb S^m$. 
-		\item  The map $p_1\circ \tilde f^*\circ i_1: H^*_{\mathbb CG}\to H^*_{\mathbb C G}$ is
+follows: 
+	\begin{enumerate}
+		\item The lift $\tilde f$ stabilizes a copy of Grassmannian, i.e., $\tilde f(\{x_0\}\times\mathbb CG_{n,k})\subseteq \{x_0\}\times\mathbb CG_{n,k}$ for
 ```
 
 ---
 
-#152
+#141
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-hypothesis <Highlight>(2)</Highlight> considered in Theorem 4.9 or Theorem 4.10. Some of them are as
+hypothesis <Highlight>(2)</Highlight> considered
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-required hypothesis \textit{(2)} considered in \thmref{coincidence thm} or \thmref{coincidence thm under hom}. Some of them are as follows:
+hypothesis \textit{(2)} considered
 ```
 
 ---
 
-#153
+#142
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Hence condition <Highlight>(2)</Highlight> of Theorem 4.10 may be omitted, and one obtains the following
+condition <Highlight>(2)</Highlight> of
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$i\in I$. Hence condition~\textit{(2)} of Theorem~\ref{coincidence thm under hom} may be omitted, and one obtains the following consequence.
-	\begin{corollary}
-		Let $P(m,n,k)$
+condition~\textit{(2)} of
 ```
 
 ---
 
-#154
+#143
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 break before "continuous"
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-both even. Assume m > 2k, and the hypothesis (3) is satisfied. Then, for any <Highlight>con-</Highlight>
+any <Highlight>con-</Highlight> tinuous function g on P(m, n, k) that induces an automorphism on H∗(P(m, n, k); n-</Highlight> the
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$k(n-k)$ both even. Assume $m>2k$, and the hypothesis \eqref{Homer} is satisfied.
-		Then, for any continuous function
+any continuous function
 ```
 
 ---
 
-#155
+#144
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 break before math
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-tinuous function g on P(m, n, k) that induces an automorphism on <Highlight>H∗(P(m, n, k); Q),</Highlight>
+on <Highlight>H∗(P(m, n, k); Q),</Highlight> the
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-any continuous function $g$ on $P(m,n,k)$ that induces an automorphism on $H^*(P(m,n,k);\mathbb{Q})$, the
+on $H^*(P(m,n,k);\mathbb{Q})$, the
 ```
 
 ---
 
-#156
+#145
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 remove no indent
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>In particular,</Highlight> for g = id, the space P(m, n, k) has the fixed-point property.
+property. <Highlight>In particular,</Highlight> for
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-property. \\ In particular, for $g=\mathrm{id}$, the space $P(m,n,k)$ has the fixed-point property.
-	\end{corollary}
-
-
-
-
-
-
-
-
-
-
-In \thmref{coincidence thm under hom}, the
+property. \\ In particular, for
 ```
 
 ---
 
-#157
+#146
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 break before inline math
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-In Theorem 4.10, the first assumption that g∗is an automorphism of <Highlight>H∗(P(m, n, k); Q)</Highlight>
+of <Highlight>H∗(P(m, n, k); Q)</Highlight> can
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-fixed-point property.
-	\end{corollary}
-
-
-
-
-
-
-
-
-
-
-In \thmref{coincidence thm under hom}, the first assumption that $g^*$ is an automorphism of $H^*(P(m,n,k); \mathbb{Q})$ can
+of $H^*(P(m,n,k); \mathbb{Q})$ can
 ```
 
 ---
 
-#158
+#147
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 Proposition 4.13 <COMP: link>
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-can be relaxed by assuming µ is nonzero, which leads to <Replace>the following proposition</Replace>.
+to <Replace>the following proposition</Replace>.
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-$H^*(P(m,n,k); \mathbb{Q})$ can be relaxed by assuming $\mu$ is nonzero, which leads to the following proposition. 
+to the following proposition. 
 \begin{proposition}
-	Let $P(m,n,k)$
+	Let
 ```
 
 ---
 
-#159
+#148
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 rom
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>(1)</Highlight> ˜g∗(H∗
-C
+<Highlight>(1) (2)</Highlight> ˜g∗(H∗ CG) = H∗ CG. <Highlight>(1) (2)</Highlight> ˜f
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-such that
+that
 	\begin{enumerate}
 		\item $\tilde g^*(H^*_{\mathbb CG})= H^*_{\mathbb CG}$.
 		\item $\tilde f^*(u)=\mu u,\, \mu\in \mathbb Q\backslash \{0\}$
@@ -4023,169 +3662,231 @@ such that
 
 ---
 
-#160
+#149
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 Acknowledgment
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
 <Replace>Acknowledgements</Replace>
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-the details.
+details.
 
 \section*{Acknowledgements}
-Part of
+Part
 ```
 
 ---
 
-#161
+#150
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 p. 102
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Replace>pp. http://gateway.proquest.com/openurl?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/</Replace>
+The- <Replace>sis pp (Ph.D.)—The Ohio State University, ProQuest LLC, Ann Arbor, MI (1978), 102 fi/</Replace> <Replace>sis pp. (Ph.D.)—The Ohio State University, ProQuest LLC, Ann Arbor, MI (1978), 102 http://gateway.proquest.com/openurl?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/</Replace> fmt:kev:mtx:dissertation&res_dat=xri:pqdiss&rft_dat=xri:pqdiss:7908118
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-102 pp. \url{http://gateway.proquest.com/openurl?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/fmt:kev:mtx:dissertation&res_dat=xri:pqdiss&rft_dat=xri:pqdiss:7908118}
+Thesis (Ph.D.)--The Ohio State University, ProQuest LLC, Ann Arbor, MI (1978), 102 pp. \url{http://gateway.proquest.com/openurl?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/fmt:kev:mtx:dissertation&res_dat=xri:pqdiss&rft_dat=xri:pqdiss:7908118}
 	
-\bibitem[BH]{brewster-homer} S. Brewster
+\bibitem[BH]{brewster-homer} S.
 ```
 
 ---
 
-#162
+#151
 
-## Type
+### Type
 Replace
 
-## Comment
+### Comment
 ```text
 pp. 181--183
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-Math. Soc. 88 (1983), no. 1, <Replace>181–183</Replace>, https://doi.org/10.2307/2045137.
+1, <Replace>181–183</Replace>, https://doi.org/10.2307/2045137.
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-Amer. Math. Soc. \textbf{88} (1983), no. 1, 181--183, \url{https://doi.org/10.2307/2045137}.
-	
-\bibitem[Do]{dold} A. Dold,
+1, 181--183, \url{https://doi.org/10.2307/2045137}
 ```
 
 ---
 
-#163
+#152
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 F
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>f</Highlight>ixed
+the <Highlight>f</Highlight>xed point
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-505--506, \url{https://projecteuclid.org/euclid.ojm/1547607627}.
-	
-\bibitem[O]{O} L.S. O'Neill, \textit{On the fixed point property for Grassmann manifolds}, Thesis (Ph.D.)--The
+O'Neill, \textit{On the fixed point property for Grassmann manifolds}, Thesis
 ```
 
 ---
 
-#164
+#153
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 P
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>p</Highlight>oint
+fixed <Highlight>p</Highlight>oint property
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-505--506, \url{https://projecteuclid.org/euclid.ojm/1547607627}.
-	
-\bibitem[O]{O} L.S. O'Neill, \textit{On the fixed point property for Grassmann manifolds}, Thesis (Ph.D.)--The
+O'Neill, \textit{On the fixed point property for Grassmann manifolds}, Thesis
 ```
 
 ---
 
-#165
+#154
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 P
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>p</Highlight>roperty
+point <Highlight>p</Highlight>roperty for
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-505--506, \url{https://projecteuclid.org/euclid.ojm/1547607627}.
-	
-\bibitem[O]{O} L.S. O'Neill, \textit{On the fixed point property for Grassmann manifolds}, Thesis (Ph.D.)--The
+O'Neill, \textit{On the fixed point property for Grassmann manifolds}, Thesis
 ```
 
 ---
 
-#166
+#155
 
-## Type
+### Type
 Highlight
 
-## Comment
+### Comment
 ```text
 M
 ```
 
-## PDF selected text
+### PDF selected text
 ```text
-<Highlight>m</Highlight>anifolds,
+Grassmann <Highlight>m</Highlight>anifolds, Thesis
 ```
   
-## LaTeX snippet
+### LaTeX snippet
 ```latex
-505--506, \url{https://projecteuclid.org/euclid.ojm/1547607627}.
+\url{https://projecteuclid.org/euclid.ojm/1547607627}.
 	
-\bibitem[O]{O} L.S. O'Neill, \textit{On the fixed point property for Grassmann manifolds}, Thesis (Ph.D.)--The
+\bibitem[O]{O} L.S. O'Neill, \textit{On the fixed point property for Grassmann manifolds}, Thesis (Ph.D.)--The Ohio
+```
+
+---
+
+#156
+
+### Type
+Caret
+
+### Comment
+```text
+,
+```
+
+### PDF selected text
+```text
+Kanpur, Kanpur<Caret></Caret> 208016,
+```
+  
+### LaTeX snippet
+```latex
+Kanpur, Kanpur 208016,
+```
+
+---
+
+#158
+
+### Type
+Replace
+
+### Comment
+```text
+ at the
+```
+
+### PDF selected text
+```text
+of Mathematics<Replace>,</Replace> Polish
+```
+  
+### LaTeX snippet
+```latex
+of Mathematics, Polish
+```
+
+---
+
+#159
+
+### Type
+Replace
+
+### Comment
+```text
+_
+```
+
+### PDF selected text
+```text
+address: manasm<Replace>.</Replace>imsc@gmail.com
+```
+  
+### LaTeX snippet
+```latex
+manasm.imsc@gmail.com}
+	
+\author[D. Setia]{Divya Setia}
+\address{Institute of Mathematics, Polish Academy of Sciences, Kraków 31-027, Poland}
+\email{divyasetia01@gmail.com
 ```

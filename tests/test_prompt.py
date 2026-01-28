@@ -28,7 +28,7 @@ def drawPromptsOnPages(corrections: list[Correction], annotpdf_filename: str, la
         
         pageno = correction.pageno
         selection_bbs = correction.pdf_selection_bbs
-        ann_line_rect = correction.pdf_selection_line_rect
+        ann_line_rect = correction.pdf_annot_rect
         
         prompt = correction.asMarkdownPrompt()
         
@@ -37,11 +37,15 @@ def drawPromptsOnPages(corrections: list[Correction], annotpdf_filename: str, la
             doc.delete_pages(from_page=pageno+1)
         if pageno >= 1:
             doc.delete_pages(from_page=0, to_page=pageno-1)
-        assert doc.page_count == 1, "doc.page_count != 1"
+        
+        if doc.page_count != 1:
+            logging.warning(f"Intermediate pages for prompt {i} only reduced to {doc.page_count} pages, not one; skipping")
+            continue
+        
         page = doc[0]
 
-        extract_latex_rect = page.add_freetext_annot(ann_line_rect, '', text_color=(1,0,0), fontsize=5, fontname="Cour")
-        extract_latex_rect.set_border(width=.5)
+        extract_latex_rect = page.add_freetext_annot(ann_line_rect, 'ann rect', text_color=(1,0,0), fontsize=4, fontname="Cour")
+        extract_latex_rect.set_border(width=.75)
         extract_latex_rect.update()
 
         prompt_box = page.add_freetext_annot((3, 0, 500, 350), prompt, text_color=(0,.75,.2), fontsize=6, fontname="Cour")

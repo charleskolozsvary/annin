@@ -1,0 +1,4180 @@
+0 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "lowercase",
+        "responses": []
+    },
+    "PDF text selection": "O<Highlight>PEN r-SPIN THEORY IN GENUS ONE, AND THE</Highlight> GELFAND–DIKII"
+}
+
+1 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "lowercase",
+        "responses": []
+    },
+    "PDF text selection": "THE G<Highlight>ELFAND</Highlight>–DIKII WAVE"
+}
+
+2 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "lowercase",
+        "responses": []
+    },
+    "PDF text selection": "THE GELFAND–D<Highlight>IKII WAVE FUNCTION</Highlight>"
+}
+
+3 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "all-genus",
+        "responses": []
+    },
+    "PDF text selection": "the <Replace>all genus</Replace> construction"
+}
+
+4 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "(see Pandharipande et. al [Intersection theory on moduli of disks, open kdv and virasoro. Geom. & Topol., 28(6):2483–2567, 2024])",
+        "responses": []
+    },
+    "PDF text selection": "boundaries <Replace>[23, 30]</Replace>, whose"
+}
+
+5 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "Tessler [The combinatorial formula for open gravitational descendents, Geom.\r\n& Topol., 27(7), pp. 2497–2648, 2023]",
+        "responses": []
+    },
+    "PDF text selection": "of <Replace>[30]</Replace>, in"
+}
+
+6 {
+    "pageno": 0,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "cylinder theory<Caret></Caret> we"
+}
+
+7 {
+    "pageno": 0,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "class techniques<StrikeOut>,</StrikeOut> that"
+}
+
+8 {
+    "pageno": 0,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "this reason<Caret></Caret> our"
+}
+
+9 {
+    "pageno": 0,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "more involved<StrikeOut>,</StrikeOut> and"
+}
+
+10 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "by Tessler and Zhao [The point insertion technique and open r-spin theories I:\r\nmoduli and orientations, Preprint, arXiv:2310.13185, 2023].",
+        "responses": []
+    },
+    "PDF text selection": "developed <Replace>in [31, 32]</Replace>. We"
+}
+
+11 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "Buryak et al. [Open r-spin theory III: A prediction for higher genus, J. Geom. Phys., vol. 192, Paper No. 104960, p. 12, 2023].",
+        "responses": []
+    },
+    "PDF text selection": "of <Replace>[7]</Replace>. We"
+}
+
+12 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "by Buryak et al. [Open r-spin theory: An introduction, Geom. Topol. Anal., pp. 71--58, 2023] ",
+        "responses": []
+    },
+    "PDF text selection": "predicted <Replace>in [7, 15]</Replace>. This"
+}
+
+13 {
+    "pageno": 0,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "[23, 30]<StrikeOut>,</StrikeOut> proven"
+}
+
+14 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "Insert page break before introduction section",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>1. Introduction</Highlight>"
+}
+
+15 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "stable curves<Caret></Caret> Mg,n,"
+}
+
+16 {
+    "pageno": 1,
+    "type": "Replace",
+    "message": {
+        "comment": ",\"",
+        "responses": []
+    },
+    "PDF text selection": "for “closed<Replace>”,</Replace> as"
+}
+
+17 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "hierarchy, and<Caret></Caret> equivalently"
+}
+
+18 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "and equivalently<Caret></Caret> that"
+}
+
+19 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "natural compactification<Caret></Caret> M"
+}
+
+20 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "1/r g {a1 a }<Caret></Caret> of"
+}
+
+21 {
+    "pageno": 1,
+    "type": "Replace",
+    "message": {
+        "comment": " and",
+        "responses": []
+    },
+    "PDF text selection": "universal curve<Replace>,</Replace> S"
+}
+
+22 {
+    "pageno": 1,
+    "type": "Highlight",
+    "message": {
+        "comment": "COMP: please put this in ascending order",
+        "responses": []
+    },
+    "PDF text selection": "techniques <Highlight>[24, 11, 22, 14, 10].</Highlight> The"
+}
+
+23 {
+    "pageno": 2,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "associative algebra<StrikeOut>,</StrikeOut> in"
+}
+
+24 {
+    "pageno": 2,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "any integer<StrikeOut>,</StrikeOut> and"
+}
+
+25 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": "satisfies",
+        "responses": []
+    },
+    "PDF text selection": "<Replace>satisfying</Replace> A 1 r r = A. Let r g</Replace>A and"
+}
+
+26 {
+    "pageno": 2,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "the non<StrikeOut>-</StrikeOut>negative powers"
+}
+
+27 {
+    "pageno": 2,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "rKdV hierarchy<Caret></Caret> is"
+}
+
+28 {
+    "pageno": 2,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "given by<StrikeOut>:</StrikeOut>"
+}
+
+29 {
+    "pageno": 3,
+    "type": "Replace",
+    "message": {
+        "comment": ".",
+        "responses": []
+    },
+    "PDF text selection": "+ λ rrx<Replace>,</Replace>"
+}
+
+30 {
+    "pageno": 3,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "integrable hierarchies<Caret></Caret> this"
+}
+
+31 {
+    "pageno": 3,
+    "type": "Replace",
+    "message": {
+        "comment": "proved",
+        "responses": []
+    },
+    "PDF text selection": "was <Replace>proven</Replace> by"
+}
+
+32 {
+    "pageno": 3,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "Ramond vanishing<StrikeOut>,</StrikeOut> and"
+}
+
+33 {
+    "pageno": 4,
+    "type": "Replace",
+    "message": {
+        "comment": "T",
+        "responses": []
+    },
+    "PDF text selection": "numbers: <Replace>That t</Replace>he open"
+}
+
+34 {
+    "pageno": 4,
+    "type": "Replace",
+    "message": {
+        "comment": "have",
+        "responses": []
+    },
+    "PDF text selection": "boundary <Replace>has</Replace> no"
+}
+
+35 {
+    "pageno": 4,
+    "type": "Replace",
+    "message": {
+        "comment": "are",
+        "responses": []
+    },
+    "PDF text selection": "and <Replace>is</Replace> sometimes"
+}
+
+36 {
+    "pageno": 4,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "canonical orientation<StrikeOut>,</StrikeOut> and"
+}
+
+37 {
+    "pageno": 4,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "non orientable<StrikeOut>,</StrikeOut> when"
+}
+
+38 {
+    "pageno": 4,
+    "type": "Replace",
+    "message": {
+        "comment": "which",
+        "responses": []
+    },
+    "PDF text selection": "0, <Replace>what</Replace> complicates"
+}
+
+39 {
+    "pageno": 4,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "these boundaries<Caret></Caret> any"
+}
+
+40 {
+    "pageno": 4,
+    "type": "Replace",
+    "message": {
+        "comment": "are",
+        "responses": []
+    },
+    "PDF text selection": "structure <Replace>is</Replace> an"
+}
+
+41 {
+    "pageno": 4,
+    "type": "Replace",
+    "message": {
+        "comment": ";",
+        "responses": []
+    },
+    "PDF text selection": "with boundaries<Replace>,</Replace> see"
+}
+
+42 {
+    "pageno": 4,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "nodal surface<StrikeOut>,</StrikeOut> and"
+}
+
+43 {
+    "pageno": 4,
+    "type": "Highlight",
+    "message": {
+        "comment": "break",
+        "responses": []
+    },
+    "PDF text selection": "disks <Highlight>M 1/r 1/r 0,k,{a</Highlight>1,...,al}, which"
+}
+
+44 {
+    "pageno": 5,
+    "type": "Highlight",
+    "message": {
+        "comment": "place footnote before punctuation.",
+        "responses": []
+    },
+    "PDF text selection": "boundary strat<Highlight>a.1</Highlight> Finally,"
+}
+
+45 {
+    "pageno": 5,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "the forgetful<StrikeOut>,</StrikeOut> and"
+}
+
+46 {
+    "pageno": 5,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "mod r<StrikeOut>.</StrikeOut>"
+}
+
+47 {
+    "pageno": 5,
+    "type": "Replace",
+    "message": {
+        "comment": ";",
+        "responses": []
+    },
+    "PDF text selection": "in (1.5)<Replace>,</Replace> see"
+}
+
+48 {
+    "pageno": 5,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "r r 0 k ⃗<Caret></Caret> but"
+}
+
+49 {
+    "pageno": 5,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "n ≥1<StrikeOut>,</StrikeOut> (1.9)"
+}
+
+50 {
+    "pageno": 6,
+    "type": "Highlight",
+    "message": {
+        "comment": "close up space after lambda if there is any",
+        "responses": []
+    },
+    "PDF text selection": "series <Highlight>in λ :</Highlight>"
+}
+
+51 {
+    "pageno": 6,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "0 <StrikeOut>,</StrikeOut> depends"
+}
+
+52 {
+    "pageno": 6,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "= 2<Caret></Caret> [3]"
+}
+
+53 {
+    "pageno": 6,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "in [32]<StrikeOut>,</StrikeOut> and"
+}
+
+54 {
+    "pageno": 6,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "dl sk<Replace>.</Replace>"
+}
+
+55 {
+    "pageno": 7,
+    "type": "Replace",
+    "message": {
+        "comment": "t",
+        "responses": []
+    },
+    "PDF text selection": "<Replace>T</Replace>hen for"
+}
+
+56 {
+    "pageno": 7,
+    "type": "Replace",
+    "message": {
+        "comment": "Also,",
+        "responses": []
+    },
+    "PDF text selection": "WDVV. <Replace>Also</Replace> the"
+}
+
+57 {
+    "pageno": 7,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "WDVV (e.g.<Caret></Caret> the"
+}
+
+58 {
+    "pageno": 7,
+    "type": "Replace",
+    "message": {
+        "comment": "rank-$2$",
+        "responses": []
+    },
+    "PDF text selection": "the <Replace>rank 2</Replace> Fermat"
+}
+
+59 {
+    "pageno": 7,
+    "type": "Caret",
+    "message": {
+        "comment": "it",
+        "responses": []
+    },
+    "PDF text selection": "do satisfy<Caret></Caret>. In"
+}
+
+60 {
+    "pageno": 7,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "In [1]<Caret></Caret> Alexandrov,"
+}
+
+61 {
+    "pageno": 7,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "Alexandrov, Basalaev<Caret></Caret> and"
+}
+
+62 {
+    "pageno": 7,
+    "type": "Replace",
+    "message": {
+        "comment": "T",
+        "responses": []
+    },
+    "PDF text selection": "equations: <Replace>t</Replace>he open"
+}
+
+63 {
+    "pageno": 7,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "all genus<StrikeOut>,</StrikeOut> and"
+}
+
+64 {
+    "pageno": 7,
+    "type": "Replace",
+    "message": {
+        "comment": ".)",
+        "responses": []
+    },
+    "PDF text selection": "0 TRR<Replace>)</Replace> Suppose"
+}
+
+65 {
+    "pageno": 7,
+    "type": "Highlight",
+    "message": {
+        "comment": "break before equals and align start of first line with after equals, and indent the + on the next line a quad",
+        "responses": []
+    },
+    "PDF text selection": "0 <Highlight>= r−2 X a=−1 X X S⊔R={2,...</Highlight>,l}"
+}
+
+66 {
+    "pageno": 7,
+    "type": "Replace",
+    "message": {
+        "comment": "mentioned above",
+        "responses": []
+    },
+    "PDF text selection": "2As <Replace>mentioned</Replace>, an"
+}
+
+67 {
+    "pageno": 8,
+    "type": "Replace",
+    "message": {
+        "comment": ".)",
+        "responses": []
+    },
+    "PDF text selection": "0 TRR<Replace>)</Replace> Suppose"
+}
+
+68 {
+    "pageno": 8,
+    "type": "Highlight",
+    "message": {
+        "comment": "break before equals and align start of first line with just after equals on subsequent line; indent + on last line a quad",
+        "responses": []
+    },
+    "PDF text selection": "0 <Highlight>= r−2 X a=−1 X ={3</Highlight> X S⊔R={3</Highlight>,...,l}"
+}
+
+69 {
+    "pageno": 8,
+    "type": "Replace",
+    "message": {
+        "comment": ".)",
+        "responses": []
+    },
+    "PDF text selection": "1 TRR<Replace>)</Replace>"
+}
+
+70 {
+    "pageno": 8,
+    "type": "Caret",
+    "message": {
+        "comment": "-",
+        "responses": []
+    },
+    "PDF text selection": "(c) (Genus<Caret></Caret> 1"
+}
+
+71 {
+    "pageno": 8,
+    "type": "Highlight",
+    "message": {
+        "comment": "adjust to fit within margin",
+        "responses": []
+    },
+    "PDF text selection": "= X <Highlight>X J1⊔J2=[l]\\{1} −1≤a≤r−2 + X J1⊔J2=[l]\\{ k1+k2=k −1≤a≤r−2 * τ a 0 τ a1 d1 Y i∈J1 τ ai di + 1 r ,ext 0 * τ r−2−a 0 Y i∈J2 τ ai di σk + 1 r ,o +</Highlight> 1 <Highlight>J1 − + X J1⊔J2=[l]\\{1} k1+k2=k k k1 * τ a1 d1 Y i∈J1 τ ai di σk1 + 1 r ,o 0 * Y i∈J2 τ ai di σk2+1 ,o +</Highlight>"
+}
+
+72 {
+    "pageno": 8,
+    "type": "Replace",
+    "message": {
+        "comment": ".)",
+        "responses": []
+    },
+    "PDF text selection": "(Open String<Replace>)</Replace> Assume"
+}
+
+73 {
+    "pageno": 8,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "> 0<Caret></Caret> then"
+}
+
+74 {
+    "pageno": 8,
+    "type": "Replace",
+    "message": {
+        "comment": ".)",
+        "responses": []
+    },
+    "PDF text selection": "(Open Dilaton<Replace>)</Replace> Assume"
+}
+
+75 {
+    "pageno": 8,
+    "type": "Replace",
+    "message": {
+        "comment": "d",
+        "responses": []
+    },
+    "PDF text selection": "(Open <Replace>D</Replace>ilaton) Assume"
+}
+
+76 {
+    "pageno": 8,
+    "type": "Replace",
+    "message": {
+        "comment": "s",
+        "responses": []
+    },
+    "PDF text selection": "(Open <Replace>S</Replace>tring) Assume"
+}
+
+77 {
+    "pageno": 8,
+    "type": "Highlight",
+    "message": {
+        "comment": "insert period at end of equation",
+        "responses": []
+    },
+    "PDF text selection": "τ ai <Highlight>ai di σk +</Highlight> 1"
+}
+
+78 {
+    "pageno": 8,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "theory, or<Caret></Caret> equivalently"
+}
+
+79 {
+    "pageno": 8,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "or equivalently<Caret></Caret> the"
+}
+
+80 {
+    "pageno": 8,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "that is<Caret></Caret> the"
+}
+
+81 {
+    "pageno": 8,
+    "type": "Replace",
+    "message": {
+        "comment": "A",
+        "responses": []
+    },
+    "PDF text selection": "difficulty: <Replace>a</Replace> dimension"
+}
+
+82 {
+    "pageno": 8,
+    "type": "Replace",
+    "message": {
+        "comment": ".''",
+        "responses": []
+    },
+    "PDF text selection": "Witten “bundle<Replace>”.</Replace> Thus,"
+}
+
+83 {
+    "pageno": 9,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "the moduli<StrikeOut>, and</StrikeOut> then"
+}
+
+84 {
+    "pageno": 9,
+    "type": "Replace",
+    "message": {
+        "comment": "non-v",
+        "responses": []
+    },
+    "PDF text selection": "prescribed <Replace>non v</Replace>anishing behaviour"
+}
+
+85 {
+    "pageno": 9,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "excluding (neighbo<StrikeOut>u</StrikeOut>rhoods of)"
+}
+
+86 {
+    "pageno": 9,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "new boundaries<StrikeOut>,</StrikeOut> and"
+}
+
+87 {
+    "pageno": 9,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "jump loci<Caret></Caret> the"
+}
+
+88 {
+    "pageno": 9,
+    "type": "Replace",
+    "message": {
+        "comment": "first author",
+        "responses": []
+    },
+    "PDF text selection": "the <Replace>first-named-author</Replace> to"
+}
+
+89 {
+    "pageno": 9,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "1.4 <StrikeOut>below</StrikeOut>. But"
+}
+
+90 {
+    "pageno": 9,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "this problem<StrikeOut>,</StrikeOut> which"
+}
+
+91 {
+    "pageno": 9,
+    "type": "Replace",
+    "message": {
+        "comment": "r",
+        "responses": []
+    },
+    "PDF text selection": "Li. Dimension-versus-<Replace>R</Replace>ank considerations"
+}
+
+92 {
+    "pageno": 9,
+    "type": "Ink",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "be non diti<Ink>n ze</Ink>ero. f Miraculously, there exist completely new, natural, boundary y be non diti<Ink>n ze for"
+}
+
+93 {
+    "pageno": 9,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "new, natural<StrikeOut>,</StrikeOut> boundary"
+}
+
+94 {
+    "pageno": 9,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "conditions consistently<Caret></Caret> we"
+}
+
+95 {
+    "pageno": 9,
+    "type": "Caret",
+    "message": {
+        "comment": " Theorem 1.3. <COMP: link>",
+        "responses": []
+    },
+    "PDF text selection": "precise statement)<Caret></Caret>"
+}
+
+96 {
+    "pageno": 9,
+    "type": "Highlight",
+    "message": {
+        "comment": "display",
+        "responses": []
+    },
+    "PDF text selection": "of <Highlight>W⊕Ll i i=1 L⊕di i |∂g PM 1/r 1/r 1,k,{a1,...,al}</Highlight>. <Highlight>W⊕L of the non-vanishing"
+}
+
+97 {
+    "pageno": 10,
+    "type": "Caret",
+    "message": {
+        "comment": "Theorems 1.4, 1.5, and 1.6. pls link",
+        "responses": []
+    },
+    "PDF text selection": "results are<Caret></Caret>"
+}
+
+98 {
+    "pageno": 10,
+    "type": "Replace",
+    "message": {
+        "comment": "rely",
+        "responses": []
+    },
+    "PDF text selection": "and <Replace>relies</Replace> strongly"
+}
+
+99 {
+    "pageno": 10,
+    "type": "Replace",
+    "message": {
+        "comment": "open srting",
+        "responses": []
+    },
+    "PDF text selection": "1 <Replace>Open String</Replace> equation"
+}
+
+100 {
+    "pageno": 10,
+    "type": "Replace",
+    "message": {
+        "comment": "o",
+        "responses": []
+    },
+    "PDF text selection": "the <Replace>O</Replace>pen Dilaton"
+}
+
+101 {
+    "pageno": 10,
+    "type": "Replace",
+    "message": {
+        "comment": "d",
+        "responses": []
+    },
+    "PDF text selection": "Open <Replace>D</Replace>ilaton equation"
+}
+
+102 {
+    "pageno": 10,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "[29, 8]<Caret></Caret> this"
+}
+
+103 {
+    "pageno": 10,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "> 0<StrikeOut>,</StrikeOut> as"
+}
+
+104 {
+    "pageno": 10,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "1 cases<StrikeOut>,</StrikeOut> in"
+}
+
+105 {
+    "pageno": 10,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "In particular<Caret></Caret> the"
+}
+
+106 {
+    "pageno": 10,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "this setting<StrikeOut>,</StrikeOut> since"
+}
+
+107 {
+    "pageno": 10,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "be invariant<StrikeOut>,</StrikeOut> and"
+}
+
+108 {
+    "pageno": 10,
+    "type": "Highlight",
+    "message": {
+        "comment": "COMP: ensure underline does not extend past colon",
+        "responses": []
+    },
+    "PDF text selection": "boundary inser<Highlight>tions: [</Highlight>32] constructs"
+}
+
+109 {
+    "pageno": 10,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "this setting<StrikeOut>,</StrikeOut> and"
+}
+
+110 {
+    "pageno": 10,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "GW case<Caret></Caret>"
+}
+
+111 {
+    "pageno": 11,
+    "type": "Highlight",
+    "message": {
+        "comment": "o",
+        "responses": []
+    },
+    "PDF text selection": "0 <Highlight>O</Highlight>pen GW"
+}
+
+112 {
+    "pageno": 11,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "In §3<StrikeOut>,</StrikeOut> we"
+}
+
+113 {
+    "pageno": 11,
+    "type": "Replace",
+    "message": {
+        "comment": "W",
+        "responses": []
+    },
+    "PDF text selection": "L: <Replace>w</Replace>e study"
+}
+
+114 {
+    "pageno": 11,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "canonical section<StrikeOut>,</StrikeOut> and"
+}
+
+115 {
+    "pageno": 11,
+    "type": "Highlight",
+    "message": {
+        "comment": "lowercase",
+        "responses": []
+    },
+    "PDF text selection": "open <Highlight>Topological</Highlight> Recursion"
+}
+
+116 {
+    "pageno": 11,
+    "type": "Highlight",
+    "message": {
+        "comment": "lowercase",
+        "responses": []
+    },
+    "PDF text selection": "Topological <Highlight>Recursion Relations</Highlight>. In"
+}
+
+117 {
+    "pageno": 11,
+    "type": "Highlight",
+    "message": {
+        "comment": "make unnumbered section before references per journal style.",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>1.6. Bur Acknowledgements. R.T. thanks Tyler Kelly, Jake Solomon and Sasha R.T.</Highlight> <Highlight>1.6. Ac Buryak for interesting discussion related to the content of this work. R.T. and"
+}
+
+118 {
+    "pageno": 11,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "1.6. Acknowledg<StrikeOut>e</StrikeOut>ments. R.T."
+}
+
+119 {
+    "pageno": 11,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "1.6. Acknowledgement<StrikeOut>s</StrikeOut>. R.T."
+}
+
+120 {
+    "pageno": 11,
+    "type": "Highlight",
+    "message": {
+        "comment": "move as first footnote on first page",
+        "responses": []
+    },
+    "PDF text selection": "Sasha <Highlight>Buryak and Y.Z for interesting discussion related to the content of this work. R.T.</Highlight> <Highlight>Bur and Y.Z. were supported by the ISF (grant No. 1729/23)."
+}
+
+121 {
+    "pageno": 11,
+    "type": "Caret",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "relevant bundles<Caret></Caret> and"
+}
+
+122 {
+    "pageno": 11,
+    "type": "Replace",
+    "message": {
+        "comment": "t-i",
+        "responses": []
+    },
+    "PDF text selection": "the poin<Replace>t i</Replace>nsertion tech-"
+}
+
+123 {
+    "pageno": 11,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "the paper<Caret></Caret> we"
+}
+
+124 {
+    "pageno": 11,
+    "type": "Replace",
+    "message": {
+        "comment": "i",
+        "responses": []
+    },
+    "PDF text selection": "and tor<Replace>us</Replace> with"
+}
+
+125 {
+    "pageno": 11,
+    "type": "Replace",
+    "message": {
+        "comment": "n-r",
+        "responses": []
+    },
+    "PDF text selection": "an orientatio<Replace>n r</Replace>eversing involution."
+}
+
+126 {
+    "pageno": 11,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "mI, mB)<StrikeOut>,</StrikeOut>"
+}
+
+127 {
+    "pageno": 11,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "Riemann surface<StrikeOut>,</StrikeOut> which"
+}
+
+128 {
+    "pageno": 11,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "disconnected components<StrikeOut>,</StrikeOut> and"
+}
+
+129 {
+    "pageno": 12,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "B), i.e<Caret></Caret>. a"
+}
+
+130 {
+    "pageno": 12,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "is genus-zero<StrikeOut>,</StrikeOut> and"
+}
+
+131 {
+    "pageno": 12,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "internal, boundary<Caret></Caret> or"
+}
+
+132 {
+    "pageno": 12,
+    "type": "Caret",
+    "message": {
+        "comment": "a",
+        "responses": []
+    },
+    "PDF text selection": "boundary; on<Caret></Caret> genus-one"
+}
+
+133 {
+    "pageno": 12,
+    "type": "Highlight",
+    "message": {
+        "comment": "COMP: fix captions so they are aligned",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>(a) separating, internal (b) non-separating, in-</Highlight> ternal"
+}
+
+134 {
+    "pageno": 12,
+    "type": "Highlight",
+    "message": {
+        "comment": "give more width for this caption",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>(d) bou non-separating, y</Highlight> <Highlight>(d) n boundary (e)"
+}
+
+135 {
+    "pageno": 12,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "cylin- der<StrikeOut>.</StrikeOut>"
+}
+
+136 {
+    "pageno": 13,
+    "type": "Highlight",
+    "message": {
+        "comment": "change to bullet",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>-</Highlight> If"
+}
+
+137 {
+    "pageno": 13,
+    "type": "Replace",
+    "message": {
+        "comment": "---",
+        "responses": []
+    },
+    "PDF text selection": "connected components<Replace>,</Replace> one"
+}
+
+138 {
+    "pageno": 13,
+    "type": "Replace",
+    "message": {
+        "comment": "s---`",
+        "responses": []
+    },
+    "PDF text selection": "similar terminologie<Replace>s ‘</Replace>root’ and"
+}
+
+139 {
+    "pageno": 13,
+    "type": "Replace",
+    "message": {
+        "comment": "---w",
+        "responses": []
+    },
+    "PDF text selection": "and ‘anchor’<Replace>, w</Replace>here ‘root’"
+}
+
+140 {
+    "pageno": 13,
+    "type": "Replace",
+    "message": {
+        "comment": ". Then",
+        "responses": []
+    },
+    "PDF text selection": "and nodes<Replace>,</Replace> a"
+}
+
+141 {
+    "pageno": 13,
+    "type": "Replace",
+    "message": {
+        "comment": ", and ",
+        "responses": []
+    },
+    "PDF text selection": "marking p<Replace>.</Replace> •"
+}
+
+142 {
+    "pageno": 14,
+    "type": "Replace",
+    "message": {
+        "comment": "T",
+        "responses": []
+    },
+    "PDF text selection": "way: <Replace>t</Replace>he local"
+}
+
+143 {
+    "pageno": 14,
+    "type": "Replace",
+    "message": {
+        "comment": "where",
+        "responses": []
+    },
+    "PDF text selection": "<Replace>here</Replace> [p]"
+}
+
+144 {
+    "pageno": 14,
+    "type": "Caret",
+    "message": {
+        "comment": "(",
+        "responses": []
+    },
+    "PDF text selection": "well-known fact<Caret></Caret> [34]:"
+}
+
+145 {
+    "pageno": 14,
+    "type": "Replace",
+    "message": {
+        "comment": "]):",
+        "responses": []
+    },
+    "PDF text selection": "fact [34<Replace>]:</Replace> a"
+}
+
+146 {
+    "pageno": 14,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "r-spin structure<Caret></Caret> twists"
+}
+
+147 {
+    "pageno": 14,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "structure twists<Caret></Caret> ai"
+}
+
+148 {
+    "pageno": 15,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "with n∗L)<StrikeOut>,</StrikeOut> because"
+}
+
+149 {
+    "pageno": 15,
+    "type": "Replace",
+    "message": {
+        "comment": "Denoting",
+        "responses": []
+    },
+    "PDF text selection": "structure: <Replace>denoting</Replace> by"
+}
+
+150 {
+    "pageno": 15,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "an anchor<StrikeOut>.</StrikeOut>"
+}
+
+151 {
+    "pageno": 15,
+    "type": "Replace",
+    "message": {
+        "comment": ";",
+        "responses": []
+    },
+    "PDF text selection": "from Fix(ϕ)<Replace>,</Replace> see"
+}
+
+152 {
+    "pageno": 15,
+    "type": "Highlight",
+    "message": {
+        "comment": "COMP: please try to squeeze",
+        "responses": []
+    },
+    "PDF text selection": "⊗r <Highlight>∼=</Highlight> ω|Cl|⊗O"
+}
+
+153 {
+    "pageno": 16,
+    "type": "Replace",
+    "message": {
+        "comment": "L",
+        "responses": []
+    },
+    "PDF text selection": "∂Σ: <Replace>l</Replace>et p"
+}
+
+154 {
+    "pageno": 16,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "J (or<Caret></Caret> equivalently,"
+}
+
+155 {
+    "pageno": 16,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "with (2.5)<Caret></Caret> allows"
+}
+
+156 {
+    "pageno": 17,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "and legality<StrikeOut>y,</StrikeOut> and"
+}
+
+157 {
+    "pageno": 17,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "a grading<StrikeOut>,</StrikeOut> are"
+}
+
+158 {
+    "pageno": 17,
+    "type": "Highlight",
+    "message": {
+        "comment": "set item first next line, not inline",
+        "responses": []
+    },
+    "PDF text selection": "2.3]). <Highlight>(1)</Highlight> When"
+}
+
+159 {
+    "pageno": 17,
+    "type": "Highlight",
+    "message": {
+        "comment": "roman",
+        "responses": []
+    },
+    "PDF text selection": "grading. <Highlight>(2)</Highlight> When"
+}
+
+160 {
+    "pageno": 17,
+    "type": "Highlight",
+    "message": {
+        "comment": "roman",
+        "responses": []
+    },
+    "PDF text selection": "2.3]). <Highlight>(1)</Highlight> When"
+}
+
+161 {
+    "pageno": 17,
+    "type": "Highlight",
+    "message": {
+        "comment": "roman",
+        "responses": []
+    },
+    "PDF text selection": "odd. <Highlight>(3)</Highlight> When"
+}
+
+162 {
+    "pageno": 17,
+    "type": "Highlight",
+    "message": {
+        "comment": "rom",
+        "responses": []
+    },
+    "PDF text selection": "even. <Highlight>(4)</Highlight> In"
+}
+
+163 {
+    "pageno": 17,
+    "type": "Highlight",
+    "message": {
+        "comment": "rom",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>(5)</Highlight> Ramond"
+}
+
+164 {
+    "pageno": 17,
+    "type": "Highlight",
+    "message": {
+        "comment": "rom",
+        "responses": []
+    },
+    "PDF text selection": "−1. <Highlight>(6)</Highlight> For"
+}
+
+165 {
+    "pageno": 17,
+    "type": "Highlight",
+    "message": {
+        "comment": "rom",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>(7)</Highlight> For"
+}
+
+166 {
+    "pageno": 17,
+    "type": "Replace",
+    "message": {
+        "comment": "set punctuation after footnote.",
+        "responses": []
+    },
+    "PDF text selection": "illegal half-node<Replace>.3</Replace>"
+}
+
+167 {
+    "pageno": 17,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "this case<StrikeOut>,</StrikeOut> their"
+}
+
+168 {
+    "pageno": 17,
+    "type": "Replace",
+    "message": {
+        "comment": ";",
+        "responses": []
+    },
+    "PDF text selection": "of grading<Replace>,</Replace> we"
+}
+
+169 {
+    "pageno": 17,
+    "type": "Replace",
+    "message": {
+        "comment": ".",
+        "responses": []
+    },
+    "PDF text selection": "this paper<Replace>:</Replace>"
+}
+
+170 {
+    "pageno": 18,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "cylinder (<StrikeOut>respectively,</StrikeOut> legal"
+}
+
+171 {
+    "pageno": 18,
+    "type": "Caret",
+    "message": {
+        "comment": ", respectively",
+        "responses": []
+    },
+    "PDF text selection": "or cylinder<Caret></Caret>) is"
+}
+
+172 {
+    "pageno": 18,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "this paper<Caret></Caret> we"
+}
+
+173 {
+    "pageno": 18,
+    "type": "Replace",
+    "message": {
+        "comment": ".\"",
+        "responses": []
+    },
+    "PDF text selection": "term “level-0<Replace>”.</Replace>"
+}
+
+174 {
+    "pageno": 18,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "1/r g k l<Caret></Caret> respectively)"
+}
+
+175 {
+    "pageno": 18,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "r-spin surfaces<Caret></Caret> respectively)"
+}
+
+176 {
+    "pageno": 18,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "with corners<StrikeOut>,</StrikeOut> of"
+}
+
+177 {
+    "pageno": 18,
+    "type": "Highlight",
+    "message": {
+        "comment": "set footnote after sentence period.",
+        "responses": []
+    },
+    "PDF text selection": "the multise<Highlight>t4</Highlight> {ai}i∈I"
+}
+
+178 {
+    "pageno": 18,
+    "type": "Replace",
+    "message": {
+        "comment": "the",
+        "responses": []
+    },
+    "PDF text selection": "with <Replace>a</Replace> same"
+}
+
+179 {
+    "pageno": 18,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "B1 ⊔B2<StrikeOut>,</StrikeOut> and"
+}
+
+180 {
+    "pageno": 19,
+    "type": "Replace",
+    "message": {
+        "comment": "``*''",
+        "responses": []
+    },
+    "PDF text selection": "superscript <Replace>∗</Replace>only when"
+}
+
+181 {
+    "pageno": 19,
+    "type": "Replace",
+    "message": {
+        "comment": "follows",
+        "responses": []
+    },
+    "PDF text selection": "as <Replace>follow</Replace>."
+}
+
+182 {
+    "pageno": 19,
+    "type": "Replace",
+    "message": {
+        "comment": "T",
+        "responses": []
+    },
+    "PDF text selection": "genus: <Replace>t</Replace>he genus"
+}
+
+183 {
+    "pageno": 19,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "points (i.e.<Caret></Caret> half-nodes"
+}
+
+184 {
+    "pageno": 19,
+    "type": "Highlight",
+    "message": {
+        "comment": "center equation",
+        "responses": []
+    },
+    "PDF text selection": "EI <Highlight>⊔EB = Esp ⊔Ensp = EI I sp</Highlight> ⊔EI"
+}
+
+185 {
+    "pageno": 19,
+    "type": "Replace",
+    "message": {
+        "comment": "s",
+        "responses": []
+    },
+    "PDF text selection": "∂Σ induce<Replace>d</Replace> a"
+}
+
+186 {
+    "pageno": 19,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "∈V O<StrikeOut>,</StrikeOut> which"
+}
+
+187 {
+    "pageno": 20,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "∅, or<Caret></Caret> equivalently,"
+}
+
+188 {
+    "pageno": 20,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "= ∅<StrikeOut>,</StrikeOut> or"
+}
+
+189 {
+    "pageno": 20,
+    "type": "Replace",
+    "message": {
+        "comment": "A",
+        "responses": []
+    },
+    "PDF text selection": "• <Replace>a</Replace> map"
+}
+
+190 {
+    "pageno": 20,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "B,T I\\HCB<StrikeOut>,</StrikeOut> the"
+}
+
+191 {
+    "pageno": 20,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "exactly Γ<StrikeOut>,</StrikeOut> and"
+}
+
+192 {
+    "pageno": 20,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "half-edges (i.e.<Caret></Caret> the"
+}
+
+193 {
+    "pageno": 21,
+    "type": "Replace",
+    "message": {
+        "comment": ";",
+        "responses": []
+    },
+    "PDF text selection": "necessary stable<Replace>,</Replace> we"
+}
+
+194 {
+    "pageno": 21,
+    "type": "Replace",
+    "message": {
+        "comment": ".",
+        "responses": []
+    },
+    "PDF text selection": ":= S∨⊗ωπ<Replace>,</Replace>"
+}
+
+195 {
+    "pageno": 21,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "T",
+        "responses": []
+    },
+    "PDF text selection": "<StrikeOut>t</StrikeOut>hen we"
+}
+
+196 {
+    "pageno": 21,
+    "type": "Replace",
+    "message": {
+        "comment": ";",
+        "responses": []
+    },
+    "PDF text selection": "vector bundle<Replace>,</Replace> this"
+}
+
+197 {
+    "pageno": 21,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "M∗1/r / 1,k,l<StrikeOut>,</StrikeOut> and"
+}
+
+198 {
+    "pageno": 21,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "(R0π∗J )+<StrikeOut>,</StrikeOut>"
+}
+
+199 {
+    "pageno": 22,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "be <StrikeOut>the</StrikeOut>"
+}
+
+200 {
+    "pageno": 22,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "\\ Zdj<StrikeOut>;</StrikeOut>"
+}
+
+201 {
+    "pageno": 22,
+    "type": "Replace",
+    "message": {
+        "comment": ";",
+        "responses": []
+    },
+    "PDF text selection": "graph Γ<Replace>,</Replace> we"
+}
+
+202 {
+    "pageno": 22,
+    "type": "Replace",
+    "message": {
+        "comment": "Proposition 2.5(5) <pls link>",
+        "responses": []
+    },
+    "PDF text selection": "by <Replace>item 5 of Proposition 2.5</Replace>, Ramond"
+}
+
+203 {
+    "pageno": 22,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "k boundary<Caret></Caret> and"
+}
+
+204 {
+    "pageno": 23,
+    "type": "Replace",
+    "message": {
+        "comment": "---",
+        "responses": []
+    },
+    "PDF text selection": "properties here<Replace>,</Replace> further"
+}
+
+205 {
+    "pageno": 23,
+    "type": "Replace",
+    "message": {
+        "comment": ". T",
+        "responses": []
+    },
+    "PDF text selection": "bΓ <Replace>, t</Replace>he decomposition"
+}
+
+206 {
+    "pageno": 23,
+    "type": "StrikeOut",
+    "message": {
+        "comment": ".",
+        "responses": []
+    },
+    "PDF text selection": "as follows<StrikeOut>:</StrikeOut>"
+}
+
+207 {
+    "pageno": 23,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "of Γ<StrikeOut>,</StrikeOut> and"
+}
+
+208 {
+    "pageno": 23,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>(1)</Highlight> If"
+}
+
+209 {
+    "pageno": 23,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>(2)</Highlight> If"
+}
+
+210 {
+    "pageno": 23,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright",
+        "responses": []
+    },
+    "PDF text selection": "bundle. <Highlight>(3)</Highlight> If"
+}
+
+211 {
+    "pageno": 24,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "M 1/r<Caret></Caret> bΓ′"
+}
+
+212 {
+    "pageno": 24,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright",
+        "responses": []
+    },
+    "PDF text selection": "trivial. <Highlight>(4)</Highlight> If"
+}
+
+213 {
+    "pageno": 24,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>(5</Highlight>) If"
+}
+
+214 {
+    "pageno": 24,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "isomorphism, and<Caret></Caret> in"
+}
+
+215 {
+    "pageno": 24,
+    "type": "Replace",
+    "message": {
+        "comment": "Assume",
+        "responses": []
+    },
+    "PDF text selection": "2.17. <Replace>Assuming</Replace> Γ"
+}
+
+216 {
+    "pageno": 24,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "Witten bundles<Caret></Caret> then"
+}
+
+217 {
+    "pageno": 24,
+    "type": "Replace",
+    "message": {
+        "comment": ". L",
+        "responses": []
+    },
+    "PDF text selection": "of Γ<Replace>, l</Replace>et QMbΓ1"
+}
+
+218 {
+    "pageno": 24,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "c W2<StrikeOut>,</StrikeOut> by"
+}
+
+219 {
+    "pageno": 24,
+    "type": "Replace",
+    "message": {
+        "comment": ". W",
+        "responses": []
+    },
+    "PDF text selection": "in (2.11)<Replace>, w</Replace>e set"
+}
+
+220 {
+    "pageno": 25,
+    "type": "Replace",
+    "message": {
+        "comment": "Def.",
+        "responses": []
+    },
+    "PDF text selection": "([4, <Replace>Definition</Replace> 4.2])."
+}
+
+221 {
+    "pageno": 25,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "̸= −1<StrikeOut>,</StrikeOut> or,"
+}
+
+222 {
+    "pageno": 25,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "App.",
+        "responses": []
+    },
+    "PDF text selection": "[4, <StrikeOut>Appendix</StrikeOut> A])"
+}
+
+223 {
+    "pageno": 25,
+    "type": "Replace",
+    "message": {
+        "comment": "---t",
+        "responses": []
+    },
+    "PDF text selection": "to zero<Replace>, t</Replace>hus s(ζ)"
+}
+
+224 {
+    "pageno": 25,
+    "type": "Replace",
+    "message": {
+        "comment": "Lem.",
+        "responses": []
+    },
+    "PDF text selection": "([32, <Replace>Lemma</Replace> 2.12])."
+}
+
+225 {
+    "pageno": 25,
+    "type": "Replace",
+    "message": {
+        "comment": ". F",
+        "responses": []
+    },
+    "PDF text selection": "anchor t<Replace>, f</Replace>or any"
+}
+
+226 {
+    "pageno": 25,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "By construction<Caret></Caret> the"
+}
+
+227 {
+    "pageno": 25,
+    "type": "Highlight",
+    "message": {
+        "comment": "break",
+        "responses": []
+    },
+    "PDF text selection": ": <Highlight>QM</Highlight>Γ →"
+}
+
+228 {
+    "pageno": 26,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "in [23]<StrikeOut>,</StrikeOut> as"
+}
+
+229 {
+    "pageno": 26,
+    "type": "Replace",
+    "message": {
+        "comment": "Section 3. pls link",
+        "responses": []
+    },
+    "PDF text selection": "in <Replace>§3</Replace>."
+}
+
+230 {
+    "pageno": 26,
+    "type": "Replace",
+    "message": {
+        "comment": ". W",
+        "responses": []
+    },
+    "PDF text selection": "r-spin graph<Replace>, w</Replace>e refer"
+}
+
+231 {
+    "pageno": 26,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "e ∈EB(Γ)<StrikeOut>,</StrikeOut> or"
+}
+
+232 {
+    "pageno": 26,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "corresponding node<StrikeOut>,</StrikeOut> as"
+}
+
+233 {
+    "pageno": 26,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "̸= ∅}<Replace>.</Replace>"
+}
+
+234 {
+    "pageno": 26,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "̸= ∅}<Caret></Caret> and"
+}
+
+235 {
+    "pageno": 26,
+    "type": "Caret",
+    "message": {
+        "comment": ".",
+        "responses": []
+    },
+    "PDF text selection": "= ∅}<Caret></Caret> For"
+}
+
+236 {
+    "pageno": 26,
+    "type": "Caret",
+    "message": {
+        "comment": ".",
+        "responses": []
+    },
+    "PDF text selection": "not exist<Caret></Caret> (see"
+}
+
+237 {
+    "pageno": 26,
+    "type": "Replace",
+    "message": {
+        "comment": "(S",
+        "responses": []
+    },
+    "PDF text selection": "exist <Replace>(s</Replace>ee [4,"
+}
+
+238 {
+    "pageno": 26,
+    "type": "Replace",
+    "message": {
+        "comment": ".)",
+        "responses": []
+    },
+    "PDF text selection": "Example 3.23]<Replace>).</Replace> As"
+}
+
+239 {
+    "pageno": 27,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "An alternative<StrikeOut>,</StrikeOut> equivalent,"
+}
+
+240 {
+    "pageno": 27,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "alternative, equivalent<StrikeOut>,</StrikeOut> way"
+}
+
+241 {
+    "pageno": 27,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "the boundary<StrikeOut>y,</StrikeOut> but"
+}
+
+242 {
+    "pageno": 27,
+    "type": "Replace",
+    "message": {
+        "comment": "---f",
+        "responses": []
+    },
+    "PDF text selection": "the derivative<Replace>, f</Replace>ollowing [4]"
+}
+
+243 {
+    "pageno": 27,
+    "type": "Replace",
+    "message": {
+        "comment": "T",
+        "responses": []
+    },
+    "PDF text selection": "• <Replace>t</Replace>he corresponding node N(nh) lies in I; • <Replace>t</Replace>he corr contains"
+}
+
+244 {
+    "pageno": 27,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "such that<StrikeOut>:</StrikeOut>"
+}
+
+245 {
+    "pageno": 27,
+    "type": "Replace",
+    "message": {
+        "comment": "t",
+        "responses": []
+    },
+    "PDF text selection": "(1) <Replace>T</Replace>he endpoints"
+}
+
+246 {
+    "pageno": 27,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "require <StrikeOut>that:</StrikeOut>"
+}
+
+247 {
+    "pageno": 27,
+    "type": "Replace",
+    "message": {
+        "comment": "i",
+        "responses": []
+    },
+    "PDF text selection": "(2) <Replace>I</Replace>f h"
+}
+
+248 {
+    "pageno": 27,
+    "type": "Replace",
+    "message": {
+        "comment": "; and",
+        "responses": []
+    },
+    "PDF text selection": "node N(nh)<Replace>.</Replace>"
+}
+
+249 {
+    "pageno": 28,
+    "type": "Replace",
+    "message": {
+        "comment": "t",
+        "responses": []
+    },
+    "PDF text selection": "(3) <Replace>T</Replace>here are"
+}
+
+250 {
+    "pageno": 28,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "disk C<Caret></Caret> we"
+}
+
+251 {
+    "pageno": 28,
+    "type": "Replace",
+    "message": {
+        "comment": "right image",
+        "responses": []
+    },
+    "PDF text selection": "The <Replace>image on the right</Replace> represents"
+}
+
+252 {
+    "pageno": 28,
+    "type": "Highlight",
+    "message": {
+        "comment": "remove excess space between paragraphs",
+        "responses": []
+    },
+    "PDF text selection": "omit the<Highlight>e F phrase “with respect to Γ” if Γ is smooth. ere alway</Highlight> <Highlight>e ph For a genus-zero r-spin graph Γ, there ooth. alway</Highlight>ys"
+}
+
+253 {
+    "pageno": 29,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "not well<StrikeOut>-</StrikeOut>defined. The"
+}
+
+254 {
+    "pageno": 29,
+    "type": "Replace",
+    "message": {
+        "comment": "es",
+        "responses": []
+    },
+    "PDF text selection": "certain typ<Replace>e</Replace> of"
+}
+
+255 {
+    "pageno": 29,
+    "type": "Replace",
+    "message": {
+        "comment": "W",
+        "responses": []
+    },
+    "PDF text selection": "boundaries: <Replace>w</Replace>e can"
+}
+
+256 {
+    "pageno": 29,
+    "type": "Caret",
+    "message": {
+        "comment": "a",
+        "responses": []
+    },
+    "PDF text selection": "3. In<Caret></Caret> point"
+}
+
+257 {
+    "pageno": 29,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "insertion procedure<Caret></Caret> we"
+}
+
+258 {
+    "pageno": 29,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "moduli M2<Caret></Caret> which"
+}
+
+259 {
+    "pageno": 29,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "r-spin surfaces<StrikeOut>,</StrikeOut> obtained"
+}
+
+260 {
+    "pageno": 29,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "boundary node<StrikeOut>,</StrikeOut> then"
+}
+
+261 {
+    "pageno": 30,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "procedure repeatedly<Caret></Caret> we"
+}
+
+262 {
+    "pageno": 30,
+    "type": "Replace",
+    "message": {
+        "comment": "S",
+        "responses": []
+    },
+    "PDF text selection": "(r, 0)-<Replace>s</Replace>urfaces, (r,"
+}
+
+263 {
+    "pageno": 30,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "r −2<StrikeOut>,</StrikeOut> together"
+}
+
+264 {
+    "pageno": 30,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "nodes, i.e.<Caret></Caret> identifications"
+}
+
+265 {
+    "pageno": 30,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "two tails<StrikeOut>,</StrikeOut> where"
+}
+
+266 {
+    "pageno": 30,
+    "type": "Replace",
+    "message": {
+        "comment": "connected",
+        "responses": []
+    },
+    "PDF text selection": "the <Replace>connect</Replace> surfaces"
+}
+
+267 {
+    "pageno": 30,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "are genus-zero<StrikeOut>,</StrikeOut> and"
+}
+
+268 {
+    "pageno": 30,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "is genus-one<Caret></Caret> while"
+}
+
+269 {
+    "pageno": 31,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "r −2<StrikeOut>,</StrikeOut>; •"
+}
+
+270 {
+    "pageno": 31,
+    "type": "Replace",
+    "message": {
+        "comment": "period",
+        "responses": []
+    },
+    "PDF text selection": "|HB(Γ)| ≤2<Replace>;</Replace>"
+}
+
+271 {
+    "pageno": 31,
+    "type": "Replace",
+    "message": {
+        "comment": ", and",
+        "responses": []
+    },
+    "PDF text selection": "is E(G)<Replace>;</Replace> an"
+}
+
+272 {
+    "pageno": 32,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "is non<StrikeOut>-</StrikeOut>connected. These"
+}
+
+273 {
+    "pageno": 32,
+    "type": "Highlight",
+    "message": {
+        "comment": "squeeze a bit",
+        "responses": []
+    },
+    "PDF text selection": "(G)\\IPI IPI sp,1<Highlight>(G) (res</Highlight>pectively BPI"
+}
+
+274 {
+    "pageno": 32,
+    "type": "Highlight",
+    "message": {
+        "comment": "squeeze",
+        "responses": []
+    },
+    "PDF text selection": "I(Γ)\\HCB(Γ) <Highlight>=</Highlight> T"
+}
+
+275 {
+    "pageno": 32,
+    "type": "Highlight",
+    "message": {
+        "comment": "squeeze",
+        "responses": []
+    },
+    "PDF text selection": "Γ <Highlight>∈</Highlight>V (G)."
+}
+
+276 {
+    "pageno": 32,
+    "type": "Replace",
+    "message": {
+        "comment": ", and ",
+        "responses": []
+    },
+    "PDF text selection": "= B<Replace>,</Replace> by"
+}
+
+277 {
+    "pageno": 32,
+    "type": "Highlight",
+    "message": {
+        "comment": "remove excess vertical space between paragraphs (if there is any)",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>For</Highlight> each"
+}
+
+278 {
+    "pageno": 32,
+    "type": "Replace",
+    "message": {
+        "comment": ". T",
+        "responses": []
+    },
+    "PDF text selection": "g <Replace>, t</Replace>hen there"
+}
+
+279 {
+    "pageno": 33,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "genus-zero G<Caret></Caret> we"
+}
+
+280 {
+    "pageno": 33,
+    "type": "Caret",
+    "message": {
+        "comment": ".",
+        "responses": []
+    },
+    "PDF text selection": "= QMG<Caret></Caret>"
+}
+
+281 {
+    "pageno": 33,
+    "type": "Replace",
+    "message": {
+        "comment": ". W",
+        "responses": []
+    },
+    "PDF text selection": "<Replace>2.4.2. we de Witten bundle over MG. Let WΓ be the Witten bundle over QMΓ,</Replace> <Replace>2.4 we define the Witten bundle WG over QMG to be"
+}
+
+282 {
+    "pageno": 33,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "paper, <StrikeOut>when</StrikeOut> we"
+}
+
+283 {
+    "pageno": 33,
+    "type": "Highlight",
+    "message": {
+        "comment": "no indent",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>Let</Highlight> oΓ"
+}
+
+284 {
+    "pageno": 34,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "MΓi,G<StrikeOut>,</StrikeOut> and"
+}
+
+285 {
+    "pageno": 34,
+    "type": "Replace",
+    "message": {
+        "comment": ". W",
+        "responses": []
+    },
+    "PDF text selection": "∩T I(Γi,G)<Replace>, w</Replace>e denote"
+}
+
+286 {
+    "pageno": 34,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "unstable, again<Caret></Caret> we"
+}
+
+287 {
+    "pageno": 35,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "” <StrikeOut>in this paper</StrikeOut>. We"
+}
+
+288 {
+    "pageno": 35,
+    "type": "Replace",
+    "message": {
+        "comment": "``",
+        "responses": []
+    },
+    "PDF text selection": "which <Replace>‘</Replace>forget’ all"
+}
+
+289 {
+    "pageno": 35,
+    "type": "Replace",
+    "message": {
+        "comment": "''",
+        "responses": []
+    },
+    "PDF text selection": "which ‘forget<Replace>’</Replace> all"
+}
+
+290 {
+    "pageno": 35,
+    "type": "Text",
+    "message": {
+        "comment": "make numbered list (1), (2), ...",
+        "responses": []
+    },
+    "PDF text selection": "edges; N</Text>R NS+ NS"
+}
+
+291 {
+    "pageno": 36,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "∂NS+MG, ∂AIMG<Caret></Caret> and"
+}
+
+292 {
+    "pageno": 36,
+    "type": "Replace",
+    "message": {
+        "comment": ",''",
+        "responses": []
+    },
+    "PDF text selection": "for “before-insertion<Replace>”,</Replace> while"
+}
+
+293 {
+    "pageno": 36,
+    "type": "Replace",
+    "message": {
+        "comment": ".\"",
+        "responses": []
+    },
+    "PDF text selection": "for “after-insertion<Replace>”.</Replace>"
+}
+
+294 {
+    "pageno": 36,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "is a<StrikeOut>n</StrikeOut> one-to-one"
+}
+
+295 {
+    "pageno": 36,
+    "type": "Replace",
+    "message": {
+        "comment": "rily",
+        "responses": []
+    },
+    "PDF text selection": "not necessa<Replace>ry</Replace> injective"
+}
+
+296 {
+    "pageno": 36,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "the higher<StrikeOut>-</StrikeOut>codimensional boundary"
+}
+
+297 {
+    "pageno": 36,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "0)-disk <StrikeOut>on the left</StrikeOut> has"
+}
+
+298 {
+    "pageno": 37,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "boundary node<StrikeOut>,</StrikeOut> and"
+}
+
+299 {
+    "pageno": 37,
+    "type": "Highlight",
+    "message": {
+        "comment": "insert comma at end equation",
+        "responses": []
+    },
+    "PDF text selection": "∼PI ⊆f M<Highlight>g M f<Highlight> 1 r ,0 <Highlight>r 1 ,0 g,B,I</Highlight>"
+}
+
+300 {
+    "pageno": 37,
+    "type": "Replace",
+    "message": {
+        "comment": ":",
+        "responses": []
+    },
+    "PDF text selection": "in [31]<Replace>,</Replace> they"
+}
+
+301 {
+    "pageno": 37,
+    "type": "Replace",
+    "message": {
+        "comment": "T",
+        "responses": []
+    },
+    "PDF text selection": "[31], <Replace>t</Replace>hey are"
+}
+
+302 {
+    "pageno": 37,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "Li, L′ i<Caret></Caret> or"
+}
+
+303 {
+    "pageno": 37,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": ",0 r ,0 B I<Caret></Caret> or"
+}
+
+304 {
+    "pageno": 37,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "NS insertions<Caret></Caret> the"
+}
+
+305 {
+    "pageno": 37,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "first <StrikeOut>named</StrikeOut> author"
+}
+
+306 {
+    "pageno": 37,
+    "type": "Replace",
+    "message": {
+        "comment": "Theorem 2.39. pls link",
+        "responses": []
+    },
+    "PDF text selection": "<Replace>dles ing over f M r ,h g,B,I carry canonical complex orientations, we obtain the follow-</Replace> <Replace>dles ing theorem:"
+}
+
+307 {
+    "pageno": 38,
+    "type": "Highlight",
+    "message": {
+        "comment": "break before this (second) or and center equations",
+        "responses": []
+    },
+    "PDF text selection": "g,B,I <Highlight>or W</Highlight> W</Highlight>⊕"
+}
+
+308 {
+    "pageno": 38,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "defined <StrikeOut>by</StrikeOut> as"
+}
+
+309 {
+    "pageno": 38,
+    "type": "Highlight",
+    "message": {
+        "comment": "break before equals, multline align",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>=</Highlight> X"
+}
+
+310 {
+    "pageno": 38,
+    "type": "Caret",
+    "message": {
+        "comment": "and",
+        "responses": []
+    },
+    "PDF text selection": "dual graph,<Caret></Caret> let"
+}
+
+311 {
+    "pageno": 38,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "⊆CΓ <StrikeOut>be</StrikeOut> the"
+}
+
+312 {
+    "pageno": 38,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "smooth locus<StrikeOut>,</StrikeOut> and"
+}
+
+313 {
+    "pageno": 38,
+    "type": "Replace",
+    "message": {
+        "comment": ";",
+        "responses": []
+    },
+    "PDF text selection": "by i<Replace>,</Replace> the"
+}
+
+314 {
+    "pageno": 38,
+    "type": "Caret",
+    "message": {
+        "comment": "to",
+        "responses": []
+    },
+    "PDF text selection": "section corresponding<Caret></Caret> the"
+}
+
+315 {
+    "pageno": 38,
+    "type": "Replace",
+    "message": {
+        "comment": " ([",
+        "responses": []
+    },
+    "PDF text selection": "Theorem 2.39<Replace>. [</Replace>31, Theorem"
+}
+
+316 {
+    "pageno": 38,
+    "type": "Replace",
+    "message": {
+        "comment": "]).",
+        "responses": []
+    },
+    "PDF text selection": "Theorem 4.13<Replace>]</Replace> All"
+}
+
+317 {
+    "pageno": 38,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "[5, 4]<Caret></Caret> it"
+}
+
+318 {
+    "pageno": 38,
+    "type": "Replace",
+    "message": {
+        "comment": "genus-0",
+        "responses": []
+    },
+    "PDF text selection": "usual <Replace>genus 0</Replace> closed"
+}
+
+319 {
+    "pageno": 38,
+    "type": "Replace",
+    "message": {
+        "comment": "except",
+        "responses": []
+    },
+    "PDF text selection": "theory, <Replace>only that</Replace> we"
+}
+
+320 {
+    "pageno": 38,
+    "type": "Caret",
+    "message": {
+        "comment": "also",
+        "responses": []
+    },
+    "PDF text selection": "that we<Caret></Caret> allow"
+}
+
+321 {
+    "pageno": 38,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "twists, <StrikeOut>also here</StrikeOut> R1π∗S"
+}
+
+322 {
+    "pageno": 38,
+    "type": "Caret",
+    "message": {
+        "comment": "of",
+        "responses": []
+    },
+    "PDF text selection": "All<Caret></Caret> these"
+}
+
+323 {
+    "pageno": 39,
+    "type": "Replace",
+    "message": {
+        "comment": ";",
+        "responses": []
+    },
+    "PDF text selection": "locus UΓ<Replace>,</Replace> the"
+}
+
+324 {
+    "pageno": 39,
+    "type": "Replace",
+    "message": {
+        "comment": "es",
+        "responses": []
+    },
+    "PDF text selection": "(Γ)→Γ induc<Replace>e</Replace> a"
+}
+
+325 {
+    "pageno": 39,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "exist a<StrikeOut>n</StrikeOut> separating"
+}
+
+326 {
+    "pageno": 39,
+    "type": "Replace",
+    "message": {
+        "comment": "sts",
+        "responses": []
+    },
+    "PDF text selection": "there exi<Replace>st</Replace> an"
+}
+
+327 {
+    "pageno": 39,
+    "type": "Replace",
+    "message": {
+        "comment": ". I",
+        "responses": []
+    },
+    "PDF text selection": "̸= MΓ<Replace>, i</Replace>n this"
+}
+
+328 {
+    "pageno": 39,
+    "type": "Replace",
+    "message": {
+        "comment": "ves",
+        "responses": []
+    },
+    "PDF text selection": "Di,SI beha<Replace>ve</Replace> like"
+}
+
+329 {
+    "pageno": 39,
+    "type": "Replace",
+    "message": {
+        "comment": ",''",
+        "responses": []
+    },
+    "PDF text selection": "a ‘divisor<Replace>’,</Replace> i.e.,"
+}
+
+330 {
+    "pageno": 39,
+    "type": "Replace",
+    "message": {
+        "comment": "``",
+        "responses": []
+    },
+    "PDF text selection": "a <Replace>‘</Replace>divisor’, i.e.,"
+}
+
+331 {
+    "pageno": 39,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright parentheses",
+        "responses": []
+    },
+    "PDF text selection": "¯B,I <Highlight>(or ˜ox,y x,y 1,(B1,B2),I)</Highlight> ¯B,I<Highlight> 1,B2),I)</Highlight>"
+}
+
+332 {
+    "pageno": 39,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright parentheses",
+        "responses": []
+    },
+    "PDF text selection": "⊠˜ovc <Highlight>(or ˜ox,y 1,( ¯B1, ¯B2),Io ⊠ovc)</Highlight>,"
+}
+
+333 {
+    "pageno": 39,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright (roman) parenthesis",
+        "responses": []
+    },
+    "PDF text selection": "∈¯B <Highlight>(o</Highlight>r x,"
+}
+
+334 {
+    "pageno": 39,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright parenthesis",
+        "responses": []
+    },
+    "PDF text selection": "and B<Highlight>2),</Highlight> the"
+}
+
+335 {
+    "pageno": 39,
+    "type": "Replace",
+    "message": {
+        "comment": "nts",
+        "responses": []
+    },
+    "PDF text selection": "on compone<Replace>nt</Replace>"
+}
+
+336 {
+    "pageno": 40,
+    "type": "Replace",
+    "message": {
+        "comment": "Section ",
+        "responses": []
+    },
+    "PDF text selection": "[31, <Replace>§</Replace>3.1]."
+}
+
+337 {
+    "pageno": 40,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "̸= {j}<StrikeOut>,</StrikeOut> locally"
+}
+
+338 {
+    "pageno": 40,
+    "type": "Replace",
+    "message": {
+        "comment": "orientation (by $<math>$)",
+        "responses": []
+    },
+    "PDF text selection": "<Replace>(by ˜ti,forSI (Γ)→for{j}(Γ)) orientation</Replace> on"
+}
+
+339 {
+    "pageno": 40,
+    "type": "Replace",
+    "message": {
+        "comment": "Lemma 3.2 <pls link>",
+        "responses": []
+    },
+    "PDF text selection": "Then <Replace>the lemma</Replace> follows"
+}
+
+340 {
+    "pageno": 40,
+    "type": "Replace",
+    "message": {
+        "comment": "Propositions 3.1 and 3.3",
+        "responses": []
+    },
+    "PDF text selection": "[31, <Replace>Proposition 3.1 and Proposition 3.3</Replace>]. □"
+}
+
+341 {
+    "pageno": 45,
+    "type": "Caret",
+    "message": {
+        "comment": " we",
+        "responses": []
+    },
+    "PDF text selection": "M1,0,1 after<Caret></Caret> quotient"
+}
+
+342 {
+    "pageno": 45,
+    "type": "Highlight",
+    "message": {
+        "comment": "roman",
+        "responses": []
+    },
+    "PDF text selection": "M1,0,1, <Highlight>i.e.</Highlight>, the"
+}
+
+343 {
+    "pageno": 45,
+    "type": "Highlight",
+    "message": {
+        "comment": "not italic",
+        "responses": []
+    },
+    "PDF text selection": "boundaries, <Highlight>i.e.</Highlight>, the"
+}
+
+344 {
+    "pageno": 46,
+    "type": "Highlight",
+    "message": {
+        "comment": "display",
+        "responses": []
+    },
+    "PDF text selection": "implies <Highlight>For∗ u u→u1,0,1 s|MΓ = π∗ Γ→v For∗ v→u1,0,1 s and ˜ti,u1,0,1→u|MΓ =</Highlight> π∗ mplies<Highlight>For∗ u→u (2)"
+}
+
+345 {
+    "pageno": 47,
+    "type": "Replace",
+    "message": {
+        "comment": "period",
+        "responses": []
+    },
+    "PDF text selection": "i,forS(Γ) →PMΓ<Replace>,</Replace>"
+}
+
+346 {
+    "pageno": 48,
+    "type": "Replace",
+    "message": {
+        "comment": "W",
+        "responses": []
+    },
+    "PDF text selection": "<Replace>w</Replace>e can"
+}
+
+347 {
+    "pageno": 48,
+    "type": "Highlight",
+    "message": {
+        "comment": "break at comma before for and align with left curly brace and indent quad",
+        "responses": []
+    },
+    "PDF text selection": "∈V (∆)<Highlight>, forS</Highlight>∩T I(u)(u)"
+}
+
+348 {
+    "pageno": 48,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "= µ F∆<Caret></Caret>"
+}
+
+349 {
+    "pageno": 56,
+    "type": "Highlight",
+    "message": {
+        "comment": "squeeze a little between relations",
+        "responses": []
+    },
+    "PDF text selection": "EΓ <Highlight>=</Highlight> X"
+}
+
+350 {
+    "pageno": 56,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>(a)</Highlight> Suppose"
+}
+
+351 {
+    "pageno": 57,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>(b)</Highlight> Suppose"
+}
+
+352 {
+    "pageno": 57,
+    "type": "Ink",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "Genus-one Topo w that on rela endent rollar n relat<Ink>ological t the genu ations, an t of the ch y. We wil tions. Recursion Relation Topo that n rela dent ollar relat<Ink>o t a t y t the ical genu s, an he ch e wil</Ink>Recu us-one prove hoice o l also opo hat rela dent llar elat<Ink>ologic t the g ations, t of the y. We tions. al enu an ch wil</Ink> s-one Topo we show that ecursion rela independent as a corollar cursion relat<Ink>o t a t y t of the al nu an ch wil</Ink>Rec us-on pro hoice l als e Topo how that sion rela pendent corollar ion relat<Ink>ol t t at t o y. tio We al enu an e ch wil</Ink>us ho l Topo that n rela ndent ollar relat<Ink>ologi t the ations t of th y. We tions."
+}
+
+353 {
+    "pageno": 58,
+    "type": "Highlight",
+    "message": {
+        "comment": "break with times and indent",
+        "responses": []
+    },
+    "PDF text selection": "r ,ext<Highlight> <Highlight>* τ r 0</Highlight>−2−a r 0</Highlight>"
+}
+
+354 {
+    "pageno": 58,
+    "type": "Highlight",
+    "message": {
+        "comment": "break with times and indent",
+        "responses": []
+    },
+    "PDF text selection": "r ,o<Highlight> <Highlight>* </Highlight>Y ∈R2 i</Highlight>Y ∈R2"
+}
+
+355 {
+    "pageno": 60,
+    "type": "Highlight",
+    "message": {
+        "comment": "break",
+        "responses": []
+    },
+    "PDF text selection": "r0 ∈<Highlight>RT</Highlight>( ˆBΓi1,G)"
+}
+
+356 {
+    "pageno": 60,
+    "type": "Highlight",
+    "message": {
+        "comment": "adjust to fit within margin",
+        "responses": []
+    },
+    "PDF text selection": ": <Highlight>For Γi1,G ∈V (G</Highlight>) such"
+}
+
+357 {
+    "pageno": 60,
+    "type": "Text",
+    "message": {
+        "comment": "adjust to fit within margin",
+        "responses": []
+    },
+    "PDF text selection": "genus-zero, |RT(Γi1,G<Text>)| = 2,"
+}
+
+358 {
+    "pageno": 61,
+    "type": "Highlight",
+    "message": {
+        "comment": "squeeze",
+        "responses": []
+    },
+    "PDF text selection": "⊔Gi1,sp <Highlight>⊔G1/2 i1,n i1,nsp ⊔G1/2+1/2 i1,nsp : T(vΓi1,G,c) ∩IPI(G) = ∅ o</Highlight> ."
+}
+
+359 {
+    "pageno": 61,
+    "type": "Highlight",
+    "message": {
+        "comment": "display",
+        "responses": []
+    },
+    "PDF text selection": "via <Highlight>πG→Γi1,G : PMG →PMΓi1,G and ForΓi1,G→ˆBΓi1,G : PMΓi1,G →PM ˆBΓi1,G.</Highlight> Notice that BΓi1,G can"
+}
+
+360 {
+    "pageno": 61,
+    "type": "Text",
+    "message": {
+        "comment": "note to self: check reflow later",
+        "responses": []
+    },
+    "PDF text selection": "We pullback ti<Text>1,BΓi</Text>1,G→BΓi1,G to"
+}
+
+361 {
+    "pageno": 62,
+    "type": "Highlight",
+    "message": {
+        "comment": "display",
+        "responses": []
+    },
+    "PDF text selection": "projection <Highlight>π ˆBΓBI 1 →ˆBvr−2 : PM ˆBΓBI 1 ∼= PM ˆBv0 × PM ˆBvr−2</Highlight> →"
+}
+
+362 {
+    "pageno": 63,
+    "type": "Text",
+    "message": {
+        "comment": "adjust to fit within margin",
+        "responses": []
+    },
+    "PDF text selection": "⊆IPI IPI sp,0<Text>0(G)</Text>, T(vΓi1,G,c)"
+}
+
+363 {
+    "pageno": 63,
+    "type": "Text",
+    "message": {
+        "comment": "adjust to fit within margin",
+        "responses": []
+    },
+    "PDF text selection": "nG, <Text>i Γi1,G nsp }"
+}
+
+364 {
+    "pageno": 63,
+    "type": "Text",
+    "message": {
+        "comment": "adjust to fit within margin",
+        "responses": []
+    },
+    "PDF text selection": "nsp(G), T<Text>T(vΓ</Text>i1,G,c) = {i1, nG} ⊔RT(Γi1,G) o . T<Text>T(v Γ</Text>i1,G,c"
+}
+
+365 {
+    "pageno": 63,
+    "type": "Text",
+    "message": {
+        "comment": "adjust to fit",
+        "responses": []
+    },
+    "PDF text selection": "For∗ ˆBΓi1,<Text>H→fo</Text>orr1( ˆBΓi1,H)˜t∨"
+}
+
+366 {
+    "pageno": 66,
+    "type": "Replace",
+    "message": {
+        "comment": "``poles''",
+        "responses": []
+    },
+    "PDF text selection": "other <Replace>‘poles’</Replace> outside"
+}
+
+367 {
+    "pageno": 68,
+    "type": "Text",
+    "message": {
+        "comment": "display if not already + fit within margin",
+        "responses": []
+    },
+    "PDF text selection": "si1, ˆBΓi1,G( d i K<Text>p)+λ</Text>λ·tD,Γi1,G(p) = For∗ Γi1,G→ˆBΓi1,G si1, ˆBΓi1,G(p) ̸= 0 G( K<Text> <Text>p)+λ</Text>λ·t"
+}
+
+368 {
+    "pageno": 68,
+    "type": "Replace",
+    "message": {
+        "comment": "Definition 4.9(4) <pls link>",
+        "responses": []
+    },
+    "PDF text selection": "Γi1,G (<Replace>item 4 in Definition 4.9</Replace>), and"
+}
+
+369 {
+    "pageno": 68,
+    "type": "Replace",
+    "message": {
+        "comment": "Definition 4.9(5)",
+        "responses": []
+    },
+    "PDF text selection": "W-part (<Replace>item 5 in Definition 4.9</Replace>), the"
+}
+
+370 {
+    "pageno": 68,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "(2.7), (2 14)<Caret></Caret> and"
+}
+
+371 {
+    "pageno": 70,
+    "type": "Highlight",
+    "message": {
+        "comment": "break before arrow; multline alignment",
+        "responses": []
+    },
+    "PDF text selection": "}×Mvnsp,c <Highlight>→P</Highlight>M 1/r,0"
+}
+
+372 {
+    "pageno": 70,
+    "type": "Highlight",
+    "message": {
+        "comment": "beak before oplus; multline alignment",
+        "responses": []
+    },
+    "PDF text selection": "sp }\\T,I\\(R⊔{i1}<Highlight>)⊕</Highlight> M"
+}
+
+373 {
+    "pageno": 71,
+    "type": "Highlight",
+    "message": {
+        "comment": "break with times; indent quad",
+        "responses": []
+    },
+    "PDF text selection": "r ,o<Highlight> <Highlight>* Y (R⊔</Highlight> Y i∈I\\(R⊔</Highlight>{i1})"
+}
+
+374 {
+    "pageno": 72,
+    "type": "Highlight",
+    "message": {
+        "comment": "break with times; indent quad",
+        "responses": []
+    },
+    "PDF text selection": "r ,ext<Highlight> <Highlight>* τ r− 0</Highlight>2−a 0"
+}
+
+375 {
+    "pageno": 74,
+    "type": "Highlight",
+    "message": {
+        "comment": "try to squeeze this first line?",
+        "responses": []
+    },
+    "PDF text selection": "r ,ext<Highlight> <Highlight>* τ r−2−a 0 Y i∈R2 τ</Highlight> </Highlight>a 0"
+}
+
+376 {
+    "pageno": 74,
+    "type": "Text",
+    "message": {
+        "comment": "adjust to fit",
+        "responses": []
+    },
+    "PDF text selection": "0 σr−2<Text> Y</Text>"
+}
+
+377 {
+    "pageno": 75,
+    "type": "Highlight",
+    "message": {
+        "comment": "display",
+        "responses": []
+    },
+    "PDF text selection": "correlator <Highlight>D τ ai2 di2 Q i∈I\\{i2} τ ai di Q i∈B σbi E 1 r 1</Highlight> 1 r 1</Highlight> 1 r 1</Highlight>"
+}
+
+378 {
+    "pageno": 76,
+    "type": "Highlight",
+    "message": {
+        "comment": "display",
+        "responses": []
+    },
+    "PDF text selection": "form <Highlight>D τ ai1 di1−1 Q i∈I′ τ ai di Q i∈B′ σbi E</Highlight>1/r,o 0 ∈I′,"
+}
+
+379 {
+    "pageno": 76,
+    "type": "Highlight",
+    "message": {
+        "comment": "display",
+        "responses": []
+    },
+    "PDF text selection": "form <Highlight>DQ i∈I′ τ ai di Q i</Highlight>∈B′ σbi E1/r,o ∈I′,"
+}
+
+380 {
+    "pageno": 76,
+    "type": "Highlight",
+    "message": {
+        "comment": "move qed box at the same line as end of \"... proves (5.18).\"",
+        "responses": []
+    },
+    "PDF text selection": "(5.18). <Highlight>□</Highlight>"
+}
+
+381 {
+    "pageno": 81,
+    "type": "Highlight",
+    "message": {
+        "comment": "break before small cup; align with coloneq and indent quad",
+        "responses": []
+    },
+    "PDF text selection": "<Highlight>  <Highlight> ∪ [ ∈∂∗</Highlight> [ ∆∈∂∗</Highlight>ˆBu"
+}
+
+382 {
+    "pageno": 85,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "A. Buryak<Replace>.</Replace> A"
+}
+
+383 {
+    "pageno": 85,
+    "type": "Highlight",
+    "message": {
+        "comment": "italic",
+        "responses": []
+    },
+    "PDF text selection": "Buryak. <Highlight>A construction of open descendant</Highlight> potentials"
+}
+
+384 {
+    "pageno": 85,
+    "type": "Highlight",
+    "message": {
+        "comment": "italic",
+        "responses": []
+    },
+    "PDF text selection": "descendant <Highlight>potentials in all genera</Highlight>. International"
+}
+
+385 {
+    "pageno": 85,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "all genera<Replace>.</Replace> International"
+}
+
+386 {
+    "pageno": 85,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright",
+        "responses": []
+    },
+    "PDF text selection": "genera. <Highlight>International Mathematics Research Notices</Highlight>, 2023(17):14840–"
+}
+
+387 {
+    "pageno": 85,
+    "type": "Replace",
+    "message": {
+        "comment": "vol. 17, pp. ",
+        "responses": []
+    },
+    "PDF text selection": "Notices, <Replace>2023(17):</Replace>14840– 14889,"
+}
+
+388 {
+    "pageno": 85,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "D. Yang<Replace>.</Replace> The"
+}
+
+389 {
+    "pageno": 85,
+    "type": "Highlight",
+    "message": {
+        "comment": "italic",
+        "responses": []
+    },
+    "PDF text selection": "Yang. <Highlight>The partition function of the extended r-reduced</Highlight> Kadomtsev-Petviashvili"
+}
+
+390 {
+    "pageno": 85,
+    "type": "Highlight",
+    "message": {
+        "comment": "italic",
+        "responses": []
+    },
+    "PDF text selection": "r-reduced <Highlight>Kadomtsev-Petviashvili hierarchy</Highlight>. J."
+}
+
+391 {
+    "pageno": 85,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "Kadomtsev-Petviashvili hierarchy<Replace>.</Replace> J."
+}
+
+392 {
+    "pageno": 85,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright",
+        "responses": []
+    },
+    "PDF text selection": "hierarchy. <Highlight>J. Phys. A</Highlight>, 48(19):195205,"
+}
+
+393 {
+    "pageno": 85,
+    "type": "Replace",
+    "message": {
+        "comment": "no. 48, 2015, 19, p. 20",
+        "responses": []
+    },
+    "PDF text selection": "A, <Replace>48(19):195205,</Replace> 20,"
+}
+
+394 {
+    "pageno": 85,
+    "type": "Replace",
+    "message": {
+        "comment": ".",
+        "responses": []
+    },
+    "PDF text selection": "48(19):195205, 20<Replace>, 2015.</Replace> [3]"
+}
+
+395 {
+    "pageno": 85,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "A. Buryak<Replace>.</Replace> Open"
+}
+
+396 {
+    "pageno": 85,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "J. Tessler<Replace>.</Replace> Open"
+}
+
+397 {
+    "pageno": 85,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "J. Tessler<Replace>.</Replace> Closed"
+}
+
+398 {
+    "pageno": 85,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "J. Tessler<Replace>.</Replace> Open"
+}
+
+399 {
+    "pageno": 85,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "J. Tessler<Replace>.</Replace> Open"
+}
+
+400 {
+    "pageno": 85,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "J. Tessler<Replace>.</Replace> Matrix"
+}
+
+401 {
+    "pageno": 85,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "J. Tessler<Replace>.</Replace> Open"
+}
+
+402 {
+    "pageno": 86,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "W.-P. Li<Replace>.</Replace> Witten’s"
+}
+
+403 {
+    "pageno": 86,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "A. Chiodo<Replace>.</Replace> The"
+}
+
+404 {
+    "pageno": 86,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "E. Witten<Replace>.</Replace> Developments"
+}
+
+405 {
+    "pageno": 86,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "D. Zvonkine<Replace>.</Replace> Tautological"
+}
+
+406 {
+    "pageno": 86,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "Y. Ruan<Replace>.</Replace> The"
+}
+
+407 {
+    "pageno": 86,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "A. Buryak<Replace>.</Replace> Open"
+}
+
+408 {
+    "pageno": 86,
+    "type": "Highlight",
+    "message": {
+        "comment": "italic",
+        "responses": []
+    },
+    "PDF text selection": "[15] <Highlight>O. int B. Gomez and A. Buryak. Open topological recursion relations in genus 1 and</Highlight> <Highlight>O. B. Gom integrable systems. Journal of High Energy Physics, 2021(1):1–15, 2021. [16]"
+}
+
+409 {
+    "pageno": 86,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "integrable systems<Replace>.</Replace> Journal"
+}
+
+410 {
+    "pageno": 86,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright",
+        "responses": []
+    },
+    "PDF text selection": "systems. <Highlight>Journal of High Energy Physics</Highlight>, 2021(1):1–15,"
+}
+
+411 {
+    "pageno": 86,
+    "type": "Replace",
+    "message": {
+        "comment": ", no. 1, pp. ",
+        "responses": []
+    },
+    "PDF text selection": "Physics, 2021<Replace>(1):</Replace>1–15, 2021."
+}
+
+412 {
+    "pageno": 86,
+    "type": "StrikeOut",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "Physics, 2021(1):1–15<StrikeOut>, 2021</StrikeOut>. [16]"
+}
+
+413 {
+    "pageno": 86,
+    "type": "Highlight",
+    "message": {
+        "comment": "upright",
+        "responses": []
+    },
+    "PDF text selection": "theory. <Highlight>Ann. of Math. (2)</Highlight>, 178(1):1–106,"
+}
+
+414 {
+    "pageno": 86,
+    "type": "Replace",
+    "message": {
+        "comment": "no. 178, vol. 1, pp 1--106",
+        "responses": []
+    },
+    "PDF text selection": "(2), <Replace>178(1):1–106</Replace>, 2013."
+}
+
+415 {
+    "pageno": 86,
+    "type": "Highlight",
+    "message": {
+        "comment": "italic",
+        "responses": []
+    },
+    "PDF text selection": "Ruan. <Highlight>The Witten equation, mirror symmetry, and quantum</Highlight> singularity"
+}
+
+416 {
+    "pageno": 86,
+    "type": "Highlight",
+    "message": {
+        "comment": "italic",
+        "responses": []
+    },
+    "PDF text selection": "quantum <Highlight>singularity theory</Highlight>. Ann."
+}
+
+417 {
+    "pageno": 86,
+    "type": "Replace",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "singularity theory<Replace>.</Replace> Ann."
+}
+
