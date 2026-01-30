@@ -5,7 +5,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "�d\ni=0 d2i(−1)i = χ(RGn,k)<Caret></Caret> where d2i = dim H2i(CGn,k; Q) = dim Hi(RGn,k; Z2)."
+    "PDF text selection": "i=0 d2i(−1)i = χ(RGn k)<Caret></Caret> where d2i ="
 }
 
 1 {
@@ -15,7 +15,7 @@
         "comment": "doesn't",
         "responses": []
     },
-    "PDF text selection": "where RGn,k<Caret></Caret> denotes the Grassmannian of real k-planes in Rn. Now we observe that"
+    "PDF text selection": "where RGn k<Caret></Caret> denotes the Grassmannian"
 }
 
 2 {
@@ -25,7 +25,7 @@
         "comment": "now",
         "responses": []
     },
-    "PDF text selection": "Let us<Caret></Caret> move to the other case where λ ∈Q\\Z. Suppose �d\ni="
+    "PDF text selection": "is even. Let us<Caret></Caret> move to the"
 }
 
 3 {
@@ -35,7 +35,7 @@
         "comment": "(",
         "responses": []
     },
-    "PDF text selection": "Let us move to the other case where λ ∈Q\\Z. Suppose<Caret></Caret> �d\ni="
+    "PDF text selection": "where λ ∈Q\\Z. Suppose<Caret></Caret> Pd i=0 d2iλi"
 }
 
 4 {
@@ -45,7 +45,7 @@
         "comment": ")",
         "responses": []
     },
-    "PDF text selection": "�d\ni=0 d2iλi = 0<Caret></Caret> for some"
+    "PDF text selection": "i=0 d2iλi = 0<Caret></Caret> for some λ"
 }
 
 5 {
@@ -55,17 +55,17 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "λ = \nq<Caret></Caret> "
+    "PDF text selection": "some λ = p<Caret></Caret> q where"
 }
 
 6 {
     "pageno": 0,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "q where p and q are coprime integers. Since d0 = dd = 1<StrikeOut>,</StrikeOut> using the rational"
+    "PDF text selection": "= dd = 1<Remove>,</Remove> using the rational"
 }
 
 7 {
@@ -75,27 +75,27 @@
         "comment": "also",
         "responses": []
     },
-    "PDF text selection": "root theorem p|1 and<Caret></Caret> q|1. Hence, λ = ±1, which is a contradiction. Therefore, we"
+    "PDF text selection": "root theorem p|1 and<Caret></Caret> q|1. Hence, λ"
 }
 
 8 {
     "pageno": 0,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "root theorem p|1 and q|1. Hence<StrikeOut>,</StrikeOut> λ = ±1, which is a contradiction. Therefore, we"
+    "PDF text selection": "p|1 and q|1. Hence<Remove>,</Remove> λ = ±1,"
 }
 
 9 {
     "pageno": 0,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "root theorem p|1 and q|1. Hence, λ = ±1<StrikeOut>,</StrikeOut> which is a contradiction. Therefore, we"
+    "PDF text selection": "Hence, λ = ±1<Remove>,</Remove> which is a"
 }
 
 10 {
@@ -105,6 +105,6 @@
         "comment": "somewhat well-known",
         "responses": []
     },
-    "PDF text selection": "It is <Replace>a well known fact</Replace> that χ(RGn,k) ̸= 0 if k(n −k) is even."
+    "PDF text selection": "Z2). It is <Replace>a well known fact</Replace> that χ(RGn,k) ̸="
 }
 

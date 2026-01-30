@@ -4,6 +4,7 @@
 \usepackage{enumitem}
 \usepackage{hyperref}
 \usepackage{subcaption}
+\usepackage{amssymb}
 \captionsetup{compatibility=false}
 
 \usepackage{amsrefs}
@@ -48,6 +49,10 @@
 \thanks{So this is where we say thanks to grant No.\ 325349M\@.}
 
 \thanks{L.\ E.\ is the corresopnding author.}
+
+\thanks{The first author gratefully acknolwedgaes the fruitful conversations they had with Jocaib Gewald.}
+\thanks{The second author would like to thank the University of California Irvine for it's generous accomodations for research and
+  spaces for exchanging ideas and collaborating productively.}
 
 \subjclass{Primary 1586: Secondary 314, 159, 2653, 58579}
 
@@ -105,7 +110,18 @@ Here is some text and a \problem. I think.
   \caption[]{A caption for a figure. This can't have a footnote in it, I believe\footnotemark}
 \end{figure}\footnotetext{And that's where you're wrong. (If you give the {\tt \string\caption} command an empty optional argument---{\tt\string\caption[]}---so that the toc figurelist name is empty so that there's no issue with {\tt \string\par} in the caption body, then you can put {\tt \string\footnotemark} in the caption argument and then put {\tt \string\footnotetext} outside of the figure so that it behaves as normal: wild! But if you just use {\tt\string\footnote} in the caption argument even with giving it an empty optional argument, it will appear just like a {\tt\string\footnotemark} without a {\tt\string\footnotetext}.)}
 
-Oh so does the footnote actually work?\footnote{Let's see\dots.} It looks like if you give 
+Oh so does the footnote actually work?\footnote{Let's see\dots.} It looks like if you give\dots I don't know what I was originally saying in this sentence, but\dots.\footnote{This is a footnote that is very closely followed by another footnote.} Here, I'll show you:\footnote{Here's the other footnote, just as described\dots}.
+
+This is an absolute mess of a document, but here's an equation
+
+\[
+\begin{aligned}
+  X^2 &= \prod x\times iy -\frac{ \Theta \Omega}{\omega \hat{i}\bar{i+iz}}\\
+  &= \sum_{i\in\infty}^{\frac{\eta\aleph}{\beth}}
+  \end{aligned}
+\]
+
+which is a bit of a palette cleanser, maybe\footnote{is it?}.
 
 % subfigure with \subfigure
 %% \begin{figure}
@@ -152,7 +168,7 @@ But you cannot put a float in a footnote. Thank goodness.
 
 You cannot put a verbatim environment either it seems.
 {\tt\string\controlsequence}
-}
+} So it seems. Blech. 
 
 %% subfigure with \begin{subfigure} %lookslike we can only load one of subcaption and subfigure
 \begin{figure}

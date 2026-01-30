@@ -35,7 +35,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "homogeneous spaces<Caret></Caret> G/H,"
+    "PDF text selection": "homogeneous spaces<Caret tip> G/H,"
 }
 
 4 {
@@ -67,7 +67,7 @@
             "COMP: ignore"
         ]
     },
-    "PDF text selection": "simple, <Replace>singly</Replace> generated cohomology algebra, while the Grassmannian CGn,k (of k-planes in Cn) carries"
+    "PDF text selection": "simple, <Replace>singly</Replace> generated"
 }
 
 7 {
@@ -77,7 +77,7 @@
         "comment": ", <COMP: insert comma>",
         "responses": []
     },
-    "PDF text selection": "theory and<Caret></Caret> in"
+    "PDF text selection": "theory and<Caret tip> in"
 }
 
 8 {
@@ -137,7 +137,7 @@
         "comment": "roman",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(1)</Highlight> If"
+    "PDF text selection": "holds. <Highlight>(1)</Highlight> If"
 }
 
 14 {
@@ -147,7 +147,7 @@
         "comment": ". <COMP: insert period>",
         "responses": []
     },
-    "PDF text selection": ", k}<Caret></Caret> If"
+    "PDF text selection": ", k}<Caret tip> If"
 }
 
 15 {
@@ -167,7 +167,7 @@
         "comment": "COMP: commas before and after \"i.e.\"",
         "responses": []
     },
-    "PDF text selection": "Q) <Highlight>i.e.</Highlight>"
+    "PDF text selection": "Q) <Highlight>i e</Highlight> ϕ(u)"
 }
 
 17 {
@@ -187,7 +187,7 @@
         "comment": "[GH1, Theorem 2] <COMP: use \\cite>",
         "responses": []
     },
-    "PDF text selection": "generalized <Replace>Theorem 2 of [GH1]</Replace> to the setting of coincidence theory and proved that the pair ed<Replace>Theo g)"
+    "PDF text selection": "generalized <Replace>Theorem 2 of [GH1]</Replace> to"
 }
 
 19 {
@@ -227,7 +227,7 @@
         "comment": "<global for remarks per journal style> lightface ",
         "responses": []
     },
-    "PDF text selection": "<Highlight>Remark 2.1.</Highlight> We can assume k ≤n −k for CGn,k as CGn,k is homeomorphic to <Highlight>Remark by"
+    "PDF text selection": "<Highlight>Remark 2.1.</Highlight> We"
 }
 
 23 {
@@ -267,7 +267,7 @@
         "comment": "[ST1, Theorem A']",
         "responses": []
     },
-    "PDF text selection": "2.2 (<Replace>[ST1], Theorem A ′</Replace>). Let Di(H∗(G/H; Q)) be the Q-vector space of Q-derivations of H∗(G/H; Q) which"
+    "PDF text selection": "2.2 (<Replace>[ST1], Theorem A ′</Replace>). Let"
 }
 
 27 {
@@ -277,7 +277,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "> 0<Caret></Caret> where"
+    "PDF text selection": "> 0<Caret tip> where"
 }
 
 28 {
@@ -347,7 +347,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "map α<Caret></Caret> and"
+    "PDF text selection": "map α<Caret tip> and"
 }
 
 35 {
@@ -487,7 +487,7 @@
         "comment": ", <COMP: comma>",
         "responses": []
     },
-    "PDF text selection": "uPy) −ϕ1(x)ϕ1(y)<Caret></Caret>"
+    "PDF text selection": "uPy) −ϕ1(x)ϕ1(y)<Caret tip>"
 }
 
 49 {
@@ -507,7 +507,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "In particular<Caret></Caret>"
+    "PDF text selection": "In particular<Caret tip>"
 }
 
 51 {
@@ -557,7 +557,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "or S2<Caret></Caret> and"
+    "PDF text selection": "or S2<Caret tip> and"
 }
 
 56 {
@@ -587,7 +587,7 @@
         "comment": "Proposition 3.3 <COMP: pls link>",
         "responses": []
     },
-    "PDF text selection": "to <Replace>the following proposition</Replace>."
+    "PDF text selection": "to <Replace>the following proposition</Replace>. Proposition"
 }
 
 59 {
@@ -727,7 +727,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "of H∗ ×<Caret></Caret> where"
+    "PDF text selection": "of H∗ ×<Caret tip> where"
 }
 
 73 {
@@ -737,7 +737,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "of H∗ ×<Caret></Caret> where"
+    "PDF text selection": "of H∗ ×<Caret tip> where"
 }
 
 74 {
@@ -747,7 +747,7 @@
         "comment": "COMP: set text roman as per journal style <global for examples>",
         "responses": []
     },
-    "PDF text selection": "<Highlight>Example complex p H∗ × ∼= Q[u ring 3.10. If m odd, n > 2 and k = 1, then P(m, n, 1) is fibered by the ase, ogy</Highlight> <Highlight>Examp complex H∗ × ∼= Q ring projective space CP n−1 over the real projective space RP m. In this y the case, ology</Highlight> <Highlight>Ex com H∗ × rin × ∼= Q[u, c1]/⟨u2, cn 1⟩and using (10) and Theorem 2.4, the rational bered by the n this case, cohomology</Highlight> <Highlight>Exa com H∗ × ring"
+    "PDF text selection": "endomorphism. <Highlight>Example complex p H∗ × ∼= Q[u ring 3.10. If m odd, n > 2 and k = 1, then P(m, n, 1) is fibered by the ase, ogy</Highlight> <Highlight>Examp complex H∗ × ∼= Q ring projective space CP n−1 over the real projective space RP m. In this y the case, ology</Highlight> <Highlight>Ex com H∗ × rin × ∼= Q[u, c1]/⟨u2, cn 1⟩and using (10) and Theorem 2.4, the rational bered by the n this case, cohomology</Highlight> <Highlight>Exa com H∗ × ring"
 }
 
 75 {
@@ -797,7 +797,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "automorphism because<Caret></Caret> using"
+    "PDF text selection": "automorphism because<Caret tip> using"
 }
 
 80 {
@@ -867,7 +867,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": ". um<Caret></Caret> where"
+    "PDF text selection": ". um<Caret tip> where"
 }
 
 87 {
@@ -977,7 +977,7 @@
         "comment": "the",
         "responses": []
     },
-    "PDF text selection": "from <Replace>a</Replace> general observation that if for two G-equivariant maps ˜ϕ, ˜ψ on S × X, the maps a</Replace> and"
+    "PDF text selection": "from <Replace>a</Replace> general"
 }
 
 98 {
@@ -1017,7 +1017,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "= χ(RGn k)<Caret></Caret> where"
+    "PDF text selection": "= χ(RGn k)<Caret tip> where"
 }
 
 102 {
@@ -1027,7 +1027,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "root theorem<Caret></Caret> p|1"
+    "PDF text selection": "root theorem<Caret tip> p|1"
 }
 
 103 {
@@ -1037,7 +1037,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "Hi(Sm; Q)<Caret></Caret> and"
+    "PDF text selection": "Hi(Sm; Q)<Caret tip> and"
 }
 
 104 {
@@ -1047,7 +1047,7 @@
         "comment": "COMP: break after semicolon",
         "responses": []
     },
-    "PDF text selection": "and Hi(Sm×CGn,k<Highlight>; Q),</Highlight> by HCG i , HS i and H× i , respectively. Let d denote the complex dimension of Gn,k<Highlight>; Q given"
+    "PDF text selection": "and Hi(Sm×CGn,k<Highlight>; Q),</Highlight> by"
 }
 
 105 {
@@ -1117,7 +1117,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "H2i 2i CG<Caret></Caret> and"
+    "PDF text selection": "H2i 2i CG<Caret tip> and"
 }
 
 112 {
@@ -1127,7 +1127,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "= δqp<Caret></Caret> where"
+    "PDF text selection": "= δqp<Caret tip> where"
 }
 
 113 {
@@ -1177,7 +1177,7 @@
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(1)</Highlight> Either"
+    "PDF text selection": "form. <Highlight>(1)</Highlight> Either"
 }
 
 118 {
@@ -1207,7 +1207,7 @@
         "comment": ".",
         "responses": []
     },
-    "PDF text selection": "µ ∈Q<Caret></Caret>"
+    "PDF text selection": "µ ∈Q<Caret tip>"
 }
 
 121 {
@@ -1217,7 +1217,7 @@
         "comment": "adjust to fit equation within margin",
         "responses": []
     },
-    "PDF text selection": "(28) <Highlight>f ∗ ∗(δvp) = X ajpδϑ⊗vj, ∀vp ∈HCG 2i , ˜f ∗(δϑ⊗1) = µδϑ⊗1, ˜f ∗(δϑ⊗vp) = 0, ∀vp ∈HCG 2i .</Highlight>"
+    "PDF text selection": "(28) <Highlight>f ∗ ∗(δvp) = X ajpδϑ⊗vj, ∀vp ∈HCG 2i , ˜f ∗(δϑ⊗1) = µδϑ⊗1, ˜f ∗(δϑ⊗vp) = 0, ∀vp ∈HCG 2i .</Highlight> Using"
 }
 
 122 {
@@ -1227,7 +1227,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "> 0<Caret></Caret> which"
+    "PDF text selection": "> 0<Caret tip> which"
 }
 
 123 {
@@ -1307,7 +1307,7 @@
         "comment": "center equations",
         "responses": []
     },
-    "PDF text selection": "D˜g∗D−1 ˜f∗(x) = µ1λiλd−i 1 x + ϑ ⊗y′ for some y′ ∈HCG CG 2i−m CG 2i+m.</Highlight> <Highlight>D˜g D˜g∗D−1 ˜f∗(ϑ ⊗x) = µλiλd−i 1 (ϑ ⊗x) + z′ for some z′ ∈HCG HCG 2i−m CG 2i+m.</Highlight>"
+    "PDF text selection": "have D˜g∗D−1 ˜f∗(x) = µ1λiλd−i 1 x + ϑ ⊗y′ for some y′ ∈HCG CG 2i−m CG 2i+m.</Highlight> <Highlight>D˜g D˜g∗D−1 ˜f∗(ϑ ⊗x) = µλiλd−i 1 (ϑ ⊗x) + z′ for some z′ ∈HCG HCG 2i−m CG 2i+m.</Highlight>"
 }
 
 131 {
@@ -1357,7 +1357,7 @@
         "comment": "center equations or align equal signs",
         "responses": []
     },
-    "PDF text selection": "D˜g∗D−1(θ ◦˜f)∗(x) = µ1(−λ)iλd−i 1 x + ϑ ⊗y′′ for some y′′ ∈HCG CG 2i−m CG 2i+m.</Highlight> <Highlight>D˜g∗D D˜g∗D−1(θ ◦˜f)∗(ϑ ⊗x) = −µ(−λ)iλd−i 1 ϑ ⊗x + z′′ for some z′′ ∈HCG HCG 2i−m CG 2i+m.</Highlight>"
+    "PDF text selection": "then D˜g∗D−1(θ ◦˜f)∗(x) = µ1(−λ)iλd−i 1 x + ϑ ⊗y′′ for some y′′ ∈HCG CG 2i−m CG 2i+m.</Highlight> <Highlight>D˜g∗D D˜g∗D−1(θ ◦˜f)∗(ϑ ⊗x) = −µ(−λ)iλd−i 1 ϑ ⊗x + z′′ for some z′′ ∈HCG HCG 2i−m CG 2i+m.</Highlight>"
 }
 
 136 {
@@ -1387,7 +1387,7 @@
         "comment": "remove no indent",
         "responses": []
     },
-    "PDF text selection": "4.9. <Highlight>Let us</Highlight> consider the other case when ˜f ∗(c1) = au, a ∈Q, using Theorem 3.3 we have us</Highlight> ∗(ci)"
+    "PDF text selection": "4.9. <Highlight>Let us</Highlight> consider"
 }
 
 139 {
@@ -1407,7 +1407,7 @@
         "comment": "rom",
         "responses": []
     },
-    "PDF text selection": "<Highlight>(1) (2) (3)</Highlight> The lift ˜f stabilizes a copy of Grassmannian, i.e., ˜f({x0}×CGn,k) ⊆{x0}× CGn,k for some x0 ∈Sm. <Highlight>(1) (2) (3)</Highlight> The map p1 ◦˜f ∗◦i1 : H∗ CG →H∗ CG is an automorphism, equivalently, f ∗(c2 1) = λ2c2 1, λ ∈Q\\{0}, where p1 and i1 are defined in (11). <Highlight>(1) (2) (3)</Highlight> The"
+    "PDF text selection": "follows: <Highlight>(1) (2) (3)</Highlight> The lift ˜f stabilizes a copy of Grassmannian, i.e., ˜f({x0}×CGn,k) ⊆{x0}× CGn,k for some x0 ∈Sm. <Highlight>(1) (2) (3)</Highlight> The map p1 ◦˜f ∗◦i1 : H∗ CG →H∗ CG is an automorphism, equivalently, f ∗(c2 1) = λ2c2 1, λ ∈Q\\{0}, where p1 and i1 are defined in (11). <Highlight>(1) (2) (3)</Highlight> The"
 }
 
 141 {
@@ -1437,7 +1437,7 @@
         "comment": "break before \"continuous\"",
         "responses": []
     },
-    "PDF text selection": "any <Highlight>con-</Highlight> tinuous function g on P(m, n, k) that induces an automorphism on H∗(P(m, n, k); n-</Highlight> the"
+    "PDF text selection": "any <Highlight>con-</Highlight> tinuous"
 }
 
 144 {
@@ -1567,7 +1567,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "Kanpur, Kanpur<Caret></Caret> 208016,"
+    "PDF text selection": "Kanpur, Kanpur<Caret tip> 208016,"
 }
 
 157 {
@@ -1577,7 +1577,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "Sciences, Krakow<Caret></Caret> 31-027,"
+    "PDF text selection": "Sciences, Krakow<Caret tip> 31-027,"
 }
 
 158 {

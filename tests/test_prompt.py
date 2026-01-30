@@ -48,8 +48,8 @@ def drawPromptsOnPages(corrections: list[Correction], annotpdf_filename: str, la
         extract_latex_rect.set_border(width=.75)
         extract_latex_rect.update()
 
-        prompt_box = page.add_freetext_annot((3, 0, 500, 350), prompt, text_color=(0,.75,.2), fontsize=6, fontname="Cour")
-        prompt_box.set_border(width=.25)
+        prompt_box = page.add_freetext_annot((3, 3, 500, 350), prompt, text_color=(.8,0,.5), fontsize=6, fontname="Cour")
+        prompt_box.set_border(width=.05)
         prompt_box.update()
 
         single_save = f'{single_fname_prefix}_{i}.pdf'

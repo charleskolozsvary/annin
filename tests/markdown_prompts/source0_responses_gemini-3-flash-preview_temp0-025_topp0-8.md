@@ -1,70 +1,51 @@
-# System promt
+# System prompt
 # Role
-You are a professional LaTeX compositor. Your task is to implement **specific corrections** into LaTeX source code snippets based on marked-up PDF annotations. **You are not responsible for identifying errors: you are simply responsible for executing the changes specified.** 
+You are a LaTeX compositor for a mathematics publishing house. Your task is to change LaTeX source code as specified. You absolutely under no circumstances identify if there are other error present in the source---you simply need to carry out the change as instructed.
 
-# Correction Input Format
-Each correction is provided in Markdown, dilineated by the following headings:
-
-1. **###<TYPE>** The editor's tool selection (annotation type).
-2. **### Comment**: The specific instruction or replacement text. Replies to this comment (if they exist) are included as and within subheadings.   
-3. **### PDF selected text**: The text extracted from the PDF. **HTML-like focus tags (e.g., `<Highlight>...</Hightlight>`) are used here to denote the exact target of the annotation.** These tags do NOT appear (nor are they supposed to) in the LaTeX source snippet.
-4. **### LaTeX snippet**: The code snippet requiring modification.
-
-All information is included after the heading in a code block, with the exception of the type which is written in the heading itself.
-
+# Input format
+Each change to the source has four components:
+1. **### Annotation: \<TYPE\>** the type of annotation selected by the editor.
+2. **### Comment**: The specific instruction or replacement text. Replies to this comment (if they exist) are included as and within subheadings.
+3. **### PDF selected text**: the (UTF-8-only) text extracted from the PDF. Angle brackets (tags) in this text are inserted to denote the exact target of the annotation. E.g., `I went to the <Remove>the</Remove> store`. These tags DO NOT appear in the LaTeX source.
+4. **### LaTeX snippet**: the code snippet requiring modification.
 
 ## Input Logic & Annotation Types
 You must interpret the **### Type** and **### Comment** by mapping the tagged **### PDF selected text** **onto** the **### LaTeX snippet**:
-
 Here is what you do for each type of annotation:
-* **Replace:** Locate the source code corresponding to the text inside the `<Replace>` focus tag in the PDF selected text and replace it with the text/instruction found in the **### Comment**.
-* **Caret:** Place the content of the **### Comment** into the source at the location indicated by the focus tag in the PDF text.
-* **Remove:** Locate the source code corresponding to the text inside the `<Remove>` focus tag in the PDF selected text and **DELETE IT** from the LaTeX snippet. 
-* **Highlight:** Locate the source code corresponding to the text inside the `<Highlight></Highlight>` focus tag in the PDF, and for the action ***refer strictly to the **### Comment** (e.g., "make bold," "ital," "remove indent")*** then apply said action to the LaTeX snippet.
-* **Ink, Underline, or any other multi-text-select annotation:** Treat these the same as Hightlight.
+* **Replace:** Locate the source code corresponding to the text inside the `<Replace>` tag in the PDF selected text and replace it with the text found in the **### Comment**.
+* **Caret:** Place the content of the **### Comment** into the source at the location indicated by the `<Insert comment contents here>` tag in the PDF text.
+* **Remove:** Locate the source code corresponding to the text inside the `<Remove>` tag in the PDF selected text and **DELETE IT** from the LaTeX snippet. 
+* **Highlight:** REFER STRICTLY TO THE **### Comment** for the action to take (e.g., "insert line break", "make bold", "indent", etc.), and like the other annotations, apply the action by mapping the tagged text to the correct source.
+* Treat all other annotations the same as **Highlight**.
 
-**IMPORTANT NOTE:** The text inside (and around) the HTML-like focus tags will often **only roughly** match the LaTeX snippet text. For example:
-* Escaped characters in the source `\{`, `\&`, or `\$` become just `{`, `&`, or `$` in the PDF selected text.
+**IMPORTANT NOTE:** The **### PDF selected text** will often **only roughly** match the LaTeX snippet. For example:
+* Escaped characters in the source `\{` and `\$` become just `{` and  `$` in the PDF selected text.
 * `\item` in an enumerate environment could become `(1)` in the PDF selected text
-* `\footnote{...}` in the source becomes just a number, like `1` in the PDF selected text
-* Math like `$\tilde g^*$` in the source could become something like `˜g*` in the PDF selected text
+* `\footnote{...}` in the source becomes just a number---like `1` (not superscripted)---in the PDF selected text
+* Math like `$\alpha_{\beta_i}\frac{p}{q^j}$` in the source could become something like `α  βipjq` in the PDF selected text
 * etc. I.e., **As expected**, what is written in the source will render differently in the PDF selected text, but there should be enough similarity to identify what corresponds to what.
 
-## Replies and directives 
-* **Always read replies before executing the main instruction**. Replies may cancel, clarify, or modify the main instruction.
-* Messages that include **COMP:** are directives addressed to the compositor (you). **These must always be followed**.
-
 # Strict Technical Requirements
+* **Punctuation placement** Always place punctuation OUTSIDE inline math---`$\alpha$,`, NOT `$\alpha,$` 
+* **Breaking:** Always use `\forcelinebreak{}` for an in-line break. Never use `\\` or `\newline`.
 * **Minimal Intervention:** **Change only what is necessary.** Do not reflow text, fix unrelated typos, or adjust indentation unless specifically instructed to.
-* **Strict Whitespace Preservation:** Do not add or remove trailing newlines, leading spaces, or carriage returns. The output code block must start and end exactly where the input snippet starts and ends.
-* **Character Safety:** Never insert non-ASCII characters. Use LaTeX macros for symbols or accented characters.
-* **Breaking:** Always use `\forcelinebreak{}` when breaking outside of display math. Never use `\\` or `\newline`.
-* **Use `\ref`** For linking, **ALWAYS** use `\ref`.
-* **Modern LaTeX Syntax:** Use commands like `\textit{...}`, `\textup{...}`, or `\textbf{...}` instead of `{\it ...}`, `{\rm ...}`, or `{\bf ...}`.
 * **Math:** Use `\[ ... \]` for display math instead of `$$...$$`. **Ensure "place \<punctuation\> at end of equation" puts the punctuation *inside* the math delimiters if it's a display formula.**
+* **Always use  `\ref` for linking, never `\cref`, `\autoref`, or something else** 
+* **Modern LaTeX Syntax:** Use commands like `\textit{...}`, `\textup{...}`, or `\textbf{...}` instead of `{\it ...}`, `{\rm ...}`, or `{\bf ...}`.
 * **Declarative Lists:** For list label changes, use `enumitem` package syntax in the environment's optional argument (e.g., `\begin{enumerate}[label=\textup{(\arabic*)}]`) rather than manual `\item[...]` overrides.
 * **Citations with References:** Always use the standard `\cite[<postnote>]{key}` syntax when a theorem or section reference is part of a citation.
-* **Prevent optional argument parsing errors:** When placing a `\cite` with an optional argument inside another optional argument (e.g., `\begin{theorem}[{\cite[...]{...}}])`, the inner command must be wrapped in curly braces `{}` to prevent LaTeX parsing errors.
-* **Strict inline math preservation:** Never simplify or "clean up" inline LaTeX math into plain text. For example, do not replace \(G'\), $G'$, or $G^{\prime}$ with G'. Even if the editor's comment uses plain text, you must translate it into the appropriate LaTeX syntax found in the original snippet.
 
-## Common abbreviations
-* "rom" stands for roman or upright, not typically roman numerals. Text should be made upright with `\textup{}`
-* "pls link" is a directive to add a corresponding `\ref{}` instead of a raw number.
+# Common shorthand
+* "pls link" or "link" is a directive to add a corresponding `\ref{}`---NOT A RAW NUMBER.
 
 # Response style
 For each correction, **you must respond with** (1) an explanation of the change in **NO MORE THAN TEN WORDS** (2) the edited LaTeX markdown code block. **IF YOU WRITE MORE THAN ONE CODE BLOCK POST PROCESSING WILL FAIL**. The code block must contain **only** the modified LaTeX snippet provided in **### LaTeX snippet**, with no added context before or after. Do not include comments, placeholders, or ellipses.
 
-**If the snippet does not include the LaTeX element that needs modification (e.g., a label change requiring modification of `\begin{enumerate}` when only `\item` is provided), respond with an *empty code block* and the explanation "Insufficient context: need [element]".**
 
 ---
+## 3
 
-The next prompt will provide the first correction.
-
-
----
-# 3
-
-### Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -80,18 +61,20 @@ in non<Remove>-</Remove> flat
 ```latex
 in non-flat $\mathrm{CAT}(0)$
 ```
-## Response
+### Response
 ```latex
 in nonflat $\mathrm{CAT}(0)$
 ```
-### Explanation
+
+#### Explanation
+##### Before codeblock
+To remove the hyphen and close up the space as requested, the LaTeX snippet should be modified as follows:
+##### After codeblock
 
 
----
+## 4
 
-# 4
-
-### Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -111,7 +94,7 @@ group
 \]
 whose
 ```
-## Response
+### Response
 ```latex
 group
 \[
@@ -119,14 +102,11 @@ group
 \]
 whose
 ```
-### Explanation
 
 
----
+## 11
 
-# 11
-
-### Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -142,18 +122,15 @@ under λ-perturbation<Remove>.</Remove>
 ```latex
 $\lambda$-perturbation.
 ```
-## Response
+### Response
 ```latex
 $\lambda$-perturbation
 ```
-### Explanation
 
 
----
+## 14
 
-# 14
-
-### Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -172,21 +149,18 @@ Appendix~B.)
 \subsection{Curvature sensitivity}
 A
 ```
-## Response
+### Response
 ```latex
 Appendix~B.
 
 \subsection{Curvature sensitivity}
 A
 ```
-### Explanation
 
 
----
+## 17
 
-# 17
-
-### Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -205,21 +179,23 @@ boundaries.
 \subsection{Numerical Simulation}
 Following \cite{euler24}, we can simulate the orbit structure numerically.
 ```
-## Response
+### Response
 ```latex
 boundaries.
 
 \subsection{Numerical simulation}
 Following \cite{euler24}, we can simulate the orbit structure numerically.
 ```
-### Explanation
+
+#### Explanation
+##### Before codeblock
+To apply the requested change (lowercasing the "S" in "Simulation"), you should modify the `\subsection` line in your LaTeX code as follows:
+##### After codeblock
 
 
----
+## 19
 
-# 19
-
-### Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -235,32 +211,39 @@ Move caption to top of table
 ```latex
 Empirical orbit metrics under $\lambda$-iteration.
 ```
-## Response
+### Response
+#### FAILURE:
+To move the caption to the top of the table in LaTeX, you need to place the `\caption{...}` command **above** the `tabular` environment inside your `table` float.
+
+Here is the corrected LaTeX structure:
+
 ```latex
-\begin{table}[h]
+\begin{table}[ht]
     \centering
-    \caption{Empirical orbit metrics under $\lambda$-iteration.}
+    \caption{Empirical orbit metrics under $\lambda$-iteration.} % Moved to top
     \label{tab:orbit-metrics}
-    \begin{tabular}{lll} 
+    \begin{tabular}{l c c} 
         \hline
-        % Table content goes here
-        Metric & Value & Error \\
+        Metric & Value 1 & Value 2 \\
         \hline
-        Orbit A & 0.403 & 0.01 \\
+        Data & 0.123 & 0.456 \\
         \hline
     \end{tabular}
 \end{table}
 ```
-### Explanation
-### Key Changes:
-1.  **Placement:** The `\caption{...}` is now located immediately after `\begin{table}` and before `\begin{tabular}`.
-2.  **Spacing:** Most LaTeX document classes (like `article`) are configured to add padding below the caption when it is placed at the top. If the caption looks too close to the table, you can add `\usepackage{caption}` to your preamble for better automatic spacing.
 
----
+### Key adjustments made:
+1.  **Positioning:** The `\caption` command is now placed immediately after `\begin{table}` and before `\begin{tabular}`.
+2.  **Spacing (Optional):** If the caption appears too close to the table after moving it, you can add the `caption` package to your preamble to automatically fix the padding:
+    ```latex
+    \usepackage{caption}
+    \captionsetup[table]{skip=10pt} % Adjusts space between caption and table
+    ```
 
-# 20
 
-### Replace
+## 20
+
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -276,18 +259,15 @@ observation (<Replace>Fig.</Replace> 5)
 ```latex
 observation (Fig.~\ref{fig:scatter}) was
 ```
-## Response
+### Response
 ```latex
-observation (\figurename~\ref{fig:scatter}) was
+observation (\Cref{fig:scatter}) was
 ```
-### Explanation
 
 
----
+## 21
 
-# 21
-
-### Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -321,7 +301,7 @@ a double-lobed structure reminiscent of quasi-periodic tori in Hamiltonian syste
 
 Our
 ```
-## Response
+### Response
 ```latex
 a double-lobed structure reminiscent of quasi-periodic tori in Hamiltonian systems.\footnote{A referee pointed out that this might be a discretization artifact, but we were unable to reproduce it analytically.}
 
@@ -343,14 +323,11 @@ a double-lobed structure reminiscent of quasi-periodic tori in Hamiltonian syste
 
 Our
 ```
-### Explanation
 
 
----
+## 28
 
-# 28
-
-### Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -370,7 +347,7 @@ first author\footnote{Submitted to the \emph{Journal of Approximate Topologies},
 
 While
 ```
-## Response
+### Response
 ```latex
 first author.\footnote{Submitted to the \emph{Journal of Approximate Topologies}, 2025.}  
 
@@ -378,14 +355,11 @@ first author.\footnote{Submitted to the \emph{Journal of Approximate Topologies}
 
 While
 ```
-### Explanation
 
 
----
+## 29
 
-# 29
-
-### Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -401,18 +375,22 @@ is questionable<Highlight>4,</Highlight> the
 ```latex
 is questionable\footnote{We observed divergence for $|\lambda| > 2.1$, which we did not persue.}, the
 ```
-## Response
+### Response
 ```latex
 is questionable,\footnote{We observed divergence for $|\lambda| > 2.1$, which we did not persue.} the
 ```
-### Explanation
-**Note:** In standard typography (including Chicago, MLA, and APA styles), punctuation marks like commas and periods should precede the footnote superscript.
 
----
+#### Explanation
+##### Before codeblock
+To address the comment "place footnote after comma," you should swap the positions of the `\footnote` command and the comma in your LaTeX code.
 
-# 31
+### Corrected LaTeX snippet
+##### After codeblock
+**Note:** In standard typography (especially in American English), the footnote marker should follow the punctuation mark (comma or period) with no space in between.
 
-### Highlight
+## 31
+
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -433,25 +411,20 @@ Theorem~4.3.
 \noindent
 \textbf{Acknowledgements.}
 ```
-## Response
+### Response
 ```latex
-\begin{theorem}
-4.3.
-\end{theorem}
+Theorem~\href{<link>}{4.3.}
 
 \bigskip
 
 \noindent
 \textbf{Acknowledgements.}
 ```
-### Explanation
 
 
----
+## 33
 
-# 33
-
-### Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -467,18 +440,15 @@ Theorem~4.3.
 ```latex
 difference $\|\Delta_n - \Delta_{n-1}\|$.
 ```
-## Response
+### Response
 ```latex
-difference $\|\Delta_n - \Delta_{n-1}\|$.
+difference $\|\Delta_n - \Delta_{n-1}\| < \epsilon$.
 ```
-### Explanation
 
 
----
+## 34
 
-# 34
-
-### Caret
+### Annotation: Caret
 
 ### Comment
 ```text
@@ -487,29 +457,34 @@ difference $\|\Delta_n - \Delta_{n-1}\|$.
 
 ### PDF selected text
 ```text
-Way, Genevive<Caret></Caret> 06578,
+Way, Genevive<Insert comment contents here> 06578,
 ```
   
 ### LaTeX snippet
 ```latex
 Way, Genevive 06578,
 ```
-## Response
+### Response
 ```latex
 Way, Genevive, 06578,
 ```
-### Explanation
 
+#### Explanation
+##### Before codeblock
+To apply the **Caret** annotation (which typically indicates an insertion at a specific point) to the LaTeX snippet based on your selection, you should place the comma exactly where the placeholder was indicated.
 
----
+### Modified LaTeX snippet
+##### After codeblock
+### Explanation:
+*   **Original text:** `Way, Genevive 06578,`
+*   **Insertion point:** Between `Genevive` and `06578`.
+*   **Inserted content:** `,` (the comma from the comment).
 
 # Overlapping corrections: [35, 36]
 
----
+## 35
 
-# 35
-
-### Caret
+### Annotation: Caret
 
 ### Comment
 ```text
@@ -518,25 +493,33 @@ Way, Genevive, 06578,
 
 ### PDF selected text
 ```text
-Circle, Washington<Caret></Caret> 12765,
+Circle, Washington<Insert comment contents here> 12765,
 ```
   
 ### LaTeX snippet
 ```latex
 Circle, Washington 12765,
 ```
-## Response
+### Response
 ```latex
-Circle, Washington 12765,,
+Circle, Washington, 12765,
 ```
+
+#### Explanation
+##### Before codeblock
+To apply the **Caret** annotation (which typically indicates an insertion) to your LaTeX snippet based on the provided context, you should insert the comma at the specified location.
+
+### Revised LaTeX snippet
+##### After codeblock
 ### Explanation
+*   **Original:** `Circle, Washington 12765,`
+*   **Insertion:** The caret was placed between "Washington" and "12765".
+*   **Content:** The comment content provided was a comma (`,`).
+*   **Result:** `Washington, 12765` (standardizing the address format).
 
+## 36
 
----
-
-# 36
-
-### Caret
+### Annotation: Caret
 
 ### Comment
 ```text
@@ -545,29 +528,38 @@ Circle, Washington 12765,,
 
 ### PDF selected text
 ```text
-12765, USA<Caret></Caret> Email
+12765, USA<Insert comment contents here> Email
 ```
   
 ### LaTeX snippet
 ```latex
 12765, USA
 ```
-## Response
+### Response
+#### FAILURE:
+To apply this annotation as a **Caret** (insertion) correction in a LaTeX document, you should insert the provided text at the specific location indicated by the selection (between "USA" and "Email").
+
+### Modified LaTeX Snippet
 ```latex
-12765, USA; and Department of Mathematics, Princeton University, Nassau Street, Princeton New Jersey, 02854
+12765, USA; and Department of Mathematics, Princeton University, Nassau Street, Princeton New Jersey, 02854 Email
 ```
-### Explanation
 
+### Contextual Placement
+In a typical LaTeX frontmatter (such as an `author` or `address` block), it would look like this:
 
----
+```latex
+\address{Department of Physics, University of Example, City 12765, USA; and Department of Mathematics, Princeton University, Nassau Street, Princeton New Jersey, 02854}
+\email{author@princeton.edu}
+```
+
+**Note:** Depending on the document class (e.g., `revtex`, `amsart`, or `ieeeconf`), you may need to wrap the inserted text in a specific command like `\affiliation{...}` or `\address{...}` if it is not already inside one.
+
 
 # Overlapping corrections: [6, 7, 5]
 
----
+## 6
 
-# 6
-
-### Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -583,18 +575,15 @@ The first author
 ```latex
 L.\ H.\ was
 ```
-## Response
+### Response
 ```latex
 The first author was
 ```
-### Explanation
 
 
----
+## 7
 
-# 7
-
-### Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -610,24 +599,28 @@ L. H. was supported by NSF grant No. 314159357. F. E. thanks the Department of L
 ```latex
 L.\ H.\ was supported by NSF grant No.\ 314159357. F.\ E.\ thanks the Department of Linguistics for the valuable conversations.
 ```
-## Response
+### Response
 ```latex
 \section*{Acknowledgments}
 L.\ H.\ was supported by NSF grant No.\ 314159357. F.\ E.\ thanks the Department of Linguistics for the valuable conversations.
 ```
-### Explanation
-### Notes:
-*   **Section Style:** Using `\section*{Acknowledgments}` (with the asterisk) ensures the section is not numbered.
-*   **Placement:** If you are using a specific journal template (like ACM or IEEE), they often have a special environment for this:
-    *   *ACM:* `\begin{acks} ... \end{acks}`
-    *   *IEEE:* `\section*{Acknowledgment}` (singular)
-*   **Spacing:** The `.\ ` in your snippet is used to ensure correct "sentence-end" spacing after initials. Keep those as they are.
 
----
+#### Explanation
+##### Before codeblock
+To move this text to the **Acknowledgments** section, follow these steps:
 
-# 5
+1.  **Cut** the text from its current location (likely a footnote or the end of the introduction).
+2.  **Paste** it into the `\section*{Acknowledgments}` or `\begin{acknowledgments}` environment at the end of your document (usually before the References).
 
-### Replace
+Here is the corrected LaTeX code for that section:
+##### After codeblock
+### Notes on the LaTeX cleanup:
+*   **Spacing:** I kept the `\ ` (backslash-space) after the initials (L.\ H.\ and F.\ E.\). This ensures LaTeX treats the period as an abbreviation rather than the end of a sentence, preventing awkward extra-wide spacing.
+*   **Footnote Marker:** I removed the `1` that appeared at the end of your selection (`1Originally`), as that was likely a footnote marker that is no longer needed if the text is in its own section.
+
+## 5
+
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -643,22 +636,17 @@ No. <Replace>314159357</Replace>. F.
 ```latex
 No.\ 314159357. F.
 ```
-## Response
+### Response
 ```latex
 No.\ 765489. F.
 ```
-### Explanation
 
-
----
 
 # Overlapping corrections: [0, 2, 1, 8]
 
----
+## 0
 
-# 0
-
-### Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -694,26 +682,21 @@ This is now known to be false in dimensions $\geq 3$ due to \cite{hubard23}.}.
 
 Let
 ```
-## Response
+### Response
 ```latex
 understand the failure of the ``Flat Orbit Conjecture'' in higher curvature regimes\footnote{
 Originally conjectured by P.\ Alexandrov, the Flat Orbit Conjecture proposed that all $\lambda$-periodic orbits of a $\mathrm{CAT}(0)$ space are isometric to Euclidean circles. 
-This is now known to be false in dimensions $\geq 3$ due to \cite{hubard23}.}.
-
-\section{Background and Preliminaries}
+This is now known to be false in dimensions $\geq 3$ due to \cite{hubard23}.}\section{Background and Preliminaries}
 
 
 
 Let
 ```
-### Explanation
 
 
----
+## 2
 
-# 2
-
-### Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -729,18 +712,15 @@ the <Replace>“Flat Orbit Conjecture”</Replace> in
 ```latex
 the ``Flat Orbit Conjecture'' in
 ```
-## Response
+### Response
 ```latex
 the Flat orbit conjecture in
 ```
-### Explanation
 
 
----
+## 1
 
-# 1
-
-### Caret
+### Annotation: Caret
 
 ### Comment
 ```text
@@ -749,7 +729,7 @@ the Flat orbit conjecture in
 
 ### PDF selected text
 ```text
-curvature regimes<Caret></Caret>1
+curvature regimes<Insert comment contents here>1
 ```
   
 ### LaTeX snippet
@@ -764,11 +744,11 @@ This is now known to be false in dimensions $\geq 3$ due to \cite{hubard23}.}.
 
 Let
 ```
-## Response
+### Response
 ```latex
 curvature regimes.\footnote{
 Originally conjectured by P.\ Alexandrov, the Flat Orbit Conjecture proposed that all $\lambda$-periodic orbits of a $\mathrm{CAT}(0)$ space are isometric to Euclidean circles. 
-This is now known to be false in dimensions $\geq 3$ due to \cite{hubard23}.}
+This is now known to be false in dimensions $\geq 3$ due to \cite{hubard23}}
 
 \section{Background and Preliminaries}
 
@@ -776,14 +756,16 @@ This is now known to be false in dimensions $\geq 3$ due to \cite{hubard23}.}
 
 Let
 ```
-### Explanation
+
+#### Explanation
+##### Before codeblock
+Based on the annotation instruction to move the footnote after the period, here is the corrected LaTeX snippet:
+##### After codeblock
 
 
----
+## 8
 
-# 8
-
-### Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -807,7 +789,7 @@ This is now known to be false in dimensions $\geq 3$ due to \cite{hubard23}.}.
 
 Let
 ```
-## Response
+### Response
 ```latex
 regimes\footnote{
 Originally conjectured by P.\ Alexandrov, the Flat Orbit Conjecture proposed that all $\lambda$-periodic orbits of a $\mathrm{CAT}(0)$ space are isometric to Euclidean circles. 
@@ -819,18 +801,13 @@ This is now known to be false in dimensions $\geq 3$ due to \cite{hubard23}.}.
 
 Let
 ```
-### Explanation
 
-
----
 
 # Overlapping corrections: [18, 9, 10]
 
----
+## 18
 
-# 18
-
-### Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -863,7 +840,7 @@ and <Highlight>E</Highlight>xamples
 
 Consider
 ```
-## Response
+### Response
 ```latex
 .
 \end{corollary}
@@ -884,14 +861,11 @@ Consider
 
 Consider
 ```
-### Explanation
 
 
----
+## 9
 
-# 9
-
-### Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -914,18 +888,16 @@ at x0<Replace>. E</Replace>ach ellipse
 ```latex
 at $x_0$. Each ellipse
 ```
-## Response
-```latex
-at $x_0$; each ellipse
-```
-### Explanation
+### Response
+#### FAILURE:
+Based on the annotation and the provided LaTeX snippet, here is the corrected text:
+
+**at $x_0$. Each ellipse**
 
 
----
+## 10
 
-# 10
-
-### Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -941,22 +913,17 @@ at $x_0$; each ellipse
 ```latex
 constant $\Delta(x,\lambda)$.
 ```
-## Response
+### Response
 ```latex
 constant $\Delta(x,\lambda)$
 ```
-### Explanation
 
-
----
 
 # Overlapping corrections: [12, 13]
 
----
+## 12
 
-# 12
-
-### Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -976,22 +943,19 @@ quasi-uniform iff
 \end{equation}
 (The
 ```
-## Response
+### Response
 ```latex
-quasi-uniform iff
+quasi-uniform if and only if
 \begin{equation}
     \int_X \rho(x)\, d\mu(x) = \frac{\lambda^2}{1+\lambda\varphi}.
 \end{equation}
 (The
 ```
-### Explanation
 
 
----
+## 13
 
-# 13
-
-### Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -1011,7 +975,7 @@ iff
 \end{equation}
 (The proof
 ```
-## Response
+### Response
 ```latex
 iff
 \begin{equation}
@@ -1019,18 +983,13 @@ iff
 \end{equation}
 The proof
 ```
-### Explanation
 
-
----
 
 # Overlapping corrections: [15, 16]
 
----
+## 15
 
-# 15
-
-### Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -1063,7 +1022,7 @@ divergence.
 
 We implemented a simple prototype in \textsf{Julia 1.10} to visualize $\mathcal{F}_\lambda(X)$ for synthetic $\mathrm{CAT}(0)$
 ```
-## Response
+### Response
 ```latex
 divergence.
 
@@ -1084,14 +1043,11 @@ divergence.
 
 We implemented a simple prototype in \texttt{Julia 1.10} to visualize $\mathcal{F}_\lambda(X)$ for synthetic $\mathrm{CAT}(0)$
 ```
-### Explanation
 
 
----
+## 16
 
-# 16
-
-### Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -1124,7 +1080,7 @@ divergence.
 
 We
 ```
-## Response
+### Response
 ```latex
 divergence.
 
@@ -1141,22 +1097,29 @@ divergence.
 \caption{Variance of orbit density $\rho$ as a function of $\lambda$.}
 \end{figure}
 
-\section{Numerical experiments}
+\section{Numerical \textsc{e}xperiments}
 
 We
 ```
-### Explanation
 
+#### Explanation
+##### Before codeblock
+To address the comment "small cap" for the highlighted letter **E** in the section title, you should use the LaTeX command `\textsc{}`. 
 
----
+In LaTeX, section titles are typically handled by the document class, but you can apply small capitals to specific words or the entire title manually.
+
+Here is the corrected LaTeX snippet:
+##### After codeblock
+### Notes:
+1. **`\textsc{e}`**: This converts the lowercase "e" into a small capital "E".
+2. **Case Sensitivity**: Ensure you use a lowercase `e` inside the `\textsc{}` command to get the "small" capital effect. If you use an uppercase `E`, it will simply look like a standard capital letter.
+3. **Global Style**: If the intention is for the *entire* title to be in small caps, you would use `\section{\textsc{Numerical Experiments}}`.
 
 # Overlapping corrections: [22, 23]
 
----
+## 22
 
-# 22
-
-### Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -1172,18 +1135,14 @@ However, <Replace>Eq.</Replace> (7)
 ```latex
 However, Eq.~(7)
 ```
-## Response
-```latex
-However, \cref{eq:7}
-```
-### Explanation
+### Response
+#### FAILURE:
+However, Eq.~(7)
 
 
----
+## 23
 
-# 23
-
-### Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -1199,22 +1158,55 @@ Eq. <Replace>(7)</Replace> reveals
 ```latex
 Eq.~(7) reveals
 ```
-## Response
+### Response
 ```latex
-Eq.~\ref{pls link} reveals
+Eq.~\ref{5} reveals
 ```
-### Explanation
 
-
----
 
 # Overlapping corrections: [27, 26]
 
----
+## 27
 
-# 26
+### Annotation: Highlight
 
-### Replace
+### Comment
+```text
+does this look right?
+```
+
+### PDF selected text
+```text
+resonance <Highlight>near λ = φ2 ≈</Highlight>2.618. At
+```
+  
+### LaTeX snippet
+```latex
+resonance near $\lambda = \varphi^2 \approx 2.618$.
+```
+### Response
+```latex
+resonance near $\lambda = \varphi^2 \approx 2.618$.
+```
+
+#### Explanation
+##### Before codeblock
+The highlight and the corresponding LaTeX snippet are **mostly correct**, but there is a small spacing issue in the LaTeX code that could be improved for accuracy.
+
+### Observations:
+1.  **The Highlight:** You have correctly identified the mathematical expression $\lambda = \varphi^2 \approx 2.618$.
+2.  **The LaTeX Snippet:**
+    *   **The Good:** You correctly identified $\varphi$ (phi) and the squared exponent.
+    *   **The Correction:** In the PDF text, it shows `φ2`. In mathematical typesetting (especially regarding the Golden Ratio $\varphi \approx 1.618$), $1.618^2$ is indeed $2.618$. Therefore, your use of `\varphi^2` is mathematically correct.
+    *   **The Spacing:** In your snippet, you have `\varphi^2 \approx 2.618`. This is standard. However, ensure there is a space between the word "near" and the opening `$` sign.
+
+### Recommended LaTeX:
+##### After codeblock
+**Verdict:** It looks right. If the source text literally meant "phi times two" (which is unlikely given the value 2.618), it would be $2\varphi$, but since $1.618^2 = 2.618$, your interpretation of **$\varphi^2$** is definitely the intended one.
+
+## 26
+
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -1231,22 +1223,17 @@ Eq.~\ref{pls link} reveals
 near $\lambda = \varphi^2 \approx 2.618$.  
 At that
 ```
-## Response
+### Response
 ```latex
 near $\lambda = \varphi^2 \approx 2.618$; at that
 ```
-### Explanation
 
-
----
 
 # Overlapping corrections: [25, 24]
 
----
+## 25
 
-# 25
-
-### Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -1264,20 +1251,23 @@ setting.
 
 We hypothesize (Hypothesis
 ```
-## Response
+### Response
 ```latex
 setting. We hypothesize (Hypothesis
 ```
-### Explanation
-### Changes made:
-*   Removed the double line break (which signifies a new paragraph in LaTeX).
-*   Ensured there is only a single space between the period and the start of the next sentence.
 
----
+#### Explanation
+##### Before codeblock
+To follow the instruction of removing the new paragraph and continuing the text on the same line, you should remove the double backslash or the empty line between the two sentences in your LaTeX code.
 
-# 24
+### Revised LaTeX snippet
+##### After codeblock
+**Explanation:**
+In LaTeX, a single line break is treated as a space, while a double line break (an empty line) starts a new paragraph. By removing the empty line, the text will flow continuously.
 
-### Highlight
+## 24
+
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -1293,22 +1283,44 @@ setting. We hypothesize (Hypothesis
 ```latex
 (Hypothesis 5.1) that
 ```
-## Response
-```latex
-(Hypothesis \hl{5.1}) that
-```
-### Explanation
-*(Note: This assumes you are using the `soul` package for highlighting. If you are using `xcolor`, you would use `\colorbox{yellow}{5.1}`.)*
+### Response
+#### FAILURE:
+To link the highlighted text to the specific hypothesis in your LaTeX document, you should use the `\hyperref` command (from the `hyperref` package).
 
----
+Depending on how you want the link to appear, use one of the following options:
+
+### Option 1: Link the number only (Matches your selection)
+If you want only the "5.1" to be clickable:
+```latex
+(Hypothesis \ref{hyp:5.1}) that
+```
+*Note: This assumes you have `\label{hyp:5.1}` inside your hypothesis environment.*
+
+### Option 2: Link the entire phrase
+If you want the whole "(Hypothesis 5.1)" to be a clickable link:
+```latex
+\hyperref[hyp:5.1]{(Hypothesis 5.1)} that
+```
+
+### Option 3: Using `cleveref` (Recommended)
+If you are using the `cleveref` package, it handles the word "Hypothesis" automatically:
+```latex
+(\cref{hyp:5.1}) that
+```
+
+### Requirements
+Ensure your preamble includes:
+```latex
+\usepackage{hyperref}
+\usepackage{cleveref} % Optional, for Option 3
+```
+
 
 # Overlapping corrections: [32, 30]
 
----
+## 32
 
-# 32
-
-### Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -1328,7 +1340,7 @@ setting. We hypothesize (Hypothesis
 \]
 we
 ```
-## Response
+### Response
 ```latex
 -orthogonality condition
 \[
@@ -1336,14 +1348,11 @@ we
 \]
 we
 ```
-### Explanation
 
 
----
+## 30
 
-# 30
-
-### Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -1363,7 +1372,7 @@ condition,
 \]
 we
 ```
-## Response
+### Response
 ```latex
 condition,
 \[
@@ -1371,4 +1380,3 @@ condition,
 \]
 we
 ```
-### Explanation

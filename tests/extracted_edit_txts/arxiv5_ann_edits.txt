@@ -65,17 +65,17 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "cylinder theory<Caret></Caret> we"
+    "PDF text selection": "cylinder theory<Caret tip> we"
 }
 
 7 {
     "pageno": 0,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "class techniques<StrikeOut>,</StrikeOut> that"
+    "PDF text selection": "class techniques<Remove>,</Remove> that"
 }
 
 8 {
@@ -85,17 +85,17 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "this reason<Caret></Caret> our"
+    "PDF text selection": "this reason<Caret tip> our"
 }
 
 9 {
     "pageno": 0,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "more involved<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "more involved<Remove>,</Remove> and"
 }
 
 10 {
@@ -130,12 +130,12 @@
 
 13 {
     "pageno": 0,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "[23, 30]<StrikeOut>,</StrikeOut> proven"
+    "PDF text selection": "[23, 30]<Remove>,</Remove> proven"
 }
 
 14 {
@@ -145,7 +145,7 @@
         "comment": "Insert page break before introduction section",
         "responses": []
     },
-    "PDF text selection": "<Highlight>1. Introduction</Highlight>"
+    "PDF text selection": "<Highlight>1 Introduction</Highlight>"
 }
 
 15 {
@@ -155,7 +155,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "stable curves<Caret></Caret> Mg,n,"
+    "PDF text selection": "stable curves<Caret tip> Mg,n,"
 }
 
 16 {
@@ -175,7 +175,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "hierarchy, and<Caret></Caret> equivalently"
+    "PDF text selection": "hierarchy, and<Caret tip> equivalently"
 }
 
 18 {
@@ -185,7 +185,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "and equivalently<Caret></Caret> that"
+    "PDF text selection": "and equivalently<Caret tip> that"
 }
 
 19 {
@@ -195,7 +195,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "natural compactification<Caret></Caret> M"
+    "PDF text selection": "natural compactification<Caret tip> M"
 }
 
 20 {
@@ -205,7 +205,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "1/r g {a1 a }<Caret></Caret> of"
+    "PDF text selection": "1/r g {a1 a }<Caret tip> of"
 }
 
 21 {
@@ -230,22 +230,22 @@
 
 23 {
     "pageno": 2,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "associative algebra<StrikeOut>,</StrikeOut> in"
+    "PDF text selection": "associative algebra<Remove>,</Remove> in"
 }
 
 24 {
     "pageno": 2,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "any integer<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "any integer<Remove>,</Remove> and"
 }
 
 25 {
@@ -255,17 +255,17 @@
         "comment": "satisfies",
         "responses": []
     },
-    "PDF text selection": "<Replace>satisfying</Replace> A 1 r r = A. Let r g</Replace>A and"
+    "PDF text selection": "<Replace>satisfying</Replace> A"
 }
 
 26 {
     "pageno": 2,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "the non<StrikeOut>-</StrikeOut>negative powers"
+    "PDF text selection": "the non<Remove>-</Remove>negative powers"
 }
 
 27 {
@@ -275,17 +275,17 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "rKdV hierarchy<Caret></Caret> is"
+    "PDF text selection": "rKdV hierarchy<Caret tip> is"
 }
 
 28 {
     "pageno": 2,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "given by<StrikeOut>:</StrikeOut>"
+    "PDF text selection": "given by<Remove>:</Remove>"
 }
 
 29 {
@@ -305,7 +305,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "integrable hierarchies<Caret></Caret> this"
+    "PDF text selection": "integrable hierarchies<Caret tip> this"
 }
 
 31 {
@@ -320,12 +320,12 @@
 
 32 {
     "pageno": 3,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "Ramond vanishing<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "Ramond vanishing<Remove>,</Remove> and"
 }
 
 33 {
@@ -360,22 +360,22 @@
 
 36 {
     "pageno": 4,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "canonical orientation<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "canonical orientation<Remove>,</Remove> and"
 }
 
 37 {
     "pageno": 4,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "non orientable<StrikeOut>,</StrikeOut> when"
+    "PDF text selection": "non orientable<Remove>,</Remove> when"
 }
 
 38 {
@@ -395,7 +395,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "these boundaries<Caret></Caret> any"
+    "PDF text selection": "these boundaries<Caret tip> any"
 }
 
 40 {
@@ -420,12 +420,12 @@
 
 42 {
     "pageno": 4,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "nodal surface<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "nodal surface<Remove>,</Remove> and"
 }
 
 43 {
@@ -450,22 +450,22 @@
 
 45 {
     "pageno": 5,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "the forgetful<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "the forgetful<Remove>,</Remove> and"
 }
 
 46 {
     "pageno": 5,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "mod r<StrikeOut>.</StrikeOut>"
+    "PDF text selection": "mod r<Remove>.</Remove>"
 }
 
 47 {
@@ -485,17 +485,17 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "r r 0 k ⃗<Caret></Caret> but"
+    "PDF text selection": "r r 0 k ⃗<Caret tip> but"
 }
 
 49 {
     "pageno": 5,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "n ≥1<StrikeOut>,</StrikeOut> (1.9)"
+    "PDF text selection": "n ≥1<Remove>,</Remove> (1.9)"
 }
 
 50 {
@@ -510,12 +510,12 @@
 
 51 {
     "pageno": 6,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "0 <StrikeOut>,</StrikeOut> depends"
+    "PDF text selection": "0 <Remove>,</Remove> depends"
 }
 
 52 {
@@ -525,17 +525,17 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "= 2<Caret></Caret> [3]"
+    "PDF text selection": "= 2<Caret tip> [3]"
 }
 
 53 {
     "pageno": 6,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "in [32]<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "in [32]<Remove>,</Remove> and"
 }
 
 54 {
@@ -575,7 +575,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "WDVV (e.g.<Caret></Caret> the"
+    "PDF text selection": "WDVV (e.g.<Caret tip> the"
 }
 
 58 {
@@ -595,7 +595,7 @@
         "comment": "it",
         "responses": []
     },
-    "PDF text selection": "do satisfy<Caret></Caret>. In"
+    "PDF text selection": "do satisfy<Caret tip>. In"
 }
 
 60 {
@@ -605,7 +605,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "In [1]<Caret></Caret> Alexandrov,"
+    "PDF text selection": "In [1]<Caret tip> Alexandrov,"
 }
 
 61 {
@@ -615,7 +615,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "Alexandrov, Basalaev<Caret></Caret> and"
+    "PDF text selection": "Alexandrov, Basalaev<Caret tip> and"
 }
 
 62 {
@@ -630,12 +630,12 @@
 
 63 {
     "pageno": 7,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "all genus<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "all genus<Remove>,</Remove> and"
 }
 
 64 {
@@ -685,7 +685,7 @@
         "comment": "break before equals and align start of first line with just after equals on subsequent line; indent + on last line a quad",
         "responses": []
     },
-    "PDF text selection": "0 <Highlight>= r−2 X a=−1 X ={3</Highlight> X S⊔R={3</Highlight>,...,l}"
+    "PDF text selection": "0 <Highlight>= r−2 X a=−1 X ={3</Highlight> X S⊔R={3</Highlight>l}"
 }
 
 69 {
@@ -705,7 +705,7 @@
         "comment": "-",
         "responses": []
     },
-    "PDF text selection": "(c) (Genus<Caret></Caret> 1"
+    "PDF text selection": "(c) (Genus<Caret tip> 1"
 }
 
 71 {
@@ -735,7 +735,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "> 0<Caret></Caret> then"
+    "PDF text selection": "> 0<Caret tip> then"
 }
 
 74 {
@@ -785,7 +785,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "theory, or<Caret></Caret> equivalently"
+    "PDF text selection": "theory, or<Caret tip> equivalently"
 }
 
 79 {
@@ -795,7 +795,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "or equivalently<Caret></Caret> the"
+    "PDF text selection": "or equivalently<Caret tip> the"
 }
 
 80 {
@@ -805,7 +805,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "that is<Caret></Caret> the"
+    "PDF text selection": "that is<Caret tip> the"
 }
 
 81 {
@@ -830,12 +830,12 @@
 
 83 {
     "pageno": 9,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "the moduli<StrikeOut>, and</StrikeOut> then"
+    "PDF text selection": "the moduli<Remove>, and</Remove> then"
 }
 
 84 {
@@ -850,22 +850,22 @@
 
 85 {
     "pageno": 9,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "excluding (neighbo<StrikeOut>u</StrikeOut>rhoods of)"
+    "PDF text selection": "excluding (neighbo<Remove>u</Remove>rhoods of)"
 }
 
 86 {
     "pageno": 9,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "new boundaries<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "new boundaries<Remove>,</Remove> and"
 }
 
 87 {
@@ -875,7 +875,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "jump loci<Caret></Caret> the"
+    "PDF text selection": "jump loci<Caret tip> the"
 }
 
 88 {
@@ -890,22 +890,22 @@
 
 89 {
     "pageno": 9,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "1.4 <StrikeOut>below</StrikeOut>. But"
+    "PDF text selection": "1.4 <Remove>below</Remove>. But"
 }
 
 90 {
     "pageno": 9,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "this problem<StrikeOut>,</StrikeOut> which"
+    "PDF text selection": "this problem<Remove>,</Remove> which"
 }
 
 91 {
@@ -925,17 +925,17 @@
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "be non diti<Ink>n ze</Ink>ero. f Miraculously, there exist completely new, natural, boundary y be non diti<Ink>n ze for"
+    "PDF text selection": "be non<Ink>n ze</Ink>ero. Miraculously, there exist completely new, natural, boundary y be non<Ink>n ze for"
 }
 
 93 {
     "pageno": 9,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "new, natural<StrikeOut>,</StrikeOut> boundary"
+    "PDF text selection": "new, natural<Remove>,</Remove> boundary"
 }
 
 94 {
@@ -945,7 +945,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "conditions consistently<Caret></Caret> we"
+    "PDF text selection": "conditions consistently<Caret tip> we"
 }
 
 95 {
@@ -955,7 +955,7 @@
         "comment": " Theorem 1.3. <COMP: link>",
         "responses": []
     },
-    "PDF text selection": "precise statement)<Caret></Caret>"
+    "PDF text selection": "precise statement)<Caret tip>"
 }
 
 96 {
@@ -965,7 +965,7 @@
         "comment": "display",
         "responses": []
     },
-    "PDF text selection": "of <Highlight>W⊕Ll i i=1 L⊕di i |∂g PM 1/r 1/r 1,k,{a1,...,al}</Highlight>. <Highlight>W⊕L of the non-vanishing"
+    "PDF text selection": "of <Highlight>W⊕Ll i i=1 L⊕di i |∂g PM 1/r 1/r 1,k,{a1,...,al}</Highlight>."
 }
 
 97 {
@@ -975,7 +975,7 @@
         "comment": "Theorems 1.4, 1.5, and 1.6. pls link",
         "responses": []
     },
-    "PDF text selection": "results are<Caret></Caret>"
+    "PDF text selection": "results are<Caret tip>"
 }
 
 98 {
@@ -1025,27 +1025,27 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "[29, 8]<Caret></Caret> this"
+    "PDF text selection": "[29, 8]<Caret tip> this"
 }
 
 103 {
     "pageno": 10,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "> 0<StrikeOut>,</StrikeOut> as"
+    "PDF text selection": "> 0<Remove>,</Remove> as"
 }
 
 104 {
     "pageno": 10,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "1 cases<StrikeOut>,</StrikeOut> in"
+    "PDF text selection": "1 cases<Remove>,</Remove> in"
 }
 
 105 {
@@ -1055,27 +1055,27 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "In particular<Caret></Caret> the"
+    "PDF text selection": "In particular<Caret tip> the"
 }
 
 106 {
     "pageno": 10,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "this setting<StrikeOut>,</StrikeOut> since"
+    "PDF text selection": "this setting<Remove>,</Remove> since"
 }
 
 107 {
     "pageno": 10,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "be invariant<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "be invariant<Remove>,</Remove> and"
 }
 
 108 {
@@ -1090,12 +1090,12 @@
 
 109 {
     "pageno": 10,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "this setting<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "this setting<Remove>,</Remove> and"
 }
 
 110 {
@@ -1105,7 +1105,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "GW case<Caret></Caret>"
+    "PDF text selection": "GW case<Caret tip>"
 }
 
 111 {
@@ -1120,12 +1120,12 @@
 
 112 {
     "pageno": 11,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "In §3<StrikeOut>,</StrikeOut> we"
+    "PDF text selection": "In §3<Remove>,</Remove> we"
 }
 
 113 {
@@ -1140,12 +1140,12 @@
 
 114 {
     "pageno": 11,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "canonical section<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "canonical section<Remove>,</Remove> and"
 }
 
 115 {
@@ -1180,22 +1180,22 @@
 
 118 {
     "pageno": 11,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "1.6. Acknowledg<StrikeOut>e</StrikeOut>ments. R.T."
+    "PDF text selection": "1.6. Acknowledg<Remove>e</Remove>ments. R.T."
 }
 
 119 {
     "pageno": 11,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "1.6. Acknowledgement<StrikeOut>s</StrikeOut>. R.T."
+    "PDF text selection": "1.6. Acknowledgement<Remove>s</Remove>. R.T."
 }
 
 120 {
@@ -1215,7 +1215,7 @@
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "relevant bundles<Caret></Caret> and"
+    "PDF text selection": "relevant bundles<Caret tip> and"
 }
 
 122 {
@@ -1235,7 +1235,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "the paper<Caret></Caret> we"
+    "PDF text selection": "the paper<Caret tip> we"
 }
 
 124 {
@@ -1260,32 +1260,32 @@
 
 126 {
     "pageno": 11,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "mI, mB)<StrikeOut>,</StrikeOut>"
+    "PDF text selection": "mI, mB)<Remove>,</Remove>"
 }
 
 127 {
     "pageno": 11,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "Riemann surface<StrikeOut>,</StrikeOut> which"
+    "PDF text selection": "Riemann surface<Remove>,</Remove> which"
 }
 
 128 {
     "pageno": 11,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "disconnected components<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "disconnected components<Remove>,</Remove> and"
 }
 
 129 {
@@ -1295,17 +1295,17 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "B), i.e<Caret></Caret>. a"
+    "PDF text selection": "B), i.e<Caret tip>. a"
 }
 
 130 {
     "pageno": 12,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "is genus-zero<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "is genus-zero<Remove>,</Remove> and"
 }
 
 131 {
@@ -1315,7 +1315,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "internal, boundary<Caret></Caret> or"
+    "PDF text selection": "internal, boundary<Caret tip> or"
 }
 
 132 {
@@ -1325,7 +1325,7 @@
         "comment": "a",
         "responses": []
     },
-    "PDF text selection": "boundary; on<Caret></Caret> genus-one"
+    "PDF text selection": "boundary; on<Caret tip> genus-one"
 }
 
 133 {
@@ -1350,12 +1350,12 @@
 
 135 {
     "pageno": 12,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "cylin- der<StrikeOut>.</StrikeOut>"
+    "PDF text selection": "cylin- der<Remove></Remove>"
 }
 
 136 {
@@ -1365,7 +1365,7 @@
         "comment": "change to bullet",
         "responses": []
     },
-    "PDF text selection": "<Highlight>-</Highlight> If"
+    "PDF text selection": "izations: <Highlight>-</Highlight> If"
 }
 
 137 {
@@ -1445,7 +1445,7 @@
         "comment": "(",
         "responses": []
     },
-    "PDF text selection": "well-known fact<Caret></Caret> [34]:"
+    "PDF text selection": "well-known fact<Caret tip> [34]:"
 }
 
 145 {
@@ -1465,7 +1465,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "r-spin structure<Caret></Caret> twists"
+    "PDF text selection": "r-spin structure<Caret tip> twists"
 }
 
 147 {
@@ -1475,17 +1475,17 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "structure twists<Caret></Caret> ai"
+    "PDF text selection": "structure twists<Caret tip> ai"
 }
 
 148 {
     "pageno": 15,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "with n∗L)<StrikeOut>,</StrikeOut> because"
+    "PDF text selection": "with n∗L)<Remove>,</Remove> because"
 }
 
 149 {
@@ -1500,12 +1500,12 @@
 
 150 {
     "pageno": 15,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "an anchor<StrikeOut>.</StrikeOut>"
+    "PDF text selection": "an anchor<Remove>.</Remove>"
 }
 
 151 {
@@ -1545,7 +1545,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "J (or<Caret></Caret> equivalently,"
+    "PDF text selection": "J (or<Caret tip> equivalently,"
 }
 
 155 {
@@ -1555,27 +1555,27 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "with (2.5)<Caret></Caret> allows"
+    "PDF text selection": "with (2.5)<Caret tip> allows"
 }
 
 156 {
     "pageno": 17,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "and legality<StrikeOut>y,</StrikeOut> and"
+    "PDF text selection": "and legality<Remove>y,</Remove> and"
 }
 
 157 {
     "pageno": 17,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "a grading<StrikeOut>,</StrikeOut> are"
+    "PDF text selection": "a grading<Remove>,</Remove> are"
 }
 
 158 {
@@ -1670,12 +1670,12 @@
 
 167 {
     "pageno": 17,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "this case<StrikeOut>,</StrikeOut> their"
+    "PDF text selection": "this case<Remove>,</Remove> their"
 }
 
 168 {
@@ -1700,12 +1700,12 @@
 
 170 {
     "pageno": 18,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "cylinder (<StrikeOut>respectively,</StrikeOut> legal"
+    "PDF text selection": "cylinder (<Remove>respectively,</Remove> legal"
 }
 
 171 {
@@ -1715,7 +1715,7 @@
         "comment": ", respectively",
         "responses": []
     },
-    "PDF text selection": "or cylinder<Caret></Caret>) is"
+    "PDF text selection": "or cylinder<Caret tip>) is"
 }
 
 172 {
@@ -1725,7 +1725,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "this paper<Caret></Caret> we"
+    "PDF text selection": "this paper<Caret tip> we"
 }
 
 173 {
@@ -1735,7 +1735,7 @@
         "comment": ".\"",
         "responses": []
     },
-    "PDF text selection": "term “level-0<Replace>”.</Replace>"
+    "PDF text selection": "term “level-0<Replace>”</Replace>"
 }
 
 174 {
@@ -1745,7 +1745,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "1/r g k l<Caret></Caret> respectively)"
+    "PDF text selection": "1/r g k l<Caret tip> respectively)"
 }
 
 175 {
@@ -1755,17 +1755,17 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "r-spin surfaces<Caret></Caret> respectively)"
+    "PDF text selection": "r-spin surfaces<Caret tip> respectively)"
 }
 
 176 {
     "pageno": 18,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "with corners<StrikeOut>,</StrikeOut> of"
+    "PDF text selection": "with corners<Remove>,</Remove> of"
 }
 
 177 {
@@ -1790,12 +1790,12 @@
 
 179 {
     "pageno": 18,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "B1 ⊔B2<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "B1 ⊔B2<Remove>,</Remove> and"
 }
 
 180 {
@@ -1835,7 +1835,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "points (i.e.<Caret></Caret> half-nodes"
+    "PDF text selection": "points (i.e.<Caret tip> half-nodes"
 }
 
 184 {
@@ -1860,12 +1860,12 @@
 
 186 {
     "pageno": 19,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "∈V O<StrikeOut>,</StrikeOut> which"
+    "PDF text selection": "∈V O<Remove>,</Remove> which"
 }
 
 187 {
@@ -1875,17 +1875,17 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "∅, or<Caret></Caret> equivalently,"
+    "PDF text selection": "∅, or<Caret tip> equivalently,"
 }
 
 188 {
     "pageno": 20,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "= ∅<StrikeOut>,</StrikeOut> or"
+    "PDF text selection": "= ∅<Remove>,</Remove> or"
 }
 
 189 {
@@ -1900,22 +1900,22 @@
 
 190 {
     "pageno": 20,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "B,T I\\HCB<StrikeOut>,</StrikeOut> the"
+    "PDF text selection": "B,T I\\HCB<Remove>,</Remove> the"
 }
 
 191 {
     "pageno": 20,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "exactly Γ<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "exactly Γ<Remove>,</Remove> and"
 }
 
 192 {
@@ -1925,7 +1925,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "half-edges (i.e.<Caret></Caret> the"
+    "PDF text selection": "half-edges (i.e.<Caret tip> the"
 }
 
 193 {
@@ -1950,12 +1950,12 @@
 
 195 {
     "pageno": 21,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "T",
         "responses": []
     },
-    "PDF text selection": "<StrikeOut>t</StrikeOut>hen we"
+    "PDF text selection": "<Remove>t</Remove>hen we"
 }
 
 196 {
@@ -1970,42 +1970,42 @@
 
 197 {
     "pageno": 21,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "M∗1/r / 1,k,l<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "M∗1/r / 1,k,l<Remove>,</Remove> and"
 }
 
 198 {
     "pageno": 21,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "(R0π∗J )+<StrikeOut>,</StrikeOut>"
+    "PDF text selection": "(R0π∗J )+<Remove>,</Remove>"
 }
 
 199 {
     "pageno": 22,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "be <StrikeOut>the</StrikeOut>"
+    "PDF text selection": "be <Remove>the</Remove>"
 }
 
 200 {
     "pageno": 22,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "\\ Zdj<StrikeOut>;</StrikeOut>"
+    "PDF text selection": "\\ Zdj<Remove>;</Remove>"
 }
 
 201 {
@@ -2035,7 +2035,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "k boundary<Caret></Caret> and"
+    "PDF text selection": "k boundary<Caret tip> and"
 }
 
 204 {
@@ -2060,22 +2060,22 @@
 
 206 {
     "pageno": 23,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": ".",
         "responses": []
     },
-    "PDF text selection": "as follows<StrikeOut>:</StrikeOut>"
+    "PDF text selection": "as follows<Remove>:</Remove>"
 }
 
 207 {
     "pageno": 23,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "of Γ<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "of Γ<Remove>,</Remove> and"
 }
 
 208 {
@@ -2115,7 +2115,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "M 1/r<Caret></Caret> bΓ′"
+    "PDF text selection": "M 1/r<Caret tip> bΓ′"
 }
 
 212 {
@@ -2145,7 +2145,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "isomorphism, and<Caret></Caret> in"
+    "PDF text selection": "isomorphism, and<Caret tip> in"
 }
 
 215 {
@@ -2165,7 +2165,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "Witten bundles<Caret></Caret> then"
+    "PDF text selection": "Witten bundles<Caret tip> then"
 }
 
 217 {
@@ -2180,12 +2180,12 @@
 
 218 {
     "pageno": 24,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "c W2<StrikeOut>,</StrikeOut> by"
+    "PDF text selection": "c W2<Remove>,</Remove> by"
 }
 
 219 {
@@ -2210,22 +2210,22 @@
 
 221 {
     "pageno": 25,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "̸= −1<StrikeOut>,</StrikeOut> or,"
+    "PDF text selection": "̸= −1<Remove>,</Remove> or,"
 }
 
 222 {
     "pageno": 25,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "App.",
         "responses": []
     },
-    "PDF text selection": "[4, <StrikeOut>Appendix</StrikeOut> A])"
+    "PDF text selection": "[4, <Remove>Appendix</Remove> A])"
 }
 
 223 {
@@ -2265,7 +2265,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "By construction<Caret></Caret> the"
+    "PDF text selection": "By construction<Caret tip> the"
 }
 
 227 {
@@ -2280,12 +2280,12 @@
 
 228 {
     "pageno": 26,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "in [23]<StrikeOut>,</StrikeOut> as"
+    "PDF text selection": "in [23]<Remove>,</Remove> as"
 }
 
 229 {
@@ -2310,22 +2310,22 @@
 
 231 {
     "pageno": 26,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "e ∈EB(Γ)<StrikeOut>,</StrikeOut> or"
+    "PDF text selection": "e ∈EB(Γ)<Remove>,</Remove> or"
 }
 
 232 {
     "pageno": 26,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "corresponding node<StrikeOut>,</StrikeOut> as"
+    "PDF text selection": "corresponding node<Remove>,</Remove> as"
 }
 
 233 {
@@ -2345,7 +2345,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "̸= ∅}<Caret></Caret> and"
+    "PDF text selection": "̸= ∅}<Caret tip> and"
 }
 
 235 {
@@ -2355,7 +2355,7 @@
         "comment": ".",
         "responses": []
     },
-    "PDF text selection": "= ∅}<Caret></Caret> For"
+    "PDF text selection": "= ∅}<Caret tip> For"
 }
 
 236 {
@@ -2365,7 +2365,7 @@
         "comment": ".",
         "responses": []
     },
-    "PDF text selection": "not exist<Caret></Caret> (see"
+    "PDF text selection": "not exist<Caret tip> (see"
 }
 
 237 {
@@ -2390,32 +2390,32 @@
 
 239 {
     "pageno": 27,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "An alternative<StrikeOut>,</StrikeOut> equivalent,"
+    "PDF text selection": "An alternative<Remove>,</Remove> equivalent,"
 }
 
 240 {
     "pageno": 27,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "alternative, equivalent<StrikeOut>,</StrikeOut> way"
+    "PDF text selection": "alternative, equivalent<Remove>,</Remove> way"
 }
 
 241 {
     "pageno": 27,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "the boundary<StrikeOut>y,</StrikeOut> but"
+    "PDF text selection": "the boundary<Remove>y,</Remove> but"
 }
 
 242 {
@@ -2435,17 +2435,17 @@
         "comment": "T",
         "responses": []
     },
-    "PDF text selection": "• <Replace>t</Replace>he corresponding node N(nh) lies in I; • <Replace>t</Replace>he corr contains"
+    "PDF text selection": "• <Replace>t</Replace>he corresponding"
 }
 
 244 {
     "pageno": 27,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "such that<StrikeOut>:</StrikeOut>"
+    "PDF text selection": "such that<Remove>:</Remove>"
 }
 
 245 {
@@ -2460,12 +2460,12 @@
 
 246 {
     "pageno": 27,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "require <StrikeOut>that:</StrikeOut>"
+    "PDF text selection": "require <Remove>that:</Remove> (2)"
 }
 
 247 {
@@ -2505,7 +2505,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "disk C<Caret></Caret> we"
+    "PDF text selection": "disk C<Caret tip> we"
 }
 
 251 {
@@ -2530,12 +2530,12 @@
 
 253 {
     "pageno": 29,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "not well<StrikeOut>-</StrikeOut>defined. The"
+    "PDF text selection": "not well<Remove>-</Remove>defined. The"
 }
 
 254 {
@@ -2565,7 +2565,7 @@
         "comment": "a",
         "responses": []
     },
-    "PDF text selection": "3. In<Caret></Caret> point"
+    "PDF text selection": "3. In<Caret tip> point"
 }
 
 257 {
@@ -2575,7 +2575,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "insertion procedure<Caret></Caret> we"
+    "PDF text selection": "insertion procedure<Caret tip> we"
 }
 
 258 {
@@ -2585,27 +2585,27 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "moduli M2<Caret></Caret> which"
+    "PDF text selection": "moduli M2<Caret tip> which"
 }
 
 259 {
     "pageno": 29,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "r-spin surfaces<StrikeOut>,</StrikeOut> obtained"
+    "PDF text selection": "r-spin surfaces<Remove>,</Remove> obtained"
 }
 
 260 {
     "pageno": 29,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "boundary node<StrikeOut>,</StrikeOut> then"
+    "PDF text selection": "boundary node<Remove>,</Remove> then"
 }
 
 261 {
@@ -2615,7 +2615,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "procedure repeatedly<Caret></Caret> we"
+    "PDF text selection": "procedure repeatedly<Caret tip> we"
 }
 
 262 {
@@ -2630,12 +2630,12 @@
 
 263 {
     "pageno": 30,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "r −2<StrikeOut>,</StrikeOut> together"
+    "PDF text selection": "r −2<Remove>,</Remove> together"
 }
 
 264 {
@@ -2645,17 +2645,17 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "nodes, i.e.<Caret></Caret> identifications"
+    "PDF text selection": "nodes, i.e.<Caret tip> identifications"
 }
 
 265 {
     "pageno": 30,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "two tails<StrikeOut>,</StrikeOut> where"
+    "PDF text selection": "two tails<Remove>,</Remove> where"
 }
 
 266 {
@@ -2670,12 +2670,12 @@
 
 267 {
     "pageno": 30,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "are genus-zero<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "are genus-zero<Remove>,</Remove> and"
 }
 
 268 {
@@ -2685,17 +2685,17 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "is genus-one<Caret></Caret> while"
+    "PDF text selection": "is genus-one<Caret tip> while"
 }
 
 269 {
     "pageno": 31,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "r −2<StrikeOut>,</StrikeOut>; •"
+    "PDF text selection": "r −2<Remove>,</Remove>; •"
 }
 
 270 {
@@ -2720,12 +2720,12 @@
 
 272 {
     "pageno": 32,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "is non<StrikeOut>-</StrikeOut>connected. These"
+    "PDF text selection": "is non<Remove>-</Remove>connected. These"
 }
 
 273 {
@@ -2795,7 +2795,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "genus-zero G<Caret></Caret> we"
+    "PDF text selection": "genus-zero G<Caret tip> we"
 }
 
 280 {
@@ -2805,7 +2805,7 @@
         "comment": ".",
         "responses": []
     },
-    "PDF text selection": "= QMG<Caret></Caret>"
+    "PDF text selection": "= QMG<Caret tip>"
 }
 
 281 {
@@ -2820,12 +2820,12 @@
 
 282 {
     "pageno": 33,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "paper, <StrikeOut>when</StrikeOut> we"
+    "PDF text selection": "paper, <Remove>when</Remove> we"
 }
 
 283 {
@@ -2840,12 +2840,12 @@
 
 284 {
     "pageno": 34,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "MΓi,G<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "MΓi,G<Remove>,</Remove> and"
 }
 
 285 {
@@ -2865,17 +2865,17 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "unstable, again<Caret></Caret> we"
+    "PDF text selection": "unstable, again<Caret tip> we"
 }
 
 287 {
     "pageno": 35,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "” <StrikeOut>in this paper</StrikeOut>. We"
+    "PDF text selection": "” <Remove>in this paper</Remove>. We"
 }
 
 288 {
@@ -2915,7 +2915,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "∂NS+MG, ∂AIMG<Caret></Caret> and"
+    "PDF text selection": "∂NS+MG, ∂AIMG<Caret tip> and"
 }
 
 292 {
@@ -2935,17 +2935,17 @@
         "comment": ".\"",
         "responses": []
     },
-    "PDF text selection": "for “after-insertion<Replace>”.</Replace>"
+    "PDF text selection": "for “after-insertion<Replace>”</Replace>"
 }
 
 294 {
     "pageno": 36,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "is a<StrikeOut>n</StrikeOut> one-to-one"
+    "PDF text selection": "is a<Remove>n</Remove> one-to-one"
 }
 
 295 {
@@ -2960,32 +2960,32 @@
 
 296 {
     "pageno": 36,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "the higher<StrikeOut>-</StrikeOut>codimensional boundary"
+    "PDF text selection": "the higher<Remove>-</Remove>codimensional boundary"
 }
 
 297 {
     "pageno": 36,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "0)-disk <StrikeOut>on the left</StrikeOut> has"
+    "PDF text selection": "0)-disk <Remove>on the left</Remove> has"
 }
 
 298 {
     "pageno": 37,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "boundary node<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "boundary node<Remove>,</Remove> and"
 }
 
 299 {
@@ -3025,7 +3025,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "Li, L′ i<Caret></Caret> or"
+    "PDF text selection": "Li, L′ i<Caret tip> or"
 }
 
 303 {
@@ -3035,7 +3035,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": ",0 r ,0 B I<Caret></Caret> or"
+    "PDF text selection": ",0 r ,0 B I<Caret tip> or"
 }
 
 304 {
@@ -3045,17 +3045,17 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "NS insertions<Caret></Caret> the"
+    "PDF text selection": "NS insertions<Caret tip> the"
 }
 
 305 {
     "pageno": 37,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "first <StrikeOut>named</StrikeOut> author"
+    "PDF text selection": "first <Remove>named</Remove> author"
 }
 
 306 {
@@ -3080,12 +3080,12 @@
 
 308 {
     "pageno": 38,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "defined <StrikeOut>by</StrikeOut> as"
+    "PDF text selection": "defined <Remove>by</Remove> as"
 }
 
 309 {
@@ -3105,27 +3105,27 @@
         "comment": "and",
         "responses": []
     },
-    "PDF text selection": "dual graph,<Caret></Caret> let"
+    "PDF text selection": "dual graph,<Caret tip> let"
 }
 
 311 {
     "pageno": 38,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "⊆CΓ <StrikeOut>be</StrikeOut> the"
+    "PDF text selection": "⊆CΓ <Remove>be</Remove> the"
 }
 
 312 {
     "pageno": 38,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "smooth locus<StrikeOut>,</StrikeOut> and"
+    "PDF text selection": "smooth locus<Remove>,</Remove> and"
 }
 
 313 {
@@ -3145,7 +3145,7 @@
         "comment": "to",
         "responses": []
     },
-    "PDF text selection": "section corresponding<Caret></Caret> the"
+    "PDF text selection": "section corresponding<Caret tip> the"
 }
 
 315 {
@@ -3175,7 +3175,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "[5, 4]<Caret></Caret> it"
+    "PDF text selection": "[5, 4]<Caret tip> it"
 }
 
 318 {
@@ -3205,17 +3205,17 @@
         "comment": "also",
         "responses": []
     },
-    "PDF text selection": "that we<Caret></Caret> allow"
+    "PDF text selection": "that we<Caret tip> allow"
 }
 
 321 {
     "pageno": 38,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "twists, <StrikeOut>also here</StrikeOut> R1π∗S"
+    "PDF text selection": "twists, <Remove>also here</Remove> R1π∗S"
 }
 
 322 {
@@ -3225,7 +3225,7 @@
         "comment": "of",
         "responses": []
     },
-    "PDF text selection": "All<Caret></Caret> these"
+    "PDF text selection": "All<Caret tip> these"
 }
 
 323 {
@@ -3250,12 +3250,12 @@
 
 325 {
     "pageno": 39,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "exist a<StrikeOut>n</StrikeOut> separating"
+    "PDF text selection": "exist a<Remove>n</Remove> separating"
 }
 
 326 {
@@ -3315,7 +3315,7 @@
         "comment": "upright parentheses",
         "responses": []
     },
-    "PDF text selection": "¯B,I <Highlight>(or ˜ox,y x,y 1,(B1,B2),I)</Highlight> ¯B,I<Highlight> 1,B2),I)</Highlight>"
+    "PDF text selection": "¯B,I <Highlight>(or ˜ox,y x,y 1,(B1,B2),I)</Highlight>"
 }
 
 332 {
@@ -3370,12 +3370,12 @@
 
 337 {
     "pageno": 40,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "̸= {j}<StrikeOut>,</StrikeOut> locally"
+    "PDF text selection": "̸= {j}<Remove>,</Remove> locally"
 }
 
 338 {
@@ -3415,7 +3415,7 @@
         "comment": " we",
         "responses": []
     },
-    "PDF text selection": "M1,0,1 after<Caret></Caret> quotient"
+    "PDF text selection": "M1,0,1 after<Caret tip> quotient"
 }
 
 342 {
@@ -3445,7 +3445,7 @@
         "comment": "display",
         "responses": []
     },
-    "PDF text selection": "implies <Highlight>For∗ u u→u1,0,1 s|MΓ = π∗ Γ→v For∗ v→u1,0,1 s and ˜ti,u1,0,1→u|MΓ =</Highlight> π∗ mplies<Highlight>For∗ u→u (2)"
+    "PDF text selection": "implies <Highlight>For∗ u u→u1,0,1 s|MΓ = π∗ Γ→v For∗ v→u1,0,1 s and ˜ti,u1,0,1→u|MΓ =</Highlight> π∗"
 }
 
 345 {
@@ -3485,7 +3485,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "= µ F∆<Caret></Caret>"
+    "PDF text selection": "= µ F∆<Caret tip>"
 }
 
 349 {
@@ -3595,7 +3595,7 @@
         "comment": "display",
         "responses": []
     },
-    "PDF text selection": "via <Highlight>πG→Γi1,G : PMG →PMΓi1,G and ForΓi1,G→ˆBΓi1,G : PMΓi1,G →PM ˆBΓi1,G.</Highlight> Notice that BΓi1,G can"
+    "PDF text selection": "via <Highlight>πG→Γi1,G : PMG →PMΓi1,G and ForΓi1,G→ˆBΓi1,G : PMΓi1,G →PM ˆBΓi1,G.</Highlight> Notice"
 }
 
 360 {
@@ -3705,7 +3705,7 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "(2.7), (2 14)<Caret></Caret> and"
+    "PDF text selection": "(2.7), (2 14)<Caret tip> and"
 }
 
 371 {
@@ -3785,7 +3785,7 @@
         "comment": "display",
         "responses": []
     },
-    "PDF text selection": "form <Highlight>D τ ai1 di1−1 Q i∈I′ τ ai di Q i∈B′ σbi E</Highlight>1/r,o 0 ∈I′,"
+    "PDF text selection": "form <Highlight>D τ ai1 di1−1 Q i∈I′ τ ai di Q i∈B′ σbi E</Highlight>1/r,o 0"
 }
 
 379 {
@@ -3795,7 +3795,7 @@
         "comment": "display",
         "responses": []
     },
-    "PDF text selection": "form <Highlight>DQ i∈I′ τ ai di Q i</Highlight>∈B′ σbi E1/r,o ∈I′,"
+    "PDF text selection": "form <Highlight>DQ i∈I′ τ ai di Q i</Highlight>∈B′ σbi"
 }
 
 380 {
@@ -3815,7 +3815,7 @@
         "comment": "break before small cup; align with coloneq and indent quad",
         "responses": []
     },
-    "PDF text selection": "<Highlight>  <Highlight> ∪ [ ∈∂∗</Highlight> [ ∆∈∂∗</Highlight>ˆBu"
+    "PDF text selection": " <Highlight>  <Highlight> ∪ [ ∈∂∗</Highlight> [ ∆∈∂∗</Highlight>ˆBu"
 }
 
 382 {
@@ -4120,12 +4120,12 @@
 
 412 {
     "pageno": 86,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "Physics, 2021(1):1–15<StrikeOut>, 2021</StrikeOut>. [16]"
+    "PDF text selection": "Physics, 2021(1):1–15<Remove>, 2021</Remove>. [16]"
 }
 
 413 {

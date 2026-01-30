@@ -546,8 +546,8 @@ def callGemini(prompt: str, model: str, system_prompt: str, temperature: float, 
     else:
         if model == 'gemini-3-pro-preview':
             thinking_level = 'high'
-            temperature = 0.25
-            top_p = .85
+            temperature = 0.4
+            top_p = .9
         else:
             thinking_level = 'minimal'
             
@@ -900,7 +900,7 @@ if __name__ == '__main__':
     default_chunksize = 1
     default_system_prompt = 'syst_prompt.md'
     default_temp = 0.025  # low temperature ideal for precise, non-novel and non-creative outputs
-    default_topp = 0.5 # top_p = p \in [0, 1] means bottom 1-p% likely tokens ignored
+    default_topp = 0.8 # top_p = p \in [0, 1] means bottom 1-p% likely tokens ignored
 
     parser = argparse.ArgumentParser()
     parser.add_argument('annotated_PDF_filename')

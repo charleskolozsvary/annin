@@ -1,6 +1,6 @@
 0 {
     "pageno": 0,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "delete",
         "responses": [
@@ -8,7 +8,7 @@
             "another reply"
         ]
     },
-    "PDF text selection": "stand the failure of the “Flat Orbit Conjecture” in higher curvature regimes1<StrikeOut>.</StrikeOut>"
+    "PDF text selection": "curvature regimes1<Remove>.</Remove>"
 }
 
 1 {
@@ -18,7 +18,7 @@
         "comment": ". <period: put foootnote after period>",
         "responses": []
     },
-    "PDF text selection": "stand the failure of the “Flat Orbit Conjecture” in higher curvature regimes<Caret></Caret>1."
+    "PDF text selection": "curvature regimes<Caret tip>1"
 }
 
 2 {
@@ -28,27 +28,27 @@
         "comment": "Flat orbit conjecture",
         "responses": []
     },
-    "PDF text selection": "stand the failure of the <Replace>“Flat Orbit Conjecture”</Replace> in higher curvature regimes1."
+    "PDF text selection": "the <Replace>“Flat Orbit Conjecture”</Replace> in"
 }
 
 3 {
     "pageno": 0,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "<close up space>",
         "responses": []
     },
-    "PDF text selection": "function is trivially constant when X is Euclidean, but varies dramatically in non<StrikeOut>-</StrikeOut>"
+    "PDF text selection": "in non<Remove>-</Remove> flat"
 }
 
 4 {
     "pageno": 0,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "StabG(x) = {g ∈G | g · x = x}<StrikeOut>,</StrikeOut>"
+    "PDF text selection": "= x}<Remove>,</Remove>"
 }
 
 5 {
@@ -58,7 +58,7 @@
         "comment": "765489",
         "responses": []
     },
-    "PDF text selection": "L. H. was supported by NSF grant No. <Replace>314159357</Replace>. F. E. thanks the Department of Linguistics"
+    "PDF text selection": "No. <Replace>314159357</Replace>. F."
 }
 
 6 {
@@ -68,7 +68,7 @@
         "comment": "The first author",
         "responses": []
     },
-    "PDF text selection": "<Replace>L. H.</Replace> was supported by NSF grant No. 314159357. F. E. thanks the Department of Linguistics"
+    "PDF text selection": "<Replace>L. H.</Replace> was"
 }
 
 7 {
@@ -78,7 +78,7 @@
         "comment": "please move to Acknowledgments section.",
         "responses": []
     },
-    "PDF text selection": "<Highlight>L. H. was supported by NSF grant No. 314159357. F. E. thanks the Department of Linguistics</Highlight>"
+    "PDF text selection": "L. H. was supported by NSF grant No. 314159357. F. E. thanks the Department of Linguistics</Highlight> <Highlight>for the valuable conversations. 1Originally"
 }
 
 8 {
@@ -88,7 +88,7 @@
         "comment": "p <small cap>",
         "responses": []
     },
-    "PDF text selection": "2. Background and <Replace>P</Replace>reliminaries"
+    "PDF text selection": "and <Replace>P</Replace>reliminaries"
 }
 
 9 {
@@ -100,27 +100,27 @@
             "a reply to a replace annotation"
         ]
     },
-    "PDF text selection": "Figure 2. Low orbit foliations centered at x0<Replace>. E</Replace>ach ellipse repre-"
+    "PDF text selection": "at x0<Replace>. E</Replace>ach ellipse"
 }
 
 10 {
     "pageno": 1,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "sents an orbit of constant ∆(x, λ)<StrikeOut>.</StrikeOut>"
+    "PDF text selection": "∆(x, λ)<Remove>.</Remove>"
 }
 
 11 {
     "pageno": 1,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "Figure 1. A schematic of local orbit curvature under λ-perturbation<StrikeOut>.</StrikeOut>"
+    "PDF text selection": "under λ-perturbation<Remove>.</Remove>"
 }
 
 12 {
@@ -130,27 +130,27 @@
         "comment": "if and only if",
         "responses": []
     },
-    "PDF text selection": "Then the orbit foliation Fλ(X) is quasi-uniform <Replace>if</Replace>f"
+    "PDF text selection": "quasi-uniform <Replace>if</Replace>"
 }
 
 13 {
     "pageno": 2,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "<StrikeOut>(</StrikeOut>The proof is omitted for space reasons; see Appendix B.)"
+    "PDF text selection": "<Remove>(</Remove>The proof"
 }
 
 14 {
     "pageno": 2,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "(The proof is omitted for space reasons; see Appendix B.<StrikeOut>)</StrikeOut>"
+    "PDF text selection": "Appendix B.<Remove>)</Remove>"
 }
 
 15 {
@@ -160,7 +160,7 @@
         "comment": "COMP: set typewriter font <\\texttt{}>",
         "responses": []
     },
-    "PDF text selection": "We implemented a simple prototype in <Highlight>Julia 1.10</Highlight> to visualize Fλ(X) for synthetic"
+    "PDF text selection": "in <Highlight>Julia 1.10</Highlight> to"
 }
 
 16 {
@@ -170,7 +170,7 @@
         "comment": "small cap",
         "responses": []
     },
-    "PDF text selection": "5. Numerical <Highlight>E</Highlight>xperiments"
+    "PDF text selection": "Numerical <Highlight>E</Highlight>xperiments"
 }
 
 17 {
@@ -180,7 +180,7 @@
         "comment": "lowercase",
         "responses": []
     },
-    "PDF text selection": "4.1. Numerical <Highlight>S</Highlight>imulation. Following [3], we can simulate the orbit structure"
+    "PDF text selection": "Numerical <Highlight>S</Highlight>imulation. Following"
 }
 
 18 {
@@ -190,7 +190,7 @@
         "comment": "lowercase",
         "responses": []
     },
-    "PDF text selection": "4. Applications and <Highlight>E</Highlight>xamples"
+    "PDF text selection": "and <Highlight>E</Highlight>xamples"
 }
 
 19 {
@@ -200,7 +200,7 @@
         "comment": "Move caption to top of table",
         "responses": []
     },
-    "PDF text selection": "<Highlight>Table 1. Empirical orbit metrics under λ-iteration.</Highlight>"
+    "PDF text selection": "-0.403 <Highlight>Table 1. Empirical orbit metrics under λ-iteration.</Highlight>"
 }
 
 20 {
@@ -210,7 +210,7 @@
         "comment": "Figure",
         "responses": []
     },
-    "PDF text selection": "A peculiar observation (<Replace>Fig.</Replace> 5) was that for large λ, the orbit clusters exhibited a"
+    "PDF text selection": "observation (<Replace>Fig.</Replace> 5)"
 }
 
 21 {
@@ -220,7 +220,7 @@
         "comment": "put footnote after period",
         "responses": []
     },
-    "PDF text selection": "double-lobed structure reminiscent of quasi-periodic tori in Hamiltonian systems<Highlight>2.</Highlight>"
+    "PDF text selection": "Hamiltonian systems<Highlight>2.</Highlight>"
 }
 
 22 {
@@ -230,7 +230,7 @@
         "comment": "Equation",
         "responses": []
     },
-    "PDF text selection": "geometric invariant for the foliation type. However, <Replace>Eq.</Replace> (7) reveals an unexpected"
+    "PDF text selection": "However, <Replace>Eq.</Replace> (7)"
 }
 
 23 {
@@ -240,7 +240,7 @@
         "comment": "(5) <pls link>",
         "responses": []
     },
-    "PDF text selection": "geometric invariant for the foliation type. However, Eq. <Replace>(7)</Replace> reveals an unexpected"
+    "PDF text selection": "Eq. <Replace>(7)</Replace> reveals"
 }
 
 24 {
@@ -250,7 +250,7 @@
         "comment": "<link>",
         "responses": []
     },
-    "PDF text selection": "We hypothesize (Hypothesis <Highlight>5.1</Highlight>) that this anomaly corresponds to a hidden"
+    "PDF text selection": "(Hypothesis <Highlight>5.1</Highlight>) that"
 }
 
 25 {
@@ -260,7 +260,7 @@
         "comment": "remove new paragraph: continue the last paragraph with this sentence.",
         "responses": []
     },
-    "PDF text selection": "<Highlight>We hypothesize</Highlight> (Hypothesis 5.1) that this anomaly corresponds to a hidden"
+    "PDF text selection": "setting. <Highlight>We hypothesize</Highlight> (Hypothesis"
 }
 
 26 {
@@ -270,7 +270,7 @@
         "comment": "; at",
         "responses": []
     },
-    "PDF text selection": "resonance near λ = φ2 ≈2.618<Replace>. At</Replace> that point, the curvature-weighted orbit integral"
+    "PDF text selection": "φ2 ≈2.618<Replace>. At</Replace> that"
 }
 
 27 {
@@ -280,77 +280,77 @@
         "comment": "does this look right?",
         "responses": []
     },
-    "PDF text selection": "resonance <Highlight>near λ = φ2 ≈</Highlight>2.618. At that point, the curvature-weighted orbit integral"
+    "PDF text selection": "resonance <Highlight>near λ = φ2 ≈</Highlight>2.618. At"
 }
 
 28 {
-    "pageno": 3,
-    "type": "Highlight",
-    "message": {
-        "comment": "AU: is this necessary?",
-        "responses": []
-    },
-    "PDF text selection": "<Highlight>2A referee pointed out that this might be a discretization artifact, but we were unable to</Highlight>"
-}
-
-29 {
     "pageno": 4,
     "type": "Highlight",
     "message": {
         "comment": "place footnote after period",
         "responses": []
     },
-    "PDF text selection": "will be discussed in a forthcoming note by the first author<Highlight>3.</Highlight>"
+    "PDF text selection": "first author<Highlight>3.</Highlight>"
 }
 
-30 {
+29 {
     "pageno": 4,
     "type": "Highlight",
     "message": {
         "comment": "place footnote after comma",
         "responses": []
     },
-    "PDF text selection": "Although the convergence of this expansion is questionable<Highlight>4,</Highlight> the leading term suf-"
+    "PDF text selection": "is questionable<Highlight>4,</Highlight> the"
 }
 
-31 {
+30 {
     "pageno": 4,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "⟨fi, fj⟩φ = δij(1 + λφ)<StrikeOut>,</StrikeOut>"
+    "PDF text selection": "+ λφ)<Remove>,</Remove>"
 }
 
-32 {
+31 {
     "pageno": 4,
     "type": "Highlight",
     "message": {
         "comment": "<link>",
         "responses": []
     },
-    "PDF text selection": "fices to justify Theorem <Highlight>4.3.</Highlight>"
+    "PDF text selection": "Theorem <Highlight>4.3.</Highlight>"
+}
+
+32 {
+    "pageno": 4,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "φ-orthogonality condition<Remove>,</Remove>"
 }
 
 33 {
     "pageno": 4,
-    "type": "StrikeOut",
+    "type": "Remove",
     "message": {
         "comment": "",
         "responses": []
     },
-    "PDF text selection": "Laplace–Beltrami operator and applying the φ-orthogonality condition<StrikeOut>,</StrikeOut>"
+    "PDF text selection": "∥∆n −∆n−1∥<Remove>.</Remove>"
 }
 
 34 {
-    "pageno": 4,
-    "type": "StrikeOut",
+    "pageno": 5,
+    "type": "Caret",
     "message": {
-        "comment": "",
+        "comment": ",",
         "responses": []
     },
-    "PDF text selection": "Figure 6. Convergence of displacement difference ∥∆n −∆n−1∥<StrikeOut>.</StrikeOut>"
+    "PDF text selection": "Way, Genevive<Caret tip> 06578,"
 }
 
 35 {
@@ -360,26 +360,16 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "Department of Quadratics, University of Belarus, 3 Corporal Way, Genevive<Caret></Caret> 06578,"
+    "PDF text selection": "Circle, Washington<Caret tip> 12765,"
 }
 
 36 {
     "pageno": 5,
     "type": "Caret",
     "message": {
-        "comment": ",",
-        "responses": []
-    },
-    "PDF text selection": "Circle, Washington<Caret></Caret> 12765, USA"
-}
-
-37 {
-    "pageno": 5,
-    "type": "Caret",
-    "message": {
         "comment": "; and Department of Mathematics, Princeton University, Nassau Street, Princeton New Jersey, 02854",
         "responses": []
     },
-    "PDF text selection": "Circle, Washington 12765, USA<Caret></Caret>"
+    "PDF text selection": "12765, USA<Caret tip> Email"
 }
 

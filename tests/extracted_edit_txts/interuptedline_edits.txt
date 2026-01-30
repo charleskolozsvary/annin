@@ -15,7 +15,7 @@
         "comment": "Now normal",
         "responses": []
     },
-    "PDF text selection": "middle. What a mess. <Replace>And some more</Replace> words, too."
+    "PDF text selection": "What a mess. <Replace>And some more</Replace> words, too."
 }
 
 2 {
@@ -25,6 +25,6 @@
         "comment": ",",
         "responses": []
     },
-    "PDF text selection": "b−β<Caret></Caret>"
+    "PDF text selection": "a b α β<Caret tip> α some large"
 }
 

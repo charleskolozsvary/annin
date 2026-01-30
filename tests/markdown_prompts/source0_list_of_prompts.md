@@ -1,7 +1,6 @@
-#0
+# 0
 
-### Type
-Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -40,10 +39,9 @@ Let
 
 ---
 
-#1
+# 1
 
-### Type
-Caret
+### Annotation: Caret
 
 ### Comment
 ```text
@@ -52,7 +50,7 @@ Caret
 
 ### PDF selected text
 ```text
-curvature regimes<Caret></Caret>1
+curvature regimes<Insert comment contents here>1
 ```
   
 ### LaTeX snippet
@@ -70,10 +68,9 @@ Let
 
 ---
 
-#2
+# 2
 
-### Type
-Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -92,10 +89,9 @@ the ``Flat Orbit Conjecture'' in
 
 ---
 
-#3
+# 3
 
-### Type
-Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -114,10 +110,9 @@ in non-flat $\mathrm{CAT}(0)$
 
 ---
 
-#4
+# 4
 
-### Type
-Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -140,10 +135,9 @@ whose
 
 ---
 
-#5
+# 5
 
-### Type
-Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -162,10 +156,9 @@ No.\ 314159357. F.
 
 ---
 
-#6
+# 6
 
-### Type
-Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -184,10 +177,9 @@ L.\ H.\ was
 
 ---
 
-#7
+# 7
 
-### Type
-Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -206,10 +198,9 @@ L.\ H.\ was supported by NSF grant No.\ 314159357. F.\ E.\ thanks the Department
 
 ---
 
-#8
+# 8
 
-### Type
-Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -236,10 +227,9 @@ Let
 
 ---
 
-#9
+# 9
 
-### Type
-Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -265,10 +255,9 @@ at $x_0$. Each ellipse
 
 ---
 
-#10
+# 10
 
-### Type
-Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -287,10 +276,9 @@ constant $\Delta(x,\lambda)$.
 
 ---
 
-#11
+# 11
 
-### Type
-Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -309,10 +297,9 @@ $\lambda$-perturbation.
 
 ---
 
-#12
+# 12
 
-### Type
-Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -335,10 +322,9 @@ quasi-uniform iff
 
 ---
 
-#13
+# 13
 
-### Type
-Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -361,10 +347,9 @@ iff
 
 ---
 
-#14
+# 14
 
-### Type
-Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -386,10 +371,9 @@ A
 
 ---
 
-#15
+# 15
 
-### Type
-Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -425,10 +409,9 @@ We implemented a simple prototype in \textsf{Julia 1.10} to visualize $\mathcal{
 
 ---
 
-#16
+# 16
 
-### Type
-Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -464,10 +447,9 @@ We
 
 ---
 
-#17
+# 17
 
-### Type
-Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -489,10 +471,9 @@ Following \cite{euler24}, we can simulate the orbit structure numerically.
 
 ---
 
-#18
+# 18
 
-### Type
-Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -528,10 +509,9 @@ Consider
 
 ---
 
-#19
+# 19
 
-### Type
-Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -550,10 +530,9 @@ Empirical orbit metrics under $\lambda$-iteration.
 
 ---
 
-#20
+# 20
 
-### Type
-Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -572,10 +551,9 @@ observation (Fig.~\ref{fig:scatter}) was
 
 ---
 
-#21
+# 21
 
-### Type
-Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -612,10 +590,9 @@ Our
 
 ---
 
-#22
+# 22
 
-### Type
-Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -634,10 +611,9 @@ However, Eq.~(7)
 
 ---
 
-#23
+# 23
 
-### Type
-Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -656,10 +632,9 @@ Eq.~(7) reveals
 
 ---
 
-#24
+# 24
 
-### Type
-Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -678,10 +653,9 @@ Highlight
 
 ---
 
-#25
+# 25
 
-### Type
-Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -702,10 +676,9 @@ We hypothesize (Hypothesis
 
 ---
 
-#26
+# 26
 
-### Type
-Replace
+### Annotation: Replace
 
 ### Comment
 ```text
@@ -725,10 +698,9 @@ At that
 
 ---
 
-#27
+# 27
 
-### Type
-Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -747,10 +719,9 @@ resonance near $\lambda = \varphi^2 \approx 2.618$.
 
 ---
 
-#28
+# 28
 
-### Type
-Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -773,10 +744,9 @@ While
 
 ---
 
-#29
+# 29
 
-### Type
-Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -795,10 +765,9 @@ is questionable\footnote{We observed divergence for $|\lambda| > 2.1$, which we 
 
 ---
 
-#30
+# 30
 
-### Type
-Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -821,10 +790,9 @@ we
 
 ---
 
-#31
+# 31
 
-### Type
-Highlight
+### Annotation: Highlight
 
 ### Comment
 ```text
@@ -848,10 +816,9 @@ Theorem~4.3.
 
 ---
 
-#32
+# 32
 
-### Type
-Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -874,10 +841,9 @@ we
 
 ---
 
-#33
+# 33
 
-### Type
-Remove
+### Annotation: Remove
 
 ### Comment
 ```text
@@ -896,10 +862,9 @@ difference $\|\Delta_n - \Delta_{n-1}\|$.
 
 ---
 
-#34
+# 34
 
-### Type
-Caret
+### Annotation: Caret
 
 ### Comment
 ```text
@@ -908,7 +873,7 @@ Caret
 
 ### PDF selected text
 ```text
-Way, Genevive<Caret></Caret> 06578,
+Way, Genevive<Insert comment contents here> 06578,
 ```
   
 ### LaTeX snippet
@@ -918,10 +883,9 @@ Way, Genevive 06578,
 
 ---
 
-#35
+# 35
 
-### Type
-Caret
+### Annotation: Caret
 
 ### Comment
 ```text
@@ -930,7 +894,7 @@ Caret
 
 ### PDF selected text
 ```text
-Circle, Washington<Caret></Caret> 12765,
+Circle, Washington<Insert comment contents here> 12765,
 ```
   
 ### LaTeX snippet
@@ -940,10 +904,9 @@ Circle, Washington 12765,
 
 ---
 
-#36
+# 36
 
-### Type
-Caret
+### Annotation: Caret
 
 ### Comment
 ```text
@@ -952,7 +915,7 @@ Caret
 
 ### PDF selected text
 ```text
-12765, USA<Caret></Caret> Email
+12765, USA<Insert comment contents here> Email
 ```
   
 ### LaTeX snippet

@@ -13,6 +13,8 @@
 
 tmp_segmentsource
 
+pickle/
+
 bbox_drawings
 
 __pycache__
