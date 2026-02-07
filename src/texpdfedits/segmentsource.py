@@ -290,13 +290,13 @@ def transferTeXFiles(tex_filename: Path, files_to: Path, move_or_copy: str):
     tex_file_dot_star = f"{tex_filename.stem}.*"
     os.system(f"{move_or_copy} {tex_filename.parent / tex_file_dot_star} {files_to}")
 
-def runDiffpdf(first_fname: str, second_fname: str, output_dir: Path) -> subprocess.CompletedProcess:
+def runDiffpdf(first_fname: str, second_fname: str, output_dir: Path, per_page_tol: int = DIFFPDF_PER_PAGE_PIXEL_TOLERANCE) -> subprocess.CompletedProcess:
     first_stem = Path(first_fname).stem
     second_stem = Path(second_fname).stem
     diff_fname = f'diff_{first_stem}_{second_stem}.pdf'
 
     subprocess_command = ['diff-pdf',
-                          f'--per-page-pixel-tolerance={DIFFPDF_PER_PAGE_PIXEL_TOLERANCE}',
+                          f'--per-page-pixel-tolerance={per_page_tol}',
                           f'--dpi={DIFFPDF_DPI}',
                           '--skip-identical',
                           '--grayscale',
@@ -313,9 +313,7 @@ def runDiffpdf(first_fname: str, second_fname: str, output_dir: Path) -> subproc
     if result.returncode != 0:
         logging.error(f"{first_fname} and {second_fname} are not identical. See {Path(output_dir) / diff_fname}")        
         sys.exit(1)
-    else:
-        logging.info(f"Original and marked PDFs are identical by diff-pdf")
-
+        
     return result
 
 def markNodes(
@@ -840,7 +838,10 @@ def validateMarkPositions(mark_positions: dict[str, tuple[int, int]], document_w
                 )
 
     logging.info("All mark positions are valid.")
-
+    
+def pdfFname(tex_fname: Path):
+    return f"{tex_fname.stem}.pdf"
+    
 def segment(tex_filename: str, extra_marked_environment_names: set[str] = set()):
     tex_filename = Path(tex_filename)
     tex_str = sourceAsString(tex_filename)
@@ -955,17 +956,16 @@ def segment(tex_filename: str, extra_marked_environment_names: set[str] = set())
     
     # move boxpositions file
     os.system(f"mv {tex_filename.parent / boxpositions_filename} {tmp_dir}")
-
-    def pdfFname(tex_fname: Path):
-        return f"{tex_fname.stem}.pdf"
     
     process3 = runDiffpdf(pdfFname(tex_filename), pdfFname(marked_filename), tmp_dir)
+
+    logging.info(f"Original and marked source produce identical PDFs.")
 
     logging.info("Getting word boxes...")
     document_word_boxes, markids_to_delete = getWordBoxes(tmp_dir / boxpositions_filename)
     logging.info("Done.")    
 
-    # I should eventually delete the tmp directory at this point
+    # TODO: delete temporary directories if option -replace active
 
     # do not concatenate the inserted preamble definitions
     logging.info("Unmarking LaTeX...")

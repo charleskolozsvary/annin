@@ -380,7 +380,7 @@ def getCorrections(annot_filename: str, latex_filename: str) -> list[Correction]
         )
         logging.info(f"Created correction {progress}")
 
-    logging.info(f"Produced {len(corrections)} corrections from {len(edits)} edit annotations.")                
+    logging.info(f"Produced {len(corrections)} corrections from {len(edits)} edit annotations.")
 
     return corrections
 
@@ -575,7 +575,7 @@ def callClaude(prompt: str, model: str, system_prompt: str, temperature: float, 
     # TODO: implement with anthropic package
     return prompt
 
-def callEcho(prompt: str, model: str, system_prompt: str, history: list = None, **kwargs):
+def callEcho(prompt: str, model: str, system_prompt: str, history: list, *args):
     """ Just return the first supplied latex code block """
     codeblocks = []
     matches = re.finditer(r'```(\w+)\n(.*?)\n?```', prompt, re.DOTALL)
@@ -920,6 +920,7 @@ if __name__ == '__main__':
 
     Path.mkdir(Path("tmp_prompt"), exist_ok = True)
     corr_file = Path("tmp_prompt/corrections.pkl")
+    tmp_prompt_dir = corr_file.parent
 
     sp_file = args.system_prompt
 
@@ -969,7 +970,7 @@ if __name__ == '__main__':
     writeListOfPrompts(corrections, args.latex_filename)
 
     identifying_run_str = f'{model}_{temp_as_str}_{top_p_as_str}'
-    updated_snippets_pickle_file = f'pickle/updated_snippets_and_explanations_{Path(args.annotated_PDF_filename).stem}_{identifying_run_str}.pkl'
+    updated_snippets_pickle_file = tmp_prompt_dir / Path(f'updated_snippets_and_explanations_{Path(args.annotated_PDF_filename).stem}_{identifying_run_str}.pkl')
 
     if args.load_previous_output:
         logging.info(f"Loading pickle file {updated_snippets_pickle_file}...")
@@ -989,6 +990,7 @@ if __name__ == '__main__':
         )
 
         logging.info(f"Dumping updated snippets and explanations to {updated_snippets_pickle_file}...")
+        
         with open(updated_snippets_pickle_file, "wb") as f:
             pickle.dump((updated_snippets, explanations, standalone_keys, group_keys), f)
         logging.info("Done.")

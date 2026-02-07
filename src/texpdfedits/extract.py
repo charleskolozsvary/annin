@@ -275,7 +275,7 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
 
         left = wordGetTextToStr(page.get_text('words', clip=left_rect, sort=True))
         right = wordGetTextToStr(page.get_text('words', clip=right_rect, sort=True))
-        return f"{left}<Insert comment contents here>{right}"
+        return f"{left}<Caret>{right}"
 
     def getOtherSelection(word_box):
         """
