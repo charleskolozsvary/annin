@@ -51,6 +51,13 @@ class IgnoreRegionArgsParser:
         
         return (ParsedMacroArgs(argnlist=[]), end_pos, 0)
 
+COMPILER_INFO = {
+    'pdflatex': (2, 'latin-1'),
+    'prdlatex': (1, 'latin-1'),
+    'xelatex': (2, 'utf-8'),
+    'luatex': (2, 'utf-8')
+}    
+
 CSNAMES_ARGSPEC = {'emph': '{',
                    'textup': '{',
                    'textit': '{',
@@ -263,23 +270,25 @@ def getMetadataAndSelectEnvironments(preamble_nodes, document_node):
 
     return metadata, metadata_source, environments
 
-def runPDFlatex(tex_filename: Path, runs: int = 2) -> subprocess.CompletedProcess:
-    """Run pdflatex. Run twice by default to resolve cross-references"""
+def compileLatex(tex_filename: Path, compiler: str = 'pdflatex') -> subprocess.CompletedProcess:
+    """Compile .tex file with provided compiler"""
     result = None
     tex_filename_dir = tex_filename.parent
-    for i in range(runs):
-        logging.info(f"Running pdflatex on {tex_filename.name} (pass {i+1}/{runs})...")
+    
+    (num_runs, encoding) = COMPILER_INFO[compiler]
+    for i in range(num_runs):
+        logging.info(f"Running {compiler} on {tex_filename} (pass {i+1}/{num_runs})...")
         result = subprocess.run(
-            ['pdflatex', '-interaction=nonstopmode', tex_filename.name],
+            [compiler, '-interaction=nonstopmode', tex_filename.name],
             cwd=tex_filename_dir,
             capture_output=True, # see result.stdout, result.stderr
             text=True,
-            encoding='latin-1'
+            encoding=encoding
         )
         
         if result.returncode != 0:
             logging.error(
-                f"pdflatex failed on pass {i+1} of {tex_filename.name}: {result.stderr}."
+                f"{compiler} failed on pass {i+1} of {tex_filename.name}: {result.stderr}."
                 f"Output: {result.stdout}"
             )
             sys.exit(1)
@@ -289,6 +298,12 @@ def runPDFlatex(tex_filename: Path, runs: int = 2) -> subprocess.CompletedProces
 def transferTeXFiles(tex_filename: Path, files_to: Path, move_or_copy: str):
     tex_file_dot_star = f"{tex_filename.stem}.*"
     os.system(f"{move_or_copy} {tex_filename.parent / tex_file_dot_star} {files_to}")
+
+def removeDir(directory: Path):
+    delete_contents = f"rm {directory / Path('*')}"
+    logging.debug(f"running '{delete_contents}'")
+    os.system(delete_contents)
+    os.system(f"rmdir {directory}")
 
 def runDiffpdf(first_fname: str, second_fname: str, output_dir: Path, per_page_tol: int = DIFFPDF_PER_PAGE_PIXEL_TOLERANCE) -> subprocess.CompletedProcess:
     first_stem = Path(first_fname).stem
@@ -366,18 +381,20 @@ def markNodes(
         
         node_verbatim = node.latex_verbatim()
         
-        if parent_counter_keys:
-            if node.isNodeType(LatexEnvironmentNode):
-                node_name = node.envname
-                if node_name in DISTINCTLY_MARKED_ENVIRONMENTS and node_name in counters:
-                    counters[node_name]['head'] += 1
-                    counters[node_name]['value'] = -1
+        # before the subsequent if ... elif block was inside "if parent_counter_keys:"
+        # not sure why.... Tentatively removing that check---as it was,
+        # the numbering for boxes inside dedicated macros in the preamble were incorrect
+        if node.isNodeType(LatexEnvironmentNode):
+            node_name = node.envname
+            if node_name in DISTINCTLY_MARKED_ENVIRONMENTS and node_name in counters:
+                counters[node_name]['head'] += 1
+                counters[node_name]['value'] = -1
                     
-            elif node.isNodeType(LatexMacroNode):
-                node_name = node.macroname
-                if node_name in DISTINCTLY_MARKED_MACROS and node_name in counters:
-                    counters[node_name]['head'] += 1
-                    counters[node_name]['value'] = -1
+        elif node.isNodeType(LatexMacroNode):
+            node_name = node.macroname
+            if node_name in DISTINCTLY_MARKED_MACROS and node_name in counters:
+                counters[node_name]['head'] += 1
+                counters[node_name]['value'] = -1
 
         parent_is_distinctly_marked_macro = parent_node is not None and parent_node.isNodeType(LatexMacroNode) and parent_node.macroname in DISTINCTLY_MARKED_MACROS
         is_in_only_mark_caption_env = parent_node is not None and parent_node.isNodeType(LatexEnvironmentNode) and parent_node.envname in ONLY_MARK_CAPTION_ENVS
@@ -842,7 +859,12 @@ def validateMarkPositions(mark_positions: dict[str, tuple[int, int]], document_w
 def pdfFname(tex_fname: Path):
     return f"{tex_fname.stem}.pdf"
     
-def segment(tex_filename: str, extra_marked_environment_names: set[str] = set()):
+def segment(tex_filename: str, **kwargs):
+
+    extra_marked_environment_names = kwargs.get('emen', set()) # set[str]
+    clean = kwargs.get('clean', True) # delete intermediate files (including temporary directories)
+    compiler = kwargs.get('compiler', 'pdflatex')
+    
     tex_filename = Path(tex_filename)
     tex_str = sourceAsString(tex_filename)
 
@@ -878,6 +900,7 @@ def segment(tex_filename: str, extra_marked_environment_names: set[str] = set())
     metadata, metadata_source, environments = getMetadataAndSelectEnvironments(preamble_nodes, document_node)
 
     # need to review how I will use these if at all
+    # TODO: here and in rectangleToLatex link snippet in dedicated command to entire command
     all_metadata = {'enunciation_names': enunciation_names,
                     'enunciation_source': '',
                     'metadata': metadata,
@@ -944,8 +967,8 @@ def segment(tex_filename: str, extra_marked_environment_names: set[str] = set())
     writeStringToFile(marked_tex, marked_filename)
 
     # run pdflatex
-    process1 = runPDFlatex(tex_filename)
-    process2 = runPDFlatex(marked_filename)
+    process1 = compileLatex(tex_filename, compiler = compiler)
+    process2 = compileLatex(marked_filename, compiler = compiler)
 
     # setup tmp directory and transfer files
     tmp_dir = Path('tmp_segmentsource')
@@ -965,8 +988,6 @@ def segment(tex_filename: str, extra_marked_environment_names: set[str] = set())
     document_word_boxes, markids_to_delete = getWordBoxes(tmp_dir / boxpositions_filename)
     logging.info("Done.")    
 
-    # TODO: delete temporary directories if option -replace active
-
     # do not concatenate the inserted preamble definitions
     logging.info("Unmarking LaTeX...")
     unmarked_str, mark_positions = unMarkWithPositions(marked_preamble + marked_document + post_document_str, job_id, markids_to_delete)
@@ -978,16 +999,21 @@ def segment(tex_filename: str, extra_marked_environment_names: set[str] = set())
 
     logging.info("Validating mark positions...")
     validateMarkPositions(mark_positions, document_word_boxes)
-    logging.info("Done.")    
+    logging.info("Done.")
 
-    # segment should output all the information necessary for rectangleToLatex in prompt.py    
-    return counters, marked_tex, unmarked_str, mark_positions, document_word_boxes, all_metadata
+    if clean:
+        removeDir(tmp_dir)
+
+    # segment should output all the information necessary for rectangleToLatex in makeCorrections.py
+    return mark_positions, document_word_boxes
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog = 'python segmentsource.py',
                                      description = r'Segments source TeX by pages and metadata like \title, \author, \address, and abstract.')
     parser.add_argument('filename')
     parser.add_argument("-d", "--debug", action="store_true", help='debugging output')
+    parser.add_argument("-c", "--clean", action=argparse.BooleanOptionalAction, help='Delete intermediate files (and temporary directories); default=True', default=True)
+    parser.add_argument("--compiler", type=str, help='Specify LaTeX compiler; default=pdflatex', default='pdflatex')
     
     args = parser.parse_args()
     
@@ -996,4 +1022,4 @@ if __name__ == '__main__':
     
     logging.basicConfig(level=_level, format='%(asctime)s - %(levelname)s - %(message)s')
 
-    segment(filename)
+    segment(filename, clean=args.clean, compiler=args.compiler)

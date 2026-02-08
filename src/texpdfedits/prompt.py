@@ -348,7 +348,8 @@ class Correction:
 
 def getCorrections(annot_filename: str, latex_filename: str) -> list[Correction]:
     edits = getEdits(annot_filename)
-    num_marks, marked_tex, unmarked_str, mark_positions, document_word_boxes, all_metadata = segment(latex_filename)
+    mark_positions, document_word_boxes = segment(latex_filename)
+    tex_str = sourceAsString(Path(latex_filename))
 
     corrections = []
     for i, edit in enumerate(edits):
@@ -364,7 +365,7 @@ def getCorrections(annot_filename: str, latex_filename: str) -> list[Correction]
             pdf_annot_rect,
             document_word_boxes,
             mark_positions,
-            unmarked_str
+            tex_str
         )
         
         if latex_snippet is None:
