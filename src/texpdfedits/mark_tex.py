@@ -3,6 +3,8 @@
 
 import argparse
 import logging
+logger = logging.getLogger(__name__)
+
 import re
 
 from pylatexenc.latexwalker import LatexWalker, LatexNode, LatexMacroNode, LatexEnvironmentNode, LatexGroupNode, LatexMathNode, LatexCharsNode, LatexCommentNode
@@ -15,14 +17,13 @@ import sys
 import os
 import subprocess
 
-from collections.abc import Callable
-
 import pymupdf
 import time
 
 class IgnoreRegionArgsParser:
     def parse_args(self, w, pos, parsing_state, **kwargs):
-        r"""Skip until \endignorepylatexenc using get_token
+        r"""
+        Skip until \endignorepylatexenc using get_token
         use in rare circumstances where the pylatexenc parser fails on something (typically in the preamble)
         just add
         \def\startignorepylatexenc{}
@@ -56,7 +57,7 @@ COMPILER_INFO = {
     'prdlatex': (1, 'latin-1'),
     'xelatex': (2, 'utf-8'),
     'luatex': (2, 'utf-8')
-}    
+}
 
 CSNAMES_ARGSPEC = {'emph': '{',
                    'textup': '{',
@@ -195,7 +196,7 @@ def getEnunciations(preamble_nodes) -> tuple[list[str], str]:
                     # currently fails with \\newtheorem{%\nthm}{Theorem}, which I think is fine
                     enun_name = arg_one.nodelist[0].chars
                 except Exception as e: 
-                    logging.warning(
+                    logger.warning(
                         f"Attempting to extract second argument of '{node.latex_verbatim()}' "
                         f"raised {type(e).__name__}: {e}; "
                         f"node.nodeargs[1] was {arg_one}; ignoring"
@@ -206,12 +207,12 @@ def getEnunciations(preamble_nodes) -> tuple[list[str], str]:
                      'verbatim': node.latex_verbatim()}
                 )
             else:
-                logging.warning(
+                logger.warning(
                     f"Malformed {node.macroname}, '{node.latex_verbatim()}', "
                     f"did not match it's argument specification: {CSNAMES_ARGSPEC[node.macroname]}"
                 )
     if not enunciations:
-        logging.warning("No enunciations (newtheorem commands) found; continuing without them.")
+        logger.warning("No enunciations (newtheorem commands) found; continuing without them.")
         
     return enunciations
 
@@ -251,7 +252,7 @@ def getMetadataAndSelectEnvironments(preamble_nodes, document_node):
             csname = node.macroname            
             verbatim_contents = node.latex_verbatim()
             if csname in metadata and csname in UNIQUE_FIELDS:
-                logging.warning(f"Found more than one instance of unique field '{csname}', overwriting earlier instance.")
+                logger.warning(f"Found more than one instance of unique field '{csname}', overwriting earlier instance.")
                 metadata[csname] = verbatim_contents
             elif csname in metadata:
                 metadata[csname] = [metadata[csname], verbatim_contents] if type(metadata[csname]) != list else metadata[csname] + [verbatim_contents]
@@ -264,9 +265,9 @@ def getMetadataAndSelectEnvironments(preamble_nodes, document_node):
     
     num_abstract = len(environments['abstract'])
     if num_abstract == 0:
-        logging.warning("No abstract found in getMetadataAndSelectEnvironments()")
+        logger.warning("No abstract found in getMetadataAndSelectEnvironments()")
     elif num_abstract > 1:
-        logging.warninig(f"! Found {num_abstract} abstracts; there should only be one")
+        logger.warninig(f"! Found {num_abstract} abstracts; there should only be one")
 
     return metadata, metadata_source, environments
 
@@ -277,7 +278,7 @@ def compileLatex(tex_filename: Path, compiler: str = 'pdflatex') -> subprocess.C
     
     (num_runs, encoding) = COMPILER_INFO[compiler]
     for i in range(num_runs):
-        logging.info(f"Running {compiler} on {tex_filename} (pass {i+1}/{num_runs})...")
+        logger.info(f"Running {compiler} on {tex_filename} (pass {i+1}/{num_runs})...")
         result = subprocess.run(
             [compiler, '-interaction=nonstopmode', tex_filename.name],
             cwd=tex_filename_dir,
@@ -287,7 +288,7 @@ def compileLatex(tex_filename: Path, compiler: str = 'pdflatex') -> subprocess.C
         )
         
         if result.returncode != 0:
-            logging.error(
+            logger.error(
                 f"{compiler} failed on pass {i+1} of {tex_filename.name}: {result.stderr}."
                 f"Output: {result.stdout}"
             )
@@ -301,7 +302,7 @@ def transferTeXFiles(tex_filename: Path, files_to: Path, move_or_copy: str):
 
 def removeDir(directory: Path):
     delete_contents = f"rm {directory / Path('*')}"
-    logging.debug(f"running '{delete_contents}'")
+    logger.debug(f"running '{delete_contents}'")
     os.system(delete_contents)
     os.system(f"rmdir {directory}")
 
@@ -321,12 +322,12 @@ def runDiffpdf(first_fname: str, second_fname: str, output_dir: Path, per_page_t
                           first_fname,
                           second_fname]
     
-    logging.info(f"Running `{' '.join(subprocess_command)}`...")
+    logger.info(f"Running `{' '.join(subprocess_command)}`...")
     result = subprocess.run(subprocess_command,
                             cwd=output_dir)
     
     if result.returncode != 0:
-        logging.error(f"{first_fname} and {second_fname} are not identical. See {Path(output_dir) / diff_fname}")        
+        logger.error(f"{first_fname} and {second_fname} are not identical. See {Path(output_dir) / diff_fname}")        
         sys.exit(1)
         
     return result
@@ -337,7 +338,7 @@ def markNodes(
         chars_node_match_regex: str,
         job_id: str
 ) -> tuple[str, dict[str, dict[str, int]]]:
-    """Recursively mark the passsed start_node. Return the marked string and the mark counters"""
+    """Recursively mark the passsed node list. Return the marked string and the mark counters"""
     counters = {}
 
     # macro names where are acceptable to match the beggining of the string when marking a chars node after it
@@ -345,13 +346,13 @@ def markNodes(
     
     def markStr(string: str, parent_counter_keys: list[str]) -> str:
         """
-        A mark like document0:15.footnote0:3 corresponds to the fourth markbox in the first footnote which appears after
+        A mark like document0:15;footnote0:3 corresponds to the fourth markbox in the first footnote which appears after
         the 16th markbox in the first (and only) document environment. So all numbers are zero indexed. The number after the colon
         corresponds to some box counter, and the number before the colon corresponds to the environment/macro counter
 
-        So the general structure is <environment/macro><num>:<num>.<nested enuncation/macro>:<num>.<and so on>
+        So the general structure is <environment/macro><num>:<num>;<nested enuncation/macro>:<num>;<and so on>
 
-        It is very rare that there should be more than two levels of nesting document -> something else, but I write it like this just incase
+        More than two levels of nesting should be very rare, but I use this format to handle arbitrary nesting
 
         parent_counter_keys are the names of environments/macros the current mark is to be written in.
         increment_head tells me whether I need to increment the head counter to the currently deepest nested object
@@ -360,7 +361,7 @@ def markNodes(
         the counter key is automatically initialized (and so there's no head value to reset)
         """
         if not parent_counter_keys:
-            logging.error(f"Could not mark {string}: it is not within any recognized macro/environment; exiting")
+            logger.critical(f"Could not mark {string}: it is not within any recognized macro/environment; exiting")
             sys.exit(1)
             
         for parent in parent_counter_keys:
@@ -368,9 +369,7 @@ def markNodes(
                 counters[parent] = {'head': 0, 'value': -1}
 
         count_key = parent_counter_keys[-1]
-
         counters[count_key]['value'] += 1
-
         mark_id = ','.join([
             f"{key.upper()}{counters[key]['head']};{counters[key]['value']}" for key in parent_counter_keys
         ])
@@ -388,8 +387,7 @@ def markNodes(
             node_name = node.envname
             if node_name in DISTINCTLY_MARKED_ENVIRONMENTS and node_name in counters:
                 counters[node_name]['head'] += 1
-                counters[node_name]['value'] = -1
-                    
+                counters[node_name]['value'] = -1                    
         elif node.isNodeType(LatexMacroNode):
             node_name = node.macroname
             if node_name in DISTINCTLY_MARKED_MACROS and node_name in counters:
@@ -406,8 +404,8 @@ def markNodes(
             joined_whole = rf'\begin{{{node.envname}}}{verbatim_contents}\end{{{node.envname}}}'
             
             if node_verbatim != joined_whole:
-                logging.error(f"Environment node '{node_verbatim}' in markNode was malformed or parsed incorrectly")
-                logging.debug(f"{verbatim_contents} != {joined_whole}")                
+                logger.error(f"Environment node '{node_verbatim}' in markNode was malformed or parsed incorrectly")
+                logger.debug(f"{verbatim_contents} != {joined_whole}")                
                 sys.exit(1)
                 
             if node.envname in allowed_environments or node.envname in ONLY_MARK_CAPTION_ENVS:
@@ -450,13 +448,13 @@ def markNodes(
                 joined_verbatim_macro = rf"\{node.macroname}" + ''.join([n.latex_verbatim() if n is not None else '' for n in argnlist])
                 
                 if node_verbatim != joined_verbatim_macro:
-                    logging.warning(
+                    logger.warning(
                         f"{node.macroname} verbatim, \n```latex\n{node_verbatim}\n```\ndid not match joined verbatim\n"
                         f"```latex\n{joined_verbatim_macro}\n```\nignoring..."
                     )
                     return node_verbatim
                 elif len(argnlist) != len_arg_spec:
-                    logging.warning(
+                    logger.warning(
                         f"{node.macroname}, {node_verbatim}, did not match argspec len: "
                         f"{len(argnlist)} != {len_arg_spec}"
                     )
@@ -476,8 +474,8 @@ def markNodes(
                     
                 parent_counter_keys.pop()
                 
-                # print(''.join(marked_macro))
-                # print("END\n\n")
+                # logger.debug(''.join(marked_macro))
+                # logger.debug("END\n\n")
                 
                 return ''.join(marked_macro)
                 # <<<
@@ -498,7 +496,7 @@ def markNodes(
             if is_in_only_mark_caption_env:
                 return node_verbatim
 
-            # don't mark key= chars in bib third argument contents
+            # don't mark key=chars in bib third argument contents
             if in_bib and '=' in node_verbatim:
                 return node_verbatim
             
@@ -528,14 +526,14 @@ def markNodes(
                     return node_verbatim
             
             if (prev_node is not None and prev_node.isNodeType(LatexCharsNode) and prev_ends_square is None) or parent_is_distinctly_marked_macro:
-                # logging.debug(f"Prev node in marked group node: {prev_node.latex_verbatim()}")
+                # logger.debug(f"Prev node in marked group node: {prev_node.latex_verbatim()}")
                 verbatim_contents = joinNodesVerbatim(node.nodelist) # every LatexGroupNode has a nodelist
-                # logging.debug(f"contents of marked group node: {verbatim_contents}\n")
+                # logger.debug(f"contents of marked group node: {verbatim_contents}\n")
                 
                 joined_whole = rf'{{{verbatim_contents}}}'
                 if node_verbatim != joined_whole:
-                    logging.error(f"Group node '{node_verbatim}' in markNode was malformed or parsed incorrectly")
-                    logging.debug(f"{verbatim_contents} != {joined_whole}")                
+                    logger.error(f"Group node '{node_verbatim}' in markNode was malformed or parsed incorrectly")
+                    logger.debug(f"{verbatim_contents} != {joined_whole}")                
                     sys.exit(1)
 
                 marked_contents = []
@@ -551,17 +549,17 @@ def markNodes(
             return node_verbatim
         
         else:
-            logging.warning(
+            logger.warning(
                 f"Unrecognized latex node '{node.nodeType()}' during markNode(); "
                 f"writing node.latex_verbatim(): '{node_verbatim}'"
             )
             return node_verbatim
 
     manuscript_marked_contents = []
-    top_prev_node = None
+    outer_prev_node = None
     for start_node in to_mark_nodelist:
-        manuscript_marked_contents.append(recMark(start_node, None, top_prev_node, []))
-        top_prev_node = start_node
+        manuscript_marked_contents.append(recMark(start_node, None, outer_prev_node, []))
+        outer_prev_node = start_node
     return ''.join(manuscript_marked_contents), counters
 
 def getPreambleAndDocument(nodelist):
@@ -570,7 +568,7 @@ def getPreambleAndDocument(nodelist):
        preamble and document"""        
     num_document_envs = len(list(filter(lambda n: n.isNodeType(LatexEnvironmentNode) and n.envname == 'document', nodelist)))
     if num_document_envs != 1:
-        logging.error(r"Found more (or less) than one `\begin{document}`s during getPreambleAndDocument().")
+        logger.critical(r"Found more (or less) than one `\begin{document}`s during getPreambleAndDocument().")
         sys.exit(1)
 
     i = 0
@@ -597,8 +595,8 @@ def unzipPos(stend_xy):
 
 def boxinfoToPDFRectangle(key: str, hbox, start_xy):
     """No longer using the end position to avoid minor issues with italic correction.
-    However, this also means that boxes which actually break across a line just extend into the margin, which is fine
-    if the layout is not two-column.
+    However, this means that boxes which break across a line just extend into the margin, which is only 
+    a relatively minor inconvenience if the layout is not two-column.
     """
     pgA, (width, height, depth) = unzipHbox(hbox)
     pgB, (x0, sy) = unzipPos(start_xy)
@@ -615,7 +613,7 @@ def getWordBoxes(boxpositions_filename: Path):
         while line:
             box_info = re.match(fr"^{not_colon}:(pwhd|spxy):(\d+):{not_colon}:{not_colon}:{not_colon}$", line)
             if box_info is None:
-                logging.error(f"Line {line_no} of {boxpositions_filename} '{repr(line)}' did not match the info spec")
+                logger.critical(f"Line {line_no} of {boxpositions_filename} '{repr(line)}' did not match the info spec")
                 sys.exit(1)
             matches = box_info.groups()
             key, label, values = matches[0], matches[1], tuple(map(lambda m: m.strip('pt'), matches[2:]))
@@ -631,7 +629,7 @@ def getWordBoxes(boxpositions_filename: Path):
                     # There should be only two labels (and they should each appear at most once):
                     # it looks like captions are read in twice, so it's okay if a label for a key appears more than once if the values are the same
                     # 'pwhd' for page, width, height, depth; and 'spxy' for start, page, x pos, y pos
-                    logging.error(
+                    logger.critical(
                         f"Key '{key}' with label '{label}' was already in '{word_boxes[key]}' and values differed\n"
                         f"current value:\n```python\n{word_boxes[key][label]}\n```\n"
                         f"new value:\n```python\n{values}\n```"
@@ -649,7 +647,7 @@ def getWordBoxes(boxpositions_filename: Path):
     
     for key, info in word_boxes.items():
         if 'spxy' not in info:
-            logging.warning(
+            logger.warning(
                 f"Could not extract individual box information: "
                 f"box with mark id '{key}' is not written to the PDF"
             )
@@ -658,7 +656,7 @@ def getWordBoxes(boxpositions_filename: Path):
         if len(info) != 2:
             # all marks should have exactly two fields (except for the ones which don't make it to the page)
             # the hbox dimensions and the start page and xy positions
-            logging.error(f"mark id '{key}' in '{boxpositions_filename}' differed from specification")
+            logger.error(f"mark id '{key}' in '{boxpositions_filename}' differed from specification")
             sys.exit(1)
 
     for mark_id in markids_to_delete:
@@ -676,7 +674,7 @@ def getWordBoxes(boxpositions_filename: Path):
         else:
             document_word_boxes[pageno] = {key:rectangle}
 
-    logging.info(f"Created {len(word_boxes)} marked boxes.")
+    logger.info(f"Created {len(word_boxes)} marked boxes.")
     
     return document_word_boxes, markids_to_delete
 
@@ -696,7 +694,7 @@ def readBalancedBraces(idx: int, s: str) -> tuple[str, int]:
             idx += 1
             
     if depth != 0:
-        logging.error('Unbalanced braces in marked string')
+        logger.error('Unbalanced braces in marked string')
         sys.exit(1)
     
     # Extract contents between start and the closing brace
@@ -854,7 +852,7 @@ def validateMarkPositions(mark_positions: dict[str, tuple[int, int]], document_w
                     "mark_positions.keys() is not a superset of all mark_ids in document_word_boxes."
                 )
 
-    logging.info("All mark positions are valid.")
+    logger.info("All mark positions are valid.")
     
 def pdfFname(tex_fname: Path):
     return f"{tex_fname.stem}.pdf"
@@ -882,18 +880,18 @@ def segment(tex_filename: str, **kwargs):
     )
     
     # parse LaTeX file
-    logging.info(f"Parsing {tex_filename}...")
+    logger.info(f"Parsing {tex_filename}...")
     (nodelist, _, _) = LatexWalker(tex_str, latex_context=latex_context).get_latex_nodes(pos=0)
 
     if joinNodesVerbatim(nodelist) != tex_str:
-        logging.error(f"Verbatim string tex source was not preserved after LatexWalker parsing; the parser has likely failed.")
+        logger.error(f"Verbatim string tex source was not preserved after LatexWalker parsing; the parser has likely failed.")
         sys.exit(1)
            
     preamble_nodes, document_node, post_document_nodes = getPreambleAndDocument(nodelist)
-    logging.info("Done.")
+    logger.info("Done.")
 
     # get metadata
-    logging.info("Getting metadata...")
+    logger.info("Getting metadata...")
     enunciations = getEnunciations(preamble_nodes)
     enunciation_names = set([enun['name'] for enun in enunciations])
     
@@ -907,7 +905,7 @@ def segment(tex_filename: str, **kwargs):
                     'metadata_source': metadata_source,
                     'environments': environments}
     
-    logging.info("Done.")
+    logger.info("Done.")
 
     # mark file
     boxpositions_filename = f'boxpositions_{tex_filename.stem}.txt'
@@ -928,7 +926,7 @@ def segment(tex_filename: str, **kwargs):
 """
     job_id = f'segment{int(time.time())}'
     
-    logging.info("Inserting marks...")
+    logger.info("Inserting marks...")
 
     left = r"[\n\t $(~]"
     inside = r"[a-zA-Z0-9!?.,'`/;:\-()@]+"
@@ -954,7 +952,7 @@ def segment(tex_filename: str, **kwargs):
         job_id
     )
     
-    logging.info("Done.")
+    logger.info("Done.")
 
     post_document_str = joinNodesVerbatim(post_document_nodes)        
     
@@ -982,24 +980,24 @@ def segment(tex_filename: str, **kwargs):
     
     process3 = runDiffpdf(pdfFname(tex_filename), pdfFname(marked_filename), tmp_dir)
 
-    logging.info(f"Original and marked source produce identical PDFs.")
+    logger.info(f"Original and marked source produce identical PDFs.")
 
-    logging.info("Getting word boxes...")
+    logger.info("Getting word boxes...")
     document_word_boxes, markids_to_delete = getWordBoxes(tmp_dir / boxpositions_filename)
-    logging.info("Done.")    
+    logger.info("Done.")    
 
     # do not concatenate the inserted preamble definitions
-    logging.info("Unmarking LaTeX...")
+    logger.info("Unmarking LaTeX...")
     unmarked_str, mark_positions = unMarkWithPositions(marked_preamble + marked_document + post_document_str, job_id, markids_to_delete)
-    logging.info("Done.")
+    logger.info("Done.")
 
     if unmarked_str != tex_str:
-        logging.error("Unmarked LaTeX does NOT match original LaTeX!")
+        logger.error("Unmarked LaTeX does NOT match original LaTeX!")
         sys.exit(1)
 
-    logging.info("Validating mark positions...")
+    logger.info("Validating mark positions...")
     validateMarkPositions(mark_positions, document_word_boxes)
-    logging.info("Done.")
+    logger.info("Done.")
 
     if clean:
         removeDir(tmp_dir)

@@ -1,4 +1,6 @@
-from texpdfedits.prompt import Correction, getCorrections, writeListOfPrompts
+from texpdfedits.prompt import writeListOfPrompts
+
+from texpdfedits.corr import Correction, getCorrections
 
 import logging
 import argparse
@@ -87,7 +89,7 @@ if __name__ == '__main__':
     _level = logging.DEBUG if args.debug else logging.INFO
     logging.basicConfig(level=_level, format='%(asctime)s - %(levelname)s - %(message)s')
 
-    corrections = getCorrections(args.annotpdf_filename, args.latex_filename)
+    corrections, overlapping_keys = getCorrections(args.annotpdf_filename, args.latex_filename)
 
     if args.draw_prompts:
         drawPromptsOnPages(corrections, args.annotpdf_filename, args.latex_filename, 'bbox_drawings')

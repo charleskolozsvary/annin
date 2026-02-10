@@ -1,4 +1,6 @@
 import logging
+logger = logging.getLogger(__name__)
+
 import argparse
 import pymupdf
 import json
@@ -6,10 +8,10 @@ import time
 import pickle
 import re
 
-from texpdfedits.extract import getEdits
-from texpdfedits.segmentsource import segment, sourceAsString, markIdToCountInfo
+from texpdfedits.extract_anns import getEdits
+from texpdfedits.mark_tex import segment, sourceAsString, markIdToCountInfo
 
-from pathlib import Path
+from pathlib import Path      
 
 BOXES_ORDER_THRESHOLD_BUFF = 6
 """
@@ -109,7 +111,7 @@ def rectangleToLatex(
     first document box after the rectangle
     """
     if pageno not in document_word_boxes:
-        logging.warning(f"Cannot extract LaTeX: pageno {pageno} not in document_word_boxes")
+        logger.warning(f"Cannot extract LaTeX: pageno {pageno} not in document_word_boxes")
         return None, None
 
     def getAdjacentKey(mark_id: str, plus_minus: int, page: int) -> str:
@@ -160,7 +162,7 @@ def rectangleToLatex(
             start_pos = mark_positions[last_curr][1]
             end_pos = mark_positions[first_next][0]
             if not (start_pos < end_pos and end_pos - start_pos < MAYBE_COMPATIBLE_POSITION_DIFFERENCE_THRESH):
-                logging.debug(
+                logger.debug(
                     f"Mark IDs are not compatible for source extraction:\n"
                     f"markId {last_curr} had end {start_pos} and id {first_next} had start {end_pos}"
                 )
@@ -176,7 +178,7 @@ def rectangleToLatex(
     intersecting_word_boxes = {k: rect for k, rect in page_word_boxes.items() if in_rectangle.intersects(rect)}
 
     if intersecting_word_boxes:
-        logging.debug(f"Rectangle {in_rectangle} on page {pageno} intersected {len(intersecting_word_boxes)} word boxes")
+        logger.debug(f"Rectangle {in_rectangle} on page {pageno} intersected {len(intersecting_word_boxes)} word boxes")
         mark_ids = list(intersecting_word_boxes.keys())
         category = categorizeMarkIDs(mark_ids)
         if category == 'compatible':
@@ -190,16 +192,16 @@ def rectangleToLatex(
         elif category == 'maybe compatible':
             start_key, end_key = checkMaybeCompatible(mark_ids)
         else:
-            logging.warning(f"Cannot extract LaTeX: intersected mark IDs were not compatible.")
-            logging.debug(f"Incompatible mark IDs were\n{mark_ids}")
+            logger.warning(f"Cannot extract LaTeX: intersected mark IDs were not compatible.")
+            logger.debug(f"Incompatible mark IDs were\n{mark_ids}")
             return None, None
     else:
-        logging.debug(f"Rectangle {in_rectangle} did not intersect any word box on page {pageno}")
+        logger.debug(f"Rectangle {in_rectangle} did not intersect any word box on page {pageno}")
         boxes_before = {k: rect for k, rect in page_word_boxes.items() if rect.y0 < in_rectangle.y0 - BOXES_ORDER_THRESHOLD_BUFF and isOnlyDocumentID(k)}
         boxes_after = {k: rect for k, rect in page_word_boxes.items() if rect.y0 > in_rectangle.y0 + BOXES_ORDER_THRESHOLD_BUFF and isOnlyDocumentID(k)}
 
-        # logging.debug(f"boxes before: {boxes_before}\n\n")
-        # logging.debug(f"boxes after: {boxes_after}\n\n")        
+        # logger.debug(f"boxes before: {boxes_before}\n\n")
+        # logger.debug(f"boxes after: {boxes_after}\n\n")        
         
         start_key = max(boxes_before.keys(), key=getTerminalStem) if boxes_before else None
         end_key = min(boxes_after.keys(), key=getTerminalStem) if boxes_after else None
@@ -215,20 +217,23 @@ def rectangleToLatex(
         # (1) the rectangle doesn't intersect any boxes and it comes before or after all of them
         # (2) the rectangle intersects boxes which have incompatible ids
         # (2.1) the rectangle intersects boxes which are maybe compatible that are actually deemed incompatible by checkMaybeCompatible
-        logging.warning(f"Cannot extract LaTeX: Rectangle outside marked boxes (start_key={start_key}, end_key={end_key})")
+        logger.warning(f"Cannot extract LaTeX: Rectangle outside marked boxes (start_key={start_key}, end_key={end_key})")
         return None, None
 
-    logging.debug(f"Before key is {start_key} and after key is {end_key}")
+    logger.debug(f"Before key is {start_key} and after key is {end_key}")
 
     start_pos = mark_positions[start_key][0]
     end_pos = mark_positions[end_key][1]
 
     if start_pos > end_pos:
         # this shouldn't happen thanks to BOXES_ORDER_THRESHOLD_BUFF
-        logging.warning(f"Cannot extract LaTeX: start_pos = '{start_pos}' > '{end_pos}' = end_pos")
+        logger.warning(f"Cannot extract LaTeX: start_pos = '{start_pos}' > '{end_pos}' = end_pos")
         return None, None
     
     return tex_str[start_pos:end_pos], (start_pos, end_pos)
+
+def toCodeblock(string: str, language: str = 'latex'):
+        return f"```{language}\n{string}\n```"
 
 def markdownReplies(replies: list[str]):
     if not replies:
@@ -304,6 +309,9 @@ class Correction:
         self.latex_snippet = _latex_snippet
         self.snippet_source_positions = _snippet_source_positions
 
+        self.is_autocorrected = False
+        self.group = None
+
     def __str__ (self): 
         return json.dumps({
             "index" : self.index,
@@ -326,8 +334,10 @@ class Correction:
         replies = '", "'.join([replaceNewlines(reply) for reply in self.messages['responses']])
         if replies:
             replies = f'\n%% Replies: "{replies}"'
+
+        status_message = ' (auto) [✓]' if self.is_autocorrected else ' [ ]'
         
-        return rf"""%% Correction {self.index}
+        return rf"""%% Correction {self.index}{status_message}
 %% Annotated text: "{replaceNewlines(self.pdf_selected_text)}"
 %% Comment: "{replaceNewlines(self.messages['comment'])}" {replies}
 %% 
@@ -390,44 +400,51 @@ def groupOverlaps(keyed_start_ends: dict[int, tuple[int]]) -> list[list[int]]:
         groups.append(current_group)
     return groups
 
-def groupOverlappingCorrections(corrections: list[Correction], tex_str: str) -> tuple[list[list[int]], list[str]]:
+def groupOverlappingCorrections(corrections: list[Correction], tex_str: str, **kwargs) -> tuple[list[list[int]], list[str]]:
     """
     find which corrections overlap, and update the correction snippets
     (and source positions) to span the union of the overlapping corrections
     """
+    update_overlap_corr = kwargs.get('update_overlap_corr', True)
+    
     if not corrections:
         return [], []
 
-    key_to_correction = {corr.index: corr for corr in corrections} # dict[int, Correction]    
+    key_to_correction = {corr.index: corr for corr in corrections}
     
     keyed_start_ends = {corr.index: corr.snippet_source_positions for corr in corrections}
     
     groups = groupOverlaps(keyed_start_ends)
 
-    snippets = [] 
+    # snippets = [] 
     for group in groups:
         spans_in_group = [keyed_start_ends[k] for k in group]
         min_start = min(spans_in_group, key = lambda span: span[0])[0]
         max_end = max(spans_in_group, key = lambda span: span[1])[1]
         containing_snippet = tex_str[min_start:max_end]
-        snippets.append(containing_snippet)
+        # snippets.append(containing_snippet)
         for k in group:
             corr = key_to_correction[k]
             if not corr.latex_snippet in containing_snippet:
-                logging.error(
+                logger.error(
                      "Failed to create overlapping groups: "
                     f"a snippet \n{corr.snippetToCodeblock()}\n was not in its spanning snippet \n{toCodeblock(containing_snippet)}\n"
                 )
                 sys.exit(1)
-            corr.updateSnippet((min_start, max_end), containing_snippet)
+            if update_overlap_corr:
+                corr.updateSnippet((min_start, max_end), containing_snippet)
+            corr.group = group
     
     return groups    
 
-def getCorrections(annot_filename: str, latex_filename: str, group_overlapping: bool = False, **kwargs) -> list[Correction]:
-    edits = getEdits(annot_filename)
-
+def getCorrections(annot_filename: str, latex_filename: str, **kwargs) -> list[Correction]:
+    group_overlapping = kwargs.get('group_overlapping', True)
     compiler = kwargs.get('compiler', 'pdflatex')
+    update_overlap_corr = kwargs.get('update_overlap_corr', True)
+
+    edits = getEdits(annot_filename)    
     mark_positions, document_word_boxes = segment(latex_filename, compiler=compiler)
+    
     tex_str = sourceAsString(Path(latex_filename))
 
     corrections = []
@@ -435,10 +452,11 @@ def getCorrections(annot_filename: str, latex_filename: str, group_overlapping: 
         progress = f"{i}/{len(edits)-1}"
         pageno = edit.pageno
         if pageno not in document_word_boxes:
-            logging.warning(f"Could not create correction {progress}: Page '{pageno}' not in `document_word_boxes` for edit {edit}")
+            logger.warning(f"Could not create correction {progress}: Page '{pageno}' not in `document_word_boxes` for edit {edit}")
             continue
         
         pdf_annot_rect = edit.annot_rect
+        logger.debug(f"Getting latex snippet for correction {i}...")
         latex_snippet, snippet_source_positions = rectangleToLatex(
             pageno,
             pdf_annot_rect,
@@ -448,7 +466,7 @@ def getCorrections(annot_filename: str, latex_filename: str, group_overlapping: 
         )
         
         if latex_snippet is None:
-            logging.warning(f"Could not create correction {progress}: no LaTeX snippet for edit {progress}: {edit}")
+            logger.warning(f"Could not create correction {progress}: no LaTeX snippet for edit {progress}: {edit}")
             continue
 
         corrections.append(
@@ -458,15 +476,17 @@ def getCorrections(annot_filename: str, latex_filename: str, group_overlapping: 
                 snippet_source_positions
             )
         )
-        logging.info(f"Created correction {progress}")
+        logger.info(f"Created correction {progress}")
 
-    logging.info(f"Produced {len(corrections)} corrections from {len(edits)} edit annotations.")
+    logger.info(f"Produced {len(corrections)} corrections from {len(edits)} edit annotations.")
 
     overlapping_keys = []
     if group_overlapping:
-        # updates correction start and end snippet positions
-        # overlapping keys currently unused: maybe update correction object so that you have something like a "overlaps with" attribute
-        overlapping_keys = groupOverlappingCorrections(corrections, tex_str)
-        logging.info("Grouped overlapping corrections.")
+        overlapping_keys = groupOverlappingCorrections(corrections, tex_str, update_overlap_corr=update_overlap_corr)
+        logger.info("Grouped overlapping corrections.")
+        if update_overlap_corr:
+            logger.info("Overlapping correction snippets extended.")
+        else:
+            logger.info("Overlapping correction snippets WERE NOT extended.")
 
-    return corrections
+    return corrections, overlapping_keys

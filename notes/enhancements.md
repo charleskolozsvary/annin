@@ -1,4 +1,4 @@
-# extract 
+# extract_anns
 ## Multi-line annotations
 `getSelection()` in `extract.py` does best when the annotation selects text limited to one line. As soon as it selects more than one line it performs poorly.
 
@@ -11,7 +11,7 @@ We need to overall do more testing about the behavior of `getSelection()` when t
 - Use opencv to identify the selections for multi-line annotations
 - Extract equations images to eventually pass to the LLM (need to research)
 
-# segmentsource
+# mark_tex
 ## Intersecting dedicated command word boxes
 If we intersect a word box that's in a `\copyrightinfo`, we only return the source that is bounded by the boxes, which is appropriate for the document word boxes, but not for the dedicatd commands, since this often results in insufficient source to carry out the edit. Ideally, we should just supply the entire command if even one of its boxes is intersected (though maybe not if the entire command source is longer than some threshold of characters).
 
@@ -74,3 +74,67 @@ This would also become much easier to address if we build up a correspondence be
 
 ## Screening responses
 Need to reflect on whether there is a way to identify good and bad responses from the LLM---it's also possible that we could cut out the LLM entirely.
+
+
+
+## comment_corr
+### ambiguity: set decision for comma inside or outside `}`?
+```latex
+%% Correction 27 [ ]
+%% Annotated text: "the rKdV hierarchy<Caret> is the"
+%% Comment: "," 
+%% 
+%% START of correction 27
+the \emph{$r$KdV hierarchy} is %%
+%% END of correction 27
+```
+```python
+cs_left is 'the \\emph{$r$KdV hierarchy,} is'
+cs_right is 'the \\emph{$r$KdV hierarchy}, is'
+```
+
+```latex
+%% Correction 192 [ ]
+%% Annotated text: "boundary half-edges (i.e.<Caret> the map"
+%% Comment: "," 
+%% 
+%% START of correction 192
+and legality of the boundary half-edges (\textit{i.e.} the map $\tw$ and $\alt$) are parts of data %%
+%% END of correction 192
+```
+
+### UTF-8 character replacements
+```latex
+%% Correction 16 [ ]                                                   
+%% Annotated text: "stands for “closed<Replace>”,</Replace> as opposed"
+%% Comment: ",""                                                       
+%%                                                                     
+%% START of correction 16                                              
+for ``closed'', as %%                                                  
+%% END of correction 16
+```
+
+```latex
+%% Correction 138 [ ]
+%% Annotated text: "two similar terminologie<Replace>s ‘</Replace>root’ and ‘anchor’,"
+%% Comment: "s---`" 
+%% 
+%% Correction 139 (auto) [✓]
+%% Annotated text: "‘root’ and ‘anchor’<Replace>, w</Replace>here ‘root’ will"
+%% Comment: "---w" 
+%% 
+%% START of corrections 138, 139
+similar terminologies `root' and `anchor'---where `root' %%
+%% END of corrections 138, 139
+```
+
+### Hidden math shift
+```latex
+%% Correction 58 [ ]
+%% Annotated text: "(e.g. the <Replace>rank 2</Replace> Fermat theory"
+%% Comment: "rank-$2$" 
+%% 
+%% START of corrections 57, 58
+WDVV (e.g., the rank $2$ Fermat %%
+%% END of corrections 57, 58
+```

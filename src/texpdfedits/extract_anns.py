@@ -2,6 +2,8 @@ import pymupdf
 import json
 import argparse
 import logging
+logger = logging.getLogger(__name__)
+
 import sys
 import math
 from copy import deepcopy
@@ -15,13 +17,6 @@ PDF_ANNOT_CARET = (14, 'Caret')
 
 SELECT_TEXT_ANNOTS = {"Replace", "StrikeOut", "Highlight", "Underline"}
 
-# When extracting selection text I alter the bounding boxes slightly to avoid repeating or missing symbols.
-# The value of two points was chosen heuristically; it works well enough for the time being on the PDFs I've tested.
-# It is possible that this approach will fail on very small or large text and will need to updated in the future.
-
-### CARET_BUFF = 2 # in pymupdf points
-### EXTRACT_TEXT_BUFFER_WIDTH = 2 # also in pymupdf points
-
 # set surrounding lines to at most the line above and below
 # if set to two, include two lines above and two lines below
 # the line the annot intersects
@@ -30,7 +25,11 @@ NUM_SURROUNDING_LINES = 1
 NORMALIZATION_HEIGHT_PROPORTION = 1/3 # bottom and top thirds
 
 class Annot:
-    """Revised version of pymupdf's Annot which fixes the bounding box of the Caret annotation and isn't fragile. See getRobustAnnots()"""
+    """
+    Revised version of pymupdf's Annot which fixes the bounding box of the Caret annotation and isn't fragile. See getRobustAnnots().
+    There's a good chance that there's already something in pymupdf which separates the annot from the page, though, in which case this
+    should be removed and the code refactored.
+    """
     def __init__ (self, _pageno, _type, _info, _xref, _irt_xref, _rect): #, _line_bb, _surr_lines):
         self.pageno = _pageno        
         self.type = _type
@@ -38,8 +37,6 @@ class Annot:
         self.xref = _xref
         self.irt_xref = _irt_xref
         self.rect = _rect
-        # self.line_bb = _line_bb
-        # self.surr_lines = _surr_lines
         
     def __str__ (self):
         return str({'pageno':self.pageno, 'type':self.type, 'info':self.info['content'], 'rect':self.rect})
@@ -52,8 +49,6 @@ class Annot:
              'xref':self.xref,
              'irt_xref':self.irt_xref,
              'rect':self.rect,
-             # 'line_bb':self.line_bb,
-             # 'surr_lines':self.surr_lines
              }
         )
     
@@ -87,17 +82,20 @@ class Edit:
     }
 
     """
+
+    CARET_NAME = 'Caret'
+    
     def __init__ (self, _pageno, _type, _message, _selection, _selection_bbs, _annot_rect):
         self.pageno = _pageno 
         self.type = _type
         self.message = _message
         self.selection = _selection
-        self.selection_bbs = _selection_bbs # will not be sent to the model
-        self.annot_rect = _annot_rect # will also not be sent to the model, but is used in segmentsource routines
+        self.selection_bbs = _selection_bbs # for debugging
+        self.annot_rect = _annot_rect # used in segmentsource routines
         
-    def __str__ (self): # json is getting scrapped for markdown, but this is still fine for debugging
+    def __str__ (self): 
         return json.dumps({
-            "pageno": self.pageno, # will probably not ultimately give to the model
+            "pageno": self.pageno, 
             "type": self.type, 
             "message": {
                 "comment": self.message['comment'],
@@ -130,9 +128,11 @@ def getRobustAnnots(doc):
                 robust_annots[pageno].append(Annot(pageno, annot.type, annot.info, annot.xref, annot.irt_xref, new_ann_rect))
                 continue
             (x0, y0, x1, y1) = new_ann_rect
-            # hacky heuristic adjustment of annot rectangles
-            REDUCE_AMMOUNT_ABOVE = 2.5 # in points
-            REDUCE_AMMOUNT_BELOW = 1.5 # in points
+            
+            # hacky heuristic adjustment of annot rectangles (in points)
+            REDUCE_AMMOUNT_ABOVE = 2.5 
+            REDUCE_AMMOUNT_BELOW = 1.5 
+            
             if annot.type == PDF_ANNOT_CARET:
                 extension = CARET_V_PROPORTION * (y1 - y0)
                 new_ann_rect.y1 = y0 + extension
@@ -142,7 +142,6 @@ def getRobustAnnots(doc):
                 new_ann_rect.x0 += reduction
                 new_ann_rect.x1 -= reduction
             else:
-            #if annot.type[1] in SELECT_TEXT_ANNOTS:
                 new_ann_rect.y0 = y0 + REDUCE_AMMOUNT_ABOVE
                 new_ann_rect.y1 = y1 - REDUCE_AMMOUNT_BELOW
             robust_annots[pageno].append(
@@ -191,7 +190,7 @@ def getResponses(annot, all_responses):
 
 def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, int, int, int]], doc: pymupdf.Document):
     """
-    return annotation's selected text, rectangle for latex source extraction,
+    Return: annotation's selected text, rectangle for latex source extraction,
     and selection bounding boxes for debugging
 
     page_words is list of (x0, y0, x1, y1, "word", block_no, line_no, word_no) tuples
@@ -212,7 +211,7 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
         intersecting_words.append(word)
     
     if not intersecting_words:
-        logging.warning(
+        logger.warning(
             f"No selection text for {annot}: "
             "ann rectangle did not intersect ANY PDF word boxes"
         )
@@ -221,16 +220,16 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
     CARET_X_BUFF = 1 # one point
     OTHER_ANN_X_BUFF = .75 # one point
         
-    NUM_CONTEXT_WORDS = 1 # words to add before and after which are not selected
+    NUM_CONTEXT_WORDS = 2 # words to add before and after which are not selected
     first_sel_word = intersecting_words[0]
     last_sel_word = intersecting_words[-1]
 
-    logging.debug(
+    logger.debug(
         f"annot page {annot.pageno} with content '{annot.info['content']}':\n"
         f"intersecting_words: {intersecting_words}"
     )
 
-    logging.debug(
+    logger.debug(
         f"annot page {annot.pageno} with content '{annot.info['content']}':\n"
         f"first_sel_word: {first_sel_word}\nlast_sel_word: {last_sel_word}"
     )
@@ -240,7 +239,7 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
     start_word_idx = max(0, page_words.index(first_sel_word) - NUM_CONTEXT_WORDS)
     end_word_idx = min(len(page_words)-1, page_words.index(last_sel_word) + NUM_CONTEXT_WORDS)
 
-    logging.debug(
+    logger.debug(
         f"annot page {annot.pageno} with content '{annot.info['content']}':\n"
         f"start_word: {page_words[start_word_idx]}\nend_word: {page_words[end_word_idx]}"
     )    
@@ -275,7 +274,7 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
 
         left = wordGetTextToStr(page.get_text('words', clip=left_rect, sort=True))
         right = wordGetTextToStr(page.get_text('words', clip=right_rect, sort=True))
-        return f"{left}<Caret>{right}"
+        return f"{left}<{Edit.CARET_NAME}>{right}"
 
     def getOtherSelection(word_box):
         """
@@ -285,14 +284,14 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
         word_boxes_that_intersect_this_word_box = [wb for wb in page_words if word_box.intersects(wb[0:4])]
         
         # if len(word_boxes_that_intersect_this_word_box) > 1:
-        #     logging.warning(
+        #     logger.warning(
         #         f"No selection text for {annot}: "
         #         "Word box intersects another word box"
         #     )
         #     return None
         
         # elif len(word_boxes_that_intersect_this_word_box) == 0:
-        #     logging.warning(
+        #     logger.warning(
         #         f"No selection text for {annot}: "
         #         "Word box does not intersect itself"
         #     )
@@ -346,7 +345,7 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
             return f"{left}<{selection_name}>{middle}</{selection_name}>{right}"
 
         else:
-            logging.warning(
+            logger.warning(
                 f"Could not produce selection text for annot {annot}: "
                 "There was neither a start or end boundary of the annotation on the word box"
             )
@@ -370,14 +369,14 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
         word_box = pymupdf.Rect(word[0:4])
         word_str = word[4]
         if word not in intersecting_words:
-            # logging.debug(f"word '{word_str}' in {annot} doesn't intersect annot Rect")
+            # logger.debug(f"word '{word_str}' in {annot} doesn't intersect annot Rect")
             word_block_no = word[5]
             if word_block_no == first_sel_word[5] or wordDistance(word, first_sel_word) < MAX_WORD_DISTANCE_IF_DIFF_BLOCK:
                 selected_text.append(word_str)
             continue
 
         if insideAnnotRect(word_box):
-            # logging.debug(f"word '{word_str}' with box '{word_box}' in {annot} inside annot Rect")
+            # logger.debug(f"word '{word_str}' with box '{word_box}' in {annot} inside annot Rect")
             selected_text.append(word_str)
             continue
         
@@ -391,7 +390,7 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
             if res is None:
                 return None, None, None
             selected_text.append(res)
-    # logging.debug(f"selected_text for {annot} is {selected_text}")
+    # logger.debug(f"selected_text for {annot} is {selected_text}")
     return ' '.join(selected_text), selection_bbs, annot.rect
     
 
@@ -418,7 +417,7 @@ def getEdits(filename):
     all_responses = getAllResponses(robust_annots)
 
     target_num_edits = 0
-    logging.info("Turning annotations into edits...")
+    logger.info("Turning annotations into edits...")
     num_not_for_comp = 0
     edits = []
     for pageno, page in enumerate(doc):
@@ -436,7 +435,7 @@ def getEdits(filename):
 
             # skip annots whose comment text starts with AU: or PE: or PTG: among other things, unless the first response has COMP: or TEG:
             if isNotForCOMP(message):
-                logging.debug(f"Skipping annot {annot}; deemed not for COMP")
+                logger.debug(f"Annot {annot} deemed not for COMP")
                 num_not_for_comp += 1
                 continue
 
@@ -456,7 +455,6 @@ def getEdits(filename):
                     return False, None
 
                 return True, other_ann
-                # return ann.rect.intersects(other_ann.rect) and other_ann.info['content'] == '', other_ann
                 
             is_replace, other_ann = isReplaceAnnot(annot, responses)
             
@@ -469,12 +467,9 @@ def getEdits(filename):
             if annot.type == PDF_ANNOT_STRIKE_OUT:
                 annot.type = (None, 'Remove')
 
-            # if annot.type == PDF_ANNOT_CARET:
-            #     annot.type = (None, 'Insert')
-
             page_words = page.get_text('words', sort=True)
             
-            # the sort option doesn't actually sort in lexicographic order, it seems... maybe it secretely does it by rectangle positions.
+            # the sort option doesn't actually sort in lexicographic order... maybe it does it by rectangle positions.
             page_words = list(sorted(page_words, key = lambda w: (w[5], w[6], w[7])))
             
             selection_text, selection_bbs, latex_extraction_bb = getSelection(annot, page_words, doc)
@@ -485,10 +480,10 @@ def getEdits(filename):
             edits.append(Edit(annot.pageno, annot.type[1], message, selection_text, selection_bbs, latex_extraction_bb))
 
         if robust_annots[pageno]:
-            logging.info(f"Extracted annotations on page {pageno:3d}/{doc.page_count-1:3d}")
+            logger.info(f"Extracted annotations on page {pageno:3d}/{doc.page_count-1:3d}")
         
-    logging.info(f"Created {len(edits)} edits from {target_num_edits} PDF annotations")
-    logging.info(f"Ignored {num_not_for_comp} annotation(s) deemed not for COMP")
+    logger.info(f"Created {len(edits)} edits from {target_num_edits} PDF annotations")
+    logger.info(f"Ignored {num_not_for_comp} annotation(s) deemed not for COMP")
     return edits
             
 if __name__ == '__main__':

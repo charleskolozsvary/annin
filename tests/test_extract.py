@@ -1,7 +1,8 @@
 import pymupdf
 import argparse
 import logging
-from texpdfedits.extract import getRobustAnnots, getEdits, PDF_ANNOT_TEXT, PDF_ANNOT_CARET, PDF_ANNOT_STRIKE_OUT
+
+from texpdfedits.extract_anns import getRobustAnnots, getEdits, PDF_ANNOT_TEXT, PDF_ANNOT_CARET, PDF_ANNOT_STRIKE_OUT
 from pathlib import Path
 
 import os

@@ -9,7 +9,7 @@ lowercase
 
 ### PDF selected text
 ```text
-H<Highlight>ALL</Highlight> π-SUBGROUPS
+H<Highlight>ALL</Highlight> π-SUBGROUPS AND
 ```
   
 ### LaTeX snippet
@@ -51,7 +51,7 @@ lowercase
 
 ### PDF selected text
 ```text
-OF π1<Highlight>-DEGREE</Highlight>
+CHARACTERS OF π1<Highlight>-DEGREE</Highlight>
 ```
   
 ### LaTeX snippet
@@ -72,7 +72,7 @@ Hall-$\pi$-subgroups
 
 ### PDF selected text
 ```text
-of <Replace>Hall π-subgroups</Replace> and
+existence of <Replace>Hall π-subgroups</Replace> and that
 ```
   
 ### LaTeX snippet
@@ -94,7 +94,7 @@ $\pi$-subgroups and
 
 ### PDF selected text
 ```text
-1.1 (<Replace>[NT06], Theorem A</Replace>). Let
+Theorem 1.1 (<Replace>[NT06], Theorem A</Replace>). Let G
 ```
   
 ### LaTeX snippet
@@ -118,7 +118,7 @@ Let
 
 ### PDF selected text
 ```text
-Qpe2πi{pq. <Remove>(</Remove>Here, a
+in Qpe2πi{pq. <Remove>(</Remove>Here, a character
 ```
   
 ### LaTeX snippet
@@ -139,7 +139,7 @@ Qpe2πi{pq. <Remove>(</Remove>Here, a
 
 ### PDF selected text
 ```text
-in π.<Remove>)</Remove> Unfortunately,
+prime in π.<Remove>)</Remove> Unfortunately, this
 ```
   
 ### LaTeX snippet
@@ -161,7 +161,7 @@ make em-dash and remove surrounding spaces
 
 ### PDF selected text
 ```text
-extension <Highlight>–</Highlight> perhaps
+different extension <Highlight>–</Highlight> perhaps a
 ```
   
 ### LaTeX snippet
@@ -182,7 +182,7 @@ make em-dash and remove surrounding space
 
 ### PDF selected text
 ```text
-one <Highlight>–</Highlight> of
+natural one <Highlight>–</Highlight> of Theorem
 ```
   
 ### LaTeX snippet
@@ -203,7 +203,7 @@ Hall-$\pi$-subgruop
 
 ### PDF selected text
 ```text
-a <Replace>Hall π-subgroup</Replace> of
+called a <Replace>Hall π-subgroup</Replace> of G
 ```
   
 ### LaTeX snippet
@@ -224,7 +224,7 @@ a Hall $\pi$-subgroup of
 
 ### PDF selected text
 ```text
-20C15, 20C30<Replace>,</Replace> 20C33,
+Primary 20C15, 20C30<Replace>,</Replace> 20C33, 20D20.
 ```
   
 ### LaTeX snippet
@@ -245,7 +245,7 @@ Hall-$\pi$-subgroups
 
 ### PDF selected text
 ```text
-values, <Replace>Hall π-subgroups</Replace>, characters
+of values, <Replace>Hall π-subgroups</Replace>, characters of
 ```
   
 ### LaTeX snippet
@@ -267,7 +267,7 @@ characters
 
 ### PDF selected text
 ```text
-funded by<Remove>:</Remove> the
+is funded by<Remove>:</Remove> the European
 ```
   
 ### LaTeX snippet
@@ -288,7 +288,7 @@ funded by: the
 
 ### PDF selected text
 ```text
-and Applications<Remove>;</Remove> and
+Theory and Applications<Remove>;</Remove> and the
 ```
   
 ### LaTeX snippet
@@ -309,7 +309,7 @@ lowercase capitals
 
 ### PDF selected text
 ```text
-2022PSTWLB <Highlight>Group Theory and A</Highlight>pplications; and
+- 2022PSTWLB <Highlight>Group Theory and A</Highlight>pplications; and the
 ```
   
 ### LaTeX snippet
@@ -331,7 +331,7 @@ make en-dash if not already
 
 ### PDF selected text
 ```text
-the AMS<Highlight>–</Highlight>Simons Research
+from the AMS<Highlight>–</Highlight>Simons Research Enhancement
 ```
   
 ### LaTeX snippet
@@ -352,7 +352,7 @@ move to Acknowledgment before references
 
 ### PDF selected text
 ```text
-support <Highlight>from for se the AMS–Simons Research Enhancement Grant (AWD-000167 AMS). We thank Gunter Malle</Highlight> <Highlight>fro for several helpful comments on an earlier version, particularly regarding Proposition 2.11.
+acknowledges support <Highlight>from for se the AMS–Simons Research Enhancement Grant (AWD-000167 AMS). We thank Gunter Malle</Highlight> <Highlight>fro for several helpful comments on an earlier version, particularly regarding Proposition 2.11.
 ```
   
 ### LaTeX snippet
@@ -377,7 +377,7 @@ an
 
 ### PDF selected text
 ```text
-have <Replace>a conceptual</Replace> explanation
+not have <Replace>a conceptual</Replace> explanation for
 ```
   
 ### LaTeX snippet
@@ -398,7 +398,7 @@ Hall-\pi-subgroups
 
 ### PDF selected text
 ```text
-of <Replace>Hall π-subgroups</Replace> and
+existence of <Replace>Hall π-subgroups</Replace> and π1-degree
 ```
   
 ### LaTeX snippet
@@ -496,7 +496,7 @@ This
 
 ### PDF selected text
 ```text
-all non<Remove>-</Remove>abelian simple
+for all non<Remove>-</Remove>abelian simple groups.
 ```
   
 ### LaTeX snippet
@@ -518,7 +518,7 @@ non-abelian simple
 
 ### PDF selected text
 ```text
-:“ e2πi{k<Insert comment contents here> and
+ζk :“ e2πi{k<Caret> and we
 ```
   
 ### LaTeX snippet
@@ -539,7 +539,7 @@ let $\zeta_k:=e^{2\pi i/k}$ and
 
 ### PDF selected text
 ```text
-of χ<Replace>, t</Replace>hat is,
+values of χ<Replace>, t</Replace>hat is, the
 ```
   
 ### LaTeX snippet
@@ -560,7 +560,7 @@ Theorem 2.1 <pls link>
 
 ### PDF selected text
 ```text
-proving <Replace>the following</Replace>.
+at proving <Replace>the following</Replace>.
 ```
   
 ### LaTeX snippet
@@ -584,7 +584,7 @@ Let
 
 ### PDF selected text
 ```text
-there exist<Remove>s</Remove> 1S
+Then there exist<Remove>s</Remove> 1S ‰
 ```
   
 ### LaTeX snippet
@@ -606,7 +606,7 @@ $1_S\neq\chi\in\Irr_{\pi'}(S)$
 
 ### PDF selected text
 ```text
-Hall<Insert comment contents here> π-subgroups
+Hall<Caret> π-subgroups for
 ```
   
 ### LaTeX snippet
@@ -631,7 +631,7 @@ Hall $\pi$
 
 ### PDF selected text
 ```text
-P Ně5<Insert comment contents here> and
+n P Ně5<Caret> and let
 ```
   
 ### LaTeX snippet
@@ -652,7 +652,7 @@ Let $n\in\mathbb{N}_{\geq 5}$ and
 
 ### PDF selected text
 ```text
-“ 1<Insert comment contents here> the
+|π| “ 1<Caret> the statement
 ```
   
 ### LaTeX snippet
@@ -678,7 +678,7 @@ For the other
 
 ### PDF selected text
 ```text
-a Hall<Insert comment contents here> π-subgroup
+admits a Hall<Caret> π-subgroup H
 ```
   
 ### LaTeX snippet
@@ -700,7 +700,7 @@ $\pi$
 
 ### PDF selected text
 ```text
-In particular<Insert comment contents here> let
+2. In particular<Caret> let π
 ```
   
 ### LaTeX snippet
@@ -721,7 +721,7 @@ In particular let
 
 ### PDF selected text
 ```text
-is solvable<Replace>, b</Replace>y the
+H is solvable<Replace>, b</Replace>y the Feit–Thompson
 ```
   
 ### LaTeX snippet
@@ -742,7 +742,7 @@ is solvable, by the
 
 ### PDF selected text
 ```text
-theorem [FT63]<Replace>.</Replace> By
+Feit–Thompson theorem [FT63]<Replace>.</Replace> By [Hal28]
 ```
   
 ### LaTeX snippet
@@ -766,7 +766,7 @@ Notice that $H$ is solvable, by the Feit--Thompson theorem
 
 ### PDF selected text
 ```text
-By [Hal28]<Insert comment contents here> we
+[FT63]. By [Hal28]<Caret> we then
 ```
   
 ### LaTeX snippet
@@ -789,7 +789,7 @@ $\{p_1,p_2\}$-Hall subgroup $K$. It follows that $K$
 
 ### PDF selected text
 ```text
-tp1, p2u<Insert comment contents here> we
+R tp1, p2u<Caret> we also
 ```
   
 ### LaTeX snippet
@@ -811,7 +811,7 @@ since $2\notin
 
 ### PDF selected text
 ```text
-This <Remove>clearly</Remove> contradicts
+π. This <Remove>clearly</Remove> contradicts our
 ```
   
 ### LaTeX snippet
@@ -832,7 +832,7 @@ This clearly contradicts
 
 ### PDF selected text
 ```text
-of non<Remove>-</Remove>solvable Hall
+classification of non<Remove>-</Remove>solvable Hall subgroups
 ```
   
 ### LaTeX snippet
@@ -853,7 +853,7 @@ l-s
 
 ### PDF selected text
 ```text
-non-solvable Hal<Replace>l s</Replace>ubgroups of
+of non-solvable Hal<Replace>l s</Replace>ubgroups of symmetric
 ```
   
 ### LaTeX snippet
@@ -875,7 +875,7 @@ subgroups of
 
 ### PDF selected text
 ```text
-a non<Remove>-</Remove>solvable Hall
+is a non<Remove>-</Remove>solvable Hall π-subgroup
 ```
   
 ### LaTeX snippet
@@ -897,7 +897,7 @@ l-$\pi$
 
 ### PDF selected text
 ```text
-non-solvable Hal<Replace>l π</Replace>-subgroup of
+a non-solvable Hal<Replace>l π</Replace>-subgroup of An.
 ```
   
 ### LaTeX snippet
@@ -919,7 +919,7 @@ Hall $\pi$-subgroup
 
 ### PDF selected text
 ```text
-a non<Remove>-</Remove>solvable Hall
+also a non<Remove>-</Remove>solvable Hall π-subgroup
 ```
   
 ### LaTeX snippet
@@ -940,7 +940,7 @@ make upright
 
 ### PDF selected text
 ```text
-Theorem <Highlight>2.1</Highlight> holds
+2.3. Theorem <Highlight>2.1</Highlight> holds when
 ```
   
 ### LaTeX snippet
@@ -968,7 +968,7 @@ sporadic group,
 
 ### PDF selected text
 ```text
-´ 1qn´1<Remove>,</Remove>
+pq ´ 1qn´1<Remove>,</Remove>
 ```
   
 ### LaTeX snippet
@@ -993,7 +993,7 @@ so
 
 ### PDF selected text
 ```text
-´ 1qpn´1q{2 1qpn´2q{2<Remove>, p</Remove> if n is odd, 1qpn´1q{2 1qpn´2q{2<Remove>, p</Remove>q
+pq2 ´ 1qpn´1q{2 1qpn´2q{2<Remove>, p</Remove> if n is odd, 1qpn´1q{2 1qpn´2q{2<Remove>, p</Remove>q
 ```
   
 ### LaTeX snippet
@@ -1022,7 +1022,7 @@ and
 
 ### PDF selected text
 ```text
-´ 1q<Remove>,</Remove> if
+1qpn´2q{2pq ´ 1q<Remove>,</Remove> if n
 ```
   
 ### LaTeX snippet
@@ -1051,7 +1051,7 @@ and
 
 ### PDF selected text
 ```text
-is odd even<Remove>, n</Remove> odd even<Remove>, n</Remove>,
+n is odd even<Remove>, n</Remove> odd even<Remove>, n</Remove>,
 ```
   
 ### LaTeX snippet
@@ -1080,7 +1080,7 @@ and
 
 ### PDF selected text
 ```text
-is even<Remove>,</Remove>
+n is even<Remove>,</Remove>
 ```
   
 ### LaTeX snippet
@@ -1109,7 +1109,7 @@ and
 
 ### PDF selected text
 ```text
-P G<Replace>.</Replace>
+n´2˘ P G<Replace>.</Replace>
 ```
   
 ### LaTeX snippet
@@ -1135,7 +1135,7 @@ Let
 
 ### PDF selected text
 ```text
-“ p<Replace>.</Replace>
+ordprsq “ p<Replace>.</Replace>
 ```
   
 ### LaTeX snippet
@@ -1160,7 +1160,7 @@ C
 
 ### PDF selected text
 ```text
-Conjugacy <Highlight>c</Highlight>lasses and
+type. Conjugacy <Highlight>c</Highlight>lasses and complex
 ```
   
 ### LaTeX snippet
@@ -1182,7 +1182,7 @@ uppercase first letter of each word
 
 ### PDF selected text
 ```text
-and <Highlight>complex characters</Highlight>, Pure
+classes and <Highlight>complex characters</Highlight>, Pure Appl.
 ```
   
 ### LaTeX snippet
@@ -1204,7 +1204,7 @@ F
 
 ### PDF selected text
 ```text
-of <Highlight>f</Highlight>nite groups,
+Atlas of <Highlight>f</Highlight>nite groups, Clarendon
 ```
   
 ### LaTeX snippet
@@ -1225,7 +1225,7 @@ G
 
 ### PDF selected text
 ```text
-finite <Highlight>g</Highlight>roups, Clarendon
+of finite <Highlight>g</Highlight>roups, Clarendon Press,
 ```
   
 ### LaTeX snippet
@@ -1246,7 +1246,7 @@ italic
 
 ### PDF selected text
 ```text
-Thompson, <Highlight>Solvability of groups of odd order</Highlight>, Pacific
+J. Thompson, <Highlight>Solvability of groups of odd order</Highlight>, Pacific J.
 ```
   
 ### LaTeX snippet
@@ -1268,7 +1268,7 @@ make upright
 
 ### PDF selected text
 ```text
-order, <Highlight>Pacific J. Math</Highlight>. 13
+odd order, <Highlight>Pacific J. Math</Highlight>. 13 (1963),
 ```
   
 ### LaTeX snippet
@@ -1290,7 +1290,7 @@ A
 
 ### PDF selected text
 ```text
-type: <Replace>a</Replace> guided
+Lie type: <Replace>a</Replace> guided tour,
 ```
   
 ### LaTeX snippet

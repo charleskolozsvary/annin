@@ -1,5 +1,5 @@
-from texpdfedits.segmentsource import segment, getWordBoxes, unMarkWithPositions
-from texpdfedits.prompt import rectangleToLatex
+from texpdfedits.mark_tex import segment, getWordBoxes, unMarkWithPositions, sourceAsString
+from texpdfedits.corr import rectangleToLatex
 import logging
 import argparse
 import pymupdf
@@ -77,7 +77,7 @@ def testRectangleToLatex(
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('filename')
+    parser.add_argument('tex_filename')
     parser.add_argument("-d", "--debug", action="store_true", help='debugging output')
     parser.add_argument("-db", "--drawboxes", action = "store_true", help='draw individual boxes')
 
@@ -115,14 +115,16 @@ if __name__ == '__main__':
     else:
         extra_names = set()
 
-    num_marks, marked_tex, unmarked_str, mark_positions, document_word_boxes, all_metadata = segment(args.filename, extra_names)
+    mark_positions, document_word_boxes = segment(args.tex_filename, emen=extra_names)
+
+    tex_str = sourceAsString(args.tex_filename)
 
     logging.info("Finished segment().")
     
     output_dir = 'bbox_drawings'
-    pdf_filename = Path(args.filename).parent / f'{Path(args.filename).stem}.pdf'
+    pdf_filename = Path(args.tex_filename).parent / f'{Path(args.tex_filename).stem}.pdf'
         
-    testRectangleToLatex(in_recpage, in_rectangle, document_word_boxes, mark_positions, unmarked_str, pdf_filename, output_dir)
+    testRectangleToLatex(in_recpage, in_rectangle, document_word_boxes, mark_positions, tex_str, pdf_filename, output_dir)
 
     if args.drawboxes:
         drawWordBoxes(pdf_filename, document_word_boxes, output_dir)
