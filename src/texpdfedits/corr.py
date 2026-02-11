@@ -438,12 +438,13 @@ def groupOverlappingCorrections(corrections: list[Correction], tex_str: str, **k
     return groups    
 
 def getCorrections(annot_filename: str, latex_filename: str, **kwargs) -> list[Correction]:
-    group_overlapping = kwargs.get('group_overlapping', True)
-    compiler = kwargs.get('compiler', 'pdflatex')
-    update_overlap_corr = kwargs.get('update_overlap_corr', True)
+    update_overlap_corr = kwargs.get('update_overlap_corr', True)    
+    group_overlapping   = kwargs.get('group_overlapping', True)
+    compiler            = kwargs.get('compiler', 'pdflatex')
+    clean               = kwargs.get('clean', True)
 
     edits = getEdits(annot_filename)    
-    mark_positions, document_word_boxes = segment(latex_filename, compiler=compiler)
+    mark_positions, document_word_boxes = segment(latex_filename, compiler=compiler, clean=clean)
     
     tex_str = sourceAsString(Path(latex_filename))
 
@@ -488,5 +489,7 @@ def getCorrections(annot_filename: str, latex_filename: str, **kwargs) -> list[C
             logger.info("Overlapping correction snippets extended.")
         else:
             logger.info("Overlapping correction snippets WERE NOT extended.")
+    else:
+        logger.info("Did **NOT** group overlapping corrections.")
 
     return corrections, overlapping_keys

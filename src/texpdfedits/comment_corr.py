@@ -9,12 +9,12 @@ import re
 import os, sys
 
 from texpdfedits.extract_anns import Edit, getEdits
-from texpdfedits.mark_tex import segment, sourceAsString, runDiffpdf, pdfFname, compileLatex, transferTeXFiles
+from texpdfedits.mark_tex import segment, sourceAsString, runDiffpdf, pdfFname, compileLatex, transferTeXFiles, removeDir
 from texpdfedits.corr import Correction, getCorrections, toCodeblock
 
 from pathlib import Path
 
-INTERMEDIATE_EXTENSIONS_TO_DELETE = ".aux .out .log .toc .bbl .blg .thm .synctex.gz .synctex".split(' ')
+INTERMEDIATE_EXTENSIONS_TO_DELETE = set(".aux .out .log .toc .bbl .blg .thm .synctex.gz .synctex .brf .pdf".split(' '))
 
 def getBetweenLatex(prev_pos: int, char_pos: int, prev_rest_of_line: str, *args):
     (tex_str, charpos_to_kinds_and_corrections, corrected_snippets) = args
@@ -360,15 +360,22 @@ def addCorrectionComments(*args, **kwargs) -> int:
     annot_filename, tex_filename = args
     
     corrections         = kwargs.get('corrections', None)
-    overlapping_keys    = kwargs.get('overlapping_keys', None)    
+    overlapping_keys    = kwargs.get('overlapping_keys', None)
+    
     group_overlapping   = kwargs.get('group_overlapping', True)
-    del_intermediate    = kwargs.get('del_intermediate', True)
     compiler            = kwargs.get('compiler', 'pdflatex')
+    
+    clean               = kwargs.get('clean', True)    
     validate            = kwargs.get('validate', True)
     do_autocorrections  = kwargs.get('autocorrect', False)
 
-    if corrections is None or not group_overlapping:
-        corrections, overlapping_keys = getCorrections(*args, group_overlapping=group_overlapping)
+    if corrections is None and overlapping_keys is None:
+        corrections, overlapping_keys = getCorrections(
+            *args,
+            group_overlapping = group_overlapping,
+            compiler          = compiler,            
+            clean             = clean
+        )
 
     tex_filename = Path(tex_filename)
     commented_tex_filename = Path(f"{tex_filename.parent / tex_filename.stem}_commentcorrs.tex")
@@ -410,11 +417,14 @@ def addCorrectionComments(*args, **kwargs) -> int:
     transferTeXFiles(commented_tex_filename, cwd, 'mv')
     
     if validate:
-        process3 = runDiffpdf(pdfFname(tex_filename), pdfFname(commented_tex_filename), cwd, per_page_tol=0)
+        process3, diff_fname = runDiffpdf(pdfFname(tex_filename), pdfFname(commented_tex_filename), cwd, per_page_tol=0)
 
-    if del_intermediate:
+    if clean:
+        logger.info("Deleting intermediate files...")
+        diff_fname.unlink()
         deleteIntermediateLaTeX(tex_filename)
         deleteIntermediateLaTeX(commented_tex_filename)
+        logger.info("Done...")
 
     logger.info(f"Original and commented source produce identical PDFs.")
     logger.info(f"Correction comments successfully written to {commented_tex_filename.name}.")
@@ -449,12 +459,14 @@ def addCorrectionComments(*args, **kwargs) -> int:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('annotated_PDF_filename')
-    parser.add_argument('latex_filename')    
+    parser.add_argument('latex_filename')
+    
     parser.add_argument("-d", "--debug", action="store_true", help='debugging output')
-    parser.add_argument("-p", "--load-pickle", action="store_true", help='load pickle file of corrections if available')
+    parser.add_argument("-p", "--load-pickle", action="store_true", help='Load (or create) pickle file of corrections (for debugging)')
+    
     parser.add_argument("--grp-overlap", action=argparse.BooleanOptionalAction, help='Extend overlapping correction source positions; default=True', default=True)
-    parser.add_argument("--clean", action=argparse.BooleanOptionalAction, help='Delete intermediate LaTeX files; default=True', default=True)
-    parser.add_argument("--compiler", type=str, help='Specify TeX compiler; default=pdflatex', default='pdflatex')    
+    parser.add_argument("--compiler", type=str, help='Specify TeX compiler; default=pdflatex', default='pdflatex')
+    parser.add_argument("--clean", action=argparse.BooleanOptionalAction, help='Delete intermediate LaTeX files and tmp dirs; default=True', default=True)    
     parser.add_argument("--autocorrect", action="store_true", help='Automatically carry out simple corrections; default=False')
     
     args = parser.parse_args()
@@ -462,32 +474,39 @@ if __name__ == '__main__':
     logging.basicConfig(encoding='utf-8', level=_level) # format='%(asctime)s - %(levelname)s - %(message)s'
 
     if not args.grp_overlap and args.autocorrect:
-        logger.error("Overlapping snippets must be extended to do autocorrections. Please either allow overlap grouping or do not request autocorrections.")
+        logger.critical("Overlapping snippets must be extended to do autocorrections. Please either allow overlap grouping or do not request autocorrections.")
         sys.exit(1)
 
-    tmp_pickle_dir = Path("tmp_pickle")
-
-    Path.mkdir(tmp_pickle_dir, exist_ok = True)
-    corr_file = tmp_pickle_dir / Path(f"{Path(args.latex_filename).stem}_corrections.pkl")
-    tmp_prompt_dir = corr_file.parent
-
-    if not (corr_file.exists() and args.load_pickle):
-        corrections, overlapping_keys = getCorrections(args.annotated_PDF_filename, args.latex_filename, group_overlapping = args.grp_overlap)
-        with open(corr_file, 'wb') as f:
-            pickle.dump((corrections, overlapping_keys), f)
+    if args.load_pickle:
+        pickle_dir = Path("pickle")
+        Path.mkdir(pickle_dir, exist_ok = True)
+        pcorr_file = pickle_dir / Path(f"{Path(args.latex_filename).stem}_corrections.pkl")
+    
+        if pcorr_file.exists():
+            with open(pcorr_file, 'rb') as f:
+                (corrections, overlapping_keys) = pickle.load(f)
+        else:
+            corrections, overlapping_keys = getCorrections(
+                args.annotated_PDF_filename,
+                args.latex_filename,
+                group_overlapping = args.grp_overlap,
+                compiler          = args.compiler,
+                clean             = args.clean
+            )
+            with open(pcorr_file, 'wb') as f:
+                pickle.dump((corrections, overlapping_keys), f)
     else:
-        with open(corr_file, 'rb') as f:
-            (corrections, overlapping_keys) = pickle.load(f)
+        corrections, overlapping_keys = None, None
 
     addCorrectionComments(
         args.annotated_PDF_filename,
         args.latex_filename,
-        corrections = corrections,
-        overlapping_keys = overlapping_keys,
         group_overlapping = args.grp_overlap,
-        del_intermediate = args.clean,
-        compiler=args.compiler,
-        autocorrect=args.autocorrect
+        compiler          = args.compiler,        
+        clean             = args.clean,
+        corrections       = corrections,
+        overlapping_keys  = overlapping_keys,        
+        autocorrect       = args.autocorrect
     )
 
     

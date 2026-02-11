@@ -55,8 +55,7 @@ class IgnoreRegionArgsParser:
 COMPILER_INFO = {
     'pdflatex': (2, 'latin-1'),
     'prdlatex': (1, 'latin-1'),
-    'xelatex': (2, 'utf-8'),
-    'luatex': (2, 'utf-8')
+    'xelatex': (2, 'utf-8')
 }
 
 CSNAMES_ARGSPEC = {'emph': '{',
@@ -276,7 +275,7 @@ def compileLatex(tex_filename: Path, compiler: str = 'pdflatex') -> subprocess.C
     result = None
     tex_filename_dir = tex_filename.parent
     
-    (num_runs, encoding) = COMPILER_INFO[compiler]
+    (num_runs, encoding) = COMPILER_INFO.get(compiler, (2, 'latin-1'))
     for i in range(num_runs):
         logger.info(f"Running {compiler} on {tex_filename} (pass {i+1}/{num_runs})...")
         result = subprocess.run(
@@ -301,10 +300,15 @@ def transferTeXFiles(tex_filename: Path, files_to: Path, move_or_copy: str):
     os.system(f"{move_or_copy} {tex_filename.parent / tex_file_dot_star} {files_to}")
 
 def removeDir(directory: Path):
-    delete_contents = f"rm {directory / Path('*')}"
-    logger.debug(f"running '{delete_contents}'")
-    os.system(delete_contents)
-    os.system(f"rmdir {directory}")
+    if not directory.exists():
+        return
+    files_in_dir = [f for f in directory.glob('**/*') if f.is_file()]
+    if not files_in_dir:
+        directory.rmdir()
+        return
+    for f in files_in_dir:
+        f.unlink()
+    directory.rmdir()
 
 def runDiffpdf(first_fname: str, second_fname: str, output_dir: Path, per_page_tol: int = DIFFPDF_PER_PAGE_PIXEL_TOLERANCE) -> subprocess.CompletedProcess:
     first_stem = Path(first_fname).stem
@@ -323,14 +327,16 @@ def runDiffpdf(first_fname: str, second_fname: str, output_dir: Path, per_page_t
                           second_fname]
     
     logger.info(f"Running `{' '.join(subprocess_command)}`...")
-    result = subprocess.run(subprocess_command,
-                            cwd=output_dir)
+    result = subprocess.run(
+        subprocess_command,
+        cwd=output_dir
+    )
     
     if result.returncode != 0:
         logger.error(f"{first_fname} and {second_fname} are not identical. See {Path(output_dir) / diff_fname}")        
         sys.exit(1)
         
-    return result
+    return result, Path(diff_fname)
 
 def markNodes(
         to_mark_nodelist: list[LatexNode],
@@ -858,10 +864,9 @@ def pdfFname(tex_fname: Path):
     return f"{tex_fname.stem}.pdf"
     
 def segment(tex_filename: str, **kwargs):
-
     extra_marked_environment_names = kwargs.get('emen', set()) # set[str]
-    clean = kwargs.get('clean', True) # delete intermediate files (including temporary directories)
-    compiler = kwargs.get('compiler', 'pdflatex')
+    clean                          = kwargs.get('clean', True) # delete temporary directory
+    compiler                       = kwargs.get('compiler', 'pdflatex')
     
     tex_filename = Path(tex_filename)
     tex_str = sourceAsString(tex_filename)
@@ -969,7 +974,7 @@ def segment(tex_filename: str, **kwargs):
     process2 = compileLatex(marked_filename, compiler = compiler)
 
     # setup tmp directory and transfer files
-    tmp_dir = Path('tmp_segmentsource')
+    tmp_dir = Path('tmp_marktex')
     Path.mkdir(tmp_dir, exist_ok = True)
 
     transferTeXFiles(tex_filename, tmp_dir, 'cp')
@@ -978,7 +983,7 @@ def segment(tex_filename: str, **kwargs):
     # move boxpositions file
     os.system(f"mv {tex_filename.parent / boxpositions_filename} {tmp_dir}")
     
-    process3 = runDiffpdf(pdfFname(tex_filename), pdfFname(marked_filename), tmp_dir)
+    process3, _ = runDiffpdf(pdfFname(tex_filename), pdfFname(marked_filename), tmp_dir)
 
     logger.info(f"Original and marked source produce identical PDFs.")
 
