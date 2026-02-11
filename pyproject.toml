@@ -2,7 +2,7 @@
 authors = [{name = "Charles Kolozsvary", email = "charleskolozsvary@gmail.com"}]
 dependencies = ["pymupdf>=1.26.7,<2", "pylatexenc>=2.10,<3"]
 name = "texpdfedits"
-requires-python = ">= 3.11"
+requires-python = ">= 3.14"
 version = "0.1.0"
 
 [build-system]
@@ -19,7 +19,7 @@ texpdfedits = { path = ".", editable = true }
 [tool.pixi.tasks]
 
 [tool.pixi.dependencies]
-python = "3.12.*"
+python = "3.14.*"
 opencv = ">=4.12.0,<5"
 ptpython = ">=3.0.32,<4"
 google-genai = ">=1.58.0,<2"

@@ -7,6 +7,7 @@ import json
 import time
 import pickle
 import re
+import sys
 
 from texpdfedits.extract_anns import getEdits
 from texpdfedits.mark_tex import segment, sourceAsString, markIdToCountInfo
@@ -411,9 +412,7 @@ def groupOverlappingCorrections(corrections: list[Correction], tex_str: str, **k
         return [], []
 
     key_to_correction = {corr.index: corr for corr in corrections}
-    
     keyed_start_ends = {corr.index: corr.snippet_source_positions for corr in corrections}
-    
     groups = groupOverlaps(keyed_start_ends)
 
     # snippets = [] 
@@ -426,7 +425,7 @@ def groupOverlappingCorrections(corrections: list[Correction], tex_str: str, **k
         for k in group:
             corr = key_to_correction[k]
             if not corr.latex_snippet in containing_snippet:
-                logger.error(
+                logger.critical(
                      "Failed to create overlapping groups: "
                     f"a snippet \n{corr.snippetToCodeblock()}\n was not in its spanning snippet \n{toCodeblock(containing_snippet)}\n"
                 )

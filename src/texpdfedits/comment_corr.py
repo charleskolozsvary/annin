@@ -6,7 +6,7 @@ import json
 import time
 import pickle
 import re
-import os, sys
+import sys
 
 from texpdfedits.extract_anns import Edit, getEdits
 from texpdfedits.mark_tex import segment, sourceAsString, runDiffpdf, pdfFname, compileLatex, transferTeXFiles, removeDir
@@ -457,19 +457,19 @@ def addCorrectionComments(*args, **kwargs) -> int:
     return 0
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('annotated_PDF_filename')
-    parser.add_argument('latex_filename')
+    clparser = argparse.ArgumentParser()
+    clparser.add_argument('annotated_PDF_filename')
+    clparser.add_argument('latex_filename')
     
-    parser.add_argument("-d", "--debug", action="store_true", help='debugging output')
-    parser.add_argument("-p", "--load-pickle", action="store_true", help='Load (or create) pickle file of corrections (for debugging)')
+    clparser.add_argument("-d", "--debug", action="store_true", help='debugging output')
+    clparser.add_argument("-p", "--load-pickle", action="store_true", help='Load (or create) pickle file of corrections (for debugging)')
     
-    parser.add_argument("--grp-overlap", action=argparse.BooleanOptionalAction, help='Extend overlapping correction source positions; default=True', default=True)
-    parser.add_argument("--compiler", type=str, help='Specify TeX compiler; default=pdflatex', default='pdflatex')
-    parser.add_argument("--clean", action=argparse.BooleanOptionalAction, help='Delete intermediate LaTeX files and tmp dirs; default=True', default=True)    
-    parser.add_argument("--autocorrect", action="store_true", help='Automatically carry out simple corrections; default=False')
+    clparser.add_argument("--grp-overlap", action=argparse.BooleanOptionalAction, help='Extend overlapping correction source positions; default=True', default=True)
+    clparser.add_argument("--compiler", type=str, help='Specify TeX compiler; default=pdflatex', default='pdflatex')
+    clparser.add_argument("--clean", action=argparse.BooleanOptionalAction, help='Delete intermediate LaTeX files and tmp dirs; default=True', default=True)    
+    clparser.add_argument("--autocorrect", action="store_true", help='Automatically carry out simple corrections; default=False')
     
-    args = parser.parse_args()
+    args = clparser.parse_args()
     _level = logging.DEBUG if args.debug else logging.INFO
     logging.basicConfig(encoding='utf-8', level=_level) # format='%(asctime)s - %(levelname)s - %(message)s'
 

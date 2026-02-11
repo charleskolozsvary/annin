@@ -4,23 +4,15 @@ import argparse
 import logging
 logger = logging.getLogger(__name__)
 
-import sys
 import math
 from copy import deepcopy
-from types import SimpleNamespace
 
 import re
 
 PDF_ANNOT_TEXT = (0, 'Text')
 PDF_ANNOT_STRIKE_OUT = (11, 'StrikeOut')
 PDF_ANNOT_CARET = (14, 'Caret')
-
 SELECT_TEXT_ANNOTS = {"Replace", "StrikeOut", "Highlight", "Underline"}
-
-# set surrounding lines to at most the line above and below
-# if set to two, include two lines above and two lines below
-# the line the annot intersects
-NUM_SURROUNDING_LINES = 1
 
 NORMALIZATION_HEIGHT_PROPORTION = 1/3 # bottom and top thirds
 
@@ -196,20 +188,16 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
     page_words is list of (x0, y0, x1, y1, "word", block_no, line_no, word_no) tuples
     """
     page = doc[annot.pageno]
-    
-    intersecting_words = []
-    
+    intersecting_words = []    
     INTERSECTION_PROP_THRESH = 0.02 # 2 percent
     
     for word in page_words:
         word_rect = pymupdf.Rect(word[0:4])
         word_intersects = annot.rect.intersects(word_rect)
-
         if not word_intersects:
             continue
-
         intersecting_words.append(word)
-    
+        
     if not intersecting_words:
         logger.warning(
             f"No selection text for {annot}: "
@@ -217,10 +205,10 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
         )
         return None, None, None
 
-    CARET_X_BUFF = 1 # one point
-    OTHER_ANN_X_BUFF = .75 # one point
-        
-    NUM_CONTEXT_WORDS = 2 # words to add before and after which are not selected
+    CARET_X_BUFF = 1 # in points
+    OTHER_ANN_X_BUFF = .75 # in points
+
+    NUM_CONTEXT_WORDS = 2 # words to add before and after which are not selected    
     first_sel_word = intersecting_words[0]
     last_sel_word = intersecting_words[-1]
 
@@ -245,10 +233,9 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
     )    
 
     selection_name = annot.type[1]
-
     selection_bbs = []
 
-    DIFF_THRESH = 1 # one point
+    DIFF_THRESH = 1 # in points
 
     def wordGetTextToStr(word_selection):
         return ' '.join([word[4] for word in word_selection])
@@ -280,23 +267,7 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
         """
         word_box intersects the annot rectangle, but it is not
         "inside" it according to insideAnnotRect---it is on the annotation "boundary"
-        """
-        word_boxes_that_intersect_this_word_box = [wb for wb in page_words if word_box.intersects(wb[0:4])]
-        
-        # if len(word_boxes_that_intersect_this_word_box) > 1:
-        #     logger.warning(
-        #         f"No selection text for {annot}: "
-        #         "Word box intersects another word box"
-        #     )
-        #     return None
-        
-        # elif len(word_boxes_that_intersect_this_word_box) == 0:
-        #     logger.warning(
-        #         f"No selection text for {annot}: "
-        #         "Word box does not intersect itself"
-        #     )
-        #     return None
-        
+        """        
         tag_insertion_xs = {'start': None, 'end': None}
         a_rect = annot.rect
 
@@ -327,8 +298,7 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
             selection_bbs.append([left_rect, right_rect])
             
             left = wordGetTextToStr(page.get_text('words', clip=left_rect, sort=True))
-            right= wordGetTextToStr(page.get_text('words', clip=right_rect, sort=True)) if right_rect.is_valid else ''
-                
+            right= wordGetTextToStr(page.get_text('words', clip=right_rect, sort=True)) if right_rect.is_valid else ''                
             return f"{left}</{selection_name}>{right}"
             
         elif tag_insertion_xs['start'] is not None and tag_insertion_xs['end'] is not None:
@@ -341,7 +311,6 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
             left = wordGetTextToStr(page.get_text('words', clip=left_rect, sort=True)) if left_rect.is_valid else ''
             middle = wordGetTextToStr(page.get_text('words', clip=middle_rect, sort=True))
             right = wordGetTextToStr(page.get_text('words', clip=right_rect, sort=True)) if right_rect.is_valid else ''
-
             return f"{left}<{selection_name}>{middle}</{selection_name}>{right}"
 
         else:
@@ -423,8 +392,7 @@ def getEdits(filename):
     for pageno, page in enumerate(doc):
         for annot in robust_annots[pageno]:
             if annot.irt_xref != 0:
-                # only true for text responses and annotations which combine
-                # with another to make an annotation of type 'Replace'
+                # only true for text responses and annotations which combine with another to make an annotation of type 'Replace'
                 continue
             target_num_edits += 1
             
@@ -433,7 +401,7 @@ def getEdits(filename):
             text_responses = [resp.info['content'] for resp in text_responses]
             message = {'comment': annot.info['content'], 'responses': text_responses}
 
-            # skip annots whose comment text starts with AU: or PE: or PTG: among other things, unless the first response has COMP: or TEG:
+            # skip annots whose comment text starts with AU:, PE:, or PTG: among other things, unless the first response has COMP: or TEG:
             if isNotForCOMP(message):
                 logger.debug(f"Annot {annot} deemed not for COMP")
                 num_not_for_comp += 1
@@ -453,7 +421,6 @@ def getEdits(filename):
 
                 if not (ann.rect.intersects(other_ann.rect) and other_ann.info['content'] == ''):
                     return False, None
-
                 return True, other_ann
                 
             is_replace, other_ann = isReplaceAnnot(annot, responses)
@@ -467,13 +434,11 @@ def getEdits(filename):
             if annot.type == PDF_ANNOT_STRIKE_OUT:
                 annot.type = (None, 'Remove')
 
-            page_words = page.get_text('words', sort=True)
-            
+            page_words = page.get_text('words', sort=True)    
             # the sort option doesn't actually sort in lexicographic order... maybe it does it by rectangle positions.
             page_words = list(sorted(page_words, key = lambda w: (w[5], w[6], w[7])))
             
             selection_text, selection_bbs, latex_extraction_bb = getSelection(annot, page_words, doc)
-            
             if selection_text is None:
                 continue
             

@@ -296,8 +296,19 @@ def compileLatex(tex_filename: Path, compiler: str = 'pdflatex') -> subprocess.C
     return result
 
 def transferTeXFiles(tex_filename: Path, files_to: Path, move_or_copy: str):
-    tex_file_dot_star = f"{tex_filename.stem}.*"
-    os.system(f"{move_or_copy} {tex_filename.parent / tex_file_dot_star} {files_to}")
+    if tex_filename.parent == files_to:
+        logger.debug("No need to transfer files; they are already in the cwd")
+        return
+    tex_dot_star_files = [x for x in tex_filename.parent.glob(f'**/{tex_filename.stem}.*')]
+    for x in tex_dot_star_files:
+        match move_or_copy:
+            case 'mv':
+                x.move_into(files_to)
+            case 'cp':
+                x.copy_into(files_to)
+            case _:
+                logger.critical(f"Could not transfer TeX files: unrecognized action '{move_or_copy}'; exiting")
+                sys.exit(1)
 
 def removeDir(directory: Path):
     if not directory.exists():
@@ -981,7 +992,7 @@ def segment(tex_filename: str, **kwargs):
     transferTeXFiles(marked_filename, tmp_dir, 'mv')
     
     # move boxpositions file
-    os.system(f"mv {tex_filename.parent / boxpositions_filename} {tmp_dir}")
+    new_boxpositions_fname = (tex_filename.parent/boxpositions_filename).move_into(tmp_dir)
     
     process3, _ = runDiffpdf(pdfFname(tex_filename), pdfFname(marked_filename), tmp_dir)
 
