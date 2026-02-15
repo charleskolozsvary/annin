@@ -1,9 +1,9 @@
 # texpdfedits
-This goal of this python project is to modify LaTeX source files to aid/automate a correction workflow where copyedits are provided by an annotated PDF.
+The script provided by this python project, `inlinecorr`, modifies LaTeX source files to aid/automate a correction workflow where copyedits are specified by an annotated PDF.
 
 Normal processing of the changes involves reviewing the PDF and finding and fixing the corresponding LaTeX one annotation at a time. There are tools like SyncTeX to speed up the navigation between output and source, but even then the process is time-consuming and tedious.
 
-The script this project provides, called `inlinecorr`, places the corrections directly into the source LaTeX as comments and carries out whatever corrections it can automatically. See [annotation_guidelines.md](notes/annotation_guidelines.md) for more on the autocorrections.
+`inlinecorr` places the corrections directly into the source LaTeX as comments and carries out whatever corrections it can automatically.
 
 ## Installation
 If you don't already have a LaTeX distribution, download the latest version of TeX Live at https://www.tug.org/texlive/.
@@ -16,105 +16,91 @@ If you don't already have a LaTeX distribution, download the latest version of T
 
 4. Run `./install.sh [binary install directory]`, e.g., `./install.sh /usr/local/bin/`
 
-That should be all! You can then run `inlinecorr [annotated PDF file] [tex file]` anywhere on the machine.
+That should be all! You can then run `inlinecorr [annotated PDF file] [tex file]` anywhere on your machine.
 
 
-## Examples
+## Example output
 For example test files, you can try those under [AnnotatedPDFs](./AnnotatedPDFs) with corresponding LaTeX sources in [TeX](./TeX).
 
 Here's part of `arxiv5_inlined.tex`, the output of `inlinecorr arxiv5_ann.pdf arxiv5.tex`:
 ```latex
-%% Correction 23 [ ]
-%% Annotated text: "non-commutative associative algebra<Remove>,</Remove> in which"
+%% Correction 28 [ ]
+%% Annotated text: "fr−2 given by<Remove>:</Remove>"
 %% Comment: "" 
 %% 
-%% START of correction 23
-associative algebra, in %%
-%% END of correction 23
-which the multiplication $\circ$ is induced from the usual product on $\C[\lambda,\lambda^{-1}][[T_1,T_2,\ldots]]$ and 
-\[
-\d_x^k\circ f:=\sum_{l=0}^\infty\frac{k(k-1)\ldots(k-l+1)}{l!}\frac{\d^lf}{\d x^l}\d_x^{k-l},
-\]
-where $k$ is an integer, $f\in\mathbb C[\lambda,\lambda^{-1}][[T_*]]$, and the variable $x$ is identified with $T_1$. Let $r\geq 2$ be %%
-%% Correction 24 [ ]
-%% Annotated text: "be any integer<Remove>,</Remove> and A"
-%% Comment: "" 
+%% START of correction 28
+given by:
+\begin{equation}
+    \label{eq:GD_hier}
+\frac{\partial L}{\partial T_n}=\lambda^{n-1}[(L^{n/r})_+,L],\quad n\geq 1.
+\end{equation}
+
+Denote %%
+%% END of correction 28
+by $L$ the solution of the system specified by the initial %%
+%% Correction 29 [ ]
+%% Annotated text: "x + λ rrx<Replace>,</Replace>"
+%% Comment: "." 
 %% 
-%% START of correction 24
-any integer, and %%
-%% END of correction 24
-$A$ a pseudo-differential operator of the form
-\[
-A=\partial_x^r+\sum_{n=1}^\infty a_n\partial_x^{r-n},
-\]
-then $A$ has a unique $r$th root, meaning a unique pseudo-differential operator $A^{\frac{1}{r}}$ of the %%
-%% Correction 25 [ ]
-%% Annotated text: "<Replace>satisfying</Replace> A 1"
-%% Comment: "satisfies" 
-%% 
-%% START of correction 25
-form
-\[
-A^{\frac{1}{r}}=\partial_x+\sum_{n=0}^\infty b_n\partial_x^{-n}
-\]
-satisfying $\left(A^{\frac{1}{r}}\right)^r=A$%%
-%% END of correction 25
+%% START of correction 29
+condition
+\begin{equation}\label{eq:init_cond_L}
+L|_{T_{\geq 2}=0}=\partial_x^r+\lambda^{-r}rx,
+\end{equation}
+Witten's %%
+%% END of correction 29
 ```
 
 And here's the same snippet in `arxiv5_autocorrected.tex`, which is outputted when the `--autocorrect` option is present.
 ```latex
-%% Correction 23 (auto) [✓]
-%% Annotated text: "non-commutative associative algebra<Remove>,</Remove> in which"
+%% Correction 28 (auto) [✓]
+%% Annotated text: "fr−2 given by<Remove>:</Remove>"
 %% Comment: "" 
 %% 
-%% START of correction 23
-associative algebra in %%
-%% END of correction 23
-which the multiplication $\circ$ is induced from the usual product on $\C[\lambda,\lambda^{-1}][[T_1,T_2,\ldots]]$ and 
-\[
-\d_x^k\circ f:=\sum_{l=0}^\infty\frac{k(k-1)\ldots(k-l+1)}{l!}\frac{\d^lf}{\d x^l}\d_x^{k-l},
-\]
-where $k$ is an integer, $f\in\mathbb C[\lambda,\lambda^{-1}][[T_*]]$, and the variable $x$ is identified with $T_1$. Let $r\geq 2$ be %%
-%% Correction 24 (auto) [✓]
-%% Annotated text: "be any integer<Remove>,</Remove> and A"
-%% Comment: "" 
+%% START of correction 28
+given by
+\begin{equation}
+    \label{eq:GD_hier}
+\frac{\partial L}{\partial T_n}=\lambda^{n-1}[(L^{n/r})_+,L],\quad n\geq 1.
+\end{equation}
+
+Denote %%
+%% END of correction 28
+by $L$ the solution of the system specified by the initial %%
+%% Correction 29 (auto) [✓]
+%% Annotated text: "x + λ rrx<Replace>,</Replace>"
+%% Comment: "." 
 %% 
-%% START of correction 24
-any integer and %%
-%% END of correction 24
-$A$ a pseudo-differential operator of the form
-\[
-A=\partial_x^r+\sum_{n=1}^\infty a_n\partial_x^{r-n},
-\]
-then $A$ has a unique $r$th root, meaning a unique pseudo-differential operator $A^{\frac{1}{r}}$ of the %%
-%% Correction 25 (auto) [✓]
-%% Annotated text: "<Replace>satisfying</Replace> A 1"
-%% Comment: "satisfies" 
-%% 
-%% START of correction 25
-form
-\[
-A^{\frac{1}{r}}=\partial_x+\sum_{n=0}^\infty b_n\partial_x^{-n}
-\]
-satisfies $\left(A^{\frac{1}{r}}\right)^r=A$%%
-%% END of correction 25
+%% START of correction 29
+condition
+\begin{equation}\label{eq:init_cond_L}
+L|_{T_{\geq 2}=0}=\partial_x^r+\lambda^{-r}rx.
+\end{equation}
+Witten's %%
+%% END of correction 29
 ```
 
-For this particular paper, 260/411 corrections were completed automatically. 
+For this particular paper, **260/411 corrections were completed automatically!** 
 
+Finally, here are two pages side by side, one from `arxiv5_ann.pdf`, the other from `arxiv5_autocorrected.pdf`, demonstrating the result of several automatic corrections.
 
-## Limitations
+<img width="475" alt="annotated" src="https://github.com/user-attachments/assets/912e4c1d-efb9-4fa4-a404-0ced2869e2c1" />
+<img width="475" alt="autocorrected" src="https://github.com/user-attachments/assets/4dcc4ff8-d3e1-4300-9262-3c401e3fd1e5" />
+
+You might notice that one of the automatic corrections resulted in "satisfyit." That happened because the contents of the comment for that correction was just "it" (no space before).
+
+## Assumptions/Limitations
+### Unchanged LaTeX
 This script assumes that the LaTeX source is unchanged since the original PDF was generated and annotated. If there is any difference (even of a few words) between the current source and what generated the PDF which was annotated, the script will not work.
 
+### Multiline annotations
 Also since annotations only have one associated rectangle, multiline annotation rectangles will typically be the convex hull of marked text, so the region information is lost at the line level. It's possible that annotation software will automatically make multiple annotations to get around this, but this behavior is not accounted for currently. The tool will still mark the correct corresponding location in the source, but the annotated text will not correspond to how the text was actually marked.
 
+### Incomplete character mapping
 Since text is extracted directly from the PDF for producing the "annotated text" rendered math and other special glyphs will not be translated correctly to the
 Unicode text in the PDF. For example, even something relatively simple like `''` in the latex source will produce the unicode character `”`.
 
-A straitforward enhancement would be to provide some of these Unicde to TeX mapps, but this is not implemented yet.
+A straitforward enhancement would be to specify some of these Unicde to TeX character mappings, but this is not implemented yet.
 
-
-
-
-
-
+### Annotations are precise
+As shown in the above screenshots, the contents of insertion and replacement text is interpreted literally. Additionally, since 'highlight' is too general an annotation, said annotations will never be done automatically, even if they are used in place of a replacement or strikeout annotation. So dedicated annotations must be used for best results.
