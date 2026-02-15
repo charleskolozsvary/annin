@@ -8,11 +8,18 @@ import pickle
 import re
 import sys
 
-from texpdfedits.extract_anns import Edit, getEdits
-from texpdfedits.mark_tex import segment, sourceAsString, runDiffpdf, pdfFname, compileLatex, transferTeXFiles, removeDir
+from texpdfedits.extractanns import Edit, getEdits
+from texpdfedits.marktex import segment, sourceAsString, runDiffpdf, pdfFname, compileLatex, transferTeXFiles, removeDir
 from texpdfedits.corr import Correction, getCorrections, toCodeblock
 
 from pathlib import Path
+
+from importlib.metadata import version
+__version__ = version("texpdfedits")
+
+PROGRAM_NAME = __spec__.name.split('.')[-1]
+
+EDITED_SUFFIX = 'inlined'
 
 INTERMEDIATE_EXTENSIONS_TO_DELETE = set(".aux .out .log .toc .bbl .blg .thm .synctex.gz .synctex .brf .pdf".split(' '))
 
@@ -378,7 +385,7 @@ def addCorrectionComments(*args, **kwargs) -> int:
         )
 
     tex_filename = Path(tex_filename)
-    commented_tex_filename = Path(f"{tex_filename.parent / tex_filename.stem}_commentcorrs.tex")
+    commented_tex_filename = Path(f"{tex_filename.parent / tex_filename.stem}_{EDITED_SUFFIX}.tex")
 
     char_positions = []
     charpos_to_kinds_and_corrections = dict()
@@ -420,11 +427,10 @@ def addCorrectionComments(*args, **kwargs) -> int:
         process3, diff_fname = runDiffpdf(pdfFname(tex_filename), pdfFname(commented_tex_filename), cwd, per_page_tol=0)
 
     if clean:
-        logger.info("Deleting intermediate files...")
+        logger.info("Deleting intermediate files.")
         diff_fname.unlink()
         deleteIntermediateLaTeX(tex_filename)
         deleteIntermediateLaTeX(commented_tex_filename)
-        logger.info("Done...")
 
     logger.info(f"Original and commented source produce identical PDFs.")
     logger.info(f"Correction comments successfully written to {commented_tex_filename.name}.")
@@ -433,7 +439,7 @@ def addCorrectionComments(*args, **kwargs) -> int:
         return 0
 
     # comment the source again---now with autocorrections if specified    
-    logger.info(f"Carrying out simple corrections...")
+    logger.info(f"Doing autocorrections.")
     corrected_snippets = getCorrectedSnippets(corrections, overlapping_keys)
 
     commented_source = commentSource(
@@ -447,7 +453,6 @@ def addCorrectionComments(*args, **kwargs) -> int:
     autocorrected_tex_filename = Path(f"{tex_filename.stem}_autocorrected.tex")    
     with open(autocorrected_tex_filename, 'w') as f:
         f.write(commented_source)
-    logger.info("Done.")
 
     n_corrected = sum(1 for corr in corrections if corr.is_autocorrected)
 
@@ -455,6 +460,9 @@ def addCorrectionComments(*args, **kwargs) -> int:
     logger.info(f"Autocorrected source successfully written to {autocorrected_tex_filename}.")
 
     return 0
+
+def ProgramBanner():
+    return f"This is {PROGRAM_NAME} version {__version__}\n"
 
 if __name__ == '__main__':
     clparser = argparse.ArgumentParser()
@@ -472,6 +480,8 @@ if __name__ == '__main__':
     args = clparser.parse_args()
     _level = logging.DEBUG if args.debug else logging.INFO
     logging.basicConfig(encoding='utf-8', level=_level) # format='%(asctime)s - %(levelname)s - %(message)s'
+
+    print(ProgramBanner())
 
     if not args.grp_overlap and args.autocorrect:
         logger.critical("Overlapping snippets must be extended to do autocorrections. Please either allow overlap grouping or do not request autocorrections.")

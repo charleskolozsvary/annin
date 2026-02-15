@@ -12,13 +12,11 @@ import re
 PDF_ANNOT_TEXT = (0, 'Text')
 PDF_ANNOT_STRIKE_OUT = (11, 'StrikeOut')
 PDF_ANNOT_CARET = (14, 'Caret')
-SELECT_TEXT_ANNOTS = {"Replace", "StrikeOut", "Highlight", "Underline"}
-
-NORMALIZATION_HEIGHT_PROPORTION = 1/3 # bottom and top thirds
 
 class Annot:
     """
     Revised version of pymupdf's Annot which fixes the bounding box of the Caret annotation and isn't fragile. See getRobustAnnots().
+    
     There's a good chance that there's already something in pymupdf which separates the annot from the page, though, in which case this
     should be removed and the code refactored.
     """
@@ -83,7 +81,7 @@ class Edit:
         self.message = _message
         self.selection = _selection
         self.selection_bbs = _selection_bbs # for debugging
-        self.annot_rect = _annot_rect # used in segmentsource routines
+        self.annot_rect = _annot_rect # used in marktex routines
         
     def __str__ (self): 
         return json.dumps({
@@ -188,8 +186,7 @@ def getSelection(annot: Annot, page_words: list[tuple[int, int, int, int, str, i
     page_words is list of (x0, y0, x1, y1, "word", block_no, line_no, word_no) tuples
     """
     page = doc[annot.pageno]
-    intersecting_words = []    
-    INTERSECTION_PROP_THRESH = 0.02 # 2 percent
+    intersecting_words = []
     
     for word in page_words:
         word_rect = pymupdf.Rect(word[0:4])

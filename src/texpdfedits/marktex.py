@@ -1,5 +1,10 @@
-# DISCLAIMER: it's possible that there are better ways to track the positions of word-like boxes
-# (like with luatex), but this appears to give relatively good results for a pure pdftex and python project
+### DISCLAIMER: this module is unnecessary if SyncTeX is used. At the time this project started I found it difficult to
+### find documentation on interpreting the .synctex.gz file format, so I decided to just write something myself which would
+### link rectangles in the rendered PDF to positions in the LaTeX source.
+
+### That's what this module does: it marks the source with
+### \markbox commands which record box and pdf positioning information which is used to take an arbitrary rectangle
+### and produce corresponding source. The rectangleToLatex function is in corr.py where the correction objects are created
 
 import argparse
 import logging

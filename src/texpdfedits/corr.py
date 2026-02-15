@@ -9,8 +9,8 @@ import pickle
 import re
 import sys
 
-from texpdfedits.extract_anns import getEdits
-from texpdfedits.mark_tex import segment, sourceAsString, markIdToCountInfo
+from texpdfedits.extractanns import getEdits
+from texpdfedits.marktex import segment, sourceAsString, markIdToCountInfo
 
 from pathlib import Path      
 
