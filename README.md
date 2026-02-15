@@ -84,8 +84,8 @@ For this particular paper, **260/411 corrections were completed automatically!**
 
 Finally, here are two pages side by side, one from `arxiv5_ann.pdf`, the other from `arxiv5_autocorrected.pdf`, demonstrating the result of several automatic corrections.
 
-<img width="415" alt="annotated" src="https://github.com/user-attachments/assets/912e4c1d-efb9-4fa4-a404-0ced2869e2c1" />
-<img width="415" alt="autocorrected" src="https://github.com/user-attachments/assets/4dcc4ff8-d3e1-4300-9262-3c401e3fd1e5" />
+<img width="400" alt="annotated" src="https://github.com/user-attachments/assets/912e4c1d-efb9-4fa4-a404-0ced2869e2c1" />
+<img width="400" alt="autocorrected" src="https://github.com/user-attachments/assets/4dcc4ff8-d3e1-4300-9262-3c401e3fd1e5" />
 
 You might notice that one of the automatic corrections resulted in "satisfyit." That happened because the contents of the comment for that correction was just "it" (no space before).
 
