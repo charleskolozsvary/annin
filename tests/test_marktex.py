@@ -1,4 +1,4 @@
-from texpdfedits.mark_tex import segment, getWordBoxes, unMarkWithPositions, sourceAsString
+from texpdfedits.marktex import segment, getWordBoxes, unMarkWithPositions, sourceAsString
 from texpdfedits.corr import rectangleToLatex
 import logging
 import argparse
@@ -94,6 +94,7 @@ if __name__ == '__main__':
     )
 
     parser.add_argument("-emen", "--extra-marked-environment-names", type=str, help='Comma-separated extra environment names to mark in---last resort')
+    parser.add_argument("--compiler", type=str, help='LaTeX compiler')    
     
     args = parser.parse_args()
     
@@ -115,7 +116,7 @@ if __name__ == '__main__':
     else:
         extra_names = set()
 
-    mark_positions, document_word_boxes = segment(args.tex_filename, emen=extra_names)
+    mark_positions, document_word_boxes = segment(args.tex_filename, emen=extra_names, compiler=args.compiler)
 
     tex_str = sourceAsString(args.tex_filename)
 

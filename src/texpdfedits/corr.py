@@ -442,7 +442,7 @@ def getCorrections(annot_filename: str, latex_filename: str, **kwargs) -> list[C
     compiler            = kwargs.get('compiler', 'pdflatex')
     clean               = kwargs.get('clean', True)
 
-    edits = getEdits(annot_filename)    
+    edits = getEdits(annot_filename, **kwargs)
     mark_positions, document_word_boxes = segment(latex_filename, compiler=compiler, clean=clean)
     
     tex_str = sourceAsString(Path(latex_filename))

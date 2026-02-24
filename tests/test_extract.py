@@ -2,7 +2,7 @@ import pymupdf
 import argparse
 import logging
 
-from texpdfedits.extract_anns import getRobustAnnots, getEdits, PDF_ANNOT_TEXT, PDF_ANNOT_CARET, PDF_ANNOT_STRIKE_OUT
+from texpdfedits.extractanns import getRobustAnnots, getEdits, PDF_ANNOT_TEXT, PDF_ANNOT_CARET, PDF_ANNOT_STRIKE_OUT
 from pathlib import Path
 
 import os
@@ -149,7 +149,8 @@ if __name__ == '__main__':
     parser.add_argument("-l", "--draw-lines", action="store_true", help='draw line boxes')
     parser.add_argument("-w", "--draw-words", action="store_true", help='draw word boxes')    
     parser.add_argument("-a", "--draw-annots", action="store_true", help='draw original and robust annot boxes')    
-    parser.add_argument("-e", "--draw-edits", action="store_true", help='draw edit selections')    
+    parser.add_argument("-e", "--draw-edits", action="store_true", help='draw edit selections')
+    parser.add_argument("--tryhack", action="store_true", help='Try adjusting the widths of the noncaret Annots; default=False')    
     
     args = parser.parse_args()
     _level = logging.DEBUG if args.debug else logging.INFO
@@ -168,13 +169,13 @@ if __name__ == '__main__':
     if args.draw_annots:
         drawAnnots(filename, bb_dir)
 
-        doc = pymupdf.open(filename)    
-        annots = getRobustAnnots(doc) # from extract.py    
+        doc = pymupdf.open(filename)
+        annots = getRobustAnnots(doc, remove_extra_horizontal=args.tryhack) # from extract.py    
         drawRobustAnnots(filename, annots, bb_dir)
 
 
     logging.info(f'Running getEdits({filename})...')
-    edits = getEdits(filename)
+    edits = getEdits(filename, remove_extra_horizontal=args.tryhack)
     logging.info("Done.")
         
     if args.draw_edits:    

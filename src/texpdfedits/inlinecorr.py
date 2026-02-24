@@ -376,12 +376,15 @@ def addCorrectionComments(*args, **kwargs) -> int:
     validate            = kwargs.get('validate', True)
     do_autocorrections  = kwargs.get('autocorrect', False)
 
+    remove_extra_horizontal = kwargs.get('remove_extra_horizontal', False)
+
     if corrections is None and overlapping_keys is None:
         corrections, overlapping_keys = getCorrections(
             *args,
             group_overlapping = group_overlapping,
             compiler          = compiler,            
-            clean             = clean
+            clean             = clean,
+            remove_extra_horizontal = remove_extra_horizontal
         )
 
     tex_filename = Path(tex_filename)
@@ -476,6 +479,7 @@ if __name__ == '__main__':
     clparser.add_argument("--compiler", type=str, help='Specify TeX compiler; default=pdflatex', default='pdflatex')
     clparser.add_argument("--clean", action=argparse.BooleanOptionalAction, help='Delete intermediate LaTeX files and tmp dirs; default=True', default=True)    
     clparser.add_argument("--autocorrect", action="store_true", help='Automatically carry out simple corrections; default=False')
+    clparser.add_argument("--tryhack", action="store_true", help='Try adjusting the widths of the noncaret Annots; default=False')
     
     args = clparser.parse_args()
     _level = logging.DEBUG if args.debug else logging.INFO
@@ -516,7 +520,8 @@ if __name__ == '__main__':
         clean             = args.clean,
         corrections       = corrections,
         overlapping_keys  = overlapping_keys,        
-        autocorrect       = args.autocorrect
+        autocorrect       = args.autocorrect,
+        remove_extra_horizontal = args.tryhack
     )
 
     

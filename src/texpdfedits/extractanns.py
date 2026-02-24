@@ -97,7 +97,7 @@ class Edit:
     def __repr__ (self):
         return str(self)
 
-def getRobustAnnots(doc):
+def getRobustAnnots(doc, **kwargs):
     """
     The bounding boxes of the original caret annotations often extend below the line they
     were inserted on, so they are resized to prevent that.
@@ -109,6 +109,13 @@ def getRobustAnnots(doc):
     """
     CARET_V_PROPORTION = 0.2
     CARET_H_PROPORTION = 0.2
+
+    # previously, the x positions of the annotations have been accurate, but now I'm encountering annotations from another tool whose
+    # left and right x coordinates are significantly wider than the actual selected text. For now I'm trying this very hacky and extremely simple
+    # and specific response where I just remove a flat ammount from either side.
+    # Really at this point I should compare with the embedded word rectangles available in the PDF
+    remove_extra_horizontal = kwargs.get('remove_extra_horizontal', False)
+    HORIZONTAL_REMOVE = 2.75 # in points
     
     robust_annots = {pageno:[] for pageno in range(doc.page_count)}
     for pageno, page in enumerate(doc):
@@ -120,8 +127,8 @@ def getRobustAnnots(doc):
             (x0, y0, x1, y1) = new_ann_rect
             
             # hacky heuristic adjustment of annot rectangles (in points)
-            REDUCE_AMMOUNT_ABOVE = 2.5 
-            REDUCE_AMMOUNT_BELOW = 1.5 
+            REDUCE_AMMOUNT_ABOVE = 2.5
+            REDUCE_AMMOUNT_BELOW = 1.5
             
             if annot.type == PDF_ANNOT_CARET:
                 extension = CARET_V_PROPORTION * (y1 - y0)
@@ -134,6 +141,13 @@ def getRobustAnnots(doc):
             else:
                 new_ann_rect.y0 = y0 + REDUCE_AMMOUNT_ABOVE
                 new_ann_rect.y1 = y1 - REDUCE_AMMOUNT_BELOW
+
+                logging.debug(f"before horizontal hack: {new_ann_rect}")
+                if remove_extra_horizontal:
+                    new_ann_rect.x0 = x0 + HORIZONTAL_REMOVE
+                    new_ann_rect.x1 = x1 - HORIZONTAL_REMOVE
+                logging.debug(f"after horizontal hack: {new_ann_rect}")
+                    
             robust_annots[pageno].append(
                 Annot(pageno,
                       annot.type,
@@ -376,10 +390,10 @@ def isNotForCOMP(message: dict[str, str | list[str]]) -> bool:
     else:
         return False
 
-def getEdits(filename):
+def getEdits(filename, **kwargs):
     """return a list of Edits. See class Edit."""
     doc = pymupdf.open(filename)
-    robust_annots = getRobustAnnots(doc)
+    robust_annots = getRobustAnnots(doc, **kwargs)
     all_responses = getAllResponses(robust_annots)
 
     target_num_edits = 0
