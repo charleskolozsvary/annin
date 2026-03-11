@@ -1,10 +1,10 @@
-### DISCLAIMER: this module is unnecessary if SyncTeX is used. At the time this project started I found it difficult to
-### find documentation on interpreting the .synctex.gz file format, so I decided to just write something myself which would
-### link rectangles in the rendered PDF to positions in the LaTeX source.
+r"""
+This module marks the source with
+\markbox commands which record box and pdf positioning information which is used to take any (it is hoped) rectangle
+produce corresponding source which rendered the text which intersects said rectangle.
 
-### That's what this module does: it marks the source with
-### \markbox commands which record box and pdf positioning information which is used to take an arbitrary rectangle
-### and produce corresponding source. The rectangleToLatex function is in corr.py where the correction objects are created
+The function rectangleToLatex is implemented in corr.py where the correction objects are created
+"""
 
 import argparse
 import logging
@@ -58,128 +58,185 @@ class IgnoreRegionArgsParser:
         return (ParsedMacroArgs(argnlist=[]), end_pos, 0)
 
 COMPILER_INFO = {
-    'pdflatex': (2, 'latin-1'),
-    'prdlatex': (1, 'latin-1'),
-    'xelatex': (2, 'utf-8')
+    'pdflatex': (2, 'latin-1', ['--interaction=nonstopmode']),
+    'prdlatex': (1, 'latin-1', ['-pdf', '-nonstopmode']),
+    'xelatex': (2, 'utf-8', ['--interaction=nonstopmode'])
 }
 
-CSNAMES_ARGSPEC = {'emph': '{',
-                   'textup': '{',
-                   'textit': '{',
-                   'textbf': '{',
-                   'textsc': '{',
-                   'texttt': '{',
-                   'url': '{',
-                   'underline': '{',
-                   'markbox': '{{',
-                   'part': '*[{',
-                   'chapter' : '*[{',
-                   'section': '*[{',
-                   'subsection': '*[{',
-                   'subsubsection': '*[{',
-                   'thanks': '{',
-                   'subjclass': '[{',
-                   'datereceived': '{',
-                   'daterevised': '{',
-                   'commby': '{',
-                   'dedicatory' : '{',
-                   'title': '[{',
-                   'author': '[{',
-                   'address': '[{',
-                   'curraddr' : '[{',
-                   'urladdr' : '[{',
-                   'email': '[{',
-                   'keywords': '{',
-                   'footnote': '[{', # \footnote[10]{text} sets the footnote to be footnote 10---only a number can be passed
-                   'footnotemark': '[',
-                   'footnotetext': '[{',
-                   'caption': '[{',
-                   'item': '[',
-                   'renewcommand': '*{[{',
-                   'newcommand': '*{[{',
-                   'theoremstyle' : '{',
-                   'bibitem': '[{',
-                   'bib': '{{{',
-                   'newtheorem': '*{[{[', 
-                   'newenvironment': '{[[{{',
-                   'cite': '[{',
-                   'label': '[{',
-                   'copyrightinfo': '{{',
-                   'translator': '{',}
+CSNAMES_ARGSPEC = {
+    'emph': '{',
+    'textup': '{',
+    'textit': '{',
+    'textbf': '{',
+    'textsc': '{',
+    'texttt': '{',
+    'url': '{',
+    'underline': '{',
+    'markbox': '{{',
+    'part': '*[{',
+    'chapter' : '*[{',
+    'section': '*[{',
+    'subsection': '*[{',
+    'subsubsection': '*[{',
+    'thanks': '{',
+    'subjclass': '[{',
+    'datereceived': '{',
+    'daterevised': '{',
+    'commby': '{',
+    'dedicatory' : '{',
+    'title': '[{',
+    'author': '[{',
+    'address': '[{',
+    'curraddr' : '[{',
+    'urladdr' : '[{',
+    'email': '[{',
+    'keywords': '{',
+    'footnote': '[{', # \footnote[10]{text} sets the footnote to be footnote 10---only a number can be passed
+    'footnotemark': '[',
+    'footnotetext': '[{',
+    'caption': '[{',
+    'item': '[',
+    'renewcommand': '*{[{',
+    'newcommand': '*{[{',
+    'theoremstyle' : '{',
+    'bibitem': '[{',
+    'bib': '{{{',
+    'newtheorem': '*{[{[', 
+    'newenvironment': '{[[{{',
+    'cite': '[{',
+    'label': '[{',
+    'copyrightinfo': '{{',
+    'translator': '{',
+    'vspace': '*{',
+    'hspace': '*{',
+    'documentclass': '[{',
+}
 
-ENVNAMES_ARGSPEC = {'enumerate': '[',
-                    'itemize': '[',}
+ENVNAMES_ARGSPEC = {
+    'enumerate': '[',
+    'itemize': '[',
+    'description': '[',
+}
 
-# macros which themselves get marked like \markbox{<key>}{\macro{...}}, like in-line math
-MARKED_ENTIRE_CSNAMES = {'emph', 'textit', 'textbf', 'textsc', 'underline', 'texttt', 'textup', 'url',}
+# macros which get marked as \markbox{<key>}{\macro{...}}, like in-line math
+# TODO: can I mark the words in these macros? 
+MARKED_ENTIRE_CSNAMES = {
+    'emph',
+    'textit',
+    'textbf',
+    'textsc',
+    'underline',
+    'texttt',
+    'textup',
+    'url',
+}
+# any of the above fail if their arguments are abnormal, like a \[...\] in a \textit
 
-# any of these fail if they're arguments are abnormal, like a \[...\] in a \textit
-# we should probably do some checking for something like that like
-# "check nested nodes are valid. They're shouldn't be any display math nodes inside the argument to any of these commands...
+# Below are macros whose contents ARE marked, not just the entire macro like the ones above
+DISTINCTLY_MARKED_MACROS = {
+    'caption': 1,
+    'footnote': 1,
+    'footnotetext': 1,
+    'title': 1,
+    'address': 1,
+    'curraddr': 1,
+    'urladdr': 1,
+    'email': 1,
+    'thanks': 0,
+    'keywords': 0,
+    'subjclass': 1,
+    'dedicatory': 0,
+    'translator': 0,
+    'commby': 0,
+    'copyrightinfo': 1,
+    'bib': 2,
+}
 
-# macros whose contents are marked
-# we'll need a new nested marking system for marking the metadata commands, footnotes, captions, and abstract
-# <name of env or macro> : <idx of arg spec to mark> idx is None if it is unused (for environments)
-DISTINCTLY_MARKED_MACROS = {'caption': 1,
-                            'footnote': 1,
-                            'footnotetext': 1,
-                            'title': 1,
-                            'address': 1,
-                            'curraddr': 1,
-                            'urladdr': 1,
-                            'email': 1,
-                            'thanks': 0,
-                            'keywords': 0,
-                            'subjclass': 1,
-                            'dedicatory': 0,
-                            'translator': 0,
-                            'commby': 0,
-                            'copyrightinfo': 1,
-                            'bib': 2,}
-
+# environments which get their own nested numbering
 DISTINCTLY_MARKED_ENVIRONMENTS = {'document', 'abstract'}
 
-### Need to review these >>>
-TRACKED_ENVIRONMENTS = {'abstract', 'figure', 'table', 'thebibliography', 'biblist'}
+# Following are only used in getMetadataAndSelectEnvironments(), which is currently unused >>>
+TRACKED_ENVIRONMENTS = {'abstract', 'figure', 'table', 'thebibliography', 'biblist', 'bibsection'}
 
 METADATA_CSNAMES = {'title', 'author', 'address', 'curraddr', 'urladdr', 'email', 'thanks',
                     'subjclass', 'keywords', 'datereceived', 'daterevised', 'commby',
                     'translator', 'dedicatory', 'copyrightinfo'}
 
 UNIQUE_FIELDS = {'title', 'subjclass', 'keywords', 'datereceived', 'commby', 'abstract', 'translator', 'dedicatory', 'copyrightinfo'}
-### <<<
+# <<<
 
-ALLOWED_MARK_ENVIRONMENTS = {'document', 'abstract', 'proof', 'enumerate', 'itemize', 'thebibliography', 'biblist', 'bibdiv', 'bibsec', 'appendix'}
+# the environments whose latex character nodes can be marked
+ALLOWED_MARK_ENVIRONMENTS = {
+    'document',
+    'abstract',
+    'proof',
+    'enumerate',
+    'itemize',
+    'description',
+    'thebibliography',
+    'biblist',
+    'bibdiv',
+    'bibsection',
+    'appendix',
+}
 
-ONLY_MARK_CAPTION_ENVS = {'table', 'table*', 'figure', 'figure*', 'longtable', 'longtable*', 'subfigure', 'subfigure*'}
+# amsrefs bib keys whose values cannot be marked
+FORBIDDEN_BIB_KEYS = [
+    'author',
+    'language',
+    'label',
+    'date',
+    'year',
+    'url',
+    'arXiv',
+    'eprint',
+]
 
-DIFFPDF_DPI = 175
+# environments which are not marked in full like allowed_mark_environments---here
+# only the contents of the \caption macros in said environments can be marked
+ONLY_MARK_CAPTION_ENVS = {
+    'table',
+    'table*',
+    'figure',
+    'figure*',
+    'longtable',
+    'longtable*',
+    'subfigure',
+    'subfigure*'
+}
 
-# Now just setting the tolerance to 50_000. Unfortunately italic correction can still be inserted *before* a markbox, too.
-# Example '(\emph{Boundary depletion})' (\markbox{}{\emph{Boundary depletion}}) will prevent space from being inserted after the
-# first open parenthesis if the entire string is in italic font.
+DIFF_PDF_DPI = 175
+
+r"""
+The tolerance of 50_000 pixels is a heuristic picked by trial and error.
+Unfortunately, italic correction can still be inserted *before* a markbox, too, which will introduce some pixel differences.
+Example: '(\emph{Boundary depletion})' (\markbox{}{\emph{Boundary depletion}}) will prevent space from being inserted after the
+first open parenthesis if the entire string is in italic font.
+"""
 DIFFPDF_PER_PAGE_PIXEL_TOLERANCE = 50_000
 
-SCALED_POINTS_PER_TEX_POINT = 2 ** 16 # 65536
 
 """
-there are 72.27 tex pts in an inch, while there are 
-72 bp (what tex calls a big point) in an inch, which is what
-pymupdf and other modern pdf systems use
+There are 72.27 TeX points in an inch, while there are 
+72 PDF points (what TeX calls a big point or "bp") in an inch, which is what
+pymupdf and other modern pdf systems use, so we need that conversion ratio
 """
 TEX_POINTS_TO_PDF_POINTS_CONVERSION_RATIO = 72 / 72.27
+
+# PdfTeX outputs the PDF positions in scaled points, so this constant is useful
+SCALED_POINTS_PER_TEX_POINT = 2 ** 16 # 65536
 
 def sourceAsString(filename: Path) -> str:
     with open(filename, 'r', encoding = 'utf-8') as f:
         tex_file_str = f.read()
     return tex_file_str
 
-def writeStringToFile(string: str, filename: Path):
+def writeStringToFile(string: str, filename: Path) -> int:
     with open(filename, 'w', encoding = 'utf-8') as f:
         f.write(string)
     return 0
 
-def joinNodesVerbatim(nodelist, start: int = 0, end: int | None = None) -> str:
+def joinNodesVerbatim(nodelist: list[LatexNode], start: int = 0, end: int | None = None) -> str:
     """return joined verbatim nodes from start to end inclusive"""
     if end is None:
         return ''.join([node.latex_verbatim() for node in nodelist[start:]])
@@ -187,7 +244,10 @@ def joinNodesVerbatim(nodelist, start: int = 0, end: int | None = None) -> str:
         return ''.join([node.latex_verbatim() for node in nodelist[start:end+1]])
 
 def getEnunciations(preamble_nodes) -> tuple[list[str], str]:
-    """ Needs review """
+    r"""
+    Retrieve \newtheorem declarations so we can expand ALLOWED_MARK_ENVIRONMENTS to include
+    those enunciations, too.
+    """
     enunciations = []
     for i, node in enumerate(preamble_nodes):
         if node.isNodeType(LatexMacroNode) and node.macroname == 'newtheorem':
@@ -196,7 +256,7 @@ def getEnunciations(preamble_nodes) -> tuple[list[str], str]:
             if len(node_args) == len_arg_spec and len_arg_spec > 1:
                 arg_one = node_args[1]
                 try:
-                    # currently fails with \\newtheorem{%\nthm}{Theorem}, which I think is fine
+                    # this fails with \\newtheorem{%\nthm}{Theorem}, but that's okay
                     enun_name = arg_one.nodelist[0].chars
                 except Exception as e: 
                     logger.warning(
@@ -220,8 +280,10 @@ def getEnunciations(preamble_nodes) -> tuple[list[str], str]:
     return enunciations
 
 def getEnvironmentSources(node, recognized_environments, environments):
-    """ Needs review """
-    """recognized environments as a dictionary with keys as the environment names
+    """
+    Only used by getMetadataAndSelectEnvironments, which is currently unused
+    
+    recognized environments as a dictionary with keys as the environment names
     and values as a list of verbatim latex_code of said environment
     This should preserve order, even though it's recursive since the nesting of nodes
     is still in document order
@@ -240,8 +302,7 @@ def getEnvironmentSources(node, recognized_environments, environments):
         return
     
 def getMetadataAndSelectEnvironments(preamble_nodes, document_node):
-    """ Needs review """
-    r"""we probably also want to track \footnotes and \captions, too, but I'll think about that later..."""
+    """Currently unused"""
     metadata = dict()
     start_idx, end_idx = -1, -1
     # this assumes that there isn't weird nesting in the preamble
@@ -279,11 +340,13 @@ def compileLatex(tex_filename: Path, compiler: str = 'pdflatex') -> subprocess.C
     result = None
     tex_filename_dir = tex_filename.parent
     
-    (num_runs, encoding) = COMPILER_INFO.get(compiler, (2, 'latin-1'))
+    (num_runs, encoding, compile_options) = COMPILER_INFO.get(compiler, (2, 'latin-1', ['--interaction=nonstopmode']))
+    command = [compiler, *compile_options, tex_filename.name]    
     for i in range(num_runs):
         logger.info(f"Running {compiler} on {tex_filename} (pass {i+1}/{num_runs})...")
+        logger.debug(f"I.e., {' '.join(command)}")        
         result = subprocess.run(
-            [compiler, '-interaction=nonstopmode', tex_filename.name],
+            command,
             cwd=tex_filename_dir,
             capture_output=True, # see result.stdout, result.stderr
             text=True,
@@ -300,11 +363,14 @@ def compileLatex(tex_filename: Path, compiler: str = 'pdflatex') -> subprocess.C
     return result
 
 def transferTeXFiles(tex_filename: Path, files_to: Path, move_or_copy: str):
+    logger.debug(f"the tex_filename is {tex_filename}\nfiles_to is {files_to}")    
     if tex_filename.parent == files_to:
         logger.debug("No need to transfer files; they are already in the cwd")
         return
-    tex_dot_star_files = [x for x in tex_filename.parent.glob(f'**/{tex_filename.stem}.*')]
+    # glob used to be f'**/{tex_filename.stem}.*', but I actually only want the top-level files in the parent dir        
+    tex_dot_star_files = [x for x in tex_filename.parent.glob(f'{tex_filename.stem}.*')]
     for x in tex_dot_star_files:
+        logger.debug(f"x is {x}")
         match move_or_copy:
             case 'mv':
                 x.move_into(files_to)
@@ -332,7 +398,7 @@ def runDiffpdf(first_fname: str, second_fname: str, output_dir: Path, per_page_t
 
     subprocess_command = ['diff-pdf',
                           f'--per-page-pixel-tolerance={per_page_tol}',
-                          f'--dpi={DIFFPDF_DPI}',
+                          f'--dpi={DIFF_PDF_DPI}',
                           '--skip-identical',
                           '--grayscale',
                           '--mark-differences',
@@ -547,7 +613,9 @@ def markNodes(
             
             if prev_node is not None:
                 prev_ends_square = re.search(r'[\]\}]\s*$', prev_node.latex_verbatim())
-                prev_includes_forbidden_mark_bib_keys = re.search(r'(?:author)', prev_node.latex_verbatim(), re.IGNORECASE)
+                
+                prev_includes_forbidden_mark_bib_keys = re.search('|'.join(FORBIDDEN_BIB_KEYS), prev_node.latex_verbatim(), re.IGNORECASE)
+                
                 if in_bib and prev_includes_forbidden_mark_bib_keys is not None:
                     return node_verbatim
             
@@ -646,11 +714,19 @@ def getWordBoxes(boxpositions_filename: Path):
             
             if key in word_boxes:
                 if label in word_boxes[key] and word_boxes[key][label] != values:
-                    # if the title hbox or position is overwritten from being rewritten in the running head, we just ignore the new values
+                    # if the title hbox or position appears more than once with new values from being rewritten
+                    # in the running head, we just ignore said the new values                    
                     if 'TITLE' in key:
                         line = f.readline().strip()
                         line_no += 1
                         continue
+                    # for some reason, when using the prdlatex format (even with texlive2024), caption boxes will appear twice (or perhaps more times)
+                    # with different box information, but it looks like the second appearance is correct. This is probably fragile.
+                    if 'CAPTION' in key:
+                        word_boxes[key][label] = values
+                        line = f.readline().strip()
+                        line_no += 1
+                        continue                    
                     
                     # There should be only two labels (and they should each appear at most once):
                     # it looks like captions are read in twice, so it's okay if a label for a key appears more than once if the values are the same
@@ -882,6 +958,13 @@ def validateMarkPositions(mark_positions: dict[str, tuple[int, int]], document_w
     
 def pdfFname(tex_fname: Path):
     return f"{tex_fname.stem}.pdf"
+
+def splitPreambleNodes(preamble_nodes: list[LatexNode]):
+    for i, node in enumerate(preamble_nodes):
+        if isinstance(node, LatexMacroNode) and node.macroname == 'documentclass':
+            return preamble_nodes[:i+1], preamble_nodes[i+1:]
+    logger.critical("\\documentclass command not found")
+    sys.exit(1)
     
 def segment(tex_filename: str, **kwargs):
     extra_marked_environment_names = kwargs.get('emen', set()) # set[str]
@@ -893,58 +976,45 @@ def segment(tex_filename: str, **kwargs):
     tex_filename = Path(tex_filename)
     tex_str = sourceAsString(tex_filename)
 
-    # Setup parser context with recognized commands and environments
+    # Set up parser context with recognized commands and environments
     latex_context = LatexContextDb()
     macro_specs = [std_macro(csname, args_format) for csname, args_format in CSNAMES_ARGSPEC.items()]
     environment_specs = [std_environment(envname, args_format) for envname, args_format in ENVNAMES_ARGSPEC.items()]
     
-    latex_context.add_context_category('segmentspec', macros=macro_specs, environments=environment_specs)
+    latex_context.add_context_category('markspec', macros=macro_specs, environments=environment_specs)
 
     # Add Ignore Parsing
     custom_macros = [MacroSpec('startignorepylatexenc', args_parser=IgnoreRegionArgsParser())]
-    latex_context.add_context_category(
-        'ignore-regions',
-        macros=custom_macros,
-        prepend=True
-    )
+    latex_context.add_context_category('ignore-regions', macros=custom_macros, prepend=True)
     
-    # parse LaTeX file
+    # Parse LaTeX --> get LaTeX node list 
     logger.info(f"Parsing {tex_filename}...")
     (nodelist, _, _) = LatexWalker(tex_str, latex_context=latex_context).get_latex_nodes(pos=0)
 
     if joinNodesVerbatim(nodelist) != tex_str:
-        logger.error(f"Verbatim string tex source was not preserved after LatexWalker parsing; the parser has likely failed.")
+        logger.critical(f"TeX source was not preserved after LatexWalker parsing")
         sys.exit(1)
            
     preamble_nodes, document_node, post_document_nodes = getPreambleAndDocument(nodelist)
     logger.info("Done.")
 
-    # get metadata
-    logger.info("Getting metadata...")
+    # Track \newtheorems
     enunciations = getEnunciations(preamble_nodes)
     enunciation_names = set([enun['name'] for enun in enunciations])
-    
-    metadata, metadata_source, environments = getMetadataAndSelectEnvironments(preamble_nodes, document_node)
 
-    # need to review how I will use these if at all
-    # TODO: here and in rectangleToLatex link snippet in dedicated command to entire command
-    all_metadata = {'enunciation_names': enunciation_names,
-                    'enunciation_source': '',
-                    'metadata': metadata,
-                    'metadata_source': metadata_source,
-                    'environments': environments}
-    
-    logger.info("Done.")
-
-    # mark file
+    # Mark file
     boxpositions_filename = f'boxpositions_{tex_filename.stem}.txt'
     tex_write_commands = fr"""
+\makeatletter      %% for some reason \leavevmode's expansion of \unhbox\voidb@x is sometimes not read with @ as a letter, resulting in the error
+\let\voidb\voidb@x %% `undefined control sequence \voidb<linebreak>@x`. Should probably be looked into.
+\makeatother
+
 \newwrite\markfile
 \immediate\openout\markfile={boxpositions_filename}
 """
-    markbox_defs = r"""
+    markbox_def = r"""
 \newcommand{\markbox}[2]{%
-  \leavevmode%% we only ever mark something in a horizontal list and this prevents incorrect positions after \par
+  \ifvmode\leavevmode\fi%% to get the correct pdfposition, I must leave vmode when marking. Otherwise the position recorded is before the new paragraph
   \setbox0=\hbox{#2}%
   \immediate\write\markfile{#1:pwhd:\the\value{page}:\the\wd0:\the\ht0:\the\dp0}%
   \pdfsavepos
@@ -964,6 +1034,8 @@ def segment(tex_filename: str, **kwargs):
 
     all_allowed_mark_environments = ALLOWED_MARK_ENVIRONMENTS.union(enunciation_names).union(extra_marked_environment_names)
 
+    docclass_nodes, preamble_nodes = splitPreambleNodes(preamble_nodes)    
+
     # job_id may be eventually removed; currently unused    
     marked_preamble, counters = markNodes(
         preamble_nodes,
@@ -972,7 +1044,7 @@ def segment(tex_filename: str, **kwargs):
         job_id
     )
 
-    # print(f"marked preamble:\n{marked_preamble}\n\nEND\n")
+    # logger.debug(f"marked preamble:\n{marked_preamble}\n\nEND\n")
         
     marked_document, counters = markNodes(
         [document_node],
@@ -983,63 +1055,74 @@ def segment(tex_filename: str, **kwargs):
     
     logger.info("Done.")
 
-    post_document_str = joinNodesVerbatim(post_document_nodes)        
-    
-    marked_tex = marked_preamble + tex_write_commands + markbox_defs + marked_document + post_document_str
+    post_document_str = joinNodesVerbatim(post_document_nodes)
 
-    # save at first the marked file to the same directory as the input tex_filename, then move it after pdflatex
+    docclass_str = joinNodesVerbatim(docclass_nodes)
+
+    # Concatenate marked file out of components
+    marked_tex = docclass_str + tex_write_commands + markbox_def + marked_preamble + marked_document + post_document_str
+
+    # Save at first the marked file to the same directory as the input tex_filename, then move it after pdflatex
     marked_filename = tex_filename.parent / f"{tex_filename.stem}_marked{tex_filename.suffix}"
 
-    # write marked file 
+    # Write marked file 
     writeStringToFile(marked_tex, marked_filename)
 
-    # run pdflatex
+    # Compile original and marked LaTeX
     process1 = compileLatex(tex_filename, compiler = compiler)
     process2 = compileLatex(marked_filename, compiler = compiler)
 
-    # setup tmp directory and transfer files
+    # Set up tmp directory and transfer files
     tmp_dir = Path('tmp_marktex')
     Path.mkdir(tmp_dir, exist_ok = True)
 
     transferTeXFiles(tex_filename, tmp_dir, 'cp')
     transferTeXFiles(marked_filename, tmp_dir, 'mv')
     
-    # move boxpositions file
+    # Move boxpositions file
     new_boxpositions_fname = (tex_filename.parent/boxpositions_filename).move_into(tmp_dir)
-    
+
+    # Compare original and marked PDFs
     process3, _ = runDiffpdf(pdfFname(tex_filename), pdfFname(marked_filename), tmp_dir)
 
-    logger.info(f"Original and marked source produce identical PDFs.")
+    logger.info(f"Original and marked sources produce identical PDFs.")
 
     logger.info("Getting word boxes...")
     document_word_boxes, markids_to_delete = getWordBoxes(tmp_dir / boxpositions_filename)
     logger.info("Done.")    
 
-    # do not concatenate the inserted preamble definitions
+    # Do not concatenate the inserted preamble definitions
     logger.info("Unmarking LaTeX...")
-    unmarked_str, mark_positions = unMarkWithPositions(marked_preamble + marked_document + post_document_str, job_id, markids_to_delete)
+    unmarked_str, mark_positions = unMarkWithPositions(docclass_str + marked_preamble + marked_document + post_document_str, job_id, markids_to_delete)
     logger.info("Done.")
 
     if unmarked_str != tex_str:
-        logger.error("Unmarked LaTeX does NOT match original LaTeX!")
+        logger.critical("Unmarked LaTeX does NOT match original LaTeX!")
         sys.exit(1)
 
-    logger.info("Validating mark positions...")
     validateMarkPositions(mark_positions, document_word_boxes)
-    logger.info("Done.")
 
     if clean:
         removeDir(tmp_dir)
 
-    # segment should output all the information necessary for rectangleToLatex in makeCorrections.py
+    # Segment should output all the information necessary for rectangleToLatex in makeCorrections.py
     return mark_positions, document_word_boxes
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(prog = 'python segmentsource.py',
-                                     description = r'Segments source TeX by pages and metadata like \title, \author, \address, and abstract.')
+    parser = argparse.ArgumentParser(
+        prog = 'python segmentsource.py',
+        description = r'Marks small units in source LaTeX to extract source with positional information (i.e., rectangles)'
+    )
+    
     parser.add_argument('filename')
     parser.add_argument("-d", "--debug", action="store_true", help='debugging output')
-    parser.add_argument("-c", "--clean", action=argparse.BooleanOptionalAction, help='Delete intermediate files (and temporary directories); default=True', default=True)
+    parser.add_argument(
+        "-c",
+        "--clean",
+        action=argparse.BooleanOptionalAction,
+        help='Delete intermediate files (and temporary directories); default=True',
+        default=True
+    )
     parser.add_argument("--compiler", type=str, help='Specify LaTeX compiler; default=pdflatex', default='pdflatex')
     
     args = parser.parse_args()
@@ -1049,4 +1132,4 @@ if __name__ == '__main__':
     
     logging.basicConfig(level=_level, format='%(asctime)s - %(levelname)s - %(message)s')
 
-    segment(filename, clean=args.clean, compiler=args.compiler)
+    mark_positions, document_word_boxes = segment(filename, clean=args.clean, compiler=args.compiler)
