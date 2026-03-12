@@ -9,8 +9,9 @@ import pickle
 import re
 import sys
 
-from texpdfedits.extractanns import getEdits
-from texpdfedits.marktex import segment, sourceAsString, markIdToCountInfo
+
+import texpdfedits.extractanns as extractanns
+import texpdfedits.marktex as marktex
 
 from pathlib import Path      
 
@@ -39,7 +40,7 @@ def categorizeMarkIDs(mark_ids: list[str]) -> int:
     sets_of_counter_info = {}
     count_info_lens = set()
     for mark_id in mark_ids:
-        count_info = markIdToCountInfo(mark_id)
+        count_info = marktex.markIdToCountInfo(mark_id)
         count_info_lens.add(len(count_info))
         for i, name_head_stem in enumerate(count_info):
             if i not in sets_of_counter_info:
@@ -66,12 +67,12 @@ def categorizeMarkIDs(mark_ids: list[str]) -> int:
         
     return 'compatible'
 
-def isOnlyDocumentID(mark_id: str) -> bool:
-    count_info = markIdToCountInfo(mark_id)
-    return len(count_info) == 1 and count_info[0]['name'] == 'DOCUMENT'
+def isSimpleID(mark_id: str) -> bool:
+    names = [c['name'] for c in marktex.markIdToCountInfo(mark_id)]
+    return names in (['DOCUMENT'], ['DOCUMENT', 'ABSTRACT'])
 
 def getTerminalStem(mark_id: str) -> int:
-    count_info = markIdToCountInfo(mark_id)
+    count_info = marktex.markIdToCountInfo(mark_id)
     return count_info[-1]['stem']
 
 def infoToMarkID(count_info: list[dict[str, str]]):
@@ -119,7 +120,7 @@ def rectangleToLatex(
         """ return the previous and next key based on the terminal stem value. So document0;0,caption0;1,footnote5;10 should return
         document0;0,caption0;1,footnote5;9 and document0;0,caption0;1,footnote5;11
         """
-        count_info = markIdToCountInfo(mark_id)
+        count_info = marktex.markIdToCountInfo(mark_id)
         stem_val = int(count_info[-1]['stem']) 
         count_info[-1]['stem'] = str(stem_val + plus_minus)
         adjacentMark = infoToMarkID(count_info) 
@@ -141,7 +142,7 @@ def rectangleToLatex(
         Then we'll return the key of the first id in the lowest head count group and the key of the last id in the largest head count group as our
         start_ and end_ extraction keys.
         """
-        count_infos = [markIdToCountInfo(m_id) for m_id in mark_ids]
+        count_infos = [marktex.markIdToCountInfo(m_id) for m_id in mark_ids]
         head_partitions = {}
         for c_info in count_infos:
             head_count = c_info[-1]['head'] # [-1] because we already know that all preceding count information is the same
@@ -198,8 +199,8 @@ def rectangleToLatex(
             return None, None
     else:
         logger.debug(f"Rectangle {in_rectangle} did not intersect any word box on page {pageno}")
-        boxes_before = {k: rect for k, rect in page_word_boxes.items() if rect.y0 < in_rectangle.y0 - BOXES_ORDER_THRESHOLD_BUFF and isOnlyDocumentID(k)}
-        boxes_after = {k: rect for k, rect in page_word_boxes.items() if rect.y0 > in_rectangle.y0 + BOXES_ORDER_THRESHOLD_BUFF and isOnlyDocumentID(k)}
+        boxes_before = {k: rect for k, rect in page_word_boxes.items() if rect.y0 < in_rectangle.y0 - BOXES_ORDER_THRESHOLD_BUFF and isSimpleID(k)}
+        boxes_after = {k: rect for k, rect in page_word_boxes.items() if rect.y0 > in_rectangle.y0 + BOXES_ORDER_THRESHOLD_BUFF and isSimpleID(k)}
 
         # logger.debug(f"boxes before: {boxes_before}\n\n")
         # logger.debug(f"boxes after: {boxes_after}\n\n")        
@@ -208,10 +209,12 @@ def rectangleToLatex(
         end_key = min(boxes_after.keys(), key=getTerminalStem) if boxes_after else None
         
         if start_key is None:
-            start_key = max(filter(isOnlyDocumentID, document_word_boxes[pageno - 1].keys()), key=getTerminalStem) if pageno-1 in document_word_boxes else None
+            simple_IDs = [fid for fid in document_word_boxes[pageno - 1] if isSimpleID(fid)] if pageno-1 in document_word_boxes else []
+            start_key = max(simple_IDs, key=getTerminalStem) if len(simple_IDs) > 0 else None
 
         if end_key is None:
-            end_key = min(filter(isOnlyDocumentID, document_word_boxes[pageno + 1].keys()), key=getTerminalStem) if pageno+1 in document_word_boxes else None
+            simple_IDs = [fid for fid in document_word_boxes[pageno + 1] if isSimpleID(fid)] if pageno+1 in document_word_boxes else []
+            end_key = min(simple_IDs, key=getTerminalStem) if len(simple_IDs) > 0  else None
 
     if start_key is None or end_key is None:
         # This should only happen if
@@ -442,10 +445,10 @@ def getCorrections(annot_filename: str, latex_filename: str, **kwargs) -> list[C
     compiler            = kwargs.get('compiler', 'pdflatex')
     clean               = kwargs.get('clean', True)
 
-    edits = getEdits(annot_filename, **kwargs)
-    mark_positions, document_word_boxes = segment(latex_filename, compiler=compiler, clean=clean)
+    edits = extractanns.getEdits(annot_filename, **kwargs)
+    mark_positions, document_word_boxes = marktex.segment(latex_filename, compiler=compiler, clean=clean)
     
-    tex_str = sourceAsString(Path(latex_filename))
+    tex_str = marktex.sourceAsString(Path(latex_filename))
 
     corrections = []
     for i, edit in enumerate(edits):
