@@ -531,8 +531,6 @@ def markNodes(
             elif node.macroname in DISTINCTLY_MARKED_MACROS:
                 if is_in_only_mark_caption_env and node.macroname != 'caption':
                     return node_verbatim
-                
-                parent_counter_keys.append(node.macroname)
 
                 # do arg processing >>>
                 len_arg_spec = len(CSNAMES_ARGSPEC[node.macroname])
@@ -552,6 +550,7 @@ def markNodes(
                     )
                     return node_verbatim
                 
+                parent_counter_keys.append(node.macroname)                
                 marked_macro = [rf"\{node.macroname}"]
                 this_prev_node = None
                 for idx, arg_node in enumerate(argnlist):
