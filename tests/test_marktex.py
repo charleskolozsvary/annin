@@ -1,4 +1,4 @@
-from texpdfedits.marktex import segment, getWordBoxes, unMarkWithPositions, sourceAsString
+from texpdfedits.marktex import getSyncInfo, getWordBoxes, unMarkWithPositions, sourceAsString
 from texpdfedits.corr import rectangleToLatex
 
 import logging
@@ -120,7 +120,7 @@ if __name__ == '__main__':
     else:
         extra_names = set()
 
-    mark_positions, document_word_boxes = segment(args.tex_filename, emen=extra_names, compiler=args.compiler, clean=args.clean)
+    mark_positions, document_word_boxes = getSyncInfo(args.tex_filename, emen=extra_names, compiler=args.compiler, clean=args.clean)
 
     tex_str = sourceAsString(args.tex_filename)
 
