@@ -1,9 +1,0 @@
-\contentsline {section}{\tocsection {}{1}{Introduction}}{1}{section.1}%
-\contentsline {section}{\tocsection {}{2}{Preliminaries}}{3}{section.2}%
-\contentsline {section}{\tocsection {}{3}{Basic results}}{5}{section.3}%
-\contentsline {section}{\tocsection {}{4}{On quotient semirings}}{8}{section.4}%
-\contentsline {section}{\tocsection {}{5}{Under localisation}}{10}{section.5}%
-\contentsline {section}{\tocsection {}{6}{In special semirings}}{13}{section.6}%
-\contentsline {subsection}{\tocsubsection {}{6.1}{Additively idempotent semirings}}{17}{subsection.6.1}%
-\contentsline {section}{\tocsection {}{}{Acknowledgement}}{21}{section*.3}%
-\contentsline {section}{\tocsection {}{}{References}}{21}{section*.4}%
