@@ -1,0 +1,228 @@
+%%\documentclass[11pt,a4paper]{article}
+\documentclass[11pt]{amsart}
+\usepackage[utf8]{inputenc}
+
+\linespread{1}
+%%* \usepackage[top=0.99in, bottom=0.99in, left=0.98in, right=0.98in]{geometry}
+\usepackage{amsmath,amsthm,amssymb,amscd,dsfont,bm,epic,accents}
+\usepackage{graphicx}
+\usepackage[all]{xy}
+\usepackage{tikz}
+\usetikzlibrary{intersections}
+
+\usepackage{multicol}
+\usepackage{mathrsfs}
+\usepackage{enumerate}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{tikz}
+\usetikzlibrary{shapes.multipart, positioning}
+
+\usepackage{tkz-euclide}
+\usetikzlibrary{quotes}
+\tikzset{every edge quotes/.style =
+          { fill = white,
+            sloped,
+            execute at begin node = $,
+            execute at end node   = $  }}
+%\usetkzobj{all}
+
+\usepackage[driverfallback=hypertex]{hyperref}
+\usepackage{nameref,zref-xr}                   
+
+\usepackage{cancel}
+\usepackage[normalem]{ulem}
+\usepackage{enumitem}
+
+
+\newtheorem{dummy}{}[section]
+\newtheorem{thm}[dummy]{Theorem}
+\newtheorem{prop}[dummy]{Proposition}
+\newtheorem{pr}[dummy]{Proposition}
+\newtheorem{lem}[dummy]{Lemma}
+\newtheorem{lm}[dummy]{Lemma}
+\newtheorem{lemma}[dummy]{Lemma}
+\newtheorem{cor}[dummy]{Corollary}
+\newtheorem{clm}[dummy]{Claim}
+\newtheorem{st}{Step}
+\newtheorem{open}{Open problem}
+\newtheorem{construction}{Construction/Notation}
+\newtheorem{conj}{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[dummy]{Definition}
+\newtheorem{dfn}[dummy]{Definition}
+\newtheorem{nn}[dummy]{Notation}
+\newtheorem{cv}[dummy]{Convention}
+\theoremstyle{remark}
+\newtheorem{rmk}[dummy]{Remark}
+\newtheorem{ex}[dummy]{Example}
+\newtheorem{obs}[dummy]{Observation}
+
+
+
+
+\def\RT#1{\textcolor{blue}{[RT: #1]}}
+
+
+\newcommand{\consta}{{\frac{1}{2}}}
+
+
+ \newcommand{\Mbarr}{{{\overline{\mathcal{M}}}^{\frac{1}{r}}_{0,k,\vec{a}}}}
+
+ \newcommand{\CL}{{\mathbb{L}}}
+
+\newcommand{\alt}{{\text{alt}}}
+
+\newcommand{\tw}{\text{tw}}
+\newcommand{\twE}{\text{tw}}
+
+ \newcommand{\Ass}{{{\,\maltese\,}}}
+
+\newcommand{\oPM}{{\overline{\mathcal{PM}}}^{1/r}}
+\newcommand{\oPMb}{{\overline{\mathcal{PM}}}}
+\newcommand{\oPMh}{{\overline{\mathcal{PM}}}^{1/r,\h}}
+\newcommand{\PM}{{{\mathcal{PM}}}^{1/r}}
+\newcommand{\PMh}{{{\mathcal{PM}}}^{1/r},\h}
+
+\newcommand{\oPMr}{{{\overline{\mathcal{PM}}}^{\frac{1}{r}}_{0,k,\vec{a}}}}
+
+
+
+\newcommand{\oQM}{{\overline{\mathcal{QM}}}^{1/r}}
+\newcommand{\oQMb}{{\overline{\mathcal{QM}}}}
+\newcommand{\oQPMb}{{\overline{\mathcal{QPM}}}}
+\newcommand{\oEM}{{\overline{\mathcal{EM}}}^{1/r}}
+\newcommand{\oEMb}{{\overline{\mathcal{EM}}}}
+\newcommand{\oEPM}{{\overline{\mathcal{EPM}}}^{1/r}}
+\newcommand{\oEPMb}{{\overline{\mathcal{EPM}}}}
+\newcommand{\oEPMp}{\overline{\mathcal {EPM}}^{1/r,pre}}
+\newcommand{\oJMb}{{\overline{\mathcal{JM}}}}
+
+\renewcommand{\for}{\operatorname{for}}
+\newcommand{\For}{\operatorname{For}}
+
+\newcommand{\nontilde}{}
+
+
+
+
+ \newcommand{\M}{\ensuremath{\overline{\mathcal{M}}}}
+
+ \renewcommand{\d}{\ensuremath{\partial}}
+
+
+ \newcommand{\<}{\left<}
+ \renewcommand{\>}{\right>}
+ \DeclareMathOperator{\res}{res}
+ 
+
+
+
+
+
+
+\newcommand{\Ran}[1]{{\color{green} Ran: #1}}
+
+\def\YZ#1{\textcolor{red}{[YZ: #1]}}
+
+\numberwithin{equation}{section}
+
+
+
+
+\usepackage{booktabs,multirow,tabularx}
+\newcommand{\makecell}[2][@{}c@{}]{\begin{tabular}{#1}#2\end{tabular}}
+
+
+
+
+
+
+\DeclareMathOperator{\Ima}{Im}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\Gr}{Gr}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\rk}{rank}
+
+
+
+\def\RW{\operatorname{FJRW}}
+\def\GW{\operatorname{GW}}
+
+
+
+\def\C{{\mathbb C}}
+\def\GG{{\mathbb G}}
+\def\P{{\mathbb P}}
+\def\la{{\lambda}}
+\def\Ocal{{\mathcal O}}
+\def\inv{{\text{inv}}}
+\def\Shi{{\text{Shi}}}
+\def\Bmu{{\boldsymbol{\mu}}}
+\def\spec{{\operatorname{Spec}}}
+
+\def\Mbar{{\overline{\mathcal M}}}
+\def\Mbarstar{{\overline{\mathcal M^*}}}
+\def\Mtilde{{\widetilde{\mathcal M}}}
+\def\GPI{{\text{GPI}}}
+\def\PI{{\text{PI}}}
+\def\h{{\mathfrak h}}
+\def\m{{\mathfrak m}}
+
+\def\sGPI{\text{sGPI}}
+\def\PI{\text{PI}}
+\def\ev{\text{ev}}
+
+\def\Pic{{\operatorname{Pic}}}
+
+\usepackage{scalerel}
+
+\DeclareMathOperator*{\bboxplus}{\scalerel*{\boxplus}{\sum}}
+
+\DeclareMathOperator*{\bass}{\scalerel*{\maltese}{\sum}}
+
+\DeclareMathOperator*{\bboxtimes}{\scalerel*{\boxtimes}{\sum}}
+
+\def\chain{{\operatorname{Chain}}}
+
+\title{Open $r$-spin theory in genus one, and the Gelfand--Dikii wave function}
+\date{}
+\author{Ran J. Tessler \and Yizhen Zhao}
+
+\AtEndDocument{\bigskip{\footnotesize%
+    \textsc{R. J. Tessler:}\par
+  \textsc{Department of Mathematics, Weizmann Institute of Science, POB 26, Rehovot 7610001, Israel} \par  
+  \textit{E-mail address}: \texttt{ran.tessler@weizmann.ac.il} \par
+  \addvspace{\medskipamount}
+  \textsc{Y. Zhao:}\par
+  \textsc{Institut de Math\'ematiques de Jussieu – Paris Rive Gauche, 75005 Paris, France} \par  
+  \textit{E-mail address}: \texttt{yizhen.zhao@imj-prg.fr}
+}}
+
+\begin{document}
+Original:
+
+Then
+\begin{align*}
+\< \tau_{d_1+1}^{a_1}\prod_{i=2}^l\tau^{a_i}_{d_i}\sigma^k\>^{\frac{1}{r},o}_0=&
+\sum_{a=-1}^{r-2}\sum_{S \sqcup R = \{2,\ldots,l\}}\left\langle \tau_0^{a}\tau_{d_1}^{a_1}\prod_{i \in S}\tau_{d_i}^{a_i}\right\rangle^{\frac{1}{r},{ext}}_0
+\left\langle \tau_0^{r-2-a}\prod_{i\in R}\tau^{a_i}_{d_i}\sigma^k\right\rangle^{\frac{1}{r},o}_0+\\
+&+\sum_{\substack{S \sqcup R = \{2,\ldots,l\} \\ k_1 + k_2 = k-1}} \binom{k-1}{k_1} \left\langle \tau^{a_1}_{d_1}\prod_{i \in S} \tau^{a_i}_{d_i}\sigma^{k_1}\right\rangle^{\frac{1}{r},o}_0 \left\langle \prod_{i \in R} \tau^{a_i}_{d_i} \sigma^{k_2+2}\right\rangle^{\frac{1}{r}, o}_0.
+\end{align*}
+
+
+Modified:
+
+Then
+\begin{align*}
+\< \tau_{d_1+1}^{a_1}\prod_{i=2}^l\tau^{a_i}_{d_i}\sigma^k\>^{\frac{1}{r},o}_0
+&= \begin{aligned}[t] 
+&\sum_{a=-1}^{r-2}\sum_{S \sqcup R = \{2,\ldots,l\}}\left\langle \tau_0^{a}\tau_{d_1}^{a_1}\prod_{i \in S}\tau_{d_i}^{a_i}\right\rangle^{\frac{1}{r},{ext}}_0
+\left\langle \tau_0^{r-2-a}\prod_{i\in R}\tau^{a_i}_{d_i}\sigma^k\right\rangle^{\frac{1}{r},o}_0 \\
+&\quad +\sum_{\substack{S \sqcup R = \{2,\ldots,l\} \\ k_1 + k_2 = k-1}} \binom{k-1}{k_1} \left\langle \tau^{a_1}_{d_1}\prod_{i \in S} \tau^{a_i}_{d_i}\sigma^{k_1}\right\rangle^{\frac{1}{r},o}_0 \left\langle \prod_{i \in R} \tau^{a_i}_{d_i} \sigma^{k_2+2}\right\rangle^{\frac{1}{r}, o}_0.
+\end{aligned}
+\end{align*}
+\end{document}
+

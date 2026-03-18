@@ -1,0 +1,1549 @@
+\documentclass{amsart}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[mathscr]{eucal}
+
+% --- Other utilities ---
+\usepackage[shortlabels]{enumitem}
+\usepackage{graphicx}
+\usepackage[all]{xy}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz-cd}
+
+% --- Hyperref should be loaded last ---
+\usepackage[colorlinks=true,citecolor=red,urlcolor=blue,linkcolor=blue]{hyperref}
+
+% --- Theorem environments ---
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+% --- Commands ---
+\newcommand{\thmref}[1]{Theorem~\ref{#1}}
+\newcommand{\thmmref}[1]{Theorem$^\prime$~\ref{#1}}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{#1}}
+\newcommand{\propref}[1]{Proposition~\ref{#1}}
+\newcommand{\propnref}[1]{Proposition$'$~\ref{#1}}
+\newcommand{\corref}[1]{Corollary~\ref{#1}}
+\newcommand{\remref}[1]{Remark~\ref{#1}}
+\newcommand{\defref}[1]{Definition~\ref{#1}}
+\newcommand{\subsecref}[1]{Subsection~\ref{#1}}
+\newcommand{\homeo}{\mathrm{Homeo}}
+\newcommand{\gal}{\mathrm{Gal}}
+\newcommand{\bz}{\mathbb{Q}}
+\newcommand{\bn}{\mathbb{N}}
+\newcommand{\bq}{\mathbb{Q}}
+\newcommand{\br}{\mathbb{R}}
+\newcommand{\bc}{\mathbb{C}}
+\newcommand{\bp}{\mathbb{P}}
+\newcommand{\bs}{\mathbb{S}}
+\newcommand{\co}{\mathcal{O}}
+\newcommand{\rank}{\mathrm{Rank}}
+\newcommand{\cl}{\mathcal{L}}
+\newcommand{\lr}{\longrightarrow}
+\renewcommand{\hom}{\mathrm{Hom}}
+\newcommand{\wt}{\widetilde}
+\newcommand{\im}{\mathrm{Im}}
+\newcommand{\re}{\mathrm{Re}}
+\newcommand{\Span}{\mathrm{span}}
+\newcommand{\tor}{\mathrm{Tor}}
+\newcommand{\pic}{\mathrm{Pic}}
+\newcommand{\flag}{\mathrm{Flag}}
+\newcommand{\ul}{\underline}
+\newcommand{\fix}{\mathrm{Fix}}
+
+\title[Graded Endomorphisms of $H^*(\mathbb{S}^m \times \mathbb{C}G_{n,k};\mathbb Q)$]{Rational Cohomology Endomorphisms of product of Sphere with Grassmannian and coincidence theory}
+
+\author[M. Mandal]{Manas Mandal}
+\address{Indian Institute of Technology Kanpur, Kanpur 208016, India}
+	\email{manasm.imsc@gmail.com}
+	
+	\author[D. Setia]{Divya Setia}
+	\address{Institute of Mathematics, Polish Academy of Sciences, Krak{\'o}w 31-027, Poland}
+	\email{divyasetia01@gmail.com}
+	
+	\subjclass[2020]{Primary: 55S37, 08A35,  55M20; Secondary: 14M15}
+	\keywords{cohomology endomorphisms, complex Grassmann manifolds, generalized Dold spaces,  fixed point theory, coincidence theory}
+
+\begin{document}
+\begin{abstract}
+We classified graded endomorphisms of the rational cohomology algebra of the product of a sphere and a complex Grassmannian, whose images are nonzero  in the second cohomology of the Grassmannian.
+
+We also derive necessary conditions for the generalized Dold spaces to satisfy the coincidence property, in particular the fixed-point property. As an application of our results, we obtain several sufficient conditions for the existence of a point of coincidence between a pair of continuous functions on certain generalized Dold spaces. 
+\end{abstract}
+	
+\maketitle
+	
+	\section{Introduction} \label{intro}
+	The classification of endomorphisms of the rational cohomology algebra of formal spaces was greatly motivated by Sullivan's theory where it was  proved that rational homotopy class of self-maps are completely determined by the induced graded endomorphisms of their rational cohomology algebras. 
+	
+	In \cite{brewster}, the authors developed the foundational work by classifying automorphisms of the rational cohomology algebra of complex Grassmannian. Their results were generalized in \cite{hoffman}, where the author classified graded endomorphisms of the rational cohomology algebra of complex Grassmannian which are nonzero on dimension $2$. Further, he conjectured that every graded endomorphism  vanishing on dimension two is necessarily trivial. This conjecture was proved in \cite{glover-homer} for several cases.
+	
+	The cohomology endomorphisms are also studied for a variety of homogeneous spaces $G/H$, where $G$ is a compact connected Lie group and $H$ is a closed
+	subgroup of maximal rank. This is a topic of interest since past fifty years and are studied in several papers \cite{shiga-tezuka2, brewster-homer, hoffman-homer, Papadima, duan, duan-fang, duan-zhao, lin, goswami-sarkar}. 
+	
+	%However, we are interested in product spaces because a little is known about how cohomology endomorphisms behave under products.
+    However, the behavior of cohomology endomorphisms for the product spaces is comparatively less explored, and this provides a direction for study.
+    We are mainly interested in the product of a sphere
+	with complex Grassmannian $\mathbb S^m\times \mathbb CG_{n,k}$ because the sphere $\mathbb{S}^m$ has a simple, singly generated cohomology algebra, while the Grassmannian $\mathbb{C}G_{n,k}$ (of $k$-planes in $\mathbb C^n$)
+	carries the rich structure arising from Schubert calculus. We have classified graded endomorphisms of the rational cohomology algebra $H^*(\mathbb{S}^m \times \mathbb{C}G_{n,k};\mathbb{Q})$, whose image has a nonzero component in $H^2(\mathbb CG_{n,k},\mathbb Q)$.  As an application we obtain useful results in coincidence theory and in particular, fixed-point theory.  
+	
+	The rational cohomology algebra of the product
+	\[
+	H^*(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)\cong H^*(\mathbb S^m,\mathbb Q)\otimes H^*(\mathbb CG_{n,k};\mathbb Q)
+	\]
+	is generated by $u,c_1,c_2,\dots,c_k$, where $H^*(\mathbb{C}G_{n,k};\mathbb{Q})$ (resp. $H^*(\mathbb S^m;\mathbb Q)$) is generated by certain Chern classes $c_1, \dots, c_k$ (resp. $u$). Now, we are ready to state one of the main results of our paper which proves that the rigidity of $H^*(\mathbb CG_{n,k};\mathbb Q)$ persists in $H^*(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)$ even in the presence of spherical cohomology classes.
+	\begin{theorem}
+		Let $\phi$ be a graded endomorphism of 
+		$H^*(\mathbb S^{m}\times\mathbb C G_{n,k};\mathbb Q)$ 
+		satisfying $\phi(c_1)\neq a u, \, a\in\mathbb Q$.  
+		Then there exists a nonzero rational $\lambda$ such that the following holds.
+		\begin{enumerate}\label{result main}
+			\item If $k < n - k,$ 
+			$$ \phi(c_i) = \lambda^i c_i, \forall i \in \{1,2,\dots,k\}$$
+			If $k = n - k$, there is an additional possibility of $\phi$ that it is induced by the homeomorphism 
+			\[
+			\mathbb{C}G_{2k,k} \longrightarrow \mathbb{C}G_{2k,k}, 
+			\quad L \longmapsto L^{\perp},
+			\]
+			where $L^{\perp}$ denotes the orthogonal complement of the $k$-plane $L$ in $\mathbb{C}^{2k}$.
+			
+			\item 
+			The image of $H^*(\mathbb{S}^m;\mathbb{Q})$ under $\phi$ lies in 
+			$H^*(\mathbb{S}^m;\mathbb{Q})$ or in $H^*(\mathbb{C}G_{n,k};\mathbb{Q})$ i.e. $$\phi(u) = \mu u,\, \mu \in \mathbb{Q}, \text{ or } \phi(u) \in H^*(\mathbb{C}G_{n,k};\mathbb{Q}), \text{ with } (\phi(u))^2 =0.$$
+			
+		\end{enumerate}
+	\end{theorem}
+	Unlike the case of the complex Grassmannian, we cannot expect a graded
+	endomorphism of $H^*(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)$ to be
+	trivial merely because it vanishes in $H^2(\mathbb{C}G_{n,k}; \mathbb{Q})$. 
+	In fact, we proved that for any choice of $P_i \in H^{2i-m}(\mathbb{C}G_{n,k};\mathbb{Q})$ and $Q\in \mathbb Qu\cup  H^*(\mathbb CG_{n,k};\mathbb Q)$ with $Q^2=0$, there exist a graded endomorphism $\phi$ on $H^*(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)$ such that $\phi(c_i) = uP_i, \, \forall i$ and $\phi(u)=Q$.
+	%In fact, we proved that for any choice of $P_i \in H^{2i-m}(\mathbb{C}G;\mathbb{Q})$ and $Q =au, a\in \mathbb{Q}$, there exist a graded endomorphism $\phi$ on $H^*(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)$ such that $\phi(c_i) = uP_i, \, \forall i$ and $\phi(u)=Q$.
+	We also proved that if a continuous function on $\mathbb S^m \times \mathbb CG_{n,k}$ stabilizes a copy of Grassmannian then the induced cohomology endomorphism stabilizes the subalgebra $H^*(\mathbb S^m ;\mathbb Q)$.
+	
+	Our study is also motivated by the theory of generalized Dold spaces because the product space $\mathbb S^m \times \mathbb CG_{n,k}$ is a double cover of certain  generalized Dold spaces (GDS). %denoted by $P(m,n,k)$.
+	The classical Dold manifolds were introduced in \cite{dold} to construct odd-dimensional generators for Thom's unoriented cobordism ring. In this paper, we are interested in the GDS introduced in \cite{nath-sankaran} and defined as  %These spaces have been extensively studied from various aspects (see \cite{ucci, khare, korbas, mukerjee}). 
+	\[
+	P(m,n,k):=\mathbb S^m\times \mathbb CG_{n,k}/\!\!\sim, \text { where } (s,L)\sim (-s,\bar L).
+	\]
+	As an application of \thmref{result main}, we describe endomorphisms of $H^*(P(m,n,k);\mathbb{Q})$ induced by continuous functions on $P(m,n,k)$. Using this description, we prove that every automorphism of $H^*(P(m,n,k);\mathbb{Q})$ induced by a continuous function on $P(m,n,k)$ lifts to an automorphism of $H^*(\mathbb S^m\times \mathbb CG_{n,k}; \mathbb{Q})$ if $n>2$. 
+	
+	Our broader aim is to apply \thmref{result main} to obtain results in coincidence theory. Coincidence theory has been extensively studied in \cite{hoffman-noncoin, glover-homer coin, wong}. %and fixed point theory.
+	A pair $(X,g)$ where $g$ is a continuous function on $X$ is said to have the coincidence property if $g$ has a point of coincidence with every continuous function on $X$. In particular, if $g$ is the identity map, then the coincidence property is same as the fixed-point property of $X$.
+	%We are providing necessary conditions for certain generalized Dold spaces to satisfy coincidence property.
+	
+	We have generalized Theorem $2$ of \cite{glover-homer} to the setting of coincidence theory and proved that the pair $(\mathbb{C}G_{n,k},g)$ satisfies the coincidence property if $k(n-k)$ is even and $g$ has nonzero Brouwer degree.
+	To conclude, using the Lefschetz Coincidence Theorem and \thmref{result main}, we obtained multiple situations when two continuous functions on the generalized Dold space $P(m,n,k)$ are guaranteed to have a point of coincidence, and found certain pairs $(P(m,n,k),g)$ satisfying the coincidence property.
+	%Using Lefschetz Coincidence Theorem and \thmref{result main}, we succeed in obtaining sufficient conditions for the existence of a point of coincidence between any two continuous functions on $P(m,n,k)$ when $k(n-k)$ is even.
+	%At last, we explored when two continuous functions on the generalized Dold space $P(m,n,k)$ has a point of coincidence. Using Lefschetz Coincidence Theorem and \thmref{result main}, we succeed in obtaining sufficient conditions for the existence of a point of coincidence between any two continuous functions on $P(m,n,k)$ when $k(n-k)$ is even.
+	
+	The paper is organized as follows: \\
+	In \secref{section 2} we develop the necessary background and recall some relevant results. \secref{section 3} is devoted to the study of graded endomorphisms of the rational cohomology algebra of $\mathbb S^{m}\times \mathbb C G_{n,k}$, from which we extract several consequences. These are applied in \secref{section 4} to obtain the coincidence-theoretic results.
+	
+	\iffalse For formal spaces, Sullivan's theory shows that the rational homotopy class of a self-maps are completely determined by the induced graded endomorphisms of their rational cohomology algebras. This viewpoint has motivated extensive work on cohomology endomorphisms of various classical  spaces.
+	%, particularly homogeneous spaces of compact Lie groups.
+	%Initial results for complex Grassmannians were obtained by Brewster \cite{}, Glover-Homer \cite{}, and Hoffman \cite{}, followed by contributions of  Shiga-Tezuka \cite{}, Papadima \cite{}, and Duan et al. (\cite{},\cite{},\cite{}) for broader classes of homogeneous spaces.
+	% $G/H$, where $G$ is complact connected Lie group and $H$ is a closed subgroup of maximal rank.
+	
+	
+	Early foundational work on cohomology endomorphisms of complex Grassmannians
+	was carried out in 1978 by Brewster, in his Ph.D.\ thesis \cite{brewster} on cohomology
+	automorphisms, and by Glover and Homer \cite{glover-homer}.
+	This was followed by Hoffman's 1984 work
+	\cite{hoffman}, which classified all rational cohomology endomorphisms that are
+	non-trivial in degree two. He showed that for the Grassmannians $\mathbb CG_{n,k}$ (of $k$-planes in $\mathbb{C}^n$), such endomorphisms are precisely \emph{Adams maps}: each cohomology class $x$ of degree $2i$ maps to a scalar multiple $\lambda^i x$ for some fixed nonzero $\lambda \in \mathbb{Q}$, except in special symmetric cases $n=2k$, where additional involutive automorphisms appear. Hoffman further conjectured that every endomorphism vanishing in degree two is necessarily trivial. The results of Glover and Homer (see \cite{glover-homer}) support this conjecture in several cases, under a certain hypothesis, say (GH).
+	
+	
+	Later, cohomology endomorphisms were studied for a variety of homogeneous
+	spaces $G/H$, where $G$ is a compact connected Lie group and $H$ is a closed
+	subgroup of maximal rank. For examples,
+	Shiga and Tezuka examined cohomology
+	automorphisms of homogeneous spaces of simple Lie groups \cite{shiga-tezuka2}, and Papadima described all cohomology automorphisms when the subgroup is a maximal torus,
+	working over both $\mathbb Q$ and $\mathbb R$ \cite{Papadima}. Hoffman and Homer also
+	proposed a general classification for homogeneous spaces arising from unitary
+	groups, together with partial results supporting their conjecture. Further
+	progress includes the study of integral cohomology endomorphisms of the Grassmannian of complex structures
+	$SO(2n)/U(n)$ \cite{duan}, and the work of Duan and Fang on the eight exceptional
+	Grassmannians \cite{duan-fang}. Related developments appear in \cite{duan-zhao}, \cite{lin}, and \cite{goswami-sarkar}.
+	
+	
+	Most of these results, however, concern specific classes of homogeneous spaces.
+	Comparatively little is known about how cohomology endomorphisms behave for
+	products. The product of a sphere
+	with a complex Grassmannian $\mathbb S^m\times \mathbb CG_{n,k}$ offers a particularly useful setting for such questions: the
+	sphere has a simple, singly generated cohomology algebra, while the Grassmannian
+	carries the rich structure arising from Schubert calculus.  
+	Although the garded endomorphisms of the rational cohomology algebra of the product, $\mathrm{End}\big(H^*(\mathbb S^m\times \mathbb CG_{n,k};\mathbb Q)\big)$, are interesting in their own right, our broader aim is to apply them to the \textit{coincidence theory} of certain \textit{generalized Dold space}s.
+	Coincidence theory studies the set of points $x$ for which two maps 
+	$f,g : X \to X$ satisfy $f(x)=g(x)$, and seeks criteria for the 
+	existence or elimination of such points. 
+	
+	
+	%For a continuous map $g$ on a space $X$, the pair $(X,g)$ is said to have the \emph{coincidence property} (abbreviated as CP) if every continuous map $f:X\to X$ has a coincidence point with $g$; that is, $f(x)=g(x)$ for some $x\in X$.
+	The classical Dold manifolds $P(m,n):=\mathbb S^{m}\times\mathbb CP^{n}/\!\sim$, 
+	where $(s,L)\sim(-s,\bar L)$, were introduced by Dold \cite{dold} to construct odd-dimensional generators for Thom's unoriented cobordism ring. These spaces have been extensively studied and generalized. Nath and Sankaran \cite{nath-sankaran} extended the construction by replacing $\mathbb CP^{n}$ with a Hausdorff space $X$ equipped with an involution $\sigma$ with nonempty fixed points. A further generalization in \cite{mandal-sankaran} replaces the sphere $\mathbb S^{m}$ by a space $S$ equipped with a free involution $\alpha$, leading to
+	\[
+	P(S,\alpha,X,\sigma):=S\times X/\!\sim,\text{ where } (s,x)\sim(\alpha(s),\sigma(x)),
+	\]
+	which is called a \emph{generalized Dold space} (GDS).
+	Here the quotient map $\pi: S\times X\to P(S,\alpha,X,\sigma)$ is a double covering.
+	%The space $P(S,\alpha,X,\sigma)$ has a $X$-bundle structure over $Y:=S/\!\sim,$ where $s\sim \alpha(s)$.
+	
+	
+	The class of GDS which we are interested in is $P(m,n,k):=P(\mathbb S^m,\alpha,\mathbb CG_{n,k},\sigma)$, where $\alpha $ is the antipodal map on the sphere and the involution $\sigma$ on $\mathbb CG_{n,k}$ is induced from the standard complex conjugation on $\mathbb C^n$. One observes that for any map $f$ on $P(m,n,k)$, there exist a $\alpha\times \sigma$-equivariant map $\tilde f$ on $\mathbb S^m\times\mathbb CG_{n,k}$ such that $\pi\circ \tilde f=f\circ \pi.$
+	
+	
+	Let us regard $H^*(\mathbb S^m;\mathbb Q)$ and $H^*(\mathbb CG_{n,k};\mathbb Q)$ as
+	subalgebras of $H^*(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)$.
+	Since $H^*(\mathbb CG_{n,k};\mathbb Q)$ is generated by certain Chern classes
+	$c_1,c_2,\dots,c_k$, it follows that 
+	\[
+	H^*(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)\cong H^*(\mathbb S^m,\mathbb Q)\otimes H^*(\mathbb CG_{n,k};\mathbb Q)
+	\]
+	is generated by $u,c_1,c_2,\dots,c_k$, where $u$ generates $H^m(\mathbb S^m;\mathbb Q)$.
+	We are now ready to present our main results; the following is one of them, which shows that the rigidity of
+	$H^*(\mathbb CG_{n,k};\mathbb Q)$ persists in the cohomology of the  product: even in the presence
+	of spherical cohomology classes, any graded endomorphism whose image has a nonzero component in $H^{2}(\mathbb C G_{n,k};\mathbb Q)$ forces  $H^*(\mathbb CG_{n,k};\mathbb Q)$ to behave exactly as it does on its own.
+	More precisely, we obtain: %that any graded endomorphism which is nontrivial on $H^2(\mathbb CG_{n,k};\mathbb Q)$ necessarily preserves  $H^*(\mathbb CG_{n,k};\mathbb Q)$.  Furthermore, the image of $H^*(\mathbb S^m;\mathbb Q)$ under such an endomorphism lies either entirely in $H^*(\mathbb S^m;\mathbb Q)$ or entirely in $H^*(\mathbb CG_{n,k};\mathbb Q)$.
+	\begin{theorem}
+		Let $\phi$ be a graded endomorphism of 
+		$H^*(\mathbb S^{m}\times\mathbb C G_{n,k};\mathbb Q)$ 
+		satisfying $\phi(c_1)\neq a u$ for any $a\in\mathbb Q$.  
+		Then the following statements hold:
+		\begin{enumerate}
+			\item If $k < n - k$, there exists a nonzero rational number $\lambda$ such that
+			\[
+			\phi(x) = \lambda^i x 
+			\quad \text{for all } x \in H^{2i}(\mathbb{C}G_{n,k}; \mathbb{Q}).
+			\]
+			If $k = n - k$, there is an additional possibility of $\phi$ induced by the homeomorphism 
+			\[
+			\mathbb{C}G_{2k,k} \longrightarrow \mathbb{C}G_{2k,k}, 
+			\quad L \longmapsto L^{\perp},
+			\]
+			where $L^{\perp}$ denotes the orthogonal complement of the $k$-plane $L$ in $\mathbb{C}^{2k}$.
+			
+			\item 
+			The image of $H^*(\mathbb{S}^m;\mathbb{Q})$ under $\phi$ lies either in 
+			$H^*(\mathbb{S}^m;\mathbb{Q})$ or in $H^*(\mathbb{C}G_{n,k};\mathbb{Q})$.
+			
+		\end{enumerate}
+	\end{theorem}
+	
+	Unlike the case of the complex Grassmannian, we cannot expect a graded
+	endomorphism of $H^*(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)$ to be
+	trivial merely because it vanishes in degree two. Indeed, for any choice of
+	elements $P_i \in H^{2i-m}(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)$,
+	$i=1,\dots,k$, one obtains a well-defined graded endomorphism $\phi$ of
+	$H^*(\mathbb S^m \times \mathbb CG_{n,k};\mathbb Q)$ by setting
+	$\phi(c_i) = uP_i$ for $i=1,\dots,k$ and $\phi(u)=u$, when the hypothesis (GH) holds. Hence, even in the case $P_1 = 0$, a large family of nontrivial graded endomorphisms still exists. See Proposition \ref{main thm 2}.
+	We show that if a map on $\mathbb S^{m}\times \mathbb C G_{n,k}$ stabilizes a Grassmannian factor, then the induced cohomology endomorphism stabilizes the subalgebra $H^*(\mathbb S^{m};\mathbb Q)$. See \thmref{ind from top}.
+	
+	%(see Theorem \ref{ind from top}). 
+	%\textcolor{gray}{If the map on $\mathbb S^m \times \mathbb CG_{n,k}$ has nonzero  Brouwer degree, the induced map in cohomology splits as a tensor product of two maps: one acting on the cohomology of the sphere and the other on the cohomology of the Grassmannian. (see  \ref{}).}
+	
+	\iffalse
+	Using the study of $\mathrm{End}(H^*(\mathbb S^{m}\times \mathbb C G_{n,k};\mathbb Q))$, we obtain several coincidence-theoretic consequences. The next result provides a necessary criterion for determining when the pair $\big(P(S,\alpha,X,\sigma),g\big)$ have the coincidence property, for certain maps $g$ on the GDS, expressed in terms of its fibre $X$ and its base $Y:=S/\!\sim_{\alpha}$.
+	
+	
+	
+	
+	\begin{proposition}
+		For  a continuous map $g$ on the generalized Dold space $P(S,\alpha, X,\sigma)$, the pair $\big(P(S,\alpha,X,\sigma),g\big)$ does not have the CP if one of the following hold:
+		\begin{enumerate}
+			\item The pair $\big(Y,p \circ g \circ s\big)$ does not have the CP, 
+			where $s$ denotes a global section of the $X$-bundle  
+			$p: P(S, X) \to Y$, and $g$ is a fiber bundle map.
+			\item  There exists a $\sigma$-equivariant map $f$  on $X$ and a  $\alpha \times \sigma$-equivariant map $\tilde g$ on $S\times X$ inducing $g$ such that $\mathrm{id}_S \times f$ coincides with neither $\tilde{g}$ nor $(\alpha \times \sigma) \circ \tilde{g}$.
+		\end{enumerate}
+	\end{proposition}
+	\fi
+	
+	Using the study of $\mathrm{End}\bigl(H^*(\mathbb S^{m}\times \mathbb C G_{n,k};\mathbb Q)\bigr),$
+	we obtain several coincidence-theoretic consequences. First, we extend Theorem~2 of \cite{glover-homer} to the setting of coincidence theory and show that for a continuous self-map $g$ with nonzero Brouwer degree on $\mathbb C G_{n,k}$ with $k(n-k)$ even, any continuous map $f$ on $\mathbb CG_{n,k}$ has a coincidence with $g$. See Proposition~\ref{CP of CGnk}.
+	
+	We then investigate the coincidence behaviour of the generalized Dold spaces $P(m,n,k)$. For any continuous self-map $g$ with nonzero Brouwer degree on $P(m,n,k)$  with $k(n-k)$ even and $m$ even, every map $f$ satisfying $\tilde f^{*}(c_1)\neq a u$ for any $a\in\mathbb Q$ has a coincidence with $g$; when $m$ is odd, one additionally requires $\tilde f^{*}(u)\neq -\tilde g^{*}(u)$. See Theorem~\ref{coincidence thm}.
+	
+	Under hypothesis (GH), if $g$ is a homotopy equivalence on $P(m,n,k)$ with $k(n-k)$ even, then $g$ has a coincidence with any map $f$ on $P(m,n,k)$ such that: \\ 
+	-- when $m$ is even,  $\tilde f^{*}(c_1)=a u, a\in \mathbb Q$ implies $\tilde f^{*}(u)=b u$ for some $b\in\mathbb Q$;  \\
+	-- when $m$ is odd,  $\tilde f^{*}(u)\neq -\tilde g^{*}(u)$ holds. See Theorem~\ref{coincidence thm under hom}.  \\
+	Moreover, if $m>2k$, no additional assumptions on $f$ are needed.
+	
+	
+	
+	
+	The paper is organized as follows: In Section~2 we develop the necessary background and recall some relevant results. Section~3 is devoted to the study of graded endomorphisms of the rational cohomology algebra of $\mathbb S^{m}\times \mathbb C G_{n,k}$, from which we extract several consequences. These are applied in Section~4 to obtain the coincidence-theoretic results.\fi
+	
+	
+	
+	
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{Preliminaries}  \label{section 2}
+	
+	In this section, we discuss some preliminaries and recall some results that will be required to proceed with our study.
+	
+	
+	
+	
+	
+	
+	
+	\subsection{Cohomology of complex Grassmannians}
+	
+	
+	Let $\mathbb{C}G_{n,k}$ denote the complex Grassmannian consisting of complex $k$-planes in $\mathbb{C}^n$. 
+	%As a homogeneous space, it is diffeomorphic to $U(n)/U(k) \times U(n-k)$, where $U(r)$ denotes the group of unitary matrices of order $r$. 
+	Let $\gamma_{n,k}$ and $\beta_{n,k}$ denote the canonical complex $k$-plane and $(n-k)$-plane bundles, respectively, over $\mathbb{C}G_{n,k}$.
+	Let the total Chern classes of the vector bundles $\gamma_{n,k}$ and $\beta_{n,k}$ be denoted by $c(\gamma_{n,k}) = c$ and $c(\beta_{n,k}) = \bar{c}$, respectively. Thus,
+	$$c = 1 + c_1 + c_2 + \cdots + c_k, \quad \bar{c} = 1 + \bar{c}_1 + \bar{c}_2 + \cdots + \bar{c}_{n-k},$$
+	where $c_i$ and $\bar{c}_i$ denote the $i$-th Chern classes of $\gamma_{n,k}$ and $\beta_{n,k}$, respectively.
+	Since $\gamma_{n,k} \oplus \beta_{n,k} \cong \varepsilon_{\mathbb{C}}^n$, it follows that  $c \cdot \bar{c} = 1$.
+	The  cohomology ring of the complex Grassmannian is well known and given by  
+	$$
+	H^*_{\mathbb{C}G}:=H^*(\mathbb{C}G_{n,k};\mathbb{Q}) \cong \mathbb{Q}[c_1, c_2, \dots, c_k, \bar{c}_1, \bar{c}_2, \dots, \bar{c}_{n-k}]/\langle h_r: 1\leq r\leq n\rangle,$$  
+	where  the relations $h_r$ for $r = 1, 2, \dots, n$ are induced from the homogeneous parts of the equation $c\cdot \bar c=1$ and given by  
+	\[
+	h_r := \sum_{i+j=r} c_i \bar{c}_j.
+	\]  
+	Using the relations $h_r, r=1,2,...,n-k$, the generators $\bar{c}_i$ for $i = 1, 2, \dots, n-k$ can be expressed inductively in terms of $c_i$ for $i = 1, 2, \dots, k$.  Consequently, the relations $h_r$ for $r = n-k+1, \dots, n$ become homogeneous polynomials in $c_i$ of degree $2r$, where the degree of each $c_i$ is $2i$. Then the cohomology ring $H^*_{\mathbb{C}G}$ can be rewritten as  
+	\begin{equation}\label{cohomo of grass}
+		\mathbb{Q}[c_1, c_2, \dots, c_k]/\langle h_{n-k+1}, h_{n-k+2}, \dots, h_n \rangle.
+	\end{equation}
+	Since there are no relations among the generators $c_i$ for $i = 1, 2, \dots, k$ up to degree $2(n-k)$, the set of all monomials of degree $2r$ in terms of $c_1, c_2, \ldots, c_k$ forms a $\mathbb{Q}$-basis of $H^{2r}(\mathbb{C}G_{n,k};\mathbb{Q})$ for $r \leq n-k$.
+	
+	From now on, we denote the indexing set $\{1,2,\dots, k\}$ by $I$.
+	\begin{remark}
+		We can assume  $k\leq n-k$ for  $\mathbb{C}G_{n,k}$ as $\mathbb{C}G_{n,k}$ is homeomorphic to $\mathbb{C}G_{n,n-k}$ by using orthogonal complementation.
+	\end{remark}
+	The complex Grassmannian $\mathbb{C}G_{n,k}$ is a homogeneous space and can be represented as the quotient of the unitary group $U(n)$ by the stabilizer subgroup $U(k)\times U(n-k)$ that is 
+	\begin{equation}\label{cgn as hom}
+		\mathbb{C}G_{n,k} = U(n)/ (U(k)\times U(n-k)). 
+	\end{equation} Now we recall a result given in \cite{shiga-tezuka}.    
+	\begin{theorem}[\cite{shiga-tezuka}, Theorem \(A^{'}\)]\label{Tezuka}
+		Let $D_i(H^*(G/H;\mathbb{Q}))$ be the $\mathbb{Q}$-vector space of $\mathbb{Q}$-derivations of $H^*(G/H;\mathbb{Q})$ which decreases the degree by $i>0$ where $G$ is a connected, compact Lie group and $H$ is a closed subgroup of maximal rank.
+		%such that $\rank (H) = \rank (G)$.
+		Then, for all $i$, $$D_i(H^*(G/H;\mathbb{Q})) =0.$$  
+	\end{theorem}
+	\subsection{Graded endomorphisms on $\mathbf{H^*_{\mathbb{C}G}}$}
+	It was conjectured in \cite{O} that any graded endomorphism $\phi$ of the cohomology algebra $H^*_{\mathbb{C}G}$ is an\textit{ Adams }map when $k < n - k$; that is, there exists a rational $\lambda$ such that
+	$\phi(c_i) = \lambda^i c_i$, for all $ i \in I.$ Glover and Homer (see \cite{glover-homer}) and Hoffman (see \cite{hoffman}) proved the conjecture under the following hypothesis respectively:
+	\begin{align}
+		\text{Either } k \leq 3 \text{ and } n > 2k \text{, or } k>3 \text{ and } n>2k^2 -1. \label{Homer}\\
+		\text{ The graded endomorphism } \varphi  \text{ of } H^*_{\mathbb{C}G} \text{ satisfies } \varphi(c_1) = \lambda c_1, \lambda\neq 0.  \label{Hoff}
+	\end{align}
+	%In this context, Glover and Homer \ref{Hoffman} (see \cite{glover-homer}) proved the following result.
+	Let us recall those results proved in \cite{glover-homer, hoffman} that will be used in the rest of this paper.  
+	\begin{theorem}[\cite{glover-homer}, Theorem 1, \cite{hoffman}, Theorem 1.1]\label{hom and hof}
+		(i) Assume that the hypothesis \eqref{Homer} is satisfied. Then for every graded endomorphism $\varphi$ on $ H^*(\mathbb{C}G_{n,k}; \mathbb{Q})$, there exists a rational $\lambda$ such that
+		\[\varphi(c_i) = \lambda^i c_i,  \quad \forall i \in I.\]
+		%where $c_i$ denotes the $i$-th Chern class of the canonical complex $k$-plane bundle $\gamma_{n,k}$ over the complex Grassmannian $\mathbb{C}G_{n,k}$.
+		(ii) Assume that the hypothesis \eqref{Hoff} is satisfied. Then, we have
+		$$\varphi(c_i) = \begin{cases}
+			\lambda^i c_i,   \forall i \in I& \text{ if } k<n-k,\\
+			\lambda^i c_i,  \forall i \in I \quad \text{ or } \quad(-\lambda)^i (c^{-1})_i,    \forall i \in I & \text{ if } k= n-k,
+		\end{cases}$$
+		where $ (c^{-1})_i $ is the $ 2i $-dimensional part of the inverse of $ c = 1 + c_1 + \cdots + c_k $ in $ H^*(\mathbb CG_{n,k}; \mathbb{Q}) $.
+	\end{theorem}
+	\iffalse Hoffman provided a classification of graded endomorphisms of $H^*(\mathbb{C}G_{n,k}; \mathbb{Q})$ that are nonvanishing on $H^2(\mathbb{C}G_{n,k}; \mathbb{Q})$ (see \cite{hoffman}). We recall his result in the following theorem.
+	\begin{theorem}[]\label{hoffman}
+		Let $ \varphi $ be an endomorphism of $ H^*(\mathbb CG_{n,k}; \mathbb{Q}) $ with $ \varphi(c_1) = \lambda c_1 $, $ \lambda\neq 0 $. Then if $ k < n-k $,
+		\[
+		\varphi(c_i) = \lambda^i c_i, \quad 1 \le i \le k.
+		\]
+		
+		If $ k = n $, there is the additional possibility
+		\[
+		\varphi(c_i) = (-\lambda)^i (c^{-1})_i, \quad 1 \le i \le k,
+		\]
+		
+		
+	\end{theorem}\fi
+	
+	\subsection{Generalized Dold spaces}  \label{gen dold}
+	In \cite{dold}, the author introduced the notion of \textit{classical Dold manifolds}  
+	$P(m,n) := \mathbb{S}^m \times \mathbb{C}P^n / \!\! \sim$  
+	where $ (s, L) \sim (-s, \bar{L}) $, where the involution $L\mapsto\bar L$ on $\mathbb CG_{n,k}$ is induced from the standard conjugation on $\mathbb C^n$, to construct generators in odd dimensions for Ren{\'e} Thom's unoriented cobordism ring. %These spaces are of great interest, and many generalizations and studies have been done on them in the literature.
+	
+	\iffalse (Put this in introduction)In \cite{nath-sankaran}, authors generalized the notion of Dold manifolds by replacing the complex projective space $\mathbb{C}P^n$ with an almost complex manifold $X$ equipped with a complex conjugation, i.e., an involution $\sigma: X \to X$ with nonempty fixed-point set such that the differential
+	$d\sigma|_p: T_pX \to T_{\sigma(p)}X$
+	satisfies
+	$J_{\sigma(p)} \circ d\sigma_p = -d\sigma_p \circ J_p,$
+	where $J$ denotes the almost complex structure on $X$, and called them \textit{generalized Dold manifolds} to investigate their manifold properties such as tangent bundles, Stiefel--Whitney classes, (stable) parallelizability, cobordism classes, and related aspects.
+	\fi
+	
+	In \cite{nath-sankaran, mandal-sankaran}, the authors generalized the notion of classical Dold manifolds by replacing the sphere $ \mathbb{S}^m $ with an arbitrary topological space $ S $ equipped with a free involution $ \alpha $, analogous to the antipodal map on $ \mathbb{S}^m $, and $ \mathbb CP^n $ with an arbitrary topological space $ X $ with an involution $ \sigma: X \to X $ having a nonempty fixed-point set, analogously to complex conjugation on $\mathbb CP^n$. Then the quotient space  
+	\begin{equation}\label{gen dold space}
+		P(S, \alpha, X, \sigma) := S \times X / \!\! \sim, \quad \text{where } (s, x) \sim (\alpha(s), \sigma(x)), 
+	\end{equation}  
+	is called \textit{generalized Dold space} (in short GDS), often denoted simply as $ P(S, X) $. Moreover, the quotient map  
+	$ S \times X \to P(S,X) $  
+	is a double covering map. %The focus of their study were used to study cohomology and complex $K$-theory of various GDS.
+	
+	Let us fix a notation $ Y $ for $ S/\!\!\sim_{\alpha} $, where $ s\sim_{\alpha} \alpha(s), \forall s\in S $. Then, a GDS $ P(S,X) $ is the total space of a fiber bundle  
+	$X\hookrightarrow P(S,X) \twoheadrightarrow Y $, where the fiber bundle projection is \begin{equation}\label{proj}
+		p: P(S,X) \twoheadrightarrow Y, \quad [s,x]\mapsto [s].
+	\end{equation}  Choosing a fixed-point of $\sigma$, say $x_0\in \text{Fix}(\sigma)\neq \emptyset$, we can construct a section of the fiber bundle \begin{equation}\label{sectio}
+		s: Y \hookrightarrow P(S,X), \quad [s]\mapsto [s,x_0].
+	\end{equation}    
+	In fact, we have an embedding  
+	$Y\times \text{Fix}(\sigma)\hookrightarrow P(S,X),$  
+	where $ \text{Fix}(\sigma) \subseteq X $ has the subspace topology induced from $ X $.
+	
+	
+	
+	
+	
+	
+	\subsection{Rational cohomology of $\mathbf{P(\mathbb S^m,\mathbb CG_{n,k})}$} \label{gds}
+	%The rational cohomology ring of \textit{generalized Dold space} $ P(\mathbb{S}^m, \mathbb{C}G(\nu)) $, which are fibered by a partial complex flag manifold $ \mathbb{C}G(\nu) $ of type $ \nu = (\nu_1 \leq \nu_2 \leq \dots \leq \nu_s) $ over a real projective space $ \mathbb{R}P^m $, is computed in \cite{mandal-sankaran2}. In particular, and we recall some relevant facts here.
+	
+	
+	The GDS $P(\mathbb S^m,\mathbb CG_{n,k})$ is defined as
+	\[
+	\mathbb S^m\times \mathbb CG_{n,k}/\!\!\sim, \text { where } (s,L)\sim (-s,\bar L),
+	\]
+	for which, $\mathbb S^m$ is equipped with the free action generated by the antipodal map $\alpha$ and the involution $\sigma: L \mapsto \bar L$ on $\mathbb CG_{n,k}$ is induced from the standard complex conjugation on $\mathbb C^n.$ We denote $P(\mathbb S^m,\mathbb CG_{n,k})$ simply by $P(m,n,k).$
+	By the K\"unneth formula, we have
+	\begin{equation}\label{Cohomology of H_times}
+		H_{\times}^* := H^*(\mathbb{S}^m \times \mathbb{CG}_{n,k}; \mathbb{Q}) \cong H^*(\mathbb{S}^m; \mathbb{Q}) \otimes H^*(\mathbb{CG}_{n,k}; \mathbb{Q}) \cong \frac{\mathbb{Q}[u, c_1, \dots, c_k]}{\langle u^2, h_{n-k+1}, \dots, h_n \rangle}
+	\end{equation}
+	where $u \in H^m(\mathbb S^m; \mathbb Q)$ denotes the generator corresponding to the fundamental class of $\mathbb S^m$. Note that \begin{equation}\label{H in terms of u}
+		H^*_{\times} \cong H^*_{\mathbb{C}G}[u]/\langle u^2 \rangle \cong H^*_{\mathbb{C}G} \oplus u H^*_{\mathbb{C}G},
+	\end{equation} where the latter isomorphism is a $\mathbb Q$-module isomorphism. We have that $H^*_{\mathbb{C}G}$ is a subring of $H^*_\times$.
+	%For simplicity, denote $H^*(\mathbb{S}^m \times \mathbb{CG}_{n,k}; \mathbb{Q}) $ by $H_{\times}^*$
+	The product involution $\theta:= \alpha\times\sigma$ on $\mathbb S^m\times \mathbb CG_{n,k}$ induces an involution $\theta^*$ on $H^*_\times$ given by
+	\begin{equation}\label{defn of theta*}
+		\theta^*(c_i) = (-1)^i c_i,i\in I, \quad \theta^*(u) =  
+		\begin{cases}  
+			u, & \text{if } m \text{ is odd}, \\  
+			-u, & \text{if } m \text{ is even}.  
+		\end{cases}  
+	\end{equation}
+	%where $ H^*(\mathbb{S}^m; \mathbb{Q}) \cong \mathbb{Q}[u]/\langle u^2 \rangle $.
+	%The induced involution $\theta^*$ is given by
+	%t is proved in \cite{mandal-sankaran2} that $ H^*(P(m,n,k); \mathbb{Q}) $ is isomorphic to the fixed subring $ \text{Fix}(H^*(\theta; \mathbb{Q})) $ under $ \theta^* $ of $ H^*(\mathbb{S}^m \times \mathbb{C}G_{n,k}; \mathbb{Q}) $ (Proposition 3.13 of \cite{mandal-sankaran2}). We recall the result below.
+	The cohomology ring $ H^*(P(m, n,k);\mathbb Q) $ was computed in \cite{mandal-sankaran2} and the following result was proved.
+	\begin{theorem}[{\cite[Theorem 3.13]{mandal-sankaran2}}]\label{cohomology of P(m,n,k)}
+		The cohomology algebra \( H^*(P(m,n,k); \mathbb{Q}) \) is isomorphic to the subalgebra
+		$\mathrm{Fix}(\theta^*) \subseteq H^*(\mathbb{S}^m \times \mathbb{CG}_{n,k}; \mathbb{Q}),$
+		generated by the following elements:
+		\begin{align*}
+			u \, c_{2p-1},\quad c_{2j},\quad c_{2p-1} \, c_{2q-1},\; \forall 2p-1, 2q-1, 2j \in I, \text{ if } m \text{ is even};\\
+			u,\quad c_{2j},\quad c_{2p-1} \, c_{2q-1},\; \forall 2p-1, 2q-1, 2j \in I, \text{ if } m \text{ is odd}.
+		\end{align*}
+	\end{theorem}
+	A description of the cohomology algebra $ H^*(P(m,n,k); \mathbb{Q}) $, as a quotient of a polynomial algebra, can be deduced as a particular case in Theorem 3.14 of \cite{mandal-sankaran2}.
+	%Since the description of the cohomology  algebra $H^*(P(m,n,k);\mathbb Q)$ in abstarct variables, is quite complicated in notations, instead we shall present the $\fix (H^*_\times)$ as $\mathcal R/$
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%5%%%%%%
+	
+	\section{Graded endomorphisms of $H^*(\mathbb S^m\times \mathbb CG_{n,k};\mathbb Q)$} \label{section 3}
+	
+	In this section, we classify graded endomorphisms of the rational cohomology algebra $ H^*(\mathbb S^m\times \mathbb CG_{n,k}; \mathbb{Q}) $ whose images are nonzero in $H^2(\mathbb CG_{n,k};\mathbb Q)$. Our approach relies on the study of graded endomorphisms of $ H^*(\mathbb{C}G_{n,k}; \mathbb{Q}) $ from \cite{glover-homer} and \cite{hoffman}. Assume $m>0$ for the rest of this paper.
+	\subsection{} The cohomology ring of the complex Grassmannian $ \mathbb{C}G_{n,k} $ is generated by the Chern classes $c_i,\forall i \in I $ as given in \eqref{cohomo of grass}. In \eqref{Cohomology of H_times}, we see that the cohomology ring of $S^m \times \mathbb{C}G_{n,k}$ is generated by $u, c_i, \forall i \in I$. Therefore, it is sufficient to describe the images of the generators to classify graded endomorphisms of $H_{\times}^*$. The following is the main result of this section.
+	
+	
+	
+	
+	
+	
+	
+	% We now state the following result concerning the classification of graded endomorphisms of $H^*_\times$ that are non-vanishing on  $H^2_{\mathbb{C}G} \subseteq H^*_\times$.
+	\begin{theorem}\label{main thm}
+		Let $\phi$ be a graded endomorphism of $H^*_{\times}$ satisfying $\phi(c_1) \neq \mu u,\, \mu \in \mathbb{Q}$.  
+		Then the following holds, \begin{enumerate}
+			\item Either $\phi(u)=au$ for some $a \in \mathbb{Q}$, or $\phi(u) \in H^*_{\mathbb{C}G} \subseteq H^*_{\times}$ with $\phi(u)^2=0$ in $H^*_{\times}$.
+			\item There exists $\lambda \in \mathbb Q\backslash\{0\}$ such that
+			$$\phi(c_i) = \begin{cases}
+				\lambda^i c_i,   \forall i \in I& \text{ if } k<n-k,\\
+				\lambda^i c_i,  \forall i \in I \quad \text{ or } \quad(-\lambda)^i (c^{-1})_i,    \forall i \in I & \text{ if } k= n-k,
+			\end{cases}$$
+		\end{enumerate} where $ (c^{-1})_i $ is the $ 2i $-dimensional part of the inverse of $ c = 1 + c_1 + \cdots + c_k $ in $ H^*_{ \mathbb CG} $.
+	\end{theorem}
+	
+	% \textcolor{red}{Maybe we can write this theorem in full generality when $\mathbb CG_{n,k}$ is replaced by $G/H$ as in Theorem $A'$ in \cite{shiga-tezuka}, and deduce this result as corollary.}
+	
+	\begin{proof}
+		%Since $\phi$ is graded and non-vanishing on $H^2_{\mathbb CG}$, the image $\phi(c_1) = \lambda c_1+uP_1$ for some nonzero $\lambda \in \mathbb{Q}$ and $P_1\in H^{2-m}_{\mathbb CG}$.
+		From equation \eqref{Cohomology of H_times} and \eqref{H in terms of u}, we have $H^*_{\times}\cong \mathcal R/\mathcal I \cong H^*_{\mathbb{C}G} \oplus u H^*_{\mathbb{C}G}$, where $\mathcal R:=\mathbb Q[u,c_1,\ldots,c_k]$ and $\mathcal I:=\langle u^2, h_{n-k+1},\ldots,h_n\rangle$.
+		%, we may regard $H^*_{\mathbb{C}G}$ as a subring of $H^*_{\times}$.
+		%Therefore, the elements in $H^*_\times$ are of the $P+uQ$ where $P$ and $Q$ are in $H^*_{\mathbb{C}G}$.
+        %that are not multiple of $u$, can be written purely in terms of $c_1,c_2,\ldots,c_k.$
+		
+		%We begin with \textit{(1)} for $k < n - k$.  
+		Let $p_1: H^*_{\times} = H^*_{\mathbb{C}G} \oplus u H^*_{\mathbb{C}G} \to H^*_{\mathbb{C}G}$ be the projection onto the first summand and $i_1: H^*_{\mathbb{C}G} \hookrightarrow H^*_{\mathbb{C}G} \oplus u H^*_{\mathbb{C}G}$ be the inclusion into the first summand. The composite $\phi_1:= p_1 \circ \phi \circ i_1$ is a degree-preserving endomorphism of $H^*_{\mathbb{C}G}$. We have the following diagram:
+		% https://q.uiver.app/#q=WzAsNCxbMCwwLCJIXipfe1xcbWF0aGJiIENHfVxcb3BsdXMgdSBIXipfe1xcbWF0aGJiIENHfSJdLFsxLDAsIkheKl97XFxtYXRoYmIgQ0d9IFxcb3BsdXMgdSBIXipfe1xcbWF0aGJiIENHfSJdLFswLDEsIkheKl97XFxtYXRoYmIgQ0d9Il0sWzEsMSwiSF4qX3tcXG1hdGhiYiBDR30iXSxbMCwxLCJcXHBoaSJdLFsyLDAsImlfMSIsMCx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Imhvb2siLCJzaWRlIjoidG9wIn19fV0sWzEsMywicF8xIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoiZXBpIn19fV0sWzIsMywiXFx0aWxkZVxccGhpIl1d
+		\begin{equation}\label{comm diagram}
+			\begin{tikzcd}
+				{H^*_{\mathbb CG}\oplus u H^*_{\mathbb CG}} & {H^*_{\mathbb CG} \oplus u H^*_{\mathbb CG}} \\
+				{H^*_{\mathbb CG}} & {H^*_{\mathbb CG}}
+				\arrow["\phi", from=1-1, to=1-2]
+				\arrow["{p_1}", two heads, from=1-2, to=2-2]
+				\arrow["{i_1}", hook, from=2-1, to=1-1]
+				\arrow["{\phi_1}", from=2-1, to=2-2]
+			\end{tikzcd}
+		\end{equation}
+		Thus, for  $x \in H^*_{\mathbb{C}G} \subset H^*_\times$, one can write
+		$\phi(x) = \phi_1(x) + u P_x$
+		for some $P_x \in H^*_{\mathbb{C}G} \subset H^*_\times$ because the kernal of $p_1$, $\ker(p_1) = u H^*_{\mathbb{C}G}$.
+		\iffalse we have
+		\begin{equation} 
+			\phi(x) = \phi_1(x) + u P_x, \quad \text{where  } P_x\in H^*_{\mathbb CG}.
+		\end{equation}\fi
+		This implies that \begin{equation}\label{defn of phi}
+			\phi(c_i) = \phi_1(c_i) + u P_{c_i},\, \forall i \in I.
+		\end{equation} For simplicity, denote $P_{c_i}$ by $P_i\in H^{2i-m}_{\mathbb CG}$ which is a polynomial in $c_1, \dots, c_k$ of degree $2i - m$ as $\deg c_i = 2i$ and $\deg u = m$.
+		
+		
+		
+		Since $\phi(c_1)\neq \mu u, \, \mu \in \mathbb{Q}$, that implies $\phi(c_1)$ is of the form $\lambda c_1+\mu u,\, \lambda,\mu \in \mathbb{Q}, \, \lambda \neq 0$. Then we have $\phi_1(c_1) = \lambda c_1,\, \lambda\neq 0$ on $H^*_{\mathbb{C}G}$.  By \thmref{hom and hof} part \textit{(ii)}, we have, 
+		\begin{equation}\label{phi_1}
+			\phi_1(c_i) = \begin{cases}
+				\lambda^i c_i,   \forall i \in I& \text{ if } k<n-k,\\
+				\lambda^i c_i,  \forall i \in I \quad \text{ or } \quad(-\lambda)^i (c^{-1})_i,    \forall i \in I & \text{ if } k= n-k,
+			\end{cases}
+		\end{equation} where $ (c^{-1})_i $ is the $ 2i $-dimensional part of the inverse of $ c = 1 + c_1 + \cdots + c_k $ in $ H^*_{ CG} $. Using the observations given above it is convenient to prove part \textit{(2)} first. \\
+		
+		
+		\textit{proof of part (2):} Using \eqref{defn of phi} and \eqref{phi_1}, it is sufficient to prove that $P_i =0, \, \forall i \in I$. By \eqref{phi_1}, we have that $\phi_1$ is an automorphism of $H^*_{\mathbb CG}$. Using the invertibility of $\phi_1$ and \eqref{defn of phi}, let $D: H^*_{\mathbb{C}G} \rightarrow H^*_{\mathbb{C}G}$ be defined by $$D(x) = P_{\phi_1^{-1}(x)},\, \forall x \in H^*_{\mathbb{C}G}.$$
+		%By degree comparison, $P_i =0, \, \forall i \in I$ if $m$ is odd or $m > 2k$. Hence, we assume that $m$ is even, i.e. $m = 2s$ with $s\in I$.
+		%whenever $\phi(x) = \phi_1(x) + uP_x$.  
+		Equivalently, we have $D(\phi_1(x)) = P_x$. Now, we prove that $D$ is a $\mathbb Q$-linear transformation and satisfies the Leibniz rule.
+		%Linearity over $\mathbb{Q}$ is immediate, since for $t \in \mathbb{Q}$ one has
+		\begin{equation}\label{D is linear}
+			\begin{split}
+				uP_{tx} &= \phi(tx) - \phi_1(tx) = t(\phi(x) - \phi_1(x)) = utP_{x},\, \forall t \in \mathbb{Q},\\
+				uP_{x + y} &= \phi(x+y) - \phi_1(x+y) = \phi(x) - \phi_1(x)+ \phi(y) - \phi_1(y)\\ &= u(P_{x}+P_{y}),\\
+				uP_{x y} &= \phi(x y) - \phi_1(xy) = \phi(x)\phi(y)-\phi_1(x)\phi_1(y) \\
+				&= (\phi_1(x)+uP_{x})(\phi_1(y)+uP_y)- \phi_1(x)\phi_1(y)\\
+				&= u(P_x\phi_1(y)+\phi_1(x)P_y).
+			\end{split}
+		\end{equation}
+		Using \eqref{H in terms of u} and \eqref{D is linear}, we get  \begin{align*}
+			& D(t\phi_1(x)) = tD(\phi_1(x)),\quad D(\phi_1(x)+\phi_1(y)) = D(\phi_1(x))+D(\phi_1(y)),\\
+			&D(\phi_1(x)\phi_1(y)) = D(\phi_1(x))\phi_1(y)+\phi_1(x)D(\phi_1(y)).
+		\end{align*}
+		\iffalse \textcolor{red}{(Do we need to emphasise that $D(h_i)\in \langle h_{n-k+1},\ldots,h_n\rangle$, or it is obvious from linearlity?)}
+		
+		To verify that $D$ satisfies the Leibniz condition $D(xy)=D(x)y+xD(y)$,
+		it suffices to check that
+		$D(\phi_1(x)\phi_1(y))=D(\phi_1(x))\phi_1(y)+\phi_1(x)D(\phi_1(y))$
+		for all $x,y \in H^*_{\mathbb{C}G}$, since $\phi_1$ is an automorphism of $H^*_{\mathbb{C}G}$.
+		Indeed, from
+		$\phi(xy)=\phi(x)\phi(y)=(\phi_1(x)+uP_x)(\phi_1(y)+uP_y)$ where $x,y\in H^*_{\mathbb CG}$, we obtain
+		$\phi(xy)=\phi_1(xy)+u(P_x\phi_1(y)+\phi_1(x)P_y)$.
+		Comparing with $\phi(xy)=\phi_1(xy)+uP_{xy}$ gives
+		$P_{xy}=P_x\phi_1(y)+\phi_1(x)P_y$, and therefore
+		$D(\phi_1(x)\phi_1(y))=D(\phi_1(x))\phi_1(y)+\phi_1(x)D(\phi_1(y))$. \fi
+		This proves that $D$ is a derivation. For $x \in H^i_{\mathbb{C}G}$, we have $D(x) \in H^{i-m}_{\mathbb{C}G}$ which implies that the derivation $D$ decreases the degree by $\deg(u)=m>0$. By \eqref{cgn as hom} and \thmref{Tezuka}, we get that $D$ is a zero derivation. In particular $$D(\phi_1(c_i))=P_i=0, \, \forall i \in I.$$
+		%This completes the proof of \textit{(1)} in both cases $k<n-k$ and $k=n-k$.
+		
+		\textit{proof of part (1):} Since $\phi$ is a graded endomorphism on $H^*_{\times}$, therefore $$\phi(u) = a u + P, \, a \in \mathbb{Q}, \text{ satisfying } (a u + P)^2 =0,$$ where $P$ is a homogeneous polynomial in $c_1, \dots, c_k$ of degree $m$. We have $P^2 + 2 a u P =0$ in $H^*_{\times}$. Using \eqref{H in terms of u}, we get that $2aP =0$ in $H^*_{\times}=\mathcal{R}/\mathcal{I}$. Hence, either $a=0$ or $P\in \mathcal{I}$.
+		%for some $f, f_i\in \mathcal R$ and generators $h_i$ of $\mathcal{I}\subset \mathcal R$. Write $f_i = g_i + u l_i$ with $g_i, l_i$ in $\mathbb{Q}[c_1, \dots, c_k]$, then comparing terms not in $u^2$ gives:\[P^2 + 2 a u P = \sum g_i h_i + u \sum l_i h_i.\]Thus, $2 a u P = u \sum l_i h_i \in \mathcal{I}$, so if $a \neq 0$, then $P \in \mathcal{I}$ and hence $\phi(u) = a u$ in $H^*_{\times}$. If $a = 0$, then $\phi(u) = P(c_1, \dots, c_k)$ with $P^2 \in \mathcal{I}$.This completes the proof.
+	\end{proof}
+	
+	
+		\begin{remark}
+			\thmref{main thm} classifies all graded endomorphisms $\phi$ of $H^*_\times$ whose image is nonzero in $H^2_{\mathbb CG}$ if $n>2$. In fact, $n>2$ implies $c_1^2\neq 0$ and $\phi(u) \neq ac_1,\, a \in \mathbb{Q}\setminus\{0\}$ as $\phi(u)^2=0$. Therefore, the only remaining possibility is $\phi(c_1)\neq \mu u,\, \mu \in \mathbb Q.$ 
+			
+			On the other hand, when $n=2,$ $\mathbb CG_{n,k}$ is either a point or $\mathbb S^2$ and the classification of graded endomorphisms of $H^*_\times$ is easy.
+		\end{remark}
+	
+	
+	
+	\subsection{} In \thmref{main thm}, we assume that $\phi(c_1) \neq \mu u$. Let us try to look at the other case where $\phi(c_1) = \mu u$. To address this, we use part (i) of \thmref{hom and hof} which leads to the following proposition.
+	
+	
+	\begin{proposition}\label{main thm 2}
+		Assume that hypothesis \eqref{Homer} is satisfied.
+		Let $\phi$ be a graded endomorphism such that $\phi(c_1)=\mu u,\, \mu \in \mathbb{Q}$ in $H^*_{\times}$. Then
+		\begin{enumerate}
+			\item Either $\phi(u)=a u$ for some $a \in \mathbb{Q}$, or $\phi(u) \in H^*_{\mathbb{C}G} \subseteq H^*_{\times}$ with $\phi(u)^2=0$ in $H^*_{\times}$.
+			\item  $\phi(c_i) = uP_i, \, \forall i >1,$ where $P_i \in H^{2i-m}_{\mathbb CG}\subseteq H^*_\times$. 
+		\end{enumerate}
+	\end{proposition}
+	\begin{proof} \textit{(1):} The proof of part \textit{(1)} is exactly the same as the proof of part \textit{(1)} of \thmref{main thm}. Therefore, we omit the details.
+		
+		\textit{(2):} Using \eqref{comm diagram}, we have that the map $\phi_1$ is a graded endomorphism on $H^*_{\mathbb{C}G}$ such that $\phi_1(c_1) =0$. By \thmref{hom and hof}, $\phi_1(c_i) =0, \, \forall i\in I$, then by \eqref{defn of phi}, we get $\phi(c_i) = uP_i$ for some $P_i \in H^*_{\mathbb{C}G}$, with $\deg(P_i) = 2i - m$. \end{proof}
+	%  When $\lambda \neq 0$, the proof follows directly from Theorem~\ref{main thm}.
+	\begin{remark}
+		In \thmref{main thm} and \propref{main thm 2}, if we assume $2m \leq n-k$  then $\phi(u)=0$ whenever $\phi(u) \in H^*_{\mathbb{C}G}$. This is because $H^*_{\mathbb{C}G}$ has no nontrivial relations up to degree $2(n-k)$ and $u^2=0$ implies that $\phi(u)^2=0$ forcing $\phi(u)=0$.
+		
+	\end{remark}
+	%Now suppose $\lambda = 0$, i.e., $\phi(c_1) = 0$ in $H^*_\times$.
+	%Unlike the case of Grassmannian, the following proposition guarantees the existence of non-trivial graded endomorphisms $\phi$ on $H^*_\times$ even if $\phi(c_1) =0$.
+   A graded endomorphism of $H^*_{\mathbb CG}$ that vanishes on
+   $H^2_{\mathbb CG}$ is expected to be trivial, in view of Hoffman's conjecture \cite{hoffman}. However, unlike the case of the complex Grassmannian, there exist many non-trivial graded endomorphisms of $H^*_\times$ that vanish on $H^2_{\mathbb CG}$. The following proposition provides   such examples when $m$ is even and   $1\le m \le 2k$.
+
+
+
+	
+	
+	\begin{proposition}
+		For each $i\in I$, choose $P_i \in H^{2i-m}_{\mathbb C G} \subseteq H^*_\times$ and either $Q = au,\, a\in \mathbb Q$, or  $Q\in H^*_{\mathbb CG}\subseteq H^*_{\times}$ with $Q^2=0$  in $ H^*_{\times}$. Then there exist a graded endomorphism $\phi$ on $H^*_\times$ such that 
+		\[
+		\phi(c_i)=uP_i, \; \forall i\in I, \text{ and  } \quad \phi(u)=Q.
+		\]
+	\end{proposition}
+	\begin{proof}
+		Define $\phi$ on $H^*_{\times} = \mathcal{R}/\mathcal{I}$ by $\phi(c_i)=uP_i, \; \forall i\in I, \text{ and } \phi(u)=Q.$ It is sufficient to prove that $\phi$ is well defined, that is, $\mathcal{I}\subseteq \ker (\phi)$. Observe that $u^2 =0$ in $H^*_{\times}$ which implies that \begin{equation}\label{ideal cicj}
+			\phi(c_i c_j) = \phi(c_i) \phi(c_j) = uP_i \cdot uP_j = u^2 P_i P_j = 0.
+		\end{equation} Using \eqref{ideal cicj} and $\phi(u^2)=Q^2 =0$, we have $\mathcal{I}\subseteq \langle u^2, c_i c_j \,|\, i,j \in I \rangle \subseteq \ker(\phi).$ 
+	\end{proof}
+	
+	
+	\subsection{} In this subsection, we derive some immediate applications of \thmref{main thm}.
+	\begin{corollary}
+		%It is natural to consider a more general situation with several spheres instead of a single one.  
+		Let us consider $X = \mathbb{S}^{2m_1} \times \cdots \times \mathbb{S}^{2m_r} \times \mathbb{C}G_{n,k}$ and denote by $u_j$ the generator of $H^{2m_j}(\mathbb{S}^{2m_j}; \mathbb{Q})$ corresponding to the fundamental class of $\mathbb S^{2m_j}$ for all $1\leq j \leq r.$ Define  
+		\[
+		H^*_{\mathbf{m}, \mathbb{C}G} := H^*(\mathbb{S}^{2m_1} \times \cdots \times \mathbb{S}^{2m_r} \times \mathbb{C}G_{n,k}; \mathbb{Q})
+		\;\cong\; H^*_{\mathbb{C}G}[u_1,\ldots,u_r] \big/ \langle u_1^2,\ldots,u_r^2 \rangle,
+		\] where $\mathbf{m} = (m_1, \ldots, m_r)$.
+		%where each $u_j$ denotes the degree-$m_j$ generator of $H^*(\mathbb{S}^{m_j}; \mathbb{Q})$.  
+		Suppose $\phi: H^*_{\mathbf{m}, \mathbb{C}G} \to H^*_{\mathbf{m}, \mathbb{C}G}$ is a graded endomorphism satisfying $\phi(c_1)=\lambda c_1,\, \lambda \neq 0$. Then $$\phi(c_i) = \begin{cases}
+			\lambda^i c_i,   \forall i \in I& \text{ if } k<n-k,\\
+			\lambda^i c_i,  \forall i \in I \quad \text{ or } \quad(-\lambda)^i (c^{-1})_i,    \forall i \in I & \text{ if } k= n-k,
+		\end{cases}$$
+		where $ (c^{-1})_i $ is the $ 2i $-dimensional part of the inverse of $ c = 1 + c_1 + \cdots + c_k $ in $ H^*_{ \mathbb CG} $. 
+	\end{corollary}
+	\begin{proof}
+		The proof of this corollary is similar to the proof of part \textit{2} of \thmref{main thm}. Apply induction on $r$ and replace $\mathbb{C}G_{n,k}$ with $\hat{X} := \mathbb{S}^{2m_1}\times\cdots\times \mathbb{S}^{2m_{i-1}}\times \mathbb{S}^{2m_{i+1}}\times\cdots\times \mathbb{S}^{2m_r}\times \mathbb{C}G_{n,k},$ and the sphere $\mathbb{S}^m$ with $\mathbb{S}^{2m_i}$ in \thmref{main thm}. Since \begin{equation}\label{Sm as hom}
+			\mathbb S^{2m_j}=SO(2m_j+1)/SO(2m_j)
+		\end{equation}
+		where the orthogonal groups $SO(2m_j+1)$ and $SO(2m_j)$ have the same rank $m_j$. Using \eqref{Sm as hom} and \eqref{cgn as hom}, $\hat{X}$ satisfies the hypothesis of \thmref{Tezuka}. Therefore, every $\mathbb{Q}$-linear derivation of $H^*(\hat{X};\mathbb{Q})$ that decreases the degree by $2m_i$ is trivial.
+		%Since the $m_i$ are even, the    and $\mathbb CG_{n,k}=U(n)/U(k)\times U(n-k)$, the space $X$ can be realized as a homogeneous space $G/H$, where $G$ is a connected compact Lie group and $H$ a closed subgroup of maximal rank.  This satisfies the hypotheses of Shiga--Tezuka's Theorem~$A'$ \cite{sigha-tezuka}, which then implies that  The argument then proceeds as in Theorem~\ref{main thm}, which completes the proof.  
+	\end{proof}
+	Let us turn our attention to the generalized Dold spaces $P(m,n,k)$ defined in \subsecref{gds}. The following remark helps us to describe endomorphisms of $H^*(P(m,n,k);\mathbb{Q})$ induced by continuous functions on $P(m,n,k)$. These observations will be used in \secref{section 4}.
+	%to understand how continuous self-maps of $P(m,n,k)$ induce homomorphisms on the cohomology ring $H^*(P(m,n,k);\mathbb{Q})$. 
+	%Let us record a few useful observations.
+	\begin{remark}\label{lift}
+		For a continuous map $f$ on $P(m,n,k)$, we have  
+		\begin{equation} \label{lift of f}
+			f_*\circ \pi_*\big(\pi_1(\mathbb{S}^m\times \mathbb{C}G_{n,k})\big)
+			\subseteq \pi_*\big(\pi_1(\mathbb{S}^m\times \mathbb{C}G_{n,k})\big),
+		\end{equation}
+		where $\pi_1(X)$ denotes the fundamental group of a topological space $X$. Hence, the composite $f\circ \pi$ admits a lift $\tilde f$ on
+		$\mathbb{S}^m\times \mathbb{C}G_{n,k}$ for the double covering  
+		$\pi:\mathbb{S}^m\times \mathbb{C}G_{n,k}\to P(m,n,k)$.
+	\end{remark}
+	Using \remref{lift}, we get the following commutative diagram,
+	
+	\begin{equation}\label{comm diag on H}
+		\begin{tikzcd}
+			{H^*(P(m,n,k);\mathbb Q)}  & {H^*(\mathbb S^m\times \mathbb CG_{n,k};\mathbb Q)} \\
+			{H^*(P(m,n,k);\mathbb Q)} & {H^*(\mathbb S^m\times \mathbb CG_{n,k};\mathbb Q).}
+			\arrow["{\pi^*}", from=1-1, to=1-2]
+			\arrow["{f^*}"', from=1-1, to=2-1]
+			%\arrow[hook, from=1-2, to=1-3]
+			\arrow["{\bar f^*}", from=1-2, to=2-2]
+			%\arrow["{\bar f^*}", from=1-3, to=2-3]
+			\arrow["{\pi^*}", from=2-1, to=2-2]
+			%\arrow[hook, from=2-2, to=2-3]
+		\end{tikzcd}
+	\end{equation}
+	where $\pi^*$ is an injective map. Using \thmref{cohomology of P(m,n,k)} and \eqref{comm diag on H} we obtain the following two corollaries. 
+	%as an immediate application of respectively. 	
+	\begin{corollary}\label{cor3}
+		Let $f^*$ be an endomorphism of $H^*(P(m,n,k); \mathbb{Q})$ induced by a continuous function $f$ on $P(m,n,k)$ satisfying $f^*(c_1^2) \ne 0$. Then
+		$f^*$ is the restriction of a graded endomorphism $\tilde{f}^*$ on  $H^*_\times$ satisfying $\tilde{f}^*(c_1) = \lambda c_1, \lambda \neq 0$,  to the fixed subring $\mathrm{Fix}(\theta^*)$ of $H^*_\times$ where $\theta = \alpha\times \sigma$.
+	\end{corollary}
+	\begin{corollary}\label{cor4}
+		Let $f^*$ be an endomorphism of $H^*(P(m,n,k); \mathbb{Q})$ induced by a continuous function $f$ on $P(m,n,k)$ satisfying $f^*(c_1^2) =0$ and $n>2$. Then
+		$f^*$ is the restriction of a graded endomorphism $\tilde{f}^*$ on  $H^*_\times$ satisfying $\tilde{f}^*(c_1) = au, a \in \mathbb{Q}$,  to the fixed subring $\mathrm{Fix}(\theta^*)$ of $H^*_\times$ where $\theta = \alpha\times \sigma$.
+	\end{corollary}
+	Using \thmref{main thm} in \corref{cor3}, and \propref{main thm 2} in \corref{cor4} along with hypothesis \eqref{Homer}, we can determine $f^*$.
+    %if we add the assumption that the hypothesis \eqref{Homer} is satisfied in \corref{cor4}.
+	
+	Moreover, there exist graded endomorphisms of $H^*(P(m,n,k))$ that are not induced by any continuous self-map of $P(m,n,k)$, and cannot be realized as restrictions of graded endomorphisms of $H^*_{\times}$. Let us see an example of such graded endomorphism.
+	
+	
+	%Also, there exist graded endomorphisms of $H^*(P(m,n,k); \mathbb{Q})$ which are not restriction of any graded endomorphism of $H^*_\times$, if the graded endomorphism is not induced from a continuous function on $P(m,n,k)$. Let us see an example of such graded endomorphism of $H^*(P(m,n,k);\mathbb{Q})$.
+	\begin{example}
+		If $m$ odd, $n>2$ and $k = 1$, then $P(m,n,1)$ is fibered by the complex projective space  $\mathbb{C} P^{n-1}$ over the real projective space $\mathbb{R} P^m$. In this case,  $H^*_\times\cong \mathbb Q[u,c_1]/\langle u^2, c_1^n\rangle$ and using \eqref{defn of theta*}\ and \thmref{cohomology of P(m,n,k)}, the rational cohomology ring $$H^*(P(m,n,1); \mathbb{Q}) \cong \mathbb{Q}[u, b] / \langle u^2, b^{\lfloor (n+1)/2 \rfloor} \rangle,$$ where $u$ is a generator of $H^m(\mathbb{R}P^m;\mathbb Q)$ and $b$ restricts to $c_1^2\in H^2(\mathbb CP^{n-1};\mathbb Q)$ under the fiber inclusion. 
+		%Here, $\lfloor x\rfloor$ denotes the greatest integer less than or equal to $x$.
+		
+		Consider the endomorphism
+		\[
+		\phi \colon H^*(P(m,n,1); \mathbb{Q}) \to H^*(P(m,n,1); \mathbb{Q}), \quad \text{defined by }\quad u \mapsto u,  b \mapsto -b.
+		\]
+		Then $\phi$ is a well-defined graded endomorphism but it cannot be a restriction of a graded endomorphism of $H^*_\times$ because any such map induces $c_1^2 \mapsto \lambda^2 c_1^2$ for some $\lambda \in \mathbb{Q}$, and $\lambda^2 \neq -1$.
+	\end{example}
+	
+	
+	\iffalse
+	\begin{corollary}
+		Assume that $P(m,n,k)$ be an orientable manifold and $n>2$. Let $f$ be a continuous map on $P(m,n,k)$ with nonzero Brouwer degree. Then  
+		the induced map $f^*$ is an automorphism on $H^*(P(m,n,k);\mathbb Q)$.
+	\end{corollary}
+	\begin{proof}
+		Using \remref{lift}, there exists a lift $\tilde f: \mathbb{S}^m\times \mathbb{C}G_{n,k}\to \mathbb{S}^m\times \mathbb{C}G_{n,k}$ 
+		satisfying $\pi\circ \tilde f = f\circ \pi$. Using \corref{cor3} and \corref{cor4}, we have $f^*$ is the restriction of a graded endomorphism $\tilde{f}^*$ on  $H^*_\times$ satisfying either $$\tilde{f}^*(c_1) = \lambda c_1, \lambda \neq 0, \text{ if } f^*(c_1^2) \neq 0, \text{ or } \tilde f^*(c_1) =au, a\in \mathbb{Q}, \text{ if } f^*(c_1^2) =0,$$  to the fixed subring $\mathrm{Fix}(\theta^*)$ of $H^*_\times$.
+		
+		Let $d=k(n-k)$.  The top cohomology $H^{2d+m}_\times\cong\mathbb{Q}$ is generated by 
+		$uc_1^d$.  The nonzero Brouwer degree of $f$ implies nonzero Brouwer degree of $\tilde f$ i.e. \begin{equation}\label{brouwer}
+			\tilde f^*(uc_1^d)=\nu\,uc_1^d \in uH^{*}_{\mathbb{C}G}, \, \nu \neq 0.
+		\end{equation}
+		
+		Let us consider the first case where $f^*(c_1^2) \neq 0$ then $\tilde f^*(c_1) = \lambda c_1, \lambda \neq 0$. Using \thmref{main thm}, we have $\tilde f^*(c_i) = \lambda^i c_i$. Also, $$\tilde f^*(u) = \mu u, \mu \in \mathbb{Q}, \text{ or } \tilde f^*(u)\in H^*_{\mathbb{C}G}.$$ If $\tilde f^*(u)\in H^*_{\mathbb{C}G}$, then $\tilde f^*(uc_1^d) \in H^*_{\mathbb{C}G}$
+		which is a contradiction to \eqref{brouwer}. Therefore, $\tilde f^*(u) = \mu u $ where $\mu \neq 0$ because $\nu \neq 0$. So, $\tilde f^*$ is an automorphism.
+		
+		Let us consider the other case when $f^*(c_1^2) = 0$ then $\tilde f^*(c_1) = au, a \in \mathbb{Q}$. Since, $u^2 =0$ and $d\geq 2$ we have $$\tilde f^*(uc_1^d) = \tilde f^*(u) (\tilde f^*(c_1))^d = \tilde f^*(u) a^d u^d =0$$ which is a contradiction to \eqref{brouwer}. Hence, this case would not arise. 
+	\end{proof}
+	\fi
+	
+	The following corollary helps us to understand the relationship between the automorphisms of $H^*(P(m,n,k))$ with the automorphisms of $H^*_{\times}$.
+	\begin{corollary}\label{automor}
+		Let $f^*$ be an automorphism of $H^*(P(m,n,k);\mathbb{Q})$ induced by a continuous function $f$ on $P(m,n,k)$ and assume that $n> 2$. Then $\tilde{f}^*$ is an automorphism of $H^*_{\times}$, where $\tilde{f}$ is as in \remref{lift}. \\ Moreover there exist $\lambda, \mu \in \mathbb{Q}\backslash \{0\}$ such that $\tilde{f}^*(u) = \mu u$ and $\tilde{f}^*(c_i)$ is of the form given in \textit{(2)} of \thmref{main thm}.
+	\end{corollary}
+	\begin{proof}
+		Using \remref{lift}, we have $\tilde{f}^*$ is a graded endomorphism of $H^*_{\times}$. When $n>2$, we have $c_1^2\neq 0$ in $\fix (\theta^*)\subseteq H^*_\times$, where Fix$(\theta^*)$ is the fixed subring under $\theta^*$ defined in \eqref{defn of theta*}. Since $f^*$ is an automorphism, we have $f^*(c_1^2) \neq 0$. Using \corref{cor3}, there exist $\lambda \in \mathbb{Q}$ such that $\tilde{f}^*(c_1) = \lambda c_1, \lambda \neq 0$.\\
+		By \thmref{main thm}, $\tilde{f}^*(c_i)$ is of the form given in \textit{(2)} of \thmref{main thm}. Also, $$\tilde{f}^*(u) = \mu u, \, \mu \in \mathbb{Q} \quad \text{ or } \quad \tilde{f}^*(u) = Q$$ where $Q$ is a polynomial of degree $m$ in $H^*_{\mathbb{C}G}$ with $Q^2 =0$. To conclude the result, we need to prove that $\tilde{f}^*(u) = \mu u$ where $\mu \neq 0$. \\
+		Suppose that $\tilde{f}^*(u) = Q$, then the image set $\im \tilde{f}^*\subseteq H^*_{\mathbb{C}G}$. Using \corref{cor3}, we get $$\im f^*  \cong \im \tilde{f^*}|_{Fix (\theta^*)}\subseteq H^*_{\mathbb{C}G}.$$ This is a contradiction to the assumption that $f^*$ is an automorphism because using \thmref{cohomology of P(m,n,k)}, either $u$ or $uc_{1}$ (depending on the parity of $m$) is in $\im f^*=\fix (\theta^*) \cong H^*(P(m,n,k);\mathbb{Q})$. Therefore, $\tilde{f}^*(u) = \mu u, \mu \in \mathbb{Q}$ and $\mu \neq 0$ because $f^*$ is an automorphism.
+	\end{proof}
+	\subsection{} The following theorem provides a criterion for the image of the spherical cohomology class mapped to a scaler multiple of itself under the graded endomorphism on
+	$H^*(\mathbb{S}^m \times \mathbb{C}G_{n,k};\mathbb Z)$ induced from a continuous map.
+	
+	
+	
+	\begin{theorem}\label{ind from top}
+		Let $f$ be a continuous map on $\mathbb S^m\times \mathbb CG_{n,k}$ such that it stabilizes a copy of Grassmannian $\{{x_0}\}\times \mathbb CG_{n,k}$ for some $x_0\in \mathbb S^m.$ Then the induced endomorphism in cohomology satisfies $f^*(u) = \mu u$ for some $\mu \in \mathbb Z$.
+	\end{theorem}
+	
+	
+	%\begin{theorem}\label{ind from top}
+	%Let $x_0 \in \mathbb{S}^m$ and consider a graded endomorphism $f^*$ on $H^*_{\times}$  induced from a topological map $f$ on $\mathbb S^m\times \mathbb CG_{n,k}$ such that $f (\{x_0 \}\times\mathbb CG_{n,k})\subseteq \{x_0\}\times \mathbb{C}G_{n,k}$.  Then $f^*(u)=\mu u$ for some $\mu\in \mathbb Q.$
+	%\end{theorem}
+	
+	
+	\begin{proof}
+		Let $\mathbb T^m$ be the torus $(\mathbb S^1)^m$ and
+		$q:\mathbb T^m\to \mathbb S^m$ be the quotient map that collapses the complement $C$ of an open disk $D\subset \mathbb T^m$ to the point $x_0$ in $\mathbb{S}^m$.  Denote $p_i$ the $i$-th projection map on $\mathbb S^m\times \mathbb CG_{n,k}$ for $i=1,2$ and $s:\mathbb S^m\setminus\{x_0\}\to D$ is the inverse of the restriction $q|_D$.
+		Since $f$ stabilizes $\{x_0\}\times \mathbb{C}G_{n,k}$, define continuous maps
+		$g:\mathbb{C}G_{n,k}\to \mathbb{C}G_{n,k}$ by $(x_0,g(y)) = f(x_0,y)$ and $\tilde f:\mathbb T^m\times \mathbb{C}G_{n,k}\to \mathbb T^m\times \mathbb{C}G_{n,k}$ by
+		\[
+		\tilde f(x,y)=
+		\begin{cases}
+			\big(s\circ p_1\circ f(q(x),y),\,\,p_2\circ f(q(x),y)\big), & x\in D,\\[2pt]
+			\big(x,g(y)\big), & x\in C.
+		\end{cases}
+		\]
+		%where and $p_i$ denotes the $i$-th projection.  
+		Then it is easy to check that the following diagram commutes:
+		\[ \begin{tikzcd}
+			{\mathbb T^m\times \mathbb{C}G_{n,k}} & {\mathbb T^m\times \mathbb{C}G_{n,k}} \\
+			{\mathbb S^m\times \mathbb{C}G_{n,k}} & {\mathbb S^m\times \mathbb{C}G_{n,k}}
+			\arrow["{\tilde f}", from=1-1, to=1-2]
+			\arrow["{q\times \mathrm{id}}"', two heads, from=1-1, to=2-1]
+			\arrow["{q\times \mathrm{id}}", two heads, from=1-2, to=2-2]
+			\arrow["f", from=2-1, to=2-2]
+		\end{tikzcd}
+		\]
+		
+		Since, the quotient map $q$ has Brouwer degree 1, the induced map on rational cohomology $q^*: H^*(\mathbb{S}^m; \mathbb{Z}) \rightarrow H^*(\mathbb{T}^m;\mathbb{Z})$ sends $u\mapsto 1\cdot u_1 u_2 \dots u_m$ where $u_i$ denote the one dimensional cohomology class corresponding to the fundamental class of the $i$-th circle factor of $\mathbb T^m$ for $i\in \{1,2,\ldots,m\}$ with appropriate orientation. 
+		%Let $u$ be a generator of $H^m(\mathbb S^m;\mathbb Z)$ so that $q^*(u)=u_1u_2\cdots u_m$.  
+		Since $H^{\mathrm{odd}}(\mathbb{C}G_{n,k};\mathbb Z)=0$, the induced map $\tilde f^*$ sends each $u_i$ to a polynomial $P_i(u_1,\dots,u_m)$.  We slightly abuse notation by using the same symbols for the cohomology classes of $H^*(\mathbb S^m;\mathbb Z)$ and $H^*(\mathbb{C}G_{n,k};\mathbb Z)$ when viewed in $H^*(\mathbb S^m\times \mathbb CG_{n,k};\mathbb Z)$.
+		The induced diagram in cohomology implies the following commutative diagram.
+		\[
+		\begin{tikzcd}
+			{\prod_{i=1}^m u_i} & {\prod_{i=1}^m P_i(u_1,\ldots,u_m)} \\
+			u & {f^*(u)}
+			\arrow["{\tilde f^*}", maps to, from=1-1, to=1-2]
+			\arrow["{(q\times \mathrm{id})^*}"', maps to, from=2-1, to=1-1]
+			\arrow["{f^*}", maps to, from=2-1, to=2-2]
+			\arrow["{(q\times \mathrm{id})^*}"', maps to, from=2-2, to=1-2]
+		\end{tikzcd}
+		\]
+		This implies that $f^*(u)$ does not contain any nonzero element from $H^*(\mathbb{C}G_{n,k};\mathbb Z)$.  
+		Thus, $f^*(u)=\mu u$ for some $\mu\in \mathbb Z$.
+	\end{proof}
+	%\begin{remark}
+		%To remain consistent with notations, we have written the proof of \thmref{ind from top} over $\mathbb{Q}$, but the same proof also works over $\mathbb{Z}$.
+	%\end{remark}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	\section{Coincidence theory of $P(m,n,k)$} \label{section 4}
+	In this section, we study the \textit{coincidence theory} of generalized Dold spaces $P(m,n,k)$ defined in \subsecref{gds}. We establish the necessary conditions for a generalized Dold space $P(S,X)$ defined in \eqref{gen dold space} to satisfy the coincidence property. 
+	%Our study builds upon previous results on the \emph{graded endomorphisms} of the rational cohomology ring $H^*_\times$ in section~\ref{graded endomorphism} and the \emph{rational cohomology ring of generalized Dold spaces} as established in \cite{mandal-sankaran2}.
+	
+	\subsection{} Let us recall certain definitions that will be required in the rest of this section.
+	
+	\begin{definition}
+		Let $(X,g)$ be a pair, where $g$ is a continuous map on a topological space $X$. The pair $(X,g)$ is said to have the \textbf{coincidence property} (in short, CP) if, for every continuous map $f : X \to X$, there exists a point $x \in X$ such that $f(x) = g(x)$.
+	\end{definition}
+	
+	If we consider $g$ to be the identity map on $X$, then the notion of coincidence reduces to that of a fixed point, resulting in the following definition.
+	
+	
+	
+	\begin{definition}
+		A topological space $X$ is said to have \textbf{fixed-point property} (FPP) if every continuous map $f : X \to X$ admits a fixed-point; that is, there exists $x \in X$ such that $f(x) = x$.
+	\end{definition}
+	
+	
+	%Our aim is to understand the situations when two continuous maps on the generalized Dold spaces $P(S,X)$ defined in \subsecref{gen dold}, have coincidence.
+	 The following proposition provides a criteria in terms of the fiber $X$ and the base space $Y := S/\!\!\sim_\alpha$, allowing one to infer the coincidence properties of the total space $P(S,X)$.
+	
+	%As a first step, we establish the following proposition, which provides necessary conditions for a generalized Dold space to exhibit certain coincidence properties. 
+	
+	
+	
+	
+	\iffalse
+	\begin{proposition}
+		\  A generalized Dold space $P(S,\alpha,X,\sigma)$ does not have fixed point property if any of the following holds:\\
+		(i) $Y=S/\!\!\sim _{\alpha}$ does not have the fixed point property.\\
+		(ii) There exists a map $f:X\to X$ having no fixed-point and $f\circ \sigma=\sigma \circ f$.
+	\end{proposition}
+	\begin{proof}
+		(i) Let $g:Y\to Y$ be fixed point free. Then $\phi:=s\circ g\circ p$ on $P(S,X)$ also has no fixed points, where $p$ is the $X$-bundle projection and $s$ is a section.  
+		(ii).   Suppose that $f:X\to X$ has no fixed points and that $f\circ \sigma=\sigma \circ f$.
+		Now define $\psi:P(S,X)\to P(S,X)$ as $[s,x]\mapsto [s,f(x)]$. The well-definedness follows because $\psi([\alpha(s),\sigma(x)])=[\alpha(s),f\circ\sigma(x)]=[\alpha(s),\sigma \circ f(x)]=[s,f(x)]=\psi ([s,x])$. Clearly, $\psi$ has no fixed points. This completes the proof.
+	\end{proof}
+	\fi
+	
+	
+	%Recall that $P(S,X)$ has the fiber bundle structure $X\hookrightarrow P(SX)\twoheadrightarrow Y:=S/\!\! \sim_\alpha$, where $p$ is the $X$-bundle projection and $s$ is a section.  
+	\begin{proposition}\label{necessary condition}
+		Let $(P(S,X),g)$ be a pair, where $g$ is a continuous map on the generalized Dold space $P(S,X)$. Then $(P(S,X),g)$ does not have the CP if one of the following hold:
+		\begin{enumerate}
+			\item The continuous map $g$ is a fiber bundle map and the pair $(Y,p \circ g \circ s)$ does not have the CP, 
+			where $Y = S/\!\!\sim_\alpha$ and $s$ denotes a section of the $X$-bundle projection $p$ defined in \eqref{sectio} and \eqref{proj}.
+			
+			\item  
+			There exists a $\sigma$-equivariant map $f$ (i.e. $f\circ\sigma =\sigma\circ f$) on $X$ and a $\alpha \times \sigma$-equivariant map $\tilde g$ on $S\times X$ inducing $g$ such that
+			$\mathrm{id}_S \times f$ coincides with neither $\tilde{g}$ nor
+			$(\alpha \times \sigma) \circ \tilde{g}$.
+		\end{enumerate}
+		
+		
+		
+	\end{proposition}
+	\begin{proof} \textit{(1)}
+		Suppose that the pair $(Y,p \circ g \circ s)$ does not have the CP. 
+		Then there exists a continuous map $f : Y \to Y$ such that \begin{equation} \label{pogos}
+			f(x) \neq p \circ g \circ s(x), \, \forall x \in Y.
+		\end{equation}
+		We are given that $g$ is a fiber bundle map, which implies that there exist  $g_1:Y\to Y$, satisfying  $p \circ g = g_1 \circ p.$
+		Consider $p\circ g\circ s=g_1\circ p\circ s=g_1 $.
+		Thus, $p \circ g = g_1 \circ p$ implies
+		\[
+		p \circ g(x) = p \circ g \circ s \circ p(x),\, \forall x \in P(S, X).
+		\]
+		Define the map $\phi := s \circ f \circ p$ on $P(S, X)$. We claim that $\phi(y)\neq g(y), \, \forall y \in P(S,X)$. \\ Suppose there exist $y \in P(S, X)$ such that $\phi(y) = g(y)$, then 
+		\[
+		p \circ g \circ s(p(y)) = p \circ g(y)
+		= p \circ s \circ f \circ p (y) 
+		= f(p(y)),
+		\]
+		which contradicts \eqref{pogos}.
+		
+		
+		\textit{(2)} %Let $G$ be a group of order $2$ generated by $\alpha \times \sigma$ acting on the topological space $S\times X$ by composition.
+		Let $G$ denote the group of deck transformations of the double covering $\pi : S \times X \to P(S, X)$, generated by the free involution $\alpha \times \sigma.$
+		The proof then follows from a general observation that if for two $G$-equivariant maps $\tilde\phi, \tilde\psi$ on $S\times X$, the maps $\tilde \phi$ and $t \cdot \tilde\psi$ have no point of coincidence, for any $t \in G$; then the maps they induce on the orbit space $P(S,X)$, namely $\phi, \psi$, are also coincidence-free.
+		%$id_{S}\times f$ coincides with neither $\tilde g$ nor $(\alpha \times \sigma)\circ \tilde g$ then the two $G$-equivariant maps $\tilde\phi, \tilde\psi: M \to M$ on a topological space $M$, the maps $\tilde \phi$ and $t \cdot \tilde\psi$ have no point of coincidence, for any $t \in G$; then the maps they induce on the orbit space $M/G$, namely $\phi, \psi: M/G \to M/G$, are coincidence-free.
+	\end{proof}
+	
+	\iffalse
+	\begin{proposition}
+		
+		
+		Let $g : P(S,X) \to P(S,X)$ be a map induced by an $\alpha \times \sigma$-equivariant map $\tilde{g} : S \times X \to S \times X$. 
+		Suppose there exists a $\sigma$-equivariant map $f : X \to X$ such that both the pairs $id_S\times f, \tilde g$ and $id_S\times f,\alpha\times\sigma\circ \tilde g$ dont have any point of coincidence.
+		Then the space $P(S,X)$ does not have the $g$-coincidence property.
+	\end{proposition}
+	\begin{proof}
+		Define $\phi : P(S,X) \to P(S,X)$ by $\phi([s,x]) = [s, f(x)]$. 
+		This map is well defined because
+		$\phi([\alpha(s), \sigma(x)]) = [\alpha(s), f(\sigma(x))] = [\alpha(s), \sigma(f(x))] = [s, f(x)]$, using the fact that $f\circ \sigma=\sigma\circ f$.
+		
+		Similarly, define $\psi : P(S,X) \to P(S,X)$ by $\psi([s,x]) = [g_1(s), g_2(x)]$, 
+		where $g_j = p_j \circ \tilde{g} \circ i_j$, and $p_j$ and $i_j$ denote the projection and inclusion maps on the $j$-th factor ($j=1,2$). 
+		The map $\psi$ is well defined since $\tilde{g}$ is $\alpha \times \sigma$-equivariant.
+		
+		Since, the maps $f$ and $p_2 \circ \tilde{g} \circ i_2 = g_2$ have no coincidence points. 
+		Hence, for any $[s,x] \in P(S,X)$, the second coordinates in $\phi([s,x])$ and $\psi([s,x])$ are different. 
+		Therefore, $\phi$ and $\psi$ have no points of coincidence, and $P(S,X)$ does not possess the $g$-CP.
+	\end{proof}
+	\fi
+	
+		In particular if we take $g$ to be the identity map in \propref{necessary condition}, we recover Proposition~7.2.1 of \cite{mandal}, which proves that if the base $Y$ does not have the FPP, or there exist a $\sigma$-equivarinat map on the fibre $X$ with no fixed point then $P(S,X)$ does not have the FPP. As a consequence, $P(m,n)$ does not have the FPP if either $m$ or $n$ is odd.
+	\iffalse
+	\begin{remark}\label{necessary criterion for FFP}
+		A generalized Dold space $P(S,X)$ does not have the FPP if any of the following holds:
+		
+		\begin{enumerate}
+			\item $Y=S/\!\!\sim _{\alpha}$ does not have the FPP.
+			\item There exists a $\sigma$-equivariant map $f$ on $X$ that has no fixed point.
+		\end{enumerate}
+	\end{remark}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	We have the following observation as an immediate consequence of Remark \ref{necessary criterion for FFP}.
+	
+	\begin{remark}
+		Let $P(m,n)$ be a classical Dold manifold such that either $m$ or $n$ is odd. Then  
+		%and the existence of a fixed point free map on $\mathbb CP^n$ which commutes with the conjugation, 
+		$P(m,n)$ does not have the FPP.
+	\end{remark}
+	\begin{proof}
+		When $m$ is odd, the proof follows from part \textit{(1)} of \remref{necessary criterion for FFP}. \\ When $n$ is odd, we have a continuous $\sigma$-equivariant map  $f:\mathbb CP^n\to \mathbb CP^n$ defined by 
+		\[
+		[x_1:x_2:\cdots:x_n:x_{n+1}]\mapsto [ x_2:- x_1:\cdots: x_{n+1}:- x_{n}]
+		\] which does not have any fixed point.
+		%Clearly, $f\circ \sigma=\sigma\circ f$, where  
+		Thus, using part \textit{(2)} of \remref{necessary criterion for FFP}, $P(m,n)$ does not have fixed-point property.
+	\end{proof}
+	%\textcolor{red}{Converse of the above remark seems to be true.}
+	\fi
+	
+	
+	\iffalse
+	We need the following theorems in the sequal.
+	\begin{theorem}[Lefschetz Fixed-Point Theorem]\label{Lefschetz theorem}
+		Let $X$ be a finite simplicial complex, and let $f : X \to X$ be a continuous map.  
+		Define the number
+		\[
+		\tau(f) = \sum_{n} (-1)^n \operatorname{tr}\!\big(f_* : H_n(X) \to H_n(X)\big),
+		\]
+		called the \emph{Lefschetz number} of $f$.  
+		If $\tau(f) \ne 0$, then $f$ has at least one fixed point.
+	\end{theorem}
+	\fi
+	
+	
+	%\begin{theorem}[\cite{glover-homer}, Theorem 2]\label{GH2} For $k,n$ as in Theorem \ref{GH1}, the complex Grassmannian $\mathbb CG_{n,k}$ has the fixed-point property if and only if $k(n-k)$ is even. \end{theorem}
+	
+	
+	\iffalse
+	In (Theorem 2, \cite{glover-homer}), it is proved that $\mathbb CG_{n,k}$ has fixed-point property if and only if $k(n-k)$ is even, provided either (i) $k\leq 3$ and $n>2k$ or (ii) $k>3$ and $n> 2k^2-1$.
+	It is well known that there exists a fixed-point free map   $ L \mapsto L^\perp   $ on   $ \mathbb{C}G_{n,k}   $ when   $ k = n - k   $.
+	
+	The following remark follows easily from Theorem \ref{hoffman} \cite{hoffman} and Theorem \ref{GH2} \cite{glover-homer}.
+	\begin{remark}Let $f$ be continuous self-map on $\mathbb CG_{n,k}$ such that
+		$ f^*(c_1) = \lambda c_1 $, $ \lambda\neq 0 $. Assume that $k(n-k)$ is even and $k\neq n-k$. Then $f$ has a fixed point. 
+	\end{remark}
+	\begin{proof}
+		By Theorem~\ref{hoffman} \cite{hoffman}, the map $f^*$ is an Adams map. Using the computation of the Lefschetz number $L(f)$ from the proof of Theorem~\ref{GH1}, we observe that $L(f) \ne 0$ because $k(n-k)$ is even. Thus, $f$ must have a fixed point. This completes the proof.
+	\end{proof}
+	\fi
+	
+	\subsection{} Let us recall a well known result in coincidence theory, the Lefschetz Coincidence Theorem, which will be used to prove results in the rest of this paper.\\
+	
+	For a closed oriented manifold $M$ of dimension $n$, let $[M]\in H^n(M;\mathbb Q)$ denote a chosen fundamental class. Then we have the Poincar\'e  duality isomorphism $D_M:H^k(M;\mathbb Q)\to H_{n-k}(M;\mathbb Q)$, defined by 
+	\begin{equation}\label{poinc dua}
+		D_M(\alpha)=[M]\frown \alpha, \, \forall \alpha\in H^k(M;\mathbb Z).
+	\end{equation}
+
+	
+	\begin{theorem}[Lefschetz Coincidence Theorem]\label{LCT}
+		Let $f,g$ be two continuous maps on a compact, connected, oriented manifold $M$ of  dimension $n$. The Lefschetz coincidence number is defined as 
+		$$L(f,g):= \sum_{i=0}^{n} (-1)^i \mathrm{tr}\big(D_M \circ g^* \circ D_M^{-1} \circ f_* \; : \; H_i(M;\mathbb{Q}) \longrightarrow H_i(M;\mathbb{Q})\big).
+		$$ If $L(f,g) \neq 0$, then there exists $x \in M$ such that $f(x) = g(x)$.
+	\end{theorem}
+	When  $g=\operatorname{id}_M$, the theorem reduces to the Lefschetz Fixed-Point Theorem for $M$.\\
+	
+	To study the coincidence theory of generalized Dold spaces fibred by complex Grassmannians over real projective spaces, it is helpful to first understand the coincidence theory of complex Grassmannians, a topic of independent interest. We now prove the following lemma (cf. Theorem 2, \cite{glover-homer}) to prove \propref{CP of CGnk}.
+	\begin{lemma}\label{sum neq 0}
+		Let $d_{2i}$ be the $2i$-th Betti number of a complex Grassmannian $\mathbb CG_{n,k}$ with $d=k(n-k)$ even. Then the sum \(\sum _{i=0}^d d_{2i}\lambda^i\neq 0,\, \forall \lambda \in \mathbb Q.\)
+	\end{lemma}
+	\begin{proof}
+		Let us consider the sum $\sum_{i=0}^d d_{2i}\lambda^i$, when $\lambda$ is an integer. 
+		Clearly, $$\sum_{i=0}^d d_{2i}\lambda^i \equiv 1 \pmod{\lambda}.$$ %(see Theorem 2 in \cite{glover-homer}). 
+		Hence, $\sum_{i=0}^d d_{2i}\lambda^i \neq 0$, if $\lambda \neq \pm 1$. When $\lambda = 1$, the sum is also positive and therefore nonzero. It remains to consider the case where $\lambda = -1$.
+		Let $\chi(\mathbb{R}G_{n,k})$ denote the Euler-Poincar{\'e} characteristic of $\mathbb{R}G_{n,k}$ and be defined by $$\chi(X):=\sum_{i\ge0}\dim H^i(\mathbb{R}G_{n,k};\mathbb{Z}_2)$$ where $\mathbb{R}G_{n,k}$ denotes the Grassmannian of real $k$-planes in $\mathbb{R}^n$.
+		Now we observe that 
+		$\sum_{i=0}^d d_{2i}(-1)^i = \chi(\mathbb{R}G_{n,k})$ where $d_{2i} = \operatorname{dim} H^{2i}(\mathbb{C}G_{n,k}; \mathbb{Q}) = \dim H^{i}(\mathbb{R}G_{n,k}; \mathbb{Z}_2)$. 
+		It is a well known fact that $\chi(\mathbb{R}G_{n,k}) \neq 0$ if $k(n-k)$ is even. 
+		
+		Let us move to the other case where $\lambda\in \mathbb{Q}\backslash \mathbb{Z}$. Suppose $\sum_{i=0}^{d} d_{2i}\lambda^i =0$ for some $\lambda = \frac{p}{q}$ where $p$ and $q$ are coprime integers. Since $d_0 =d_d =1$, using the rational root theorem $p|1$ and $q|1$. Hence, $\lambda = \pm 1$, which is a contradiction. Therefore, we conclude that $\sum_{i=0}^{d} d_{2i}\lambda^i \neq 0$ for all $\lambda\in \mathbb Q$. 
+		%Thus, the sum  $\sum _{i=1}^d d_{2i}\lambda^i$ is nonzero for every integer value of $\lambda.$ 
+		\iffalse	Now, suppose for contradiction that there exists a rational number $\lambda = a/b$  written in lowest terms (i.e., $\gcd(a,b)=1$) such that the sum vanishes. Note that in the polynomial $\sum_{i=0}^{d} d_{2i}\lambda^i$, both the leading coefficient $d_d$ and the constant term $d_0$ are equal to $1$. By the Rational Root Theorem, the rational root $\lambda = a/b$ must satisfy $a \mid 1$ and $b \mid 1$, hence $\lambda = \pm 1\in \mathbb Z$. Since this is not possible, \fi
+	\end{proof}
+	
+	
+	
+	Denote the $i$-th homology groups 
+	$H_i(\mathbb{C}G_{n,k}; \mathbb{Q}), \, H_i(\mathbb{S}^m; \mathbb{Q})$ and 
+	$H_i(\mathbb{S}^m \times \mathbb{C}G_{n,k}; \mathbb{Q})$, by $H_i^{\mathbb{C}G}, H_i^{\mathbb{S}}$ and $H_i^{\times}$, respectively. Let $d$ denote the complex dimension of $\mathbb CG_{n,k}$, given by $d = k(n - k)$. Then we have the following proposition.
+	\begin{proposition}\label{CP of CGnk}
+		Consider a complex Grassmannian $\mathbb{C}G_{n,k}$ such that the hypothesis \eqref{Homer} is satisfied and $k(n-k)$ is even. Let $g $ be a continuous map on $\mathbb{C}G_{n,k}$ with nonzero Brouwer degree. Then the pair $(\mathbb{C}G_{n,k}, g)$ has the coincidence property.
+	\end{proposition}
+	
+	
+	\begin{proof}
+	Self-maps with nonzero Brouwer degree induces automorphisms in the rational cohomology algebra. Using Theorem \ref{hom and hof} part \textit{(i)}, there exist a nonzero rational $\lambda$ such that $g^*(c_i)=\lambda^ic_i, \forall i\in I.$ Let $f$ be a continuous map on $\mathbb CG_{n,k}$ and using \thmref{hom and hof} part \textit{(i)}, there exists $\mu \in \mathbb Q$ such that
+		\[
+		f^*(c_i)=\mu^ic_i, \forall i\in I.
+		\]
+		Then by the Universal Coefficient Theorem, $ \hom_{\mathbb{Q}} (H_i^{\mathbb CG};\mathbb Q) \cong H^i_{\mathbb CG}$ non-canonically which implies that 
+		\begin{align*}
+			\varphi \circ f_* &= f^*(\varphi) , \, \forall
+			\varphi \in \hom _{\mathbb Q}\big(H_{2i}^{\mathbb CG}, \mathbb Q\big)\cong H^{2i}_{\mathbb CG}.\\
+			\varphi(f_*(x))&=(f^*(\varphi))(x)= \mu^i\varphi(x)=\varphi(\mu^ix),\; \forall x\in H_{2i}^{\mathbb CG}.
+		\end{align*}
+		The last equation implies that $f_*(x)=\mu^ix,\, \forall x\in  H_{2i}^{\mathbb CG}.$
+		%This implies for all $\varphi\in \hom_{\mathbb Q}(H_{2i}^{\mathbb CG},\mathbb Q)$ and $x\in H_{2i}^{\mathbb CG}$, we have
+		Now observe that $D\circ g^*\circ D^{-1}\circ f_*: H_{2i}^{\mathbb CG}\to H_{2i}^{\mathbb CG}$ is given by 
+		\[
+		D\circ g^*\circ D^{-1}\circ f_*(x)=D\circ g^*\circ D^{-1}(\mu^ix)=\mu^iD\circ g^*(D^{-1}x)=\mu^iD(\lambda^{d-i}D^{-1}x)=\mu^i\lambda^{d-i}x.
+		\]
+		Thus for $x\in H_{2i}^{\mathbb{C}G}$, the Lefschetz coincidence number is given by
+		\[
+		\begin{array}{ll}
+			L(f,g) &= \sum_{i=0}^d (-1)^{2i}
+			\mathrm{tr}(D\circ g^*\circ D^{-1}\circ f_*(x)) \\[6pt]
+			&=  \sum_{i=0}^d d_{2i}\mu^i\lambda^{d-i}  \\[6pt]
+			&= \lambda^d \sum_{i=0}^d d_{2i}(\mu/\lambda)^i \neq 0 \quad (\because \lambda\neq 0) 
+		\end{array}
+		\]
+		where $d_{2i}$ denotes $\dim_{\mathbb Q}H^{2i}_{\mathbb CG}$ and the last equation holds by using \lemref{sum neq 0}. Therefore, using \thmref{LCT} the pair $(\mathbb{C}G_{n,k},g)$ has the coincidence property.
+	\end{proof}
+	
+	\iffalse{}  \textcolor{teal}{
+		In the case of a quaternionic Grassmannian $\mathbb H G_{n,k}$, an Adams operation of degree $-1$ cannot be induced by any self-map, since its action on $H^*(\mathbb H G_{n,k};\mathbb Z/3)$ does not commute with the reduced third power operation (see Theorem~2(2) of \cite{glover-homer}). Consequently, the value $\lambda=-1$ cannot occur in the sum $\sum_{i=0}^{d} d_{2i}\lambda^i$ from Lemma~\ref{sum neq 0}, so the sum is nonzero in all cases, regardless of the parity of $d=k(n-k)$. Proceeding as in Proposition~\ref{CP of CGnk}, one obtains the following extension of Theorem~2(2) in \cite{glover-homer}:
+		\begin{proposition}\label{CP of HGnk}
+			For any homotopy equivalence $g$ of a quaternionic Grassmannian $\mathbb H G_{n,k}$, the pair $(\mathbb H G_{n,k},g)$ has the coincidence property.
+		\end{proposition}
+	}
+	\fi
+	
+	
+	
+	
+	\subsection{} Denote by $H_*^\times = \bigoplus_{i\geq 0} H_i^{\times},\, H_*^{\mathbb{C}G} = \bigoplus_{i\geq 0} H_i^{\mathbb{C}G},\, H_*^{\mathbb{S}} = \bigoplus_{i\geq 0} H_i^{\mathbb{S}}$ and $\vartheta$ the fundamental class $[\mathbb S^m]\in H_m^{\mathbb S}$. Let $\{v_q\}$ be a homogeneous basis of $H_*^{\mathbb{C}G}$, and let $\{\delta_{v_q}\}$ denote the corresponding dual basis of  
+	$\operatorname{Hom}(H_*^{\mathbb{C}G}, \mathbb Q) \cong H^*_{\mathbb{C}G}$, such that  
+	$ \delta_{v_q} (v_p) = \delta_{qp}$ where $\delta_{qp}$ is the Kronecker delta function. Without loss of generality, assume that $1=v_0 \in \{v_i\}$ represents the generator of $H_0^{\mathbb{C}G} \cong \mathbb Q$.
+	
+	Over $\mathbb Q$, the K\"unneth Theorem yields the following decompositions 
+	\iffalse	Set $d = 2k(n - k)$, $m=2s$ and $t={n \choose k}$. 
+	
+	By Remark~\ref{lift}, every continuous map $f$ on $P(m,n,k)$ admits a lift 
+	$\tilde f$ on $\mathbb{S}^m \times \mathbb{C}G_{n,k}$ satisfying 
+	$f \circ \pi = \pi \circ \tilde f,$
+	where $\pi : \mathbb{S}^m \times \mathbb{C}G_{n,k} \to P(m,n,k)$ is the double covering map. 
+	We continue to denote such lifts by the corresponding maps on $P(m,n,k)$ with a tilde.
+	By Theorem~\ref{main thm}, there exists  $\lambda \in \mathbb{Q}$ or $P_i\in H^{2i-m}_{\mathbb CG} \;\forall i\in I$ with some $P_i\neq 0$, such that \
+	
+	\begin{equation}
+		\text{either (i) } 
+		\tilde f^*(c_i) = \lambda^i c_i,\forall i\in I, \text{or (ii) } \tilde f^*(c_i)=uP_i, \  \forall i\in I , 
+	\end{equation}
+	\begin{equation}
+		\text{and either (iii) }\tilde f^*(u) = \mu u \text{ for some }\mu\in \mathbb Q, \text{or (iv) }\tilde f^*(u) \in H^m_{\mathbb{C}G}.
+	\end{equation}
+	
+	
+	%We have the induced maps in homology and cohomology $\tilde f_*$ and $\tilde f^*$, respectively, related by the Kronecker pairing 
+	%$\langle \;,\;\rangle:H^i_\times\times H_i^\times\to \mathbb Q$ defined by
+	%\[
+	%\langle \tilde f^* \varphi, x\rangle = \langle \varphi, \tilde f_* x\rangle 
+	%\quad \text{for all } \varphi \in H^i_\times,\, x \in H_i^\times.
+	%\]
+	%and $u \in H^*_\times$ corresponds to the fundamental class 
+	%of $[\mathbb S^m] \in H^{\mathbb S}_m \subseteq H^\times_m.$
+	
+	%Fix a basis $\{1, v_1, v_2, \ldots, v_t\}$ for $H_*^{\mathbb{C}G}$. 
+	%The corresponding dual basis of $\hom(H_*^{\mathbb{C}G
+		%}, \mathbb{Q}) \cong H^*_{\mathbb{C}G}$ is 
+	%$\{\delta_1, \delta_{v_1}, \delta_{v_2}, \ldots, \delta_{v_t}\}$, 
+	%where \ $\delta_{v_i}(x) = \langle \delta_{v_i}, x \rangle$ defined to be $1$ if and only if $x=v_i$, and $0$ otherwise, for all $v_i$.
+	\fi  
+	\begin{equation}\label{kunneth}
+		H_i^\times \cong H_i^{\mathbb{C}G} \oplus (\vartheta \otimes H_{i-m}^{\mathbb{C}G}), 
+		\qquad 
+		H^i_\times \cong H^i_{\mathbb{C}G} \oplus uH^{i-m}_{\mathbb{C}G},
+	\end{equation}
+	where  $u \in H^m_{\times} \cong \operatorname{Hom}(H_m^{\times}, \mathbb Q)$ corresponds to the element $\delta_{\vartheta\otimes 1}$.
+	
+	
+	Using \eqref{kunneth}, we can extend the chosen basis $\{v_q\}$ of $H_*^{\mathbb{C}G}$ to $	\{v_q\} \cup \{\vartheta \otimes v_q\}$ of $H_*^\times$ such that the corresponding dual basis can also be extended from $\{\delta_{v_q}\}$ of $ \hom (H_*^{\mathbb{C}G};\mathbb{Q})$ to $\{\delta_{v_q}\} \cup \{\delta_{\vartheta \otimes v_q}\} $ of $\hom (H_*^{\times};\mathbb{Q})$ satisfying:
+	%\[\{v_i\} \cup \{\vartheta \otimes v_i\} \subseteq H_*^\times, \qquad 	\{\delta_{v_i}\} \cup \{\delta_{\vartheta \otimes v_i}\} \subseteq H^*_\times.\]
+	%Since $\delta_{U \otimes 1} = \delta_U = u \in H^m_{\mathbb S}$, we write $\delta_{U \otimes v_i}$ simply as $u\,\delta_{v_i}$.With respect to these bases, the Kronecker pairing  $\langle\,\cdot\,,\cdot\,\rangle : H^*_\times \times H_*^\times \longrightarrow \mathbb Q$satisfies 
+	\begin{equation}\label{Kronecker relations}
+		\delta_{v_q}( v_p) = \delta_{qp}, \quad
+		\delta_{v_q}( \vartheta \otimes v_p)= 0, \quad
+		\delta_{\vartheta\otimes v_q}(v_p) = 0, \quad
+		\delta_{\vartheta\otimes v_q}(\vartheta \otimes v_p)= \delta_{qp}.
+	\end{equation}
+	%since $\langle u, \vartheta\rangle=1$ and $u$ (resp. $\vartheta$) kills the other basis elements.Thus the matrix of the pairing in these bases is the identity, hence the  map$\kappa_i: H^i_\times \to \operatorname{Hom}(H_i^\times,\mathbb Q)$, $\kappa_i(\varphi)(x)=\langle \varphi, x\rangle$, is an isomorphism for all $i$. 
+	Let $f$ be a continuous function on $P(m,n,k)$. Using \remref{lift} and the Universal Coefficient Theorem, there exist a lift $\tilde{f}$ on $\mathbb{S}^m\times \mathbb{C}G_{n,k}$ satisfying \begin{equation}\label{comm with phi}
+		\varphi \circ \tilde{f}_* = \tilde{f}^*(\varphi) , \, \forall
+		\varphi \in \hom _{\mathbb Q}\big(H_{2i}^{\mathbb CG}, \mathbb Q\big)\cong H^{2i}_{\mathbb CG}.
+	\end{equation}
+	
+		Poincar\'e duality on $\mathbb S^{m}\times \mathbb C G_{n,k}$ can be described in terms of the duality on the Grassmannian factor. Let 
+		$D_{\mathbb C G}\colon H^{i}_{\mathbb C G}\to H_{2d-i}^{\mathbb C G}$ 
+		be the Poincar\'e duality isomorphism defined in \eqref{poinc dua} for $\mathbb C G_{n,k}$, where $d=k(n-k)$.  
+		The Poincar\'e duality isomorphism on the product
+		is then determined on the basis elements by  
+		\begin{equation}
+			D\colon H^{j}_{\times}\to H_{m+2d-j}^{\times}, \quad \delta_{v_i}\mapsto \vartheta\otimes D_{\mathbb C G}(\delta_{v_i})\quad\text{and}\quad \delta_{\vartheta\otimes v_i} \mapsto D_{\mathbb C G}(\delta_{v_i}).
+		\end{equation}
+		We are now ready to establish the following lemmas, which will be useful in the sequel.
+	\begin{lemma}\label{image of homf}
+		Let $f$ be a continuous function on $P(m,n,k)$ and $\tilde{f}$ be the lift defined in \remref{lift} such that $\tilde{f}^*(c_1)\neq au,\, a\in \mathbb{Q}$ and $k<n-k$. Then there exist $\lambda \in \mathbb{Q}\backslash \{0\}$ and $\mu \in \mathbb{Q}$ such that the induced map $\tilde{f}_*$ on $H_*^{\times}$ is of the following form.
+		\begin{enumerate}
+			\item Either $\tilde{f}_*(\vartheta\otimes x) = \mu \lambda^i (\vartheta \otimes x),\, \forall x\in H_{2i}^{\mathbb{C}G}$ or $\tilde{f}_*(\vartheta\otimes x) \in H_*^{\mathbb{CG}},\, \forall x \in H_*^{\mathbb{C}G}$.
+			\item $\tilde{f}_*(x) = \lambda^i x + \vartheta\otimes y,$ for some $y \in H_{2i-m}^{\mathbb{C}G}, \, \forall x \in H_{2i}^{\mathbb{C}G}.$
+		\end{enumerate}
+		Moreover, $y=0$ in \textit{(2)} if $\tilde{f}_*(\vartheta\otimes x) = \mu \lambda^i (\vartheta \otimes x),\, \forall x\in H_{2i}^{\mathbb{C}G}$.
+	\end{lemma}
+	\begin{proof}
+		Using \thmref{main thm}, there exist $\lambda \in \mathbb{Q}\backslash \{0\}$ such that $\tilde{f}^*(c_i) = \lambda^i c_i, \forall i \in I$ and either $\tilde{f}^*(u) = \mu u,\, \mu \in \mathbb{Q}$ or $\tilde{f}^*(u)\in H^*_{\mathbb{C}G}$. It is sufficient to prove the result for the chosen basis $\{v_q\}\cup\{\vartheta\otimes v_q\}$ of $H_{*}^{\times}$. 
+		
+		Let us consider the first case where $\tilde{f}^*(u) = \mu u$. Using $H^*_{\mathbb{C}G}\cong \hom(H_*^{\mathbb{C}G},\mathbb{Q})$, we have \begin{equation}\label{fstarco}
+			\tilde{f}^*(\delta_{v_p}) = \lambda^i \delta_{v_{p}}, \, \forall v_{p}\in H_{2i}^{\mathbb{C}G}, \quad \tilde{f}^*(\delta_{\vartheta\otimes v_{p}})  = \mu \lambda^i (\delta_{\vartheta \otimes v_{p}}), \, \forall v_{p}\in H_{2i}^{\mathbb{C}G}.
+		\end{equation}
+		If $m$ is odd, then the coefficient of any basis element $v_p \in H_*^{\mathbb{C}G}$ in $\tilde{f}_*(\vartheta \otimes v_q)$ and $\vartheta \otimes v_p$ in $\tilde{f}_*(v_q)$ is zero because $\tilde{f}_*$ is a graded map. Let us consider the case where $m=2s$.
+		By \eqref{comm with phi} and \eqref{fstarco}, the coefficient of a basis element $v_p\in H_{2i+m}^{\mathbb{C}G}$ in $\tilde{f}_*(\vartheta \otimes v_q)$ written as a $\mathbb{Q}$-linear combination of the basis elements from $\{v_q\}\cup\{\vartheta\otimes v_q\}$ is the following:
+		$$	 \delta_{v_p}\circ \tilde f_*(\vartheta\otimes v_q)
+		=  \tilde f^* (\delta_{v_p}) (\vartheta\otimes v_q)
+		=  \lambda^{i+s} \delta_{v_p}(\vartheta\otimes v_q)
+		= 0,\, \forall v_q \in H_{2i}^{\mathbb{C}G}$$
+		and the coefficient of a basis element $\vartheta \otimes v_p\in \vartheta \otimes H_{2i}^{\mathbb{C}G}$ in $\tilde{f}_*(\vartheta \otimes v_q)$ is
+		$$ \delta_{\vartheta\otimes v_p}\circ \tilde f_*(\vartheta\otimes v_q)
+		=  \tilde f^*(\delta_{\vartheta\otimes v_p})(\vartheta\otimes v_q)
+		=  \mu \lambda^{i}\;\delta_{\vartheta \otimes v_p}(\vartheta\otimes v_q)= \mu\lambda^{i}\delta_{pq},\, \forall v_q \in H^{\mathbb{C}G}_{2i}.$$
+		This implies that $$\tilde{f}_*(\vartheta \otimes v_q) = \mu \lambda^i (\vartheta \otimes v_q), \, \forall v_q \in H_{2i}^{\mathbb{C}G}.$$ 
+		Using similar calculations given above, it is easy to show that $$\delta_{v_p}\circ \tilde{f}_*(v_q) = \lambda^i \delta_{pq},\, \forall v_q \in H_{2i}^{\mathbb{C}G},\quad \delta_{\vartheta \otimes v_p}\circ \tilde{f}_*(v_q)=0,\, \forall v_q\in H_{2i}^{\mathbb{C}G}.$$ Therefore, $\tilde{f}_*(v_q) = \lambda^i v_q,\, \forall v_q \in H_{2i}^{\mathbb{C}G}$.\\
+		
+		If $\tilde{f}^*(u)\in H^*_{\mathbb{C}G}$. Again using $H^*_{\mathbb{C}G}\cong \hom(H_*^{\mathbb{C}G},\mathbb{Q})$, we have \begin{equation}\label{second u}
+			\tilde{f}^*(\delta_{v_p}) = \lambda^i \delta_{v_{p}}, \, \forall v_{p}\in H_{2i}^{\mathbb{C}G}, \quad \tilde{f}^*(\delta_{\vartheta\otimes v_{p}})  \in H^*_{\mathbb{C}G},\, \forall  v_{p}\in H_{2i}^{\mathbb{C}G}.
+		\end{equation}
+		By \eqref{comm with phi} and \eqref{second u}, we get $\delta_{v_p}\circ \tilde{f}_*(v_q) = \lambda^i \delta_{pq},\, \forall v_q \in H_{2i}^{\mathbb{C}G},$ which implies that $\tilde{f}_*(x) = \lambda^i x + \vartheta\otimes y,$ for some $y \in H_{2i-m}^{\mathbb{C}G}, \, \forall x \in H_{2i}^{\mathbb{C}G}.$ Note that $\tilde f^*(\delta_{\vartheta\otimes v_p})\in H_{\mathbb CG}^*$ and equal to some $\sum a_j\delta_{v_j}$. Then 
+		%coefficient of $\vartheta \otimes v_p $ in $\tilde f_*(\vartheta \otimes v_q)$ is 
+		\begin{equation}\label{computation}
+			\delta_{\vartheta\otimes v_p}\circ \tilde f_*(\vartheta\otimes v_q)= \tilde f^*(\delta_{\vartheta\otimes v_p})(\vartheta\otimes v_q)=\sum a_j\delta_{v_j}(\vartheta\otimes v_q)=0.
+		\end{equation}
+		Hence, $\tilde f_*(\vartheta \otimes v_q)\in H_*^{\mathbb CG}$ for all $\vartheta \otimes v_q\in\vartheta\otimes H_*^{\mathbb CG} $.
+		%	$ \text{ or } \tilde{f}^*(\vartheta\otimes v_{p}) \in H_*^{\mathbb{C}G},\, \forall v_{p}\in H_*^{\mathbb{C}G}$
+	\end{proof}
+\iffalse	\begin{remark}\label{lemrem}
+		For the case $k=n-k$ in \lemref{image of homf}, if $\tilde{f}^*(c_i) = \lambda^i c_i$ then we will get the same result otherwise when $\tilde{f}^*(c_i) = (-\lambda)^i c_i$ then $\lambda$ will be replaced by $-\lambda$ in \lemref{image of homf}. 
+	\end{remark}\fi
+	\begin{lemma}\label{image of homf under hom}
+		Assume that the hypothesis \eqref{Homer} is satisfied. 	Let $f$ be a continuous function on $P(m,n,k)$ and $\tilde{f}$ be the lift defined in \remref{lift} such that $\tilde{f}^*(c_1)= au,\, a\in \mathbb{Q}$. Then the induced map $\tilde{f}_*$ on $H_{*}^{\times}$ is of the following form.
+		\begin{enumerate}
+			\item $\tilde f_* (x)\in \vartheta\otimes H_{2i-m}^{\mathbb CG},\, \forall x\in H_{2i}^{\mathbb CG},\, \forall i>0$.
+			\item $\tilde{f}_*(\vartheta\otimes 1) = \mu (\vartheta\otimes 1 )+y, \, y\in H_{m}^{\mathbb{C}G}, \quad\\ \tilde f_*(\vartheta \otimes x)\in H_{2i+m}^{\mathbb{C}G},\, \forall x \in H_{2i}^{\mathbb{C}G}, i>0\;$ if $\tilde{f}^*(u) = \mu u,\,  \mu \in \mathbb{Q}$ 
+		\end{enumerate}
+	\end{lemma}
+	\begin{proof}
+		Using \propref{main thm 2}, we have $\tilde{f}^*(c_i) = u P_i,$ for some $P_i\in H^*_{\mathbb{C}G}$ and either $\tilde{f}^*(u) = \mu u,\, \mu \in \mathbb{Q}$ or $\tilde{f}^*(u)\in H^*_{\mathbb{C}G}$. \\
+		Let us consider the first case where $\tilde{f}^*(u) = \mu u$. Using $H^*_{\mathbb{C}G}\cong \hom(H_*^{\mathbb{C}G},\mathbb{Q})$, we have for $i>0$ 
+		\begin{equation}\label{fstarcom}
+			\tilde{f}^*(\delta_{v_p}) = \sum a_{jp}\delta_{\vartheta \otimes v_j} , \, \forall v_{p}\in H_{2i}^{\mathbb{C}G}, \quad \tilde{f}^*(\delta_{\vartheta\otimes 1})  =\mu \delta_{\vartheta \otimes 1}, \quad \tilde{f}^*(\delta_{\vartheta\otimes v_{p}})  = 0, \, \forall v_{p}\in H_{2i}^{\mathbb{C}G}.
+		\end{equation}
+		Using \eqref{comm with phi}, \eqref{fstarcom} and similar calculations given in the proof of \lemref{image of homf}, we have for $ v_p\neq 1$
+		$$\delta_{v_p}\circ \tilde{f}_*(v_q) = 0,\, \forall v_q \in H_{2i}^{\mathbb{C}G},\quad \delta_{\vartheta\otimes v_p}\circ \tilde{f}_*(\vartheta\otimes v_q) =0,\, \forall v_q \in H_{2i}^{*}$$ that concludes the result.
+		
+		When $\tilde{f}^*(u)\in H^*_{\mathbb{C}G}$ then also we have $\tilde{f}^*(\delta_{v_p}) = \sum a_{jp}\delta_{\vartheta \otimes v_j} , \, \forall v_{p}\in H_{2i}^{\mathbb{C}G},\, \forall i>0$ which implies that $\delta_{v_p}\circ \tilde{f}_*(v_q) = 0,\, \forall v_q \in H_{2i}^{\mathbb{C}G},\,\forall i>0.$   		
+	\end{proof}
+	\iffalse	Consequently, for the lift $\tilde f:\mathbb S^m\times \mathbb{C}G_{n,k}\to \mathbb S^m\times \mathbb{C}G_{n,k}$, the induced maps 
+	$\tilde f^*:H^i_\times\to H^i_\times$ and $\tilde f_*:H_i^\times\to H_i^\times$ are adjoint with respect to this perfect pairing, i.e.,   
+	\[
+	\langle \tilde f^* \varphi, x\rangle=\langle \varphi, \tilde f_* x\rangle \text{ for all }\varphi\in H^i_{\times},x\in H_i^\times.
+	\]\fi
+	
+	%To determine $\tilde f_*(U)$ when (iii) holds, write 
+	%$\tilde f_*(U) = aU + \sum b_i v_i \in H_m^{\mathbb{S}} \oplus H_m^{\mathbb{C}G}\cong H_m^\times$.  
+	%Then 
+	%$\langle u, \tilde f_* U \rangle = \langle u, aU \rangle + \langle u, \sum b_i v_i \rangle = a + 0 = a$.  
+	%On the other hand, 
+	%$\langle u, \tilde f_* U \rangle = \langle \tilde f^* u, U \rangle = \langle \mu u, U \rangle = \mu$, 
+	%so $a = \mu$.  
+	%Proceeding similarly replacing  $u=\delta_U$  by $\delta_{v_i}$ yields $b_i = 0$ for all $i$.  
+	%Hence, $\tilde f_*(U) = \mu U$.
+	
+	\iffalse	\underline{When (i) and (iii) hold}, for any basis element $v_q \in H_{2i}^{\mathbb{C}G}$, the coefficient of $v_p$ in $\tilde f_*(v_q)$, , is 
+	\begin{equation}\label{i,ii,1}
+		\langle \delta_{v_p}, \tilde f_*v_q\rangle
+		= \langle \tilde f^* \delta_{v_p}, v_q\rangle
+		= \langle \lambda^i \delta_{v_p}, v_q\rangle
+		= \lambda^i \delta_{pq},
+	\end{equation}
+	and the coefficient of $\vartheta\otimes v_p \in \vartheta\otimes H_{2i}^{\mathbb{C}G}$ in $\tilde f_*(v_q)$ is 
+	\begin{equation}\label{1,iii,2}
+		\langle \delta_{\vartheta\otimes v_p}, \tilde f_*v_q\rangle
+		= \langle \tilde f^*(\delta_{\vartheta\otimes v_p}), v_q\rangle
+		= \langle \mu\lambda^{i}\delta_{\vartheta\otimes v_p}, v_q\rangle
+		= 0.
+	\end{equation}
+	Thus, $\tilde f_*(x) = \lambda^i x$, for all $x \in H_{2i}^{\mathbb{C}G}$. 
+	Also, the coefficient of $v_p \in H_m^{\mathbb{C}G}$ in $\tilde f_*(\vartheta\otimes v_q)$ is 
+	t of $\vartheta\otimes v_p \in \vartheta \otimes H_{2i}^{{\mathbb CG}}$ in $\tilde f_*(\vartheta\otimes v_q)$ is 
+	This shows that $\tilde f_*(\vartheta \otimes x) = \mu \lambda^{i}\vartheta \otimes x$ for all $x\in \vartheta\otimes H_{2i}^{\mathbb CG}$.\fi
+	
+	\iffalse	\underline{When (ii) and (iii) hold},  the coefficient of $v_p$ ($p\neq 0$) in $\tilde f_*(v_q)$, if $\tilde f^*\delta_{v_p}=\sum a_i\delta_{\vartheta \otimes v_i} $,  is
+	\[
+	\langle \delta_{v_p}, \tilde f_*v_q\rangle=\langle\tilde f^*\delta_{v_p},v_q\rangle=\langle \sum a_i\delta_{\vartheta \otimes v_i},v_q\rangle=\sum 
+	a_i\langle  \delta_{\vartheta \otimes v_i},v_q\rangle=0,
+	\]
+	Thus, $\tilde f_* (x)\in \vartheta\otimes H_*^{\mathbb CG}$ for all $x\in H_*^{\mathbb CG}$. Also, the coefficient of $\vartheta\otimes v_p$ in $\tilde f_*(\vartheta\otimes v_q)$ is
+	\[
+	\langle \delta_{\vartheta \otimes v_p},\tilde f_*(\vartheta\otimes v_q)\rangle=\langle\tilde f^*(\delta_{\vartheta \otimes v_p}), \vartheta \otimes v_q\rangle =
+	\begin{cases}
+		\langle \mu \delta_{\vartheta \otimes v_0}, \vartheta \otimes v_q\rangle=\mu\delta_{0q}& \text{if } p=0,\\
+		\langle 0, \vartheta \otimes v_q\rangle =0& \text{if }p\neq 0.
+	\end{cases}
+	\]
+	Therefore, for all $x\in H_{2i}^{\mathbb CG}$, $\tilde f_*(\vartheta\otimes x)=\begin{cases}
+		\mu \vartheta\otimes x +y \;\text{ for some }y\in H_{2i+m}^{\mathbb CG}  &\text{if } i=0 ,\\
+		\quad \quad0 &\text{if }i>0.
+	\end{cases}$ \fi
+	
+	\iffalse	\underline{When (i) and (iv) hold}, the coefficient of $v_p\in H_{2i}^{\mathbb CG}$ in $\tilde f_*(v_q)$ is 
+	\[
+	\langle \delta_{v_p},\tilde f_*(v_q)\rangle=\langle\tilde f^*\delta_{v_p},v_q\rangle=\langle \lambda^i\delta_{v_p},v_q\rangle=\lambda^i\delta_{pq}.
+	\]
+	This implies that $\tilde f_*(x)=\lambda^ix+\vartheta \otimes y$ for some $\vartheta \otimes y\in \vartheta \otimes H_{2i}^{\mathbb CG}$, for all $x\in H_{2i}^{\mathbb CG}$. \fi
+	
+	
+	\iffalse	\underline{When (ii) and (iv) hold}, we can write $\tilde f^*(\delta_{v_p})=\sum a_j\delta_{\vartheta\otimes v_j}$ %and $\tilde f^*(\delta_{\vartheta\otimes v_p})=\sum b_j\delta_{\vartheta\otimes v_j}$
+	for some $a_j\in \mathbb Q$ and $p\neq 0$.
+	Now the coefficient of $v_p$ in $\tilde f_*(v_q)$ is
+	\[
+	\langle \delta_{v_p},\tilde f_*v_q\rangle=\langle\tilde f^*\delta_{v_p}, v_q\rangle=\langle\sum a_j\delta_{\vartheta\otimes v_j}, v_q\rangle=0,
+	\]
+	implying $\tilde f_*(x)\in \vartheta\otimes H_*^{\mathbb CG}$ for all $x\in H_*^{\mathbb CG}$. \fi
+	\iffalse
+	Also, the coefficient of $ v_p$ in $\tilde f_*(\vartheta\otimes v_q)$ is
+	\[
+	\langle \delta_{v_p},\tilde f_*(\vartheta\otimes v_q)\rangle=\langle\tilde f^*\delta_{v_p}, \vartheta\otimes v_q\rangle=\langle\sum b_j\delta_{v_j},\vartheta\otimes v_q\rangle=0.
+	\]
+	This ensures that $\tilde f_*(\vartheta\otimes x)\in H_*^{\mathbb CG}$ for all $\vartheta\otimes x\in \vartheta\otimes H_*^{\mathbb CG}$.
+	
+	
+	We refer to the above observations from any combination of one condition from 
+	$(\mathrm{i}),(\mathrm{ii})$ and one from $(\mathrm{iii}),(\mathrm{iv})$, by the symbol $\mathscr{X}$.
+	
+	
+	
+	%Summarizing above, we have for all $x\in H_{2i}^{\mathbb CG}$,
+	%\[
+	%\tilde f_*(x)=
+	%\begin{cases}
+	%   \lambda^ix  &\text{ if (i) and (iii) hold},\\
+	%    \lambda^ix +\vartheta\otimes y, \text{ for some }y\in H_*^{\mathbb CG}& \text{ if (i) and (iv) hold}.
+	%^\end{cases}
+%\]
+
+
+\vspace{.2in}\fi
+
+\iffalse
+******
+
+Thus, for all $x \in H^{\mathbb CG}_{2i}$, $\varphi \in H^{2i}_{\mathbb CG}$, and $y \in H^m_\times$, we have
+\begin{equation}\label{}
+	\langle \varphi, \tilde f_* x\rangle =
+	\begin{cases}
+		\langle \varphi, \lambda_1^i x\rangle & \text{if (i) holds,} \\
+		\langle u P_{\varphi}, x\rangle & \text{if (ii) holds},\\
+	\end{cases}
+	\quad \text{and} \quad
+	\langle u, \tilde f_* y\rangle =
+	\begin{cases}
+		\langle u, \mu_1 y\rangle & \text{if (iii) holds,} \\
+		& \text{if (iv) holds}.\\
+	\end{cases}
+\end{equation}
+
+Therefore, for all $x\in H_{2i}^{\mathbb CG}$, $\tilde f_*(x)=\lambda_1^ix$ if (i) holds, $\tilde f_*(x)\in [\mathbb S^m]\otimes H_{2i-m}^{\mathbb CG}$ if (ii) holds, and $\tilde f_*([\mathbb S^m])=\mu_1 [\mathbb S^m]$ if (iii) holds, where $[\mathbb S^m]\in H_m^{\mathbb S}$ denotes the fundamental class of $\mathbb S^m$ satisfying $\langle u,[\mathbb S^m]\rangle=1.$
+\fi
+
+
+\subsection{} The following theorems provide a criteria for the existence of coincidence points between a pair of continuous functions on $P(m,n,k)$.
+
+\begin{theorem}\label{coincidence thm}
+	Let $P(m,n,k)$ be a generalized Dold manifold with $k<n-k$ and $k(n-k)$ even. Let $f$ and $g$ be two continuous maps on $P(m,n,k)$ and $\tilde f, \tilde g$ be their lifts as defined in  Remark \ref{lift} such that
+	%and suppose that the induced endomorphisms in cohomology satisfies:	
+	\begin{enumerate}	
+		\item $g^*$ is an automorphism of $H^*(P(m,n,k);\mathbb Q)$. 
+		\item $\tilde{f}^*(c_1) \neq au,\, a \in \mathbb{Q}$.
+		\item $\deg(p\circ g \circ s)\neq -\deg (p\circ f\circ s)$ if $m$ is odd.
+	\end{enumerate}
+	where $s$ denotes a section of the $X$-bundle projection $p$ defined in \eqref{sectio} and \eqref{proj}.	Then, there is a point of coincidence of $f$ and  $g$.
+\end{theorem}
+\begin{proof}
+	Using \corref{automor}, we have $\tilde g^*$ is an automorphism on $H^*_{\times}$ given by
+	$\tilde g^*(c_i) = \lambda_1^i c_i$, and $\tilde g^*(u) = \mu_1 u$ for some $\lambda_1, \mu_1 \in \mathbb{Q}\backslash \{0\}$ if $k<n-k$.
+	
+	Using \lemref{image of homf}, there exist $\lambda \in \mathbb{Q}\backslash \{0\}$ and $\mu \in \mathbb{Q}$ such that $\tilde{f}_*$ is of the following form, 
+	\begin{equation}\label{flower star}
+		\begin{split}
+			\tilde f_*(x)=\lambda^ix+\vartheta\otimes y, \text{ for some }y\in H_{2i-m}^{\mathbb CG}, \, \forall x \in H_{2i}^{\mathbb{C}G}\\
+			\tilde f_*(\vartheta\otimes x)=\mu\lambda^i (\vartheta\otimes x) , \text{ or } \tilde{f}_*(\vartheta \otimes x) = z, \text{ for some }z\in H_{2i+m}^{\mathbb CG},\, \forall x \in H_{2i}^{\mathbb{C}G}
+		\end{split}
+	\end{equation}
+	To prove that $f$ has a point of coincidence with $g$, it is sufficient to prove that either $\tilde{f}$ or the composition $\theta \circ \tilde{f} $ has a point of coincidence with $g$ where $\theta = \alpha \times \sigma$ defined in \secref{gds}. By \thmref{LCT}, we need to compute $L(\tilde f, \tilde g)$ and $L(\theta \circ \tilde f, \tilde g)$.
+	
+	For $x\in H_{2i}^{\mathbb{C}G}$, we have 
+	\begin{equation*}\label{D cal}
+		\begin{split}
+			D\tilde g^* D^{-1} \tilde f_*(x)=\mu_1 \lambda^i\lambda_1^{d-i} x + \vartheta\otimes y'\text{ for some }y' \in H^{\mathbb CG}_{2i-m}\\
+			D\tilde g^* D^{-1} \tilde f_*(\vartheta\otimes x)= \mu \lambda^i\lambda_1^{d-i}(\vartheta\otimes x)+z' \text{ for some }z'\in H_{2i+m}^{\mathbb CG}.
+		\end{split}
+	\end{equation*}
+	where $z^{'} =0$ or $\mu =0$ depending on the image of $\tilde{f}_*(\vartheta \otimes x)$.
+	%Now we compute the Lefschetz number of the map $L(\tilde{f},\tilde g)$  and $L(\theta\circ \tilde f, \tilde g)$ under the consideration that $\lambda=0$ if (ii) holds and $\mu=0$ if (iv) holds. 
+	Recall that  $d_{2i}$ denote the dimension $\dim H^{2i}_{\mathbb CG}$. The Lefschetz number  $L(\tilde{f},\tilde g)$ is
+	\begin{equation*}\label{L(f,g)}
+		L(\tilde f,\tilde g) =(\mu_1 + \mu) \sum_{i=0}^{k(n-k)} d_{2i} \lambda^i\lambda_1^{d-i}.
+	\end{equation*}
+	Using the \lemref{sum neq 0} and the fact that $\lambda_1\neq 0$, the sum
+	\[
+	\sum_{i=0}^{k(n-k)} d_{2i} \lambda^i\lambda_1^{d-i}=\lambda_1^d\sum_{i=0}^{k(n-k)} d_{2i} (\lambda/\lambda_1)^i\neq 0,
+	\]
+	Since $\tilde f\circ\theta=\theta\circ \tilde f$, it follows that $$(\theta\circ \tilde  f )^*(c_i)= (-1)^i \tilde{f}^*(c_i), \forall i \in I, \quad (\theta \circ\tilde  f)^*(u)=\begin{cases}
+		-\tilde  f^*(u), \text{ if } m \text{ is even,}\\
+		\tilde  f^*(u), \text{ if } m \text{ is odd}.
+	\end{cases}$$ 
+%	If $m$ is odd, using $\deg(p\circ g \circ s)\neq -\deg (p\circ f\circ s)$ i.e. $\mu_1 \neq -\mu$, we have $L(\theta\circ\tilde f, \tilde g) = L(\tilde f, \tilde g)\neq 0$ and we have the result. \\
+	If $m$ is even, then  
+	\begin{equation*}\label{D with theta}
+		\begin{split}
+			D\tilde g^* D^{-1} (\theta\circ \tilde f)_*(x)=\mu_1(- \lambda)^i\lambda_1^{d-i} x + \vartheta\otimes y''\text{ for some }y'' \in H^{\mathbb CG}_{2i-m} \\
+			D\tilde g^* D^{-1} (\theta\circ \tilde f)_*(\vartheta\otimes x)= -\mu (-\lambda)^i\lambda_1^{d-i}\vartheta\otimes x+z'' \text{ for some }z''\in H_{2i+m}^{\mathbb CG}.
+		\end{split}
+	\end{equation*}
+	Thus,  the Lefschetz number is
+	\begin{equation*}\label{L(theta f,g)}
+		L(\theta \circ\tilde f,\tilde g) =(\mu_1 - \mu)\sum_{i=0}^{k(n-k)} d_{2i} (-\lambda)^i\lambda_1^{d-i}.
+	\end{equation*}
+	Also, using  $\mu_1\neq 0$ and \lemref{sum neq 0}  it follows that that either $L(\tilde f, \tilde g)$ or $L(\theta\circ \tilde f,\tilde g)$ is nonzero. 
+	
+	If $m$ is odd, $	L(\theta \circ\tilde f,\tilde g) =(\mu_1 + \mu)\sum_{i=0}^{k(n-k)} d_{2i} (-\lambda)^i\lambda_1^{d-i}.$ Using  \lemref{sum neq 0} and $\deg(p\circ g \circ s)\neq -\deg (p\circ f\circ s)$ that is $\mu_1 \neq -\mu$, we have both $L(\tilde{f},\tilde{g})$ and $L(\theta \circ\tilde f,\tilde g)$ are nonzero. 
+	This ensures that there exist a point of conincidence between $f $ and $g$.
+\end{proof}
+%	Using  \remref{lemrem} in the case $k=n-k$, we need to replace $\lambda$ by $-\lambda$ in \eqref{flower star} if $\tilde{f}^*(c_i) = -\lambda^i c_i$. In the rest of the calculations, $\lambda$ will be replaced by $-\lambda$ and we get the same result.
+\begin{theorem}\label{coincidence thm under hom}
+	Let $P(m,n,k)$ be a generalized Dold manifold with $k(n-k)$ even and assume that the hypothesis \eqref{Homer} is satisfied. Let $g$ and $f$ are two continuous maps on $P(m,n,k)$ and $\tilde g, \tilde f$ be their lifts as defined in  Remark \ref{lift} such that
+	%and suppose that the induced endomorphisms in cohomology satisfies:	
+	\begin{enumerate}	
+		\item $g^*$ is an automorphism of $H^*(P(m,n,k);\mathbb Q)$. 
+		\item $\tilde{f}^*(u) = \mu u,\, \mu \in \mathbb{Q}$ if $\tilde{f}^*(H^*_{\mathbb CG}) \nsubseteq H^*_{\mathbb CG}$ and $m$ is even.
+		\item $\deg(p\circ g \circ s)\neq -\deg (p\circ f\circ s)$ if $m$ is odd.
+	\end{enumerate}
+	$s$ denotes a section of the $X$-bundle projection $p$ defined in \eqref{sectio} and \eqref{proj}. Then, there is a point of coincidence of $f$ and  $g$.
+\end{theorem}
+\begin{proof}
+	If $\tilde{f}^*(c_1) \neq au, \, a\in \mathbb{Q}$ then we have the result by \thmref{coincidence thm}.\\ Let us consider the other case when $\tilde{f}^*(c_1) = au, \, a\in \mathbb{Q}$, using \thmref{main thm 2} we have $\tilde{f}^*(c_i) = uP_i, \text{ for some } P_i\in H^{2i-m}_{\mathbb{C}G}.$ 
+	
+	If $P_i \neq 0$ for some $i$ in $I$ then $\tilde{f}^*(H^*_{\mathbb CG}) \nsubseteq H^*_{\mathbb CG}$. Since $\tilde{f}^*$ is graded and by \textit{(2)} we have $\tilde{f}^*(u) = \mu u,\, \mu \in \mathbb{Q}$. Using \lemref{image of homf under hom}, $\tilde{f}_*$ is of the following form, \begin{equation}\label{uin CG}
+		\begin{split}
+			\tilde f_*(x)= \vartheta\otimes y, \text{ for some }y\in H_{2i-m}^{\mathbb CG}, \, \forall x \in H_{2i}^{\mathbb{C}G}, \, i>0\\
+			\tilde f_*(\vartheta\otimes x)=\mu(\vartheta\otimes x) +z, \text{ for some }z\in H_{2i+m}^{\mathbb CG},\, \forall x \in H_{2i}^{\mathbb{C}G}
+		\end{split}
+	\end{equation}
+	where $\mu =0$ if $i>0$. By \corref{automor}, we have $\tilde g^*$ is an automorphism on $H^*_{\times}$ given by
+	$\tilde g^*(c_i) = \lambda_1^i c_i$, and $\tilde g^*(u) = \mu_1 u$ for some $\lambda_1, \mu_1 \in \mathbb{Q}\backslash \{0\}$. Using \thmref{LCT} and the similar calculations as done in the proof of \thmref{coincidence thm}, we get $$L(\tilde f,\tilde g) =(\mu_1 + \mu) d_0 \lambda_1^d, \quad L(\theta \circ\tilde f,\tilde g) =\begin{cases}
+		(\mu_1 - \mu)d_{0} \lambda_1^{d},  \text{ if } m \text{ is even,}\\
+		(\mu_1 +\mu)d_{0} \lambda_1^{d},  \text{ if } m \text{ is odd.}
+	\end{cases}$$ Using $\lambda_1 \neq 0$ and $\mu_1 \neq 0$, either $L(\tilde f,\tilde g) $ or $ L(\theta \circ\tilde f,\tilde g)$ is non zero if $m$ is even. Using $\deg(p\circ g \circ s)\neq -\deg (p\circ f\circ s)$ i.e. $\mu_1 \neq -\mu$ we have $L(\tilde f, \tilde g) = L(\theta \circ \tilde f, \tilde g) \neq 0$.  Hence, we get the result.
+	
+	Let us consider the case when $P_i =0,\, \forall i \in I$, if $\tilde{f}^*(u) = \mu u, \mu \in \mathbb{Q}$ then the proof remains exactly the same as given above. We need to focus on the case when $\tilde{f}^*(u)\in H^*_{\mathbb{C}G}$. Using \lemref{image of homf under hom} and \eqref{computation}, we have $$\tilde{f}_*(x) = \vartheta \otimes y, \text{ for some }y\in H_{2i-m}^{\mathbb CG}, \, \forall x \in H_{2i}^{\mathbb{C}G}, \, i>0, \quad \tilde{f}_*(\vartheta \otimes x) \in H_*^{\mathbb{C}G}, \forall x\in  H_*^{\mathbb{C}G}.$$ This is exactly the same if we take $\mu =0$ in \eqref{uin CG}. The rest of the calculations also remains the same and we get the result.
+\end{proof}
+
+
+
+\begin{remark}
+	There are many situations when the map $f$ satisfies the required hypothesis \textit{(2)} considered in \thmref{coincidence thm} or \thmref{coincidence thm under hom}. Some of them are as follows: 
+	\begin{enumerate}
+		\item The lift $\tilde f$ stabilizes a copy of Grassmannian, i.e., $\tilde f(\{x_0\}\times\mathbb CG_{n,k})\subseteq \{x_0\}\times\mathbb CG_{n,k}$ for some $x_0\in \mathbb S^m$. 
+		\item  The map $p_1\circ \tilde f^*\circ i_1: H^*_{\mathbb CG}\to H^*_{\mathbb C G}$ is an automorphism, equivalently, $f^*(c_1^2)=\lambda^2c_1^2,\, \lambda\in \mathbb Q\backslash \{0\},$ where $p_1$ and $i_1$ are defined in \eqref{comm diagram}.
+		\item The map $p_2\circ \tilde f\circ i_1:\mathbb S^m\to \mathbb CG_{n,k}$ is rationally null homotopic, where $p_2$ is the projection onto the second summand and $i_1$ is the inclusion into the first summand. %$i_1:\mathbb S^m\hookrightarrow\mathbb S^m\times \mathbb CG_{n,k}$ be the inclusion into the first component and $p_2:\mathbb S^m\times \mathbb CG_{n,k}\to \mathbb CG_{n,k}$ be the projection onto the second component.
+	\end{enumerate} 
+\end{remark}
+
+
+
+	Under the assumption $m>2k$, any continuous map $f$ on the generalized Dold space $P(m,n,k)$, the lift $\tilde f$ (from Remark~\ref{lift}) satisfies $\tilde f^{*}(c_i)=\lambda^ic_i$ for all $i\in I$. Hence condition~\textit{(2)} of Theorem~\ref{coincidence thm under hom} may be omitted, and one obtains the following consequence.
+	\begin{corollary}
+		Let $P(m,n,k)$ be a generalized Dold space with $m$ and $k(n-k)$ both even. Assume $m>2k$, and the hypothesis \eqref{Homer} is satisfied.
+		Then, for any continuous function $g$ on $P(m,n,k)$ that induces an automorphism on $H^*(P(m,n,k);\mathbb{Q})$, the pair $(P(m,n,k),g)$ has the coincidence property. \\ In particular, for $g=\mathrm{id}$, the space $P(m,n,k)$ has the fixed-point property.
+	\end{corollary}
+
+
+
+
+
+
+
+
+
+
+In \thmref{coincidence thm under hom}, the first assumption that $g^*$ is an automorphism of $H^*(P(m,n,k); \mathbb{Q})$ can be relaxed by assuming $\mu$ is nonzero, which leads to the following proposition. 
+\begin{proposition}
+	Let $P(m,n,k)$ be a generalized Dold manifold with $k(n-k)$ even and assume that the hypothesis \eqref{Homer} is satisfied. Let $g$ and $f$ are two continuous maps on $P(m,n,k)$ and $\tilde g, \tilde f$ be their lifts as defined in  Remark \ref{lift} such that
+	\begin{enumerate}
+		\item $\tilde g^*(H^*_{\mathbb CG})= H^*_{\mathbb CG}$.
+		\item $\tilde f^*(u)=\mu u,\, \mu\in \mathbb Q\backslash \{0\}$
+	\end{enumerate}
+Then, there is a point of coincidence of $f$ and  $g$.
+\end{proposition}
+The proof of the above proposition is similar to the proof of \thmref{coincidence thm under hom}. Therefore, we omit the details.
+
+\iffalse \begin{proposition}
+	Let $P(m,n,k)$ be a generalized Dold manifold. Consider two continuous maps $f,g$ on $P(m,n,k)$ and $\tilde f, \tilde g$ be their lifts as defined in  Remark \ref{lift}.
+	Suppose that the induced endomorphisms in cohomology satisfies:
+	\begin{enumerate}
+		\item $\tilde g^*(c_i)\in uH^*_{\mathbb CG},\forall i\in I$ and $\tilde g^*(u)=\mu_1u$ for some $\mu_1\in \mathbb Q$,
+		\item $\tilde f$ has nonzero Brouwer-degree.
+	\end{enumerate}
+	Then, there is a point of coincidence of $f$ and  $g$.
+\end{proposition}
+\fi
+
+
+
+
+\iffalse If we assume $m> 2k$, then we have more information about $\tilde f^*$ and in that case we don't have to assume hypothesis \textit{(2)}.
+
+We need to talk about the similar situations when we assume Hoffman instead of Glover-Homer.
+
+We should be able to find some GDS $P(m,n,k)$ which has FPP.
+
+What happens if we allow $m$ to be odd in $P(m,n,k)$?
+\fi
+
+\section*{Acknowledgements}
+Part of this work was carried out while the first author was a postdoctoral fellow at IISER Berhampur, which the author gratefully acknowledges.
+
+
+
+
+
+
+
+%\section*{References}
+
+\begin{thebibliography}{99}
+	
+	%\bibitem[A]{adams} Adams, J. F. Vector fields on spheres.
+	%Ann. of Math. {\bf 75} (1962), 603--632.
+	%\bibitem[ABS]{ABS} Atiyah, M. F.; Bott, R., Shapiro, A. Clifford modules. Topology {\bf 3} (1964), no. suppl, 3--38.
+	%\bibitem[AH]{atiyah-hirzebruch} Atiyah, M. F.; Hirzebruch, F.
+	%Vector bundles and homogeneous spaces.Proc. Sympos. Pure Math., Vol. III, 7--38
+	%American Mathematical Society, Providence, RI, 1961.
+	
+	%\bibitem[B]{borel} Borel, A. Sur la cohomologie des espaces fibr{\'e}s principaux et des espaces homogènes de groupes de Lie compacts. Ann. of Math, Vol. {\bf 57} (1953) 115--207.
+	
+	\bibitem[B]{brewster} S. Brewster, \textit{Automorphisms of the cohomology ring of finite Grassmann manifolds}, Thesis (Ph.D.)---The Ohio State University, ProQuest LLC, Ann Arbor, MI (1978), 102 pp. \url{http://gateway.proquest.com/openurl?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/fmt:kev:mtx:dissertation&res_dat=xri:pqdiss&rft_dat=xri:pqdiss:7908118}
+	
+	\bibitem[BH]{brewster-homer} S. Brewster and W. Homer, \textit{Rational automorphisms of Grassmann manifolds}, Proc. Amer. Math. Soc. \textbf{88} (1983), no. 1, 181--183, \url{https://doi.org/10.2307/2045137}.
+	
+	%\bibitem[B2]{borel} Borel, A. Cohomologie mod $2$
+	% de certains espaces homogènes.
+	%Comment. Math. Helv. {\bf 27} (1953)165--197 (1953).
+	%\bibitem[B3]{borel-lag} Borel, A. Linear algebraic groups. Springer-Verlag, New York.
+	%\bibitem[CF]{conner-floyd} Conner, P. E.; Floyd, E. E. {\it Differentiable periodic maps.} Ergebnisse der Mathematik...
+	%\bibitem[D]{davis} Davis, D. Projective product spaces. J. Topol. {\bf 3} (2010), 265--279.
+	%\bibitem[DJ]{dj} Davis, M.; Januszkiewicz, T. Convex polytopes...
+	
+	\bibitem[Do]{dold} A. Dold, \textit{Erzeugende der Thomschen Algebra }$\mathfrak{N}$, Math. Z. \textbf{65} (1956), 25--35, \url{https://doi.org/10.1007/BF01473868}.
+
+    \bibitem[Du]{duan} H. Duan, \textit{Self-maps of the Grassmannian of complex structures}, Compositio Math. \textbf{132} (2002), no. 2, 159--175, \url{https://doi.org/10.1023/A:1015885227445}.
+	
+	\bibitem[DF]{duan-fang} H. Duan and L. Fang, \textit{Homology rigidity of Grassmannians}, Acta Math. Sci. Ser. B \textbf{29} (2009), no. 3, 697--704, \url{https://doi.org/10.1016/S0252-9602(09)60065-5}.
+
+    \bibitem[DZ]{duan-zhao} H. Duan and X. Zhao, \textit{The classification of cohomology endomorphisms of certain flag manifolds}, Pacific J. Math. \textbf{192} (2000), no. 1, 93--102, \url{https://doi.org/10.2140/pjm.2000.192.93}.
+	%\bibitem[F1]{fujii-66} Fujii, M. $K_U$-groups of Dold manifolds...
+	%\bibitem[F2]{fujii-69} Fujii, M. Ring structures...
+	
+	%\bibitem[F]{fulton} Fulton, W. *Introduction to Toric Varieties*...
+	%\bibitem[K]{karoubi} Karoubi, M. *K-theory*...
+	%\bibitem[HM]{hm} Hattori, A.; Masuda, M...
+	%\bibitem[H]{husemoller} Husemoller, D. *Fibre bundles*...
+	
+	\bibitem[GH1]{glover-homer} H. Glover and B. Homer, \textit{Endomorphisms of the cohomology ring of finite Grassmann manifolds}, Geometric applications of homotopy theory (Proc. Conf., Evanston, Ill., 1977), I, pp. 170--193.
+	
+
+    \bibitem[GH2]{glover-homer coin} H. Glover and W. Homer, \textit{Fixed points on flag manifolds}, Pacific J. Math. \textbf{101} (1982), no. 2, 303--306, \url{http://projecteuclid.org/euclid.pjm/1102724776}.
+	
+	\bibitem[GS]{goswami-sarkar} A. Goswami and S. Sarkar, \textit{Endomorphisms of the Cohomology Algebra of Certain Homogeneous Spaces}, \url{https://arxiv.org/abs/2509.09363}
+
+	\bibitem[Ho1]{hoffman} M. Hoffman, \textit{Endomorphisms of the cohomology of complex Grassmannians}, Trans. Amer. Math. Soc. \textbf{281} (1984), no. 2, 745--760, \url{https://doi.org/10.2307/2000083}.
+    
+    \bibitem[Ho2]{hoffman-noncoin} M. Hoffman, Noncoincidence index of manifolds, Pacific J. Math. \textbf{115}(2) (1984), 373--383, \url{http://projecteuclid.org/euclid.pjm/1102708254}.
+
+    \bibitem[HH]{hoffman-homer} M. Hoffman and W. Homer, \textit{On cohomology automorphisms of complex flag manifolds}, Proc. Amer. Math. Soc. \textbf{91} (1984), no. 4, 643--648, \url{https://doi.org/10.2307/2044817}.
+	
+	
+
+ %   \bibitem[Kh]{khare} Khare, S.S. On Dold manifolds, Topology and its Applications, Volume 33, Issue 3, 1989, Pages 297-307.
+
+  %  \bibitem[Ko]{korbas} Korbaš, J. On parallelizability and span of the Dold manifolds,  Proc. Amer. Math. Soc. \textbf{141} (2013), no.~8, 2933--2939.
+
+    
+	\bibitem[L]{lin} X. Z. Lin, \textit{Geometric realization of Adams maps}, Acta Math. Sin. \textbf{27} (2011), no. 5, 863--870, \url{https://doi.org/10.1007/s10114-011-0164-y}.
+
+    \bibitem[M]{mandal} M. Mandal, Cohomology of generalized Dold manifolds, Thesis (Ph.D.), Homi Bhabha National Institute, The Institute of Mathematical Sciences (2024).
+
+%    \bibitem[Mu]{mukerjee} Mukerjee, H.~K. Classification of homotopy Dold manifolds,  New York J. Math. \textbf{9} (2003), 271--293.
+	
+	\bibitem[MS1]{mandal-sankaran} M. Mandal and P. Sankaran, \textit{Cohomology of generalized Dold spaces}, Topology Appl. \textbf{310} (2022), Paper No. 108040, 16 pp, \url{https://doi.org/10.1016/j.topol.2022.108040}.
+    
+	\bibitem[MS2]{mandal-sankaran2} M. Mandal and P. Sankaran, \textit{Cohomology and K-theory of generalized Dold manifolds fibred by complex flag manifolds}, \url{https://arxiv.org/abs/2407.03932}.
+
+
+	
+	%\bibitem[MiSt]{milnor-stasheff} Milnor, J. W.; Stasheff, J. D. {\it Characteristic classes.} Annals of Mathematics Studies, {\bf 76}, Princeton University Press, Princeton, NJ., 1974.
+	
+	\bibitem[NS]{nath-sankaran} A. Nath and P. Sankaran, \textit{On generalized Dold manifolds}, Osaka J. Math. \textbf{56} (2019), no. 1, 75--90, Errata, \textbf{57} (2020), no. 2, 505--506, \url{https://projecteuclid.org/euclid.ojm/1547607627}.
+	
+	\bibitem[O]{O} L.S. O'Neill, \textit{On the fixed point property for Grassmann manifolds}, Thesis (Ph.D.)---The Ohio State University
+ProQuest LLC, Ann Arbor, MI (1974). 52 pp, \url{http://gateway.proquest.com/openurl?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/fmt:kev:mtx:dissertation&res_dat=xri:pqdiss&rft_dat=xri:pqdiss:7511411}.	
+
+	\bibitem[P]{Papadima} S. Papadima, \textit{Rigidity properties of compact Lie groups modulo maximal tori}, Math. Ann. \textbf{275} (1986), no. 4, 637--652, \url{https://doi.org/10.1007/BF01459142}.
+
+	
+	%\bibitem[Sp]{spanier} Spanier, E. H. {\em Algebraic Topology}. McGraw Hill, 1966. Reprinted by Springer-Verlag, New York, 1975.
+	
+	\bibitem[ST1]{shiga-tezuka} H. Shiga and M. Tezuka, \textit{Rational fibrations, homogeneous spaces with positive Euler characteristics and Jacobians}, Ann. Inst. Fourier (Grenoble) \textbf{37} (1987), no. 1, 81--106, \url{https://doi.org/10.5802/aif.1078}.
+	
+	\bibitem[ST2]{shiga-tezuka2} H. Shiga and M. Tezuka, \textit{Cohomology automorphisms of some homogeneous spaces}, Singapore topology conference (Singapore, 1985), Topology Appl. \textbf{25} (1987), no. 2, 143--150, Errata, \textbf{34} (1990), no. 2, 207, \url{https://doi.org/10.1016/0166-8641(87)90007-1}.
+	
+%	\bibitem[U]{ucci} Ucci, J. J. Immersions and embeddings of Dold manifolds. {\it Topology} {\bf 4} (1965), 283--293.
+
+    \bibitem[W]{wong} P. Wong, \textit{Fixed point theory for homogeneous spaces. II}, Fund. Math. \textbf{186} (2005), no. 2, 161--175, \url{https://doi.org/10.4064/fm186-2-4}.
+
+
+	
+\end{thebibliography}
+\end{document}

@@ -1,6 +1,9 @@
 from texpdfedits.marktex import segment, getWordBoxes, unMarkWithPositions, sourceAsString
 from texpdfedits.corr import rectangleToLatex
+
 import logging
+logger = logging.getLogger(__name__)
+
 import argparse
 import pymupdf
 from pathlib import Path
@@ -94,12 +97,13 @@ if __name__ == '__main__':
     )
 
     parser.add_argument("-emen", "--extra-marked-environment-names", type=str, help='Comma-separated extra environment names to mark in---last resort')
-    parser.add_argument("--compiler", type=str, help='LaTeX compiler')    
+    parser.add_argument("--compiler", type=str, help='LaTeX compiler')
+    parser.add_argument("--clean", action=argparse.BooleanOptionalAction, help='Delete intermediate LaTeX files and tmp dirs; default=True', default=True)        
     
     args = parser.parse_args()
     
     _level = logging.DEBUG if args.debug else logging.INFO
-    logging.basicConfig(level=_level, format='%(asctime)s - %(levelname)s - %(message)s')
+    logging.basicConfig(encoding='utf-8', level=_level) 
 
     if args.rectangle:
         in_rectangle = pymupdf.Rect(args.rectangle)
@@ -116,7 +120,7 @@ if __name__ == '__main__':
     else:
         extra_names = set()
 
-    mark_positions, document_word_boxes = segment(args.tex_filename, emen=extra_names, compiler=args.compiler)
+    mark_positions, document_word_boxes = segment(args.tex_filename, emen=extra_names, compiler=args.compiler, clean=args.clean)
 
     tex_str = sourceAsString(args.tex_filename)
 

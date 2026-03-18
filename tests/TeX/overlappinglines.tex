@@ -1,0 +1,95 @@
+\documentclass{amsart}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[mathscr]{eucal}
+
+% --- Other utilities ---
+\usepackage[shortlabels]{enumitem}
+\usepackage{graphicx}
+\usepackage[all]{xy}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz-cd}
+
+% --- Hyperref should be loaded last ---
+\usepackage[colorlinks=true,citecolor=red,urlcolor=blue,linkcolor=blue]{hyperref}
+
+% --- Theorem environments ---
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+% --- Commands ---
+\newcommand{\thmref}[1]{Theorem~\ref{#1}}
+\newcommand{\thmmref}[1]{Theorem$^\prime$~\ref{#1}}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{#1}}
+\newcommand{\propref}[1]{Proposition~\ref{#1}}
+\newcommand{\propnref}[1]{Proposition$'$~\ref{#1}}
+\newcommand{\corref}[1]{Corollary~\ref{#1}}
+\newcommand{\remref}[1]{Remark~\ref{#1}}
+\newcommand{\defref}[1]{Definition~\ref{#1}}
+\newcommand{\subsecref}[1]{Subsection~\ref{#1}}
+\newcommand{\homeo}{\mathrm{Homeo}}
+\newcommand{\gal}{\mathrm{Gal}}
+\newcommand{\bz}{\mathbb{Q}}
+\newcommand{\bn}{\mathbb{N}}
+\newcommand{\bq}{\mathbb{Q}}
+\newcommand{\br}{\mathbb{R}}
+\newcommand{\bc}{\mathbb{C}}
+\newcommand{\bp}{\mathbb{P}}
+\newcommand{\bs}{\mathbb{S}}
+\newcommand{\co}{\mathcal{O}}
+\newcommand{\rank}{\mathrm{Rank}}
+\newcommand{\cl}{\mathcal{L}}
+\newcommand{\lr}{\longrightarrow}
+\renewcommand{\hom}{\mathrm{Hom}}
+\newcommand{\wt}{\widetilde}
+\newcommand{\im}{\mathrm{Im}}
+\newcommand{\re}{\mathrm{Re}}
+\newcommand{\Span}{\mathrm{span}}
+\newcommand{\tor}{\mathrm{Tor}}
+\newcommand{\pic}{\mathrm{Pic}}
+\newcommand{\flag}{\mathrm{Flag}}
+\newcommand{\ul}{\underline}
+\newcommand{\fix}{\mathrm{Fix}}
+
+\title[Graded Endomorphisms of $H^*(\mathbb{S}^m \times \mathbb{C}G_{n,k};\mathbb Q)$]{Rational Cohomology Endomorphisms of product of Sphere with Grassmannian and coincidence theory}
+
+\author[M. Mandal]{Manas Mandal}
+\address{Indian Institute of Technology Kanpur, Kanpur 208016, India}
+	\email{manasm.imsc@gmail.com}
+	
+	\author[D. Setia]{Divya Setia}
+	\address{Institute of Mathematics, Polish Academy of Sciences, Krak{\'o}w 31-027, Poland}
+	\email{divyasetia01@gmail.com}
+	
+	\subjclass[2020]{Primary: 55S37, 08A35,  55M20; Secondary: 14M15}
+	\keywords{cohomology endomorphisms, complex Grassmann manifolds, generalized Dold spaces,  fixed point theory, coincidence theory}
+
+\begin{document}
+\begin{abstract}
+We classified graded endomorphisms of the rational cohomology algebra of the product of a sphere and a complex Grassmannian, whose images are nonzero  in the second cohomology of the Grassmannian.
+
+We also derive necessary conditions for the generalized Dold spaces to satisfy the coincidence property, in particular the fixed-point property. As an application of our results, we obtain several sufficient conditions for the existence of a point of coincidence between a pair of continuous functions on certain generalized Dold spaces. 
+\end{abstract}
+	
+\maketitle
+
+	\begin{proof}
+		Let us consider the sum $\sum_{i=0}^d d_{2i}\lambda^i$, when $\lambda$ is an integer. 
+		Clearly, $$\sum_{i=0}^d d_{2i}\lambda^i \equiv 1 \pmod{\lambda}.$$ %(see Theorem 2 in \cite{glover-homer}). 
+		Hence, $\sum_{i=0}^d d_{2i}\lambda^i \neq 0$, if $\lambda \neq \pm 1$. When $\lambda = 1$, the sum is also positive and therefore nonzero. It remains to consider the case where $\lambda = -1$.
+		Let $\chi(\mathbb{R}G_{n,k})$ denote the Euler-Poincar{\'e} characteristic of $\mathbb{R}G_{n,k}$ and be defined by $$\chi(X):=\sum_{i\ge0}\dim H^i(\mathbb{R}G_{n,k};\mathbb{Z}_2)$$ where $\mathbb{R}G_{n,k}$ denotes the Grassmannian of real $k$-planes in $\mathbb{R}^n$.
+		Now we observe that 
+		$\sum_{i=0}^d d_{2i}(-1)^i = \chi(\mathbb{R}G_{n,k})$ where $d_{2i} = \operatorname{dim} H^{2i}(\mathbb{C}G_{n,k}; \mathbb{Q}) = \dim H^{i}(\mathbb{R}G_{n,k}; \mathbb{Z}_2)$. 
+		It is a well known fact that $\chi(\mathbb{R}G_{n,k}) \neq 0$ if $k(n-k)$ is even. 
+		
+		Let us move to the other case where $\lambda\in \mathbb{Q}\backslash \mathbb{Z}$. Suppose $\sum_{i=0}^{d} d_{2i}\lambda^i =0$ for some $\lambda = \frac{p}{q}$ where $p$ and $q$ are coprime integers. Since $d_0 =d_d =1$, using the rational root theorem $p|1$ and $q|1$. Hence, $\lambda = \pm 1$, which is a contradiction. Therefore, we conclude that $\sum_{i=0}^{d} d_{2i}\lambda^i \neq 0$ for all $\lambda\in \mathbb Q$. 
+		%Thus, the sum  $\sum _{i=1}^d d_{2i}\lambda^i$ is nonzero for every integer value of $\lambda.$ 
+		\iffalse	Now, suppose for contradiction that there exists a rational number $\lambda = a/b$  written in lowest terms (i.e., $\gcd(a,b)=1$) such that the sum vanishes. Note that in the polynomial $\sum_{i=0}^{d} d_{2i}\lambda^i$, both the leading coefficient $d_d$ and the constant term $d_0$ are equal to $1$. By the Rational Root Theorem, the rational root $\lambda = a/b$ must satisfy $a \mid 1$ and $b \mid 1$, hence $\lambda = \pm 1\in \mathbb Z$. Since this is not possible, \fi
+	\end{proof}
+\end{document}

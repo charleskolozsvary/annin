@@ -1,0 +1,550 @@
+0 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "lowercase",
+        "responses": []
+    },
+    "PDF text selection": "H<Highlight>ALL</Highlight> π-SUBGROUPS AND"
+}
+
+1 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "lowercase",
+        "responses": []
+    },
+    "PDF text selection": "HALL π<Highlight>-SUBGROUPS AND CHARACTERS OF</Highlight> π1-DEGREE"
+}
+
+2 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "lowercase",
+        "responses": []
+    },
+    "PDF text selection": "CHARACTERS OF π1<Highlight>-DEGREE</Highlight>"
+}
+
+3 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "Hall-$\\pi$-subgroups",
+        "responses": []
+    },
+    "PDF text selection": "existence of <Replace>Hall π-subgroups</Replace> and that"
+}
+
+4 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "[Theorem A, NT06]",
+        "responses": []
+    },
+    "PDF text selection": "Theorem 1.1 (<Replace>[NT06], Theorem A</Replace>). Let G"
+}
+
+5 {
+    "pageno": 0,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "in Qpe2πi{pq. <Remove>(</Remove>Here, a character"
+}
+
+6 {
+    "pageno": 0,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "prime in π.<Remove>)</Remove> Unfortunately, this"
+}
+
+7 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "make em-dash and remove surrounding spaces",
+        "responses": []
+    },
+    "PDF text selection": "different extension <Highlight>–</Highlight> perhaps a"
+}
+
+8 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "make em-dash and remove surrounding space",
+        "responses": []
+    },
+    "PDF text selection": "natural one <Highlight>–</Highlight> of Theorem"
+}
+
+9 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "Hall-$\\pi$-subgruop",
+        "responses": []
+    },
+    "PDF text selection": "called a <Replace>Hall π-subgroup</Replace> of G"
+}
+
+10 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "; Secondary ",
+        "responses": []
+    },
+    "PDF text selection": "Primary 20C15, 20C30<Replace>,</Replace> 20C33, 20D20."
+}
+
+11 {
+    "pageno": 0,
+    "type": "Replace",
+    "message": {
+        "comment": "Hall-$\\pi$-subgroups",
+        "responses": []
+    },
+    "PDF text selection": "of values, <Replace>Hall π-subgroups</Replace>, characters of"
+}
+
+12 {
+    "pageno": 0,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "is funded by<Remove>:</Remove> the European"
+}
+
+13 {
+    "pageno": 0,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "Theory and Applications<Remove>;</Remove> and the"
+}
+
+14 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "lowercase capitals",
+        "responses": []
+    },
+    "PDF text selection": "- 2022PSTWLB <Highlight>Group Theory and A</Highlight>pplications; and the"
+}
+
+15 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "make en-dash if not already",
+        "responses": []
+    },
+    "PDF text selection": "from the AMS<Highlight>–</Highlight>Simons Research Enhancement"
+}
+
+16 {
+    "pageno": 0,
+    "type": "Highlight",
+    "message": {
+        "comment": "move to Acknowledgment before references",
+        "responses": []
+    },
+    "PDF text selection": "acknowledges support <Highlight>from for se the AMS–Simons Research Enhancement Grant (AWD-000167 AMS). We thank Gunter Malle</Highlight> <Highlight>fro for several helpful comments on an earlier version, particularly regarding Proposition 2.11."
+}
+
+17 {
+    "pageno": 1,
+    "type": "Replace",
+    "message": {
+        "comment": "an",
+        "responses": []
+    },
+    "PDF text selection": "not have <Replace>a conceptual</Replace> explanation for"
+}
+
+18 {
+    "pageno": 1,
+    "type": "Replace",
+    "message": {
+        "comment": "Hall-\\pi-subgroups",
+        "responses": []
+    },
+    "PDF text selection": "existence of <Replace>Hall π-subgroups</Replace> and π1-degree"
+}
+
+19 {
+    "pageno": 1,
+    "type": "Replace",
+    "message": {
+        "comment": "abelian simple groups",
+        "responses": []
+    },
+    "PDF text selection": "2. Non<Replace>-Abelian Simple Groups</Replace>"
+}
+
+20 {
+    "pageno": 1,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "for all non<Remove>-</Remove>abelian simple groups."
+}
+
+21 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "ζk :“ e2πi{k<Caret> and we writ"
+}
+
+22 {
+    "pageno": 1,
+    "type": "Replace",
+    "message": {
+        "comment": "---t",
+        "responses": []
+    },
+    "PDF text selection": "values of χ<Replace>, t</Replace>hat is, the"
+}
+
+23 {
+    "pageno": 1,
+    "type": "Replace",
+    "message": {
+        "comment": "Theorem 2.1 <pls link>",
+        "responses": []
+    },
+    "PDF text selection": "at proving <Replace>the following</Replace>."
+}
+
+24 {
+    "pageno": 1,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "Then there exist<Remove>s</Remove> 1S ‰"
+}
+
+25 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": "-",
+        "responses": []
+    },
+    "PDF text selection": "p P π.  Hall<Caret> π-subgroups"
+}
+
+26 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": " Let n P Ně5<Caret> and let π Ď"
+}
+
+27 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": ". If |π| “ 1<Caret> the stateme"
+}
+
+28 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": "-",
+        "responses": []
+    },
+    "PDF text selection": "dmits a Hall<Caret> π-subgroup "
+}
+
+29 {
+    "pageno": 1,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "n particular<Caret> let π “ tp1"
+}
+
+30 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": " (b",
+        "responses": []
+    },
+    "PDF text selection": "H is solvable<Replace>, b</Replace>y the Feit–Thompson"
+}
+
+31 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": ").",
+        "responses": []
+    },
+    "PDF text selection": "Feit–Thompson theorem [FT63]<Replace>.</Replace> By [Hal28]"
+}
+
+32 {
+    "pageno": 2,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": ". By [Hal28]<Caret> we then kno"
+}
+
+33 {
+    "pageno": 2,
+    "type": "Caret",
+    "message": {
+        "comment": ",",
+        "responses": []
+    },
+    "PDF text selection": "2 R tp1, p2u<Caret> we also hav"
+}
+
+34 {
+    "pageno": 2,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "π. This <Remove>clearly</Remove> contradicts our"
+}
+
+35 {
+    "pageno": 2,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "classification of non<Remove>-</Remove>solvable Hall subgroups"
+}
+
+36 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": "l-s",
+        "responses": []
+    },
+    "PDF text selection": "of non-solvable Hal<Replace>l s</Replace>ubgroups of symmetric"
+}
+
+37 {
+    "pageno": 2,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "is a non<Remove>-</Remove>solvable Hall π-subgroup"
+}
+
+38 {
+    "pageno": 2,
+    "type": "Replace",
+    "message": {
+        "comment": "l-$\\pi$",
+        "responses": []
+    },
+    "PDF text selection": "a non-solvable Hal<Replace>l π</Replace>-subgroup of An."
+}
+
+39 {
+    "pageno": 2,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "also a non<Remove>-</Remove>solvable Hall π-subgroup"
+}
+
+40 {
+    "pageno": 2,
+    "type": "Highlight",
+    "message": {
+        "comment": "make upright",
+        "responses": []
+    },
+    "PDF text selection": "2.3. Theorem <Highlight>2.1</Highlight> holds when"
+}
+
+41 {
+    "pageno": 5,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "pq ´ 1qn´1<Remove>,</Remove>"
+}
+
+42 {
+    "pageno": 5,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "pq2 ´ 1qpn´1q{2 1qpn´2q{2<Remove>, p</Remove> if n is odd, 1qpn´1q{2 1qpn´2q{2<Remove>, p</Remove>q"
+}
+
+43 {
+    "pageno": 5,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "1qpn´2q{2pq ´ 1q<Remove>,</Remove> if n"
+}
+
+44 {
+    "pageno": 5,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "n is odd even<Remove>, n</Remove> odd even<Remove>, n</Remove>,"
+}
+
+45 {
+    "pageno": 5,
+    "type": "Remove",
+    "message": {
+        "comment": "",
+        "responses": []
+    },
+    "PDF text selection": "n is even<Remove>,</Remove>"
+}
+
+46 {
+    "pageno": 6,
+    "type": "Replace",
+    "message": {
+        "comment": ";",
+        "responses": []
+    },
+    "PDF text selection": "n´2˘ P G<Replace>.</Replace>"
+}
+
+47 {
+    "pageno": 6,
+    "type": "Replace",
+    "message": {
+        "comment": ";",
+        "responses": []
+    },
+    "PDF text selection": "ordprsq “ p<Replace>.</Replace>"
+}
+
+48 {
+    "pageno": 9,
+    "type": "Highlight",
+    "message": {
+        "comment": "C",
+        "responses": []
+    },
+    "PDF text selection": "type. Conjugacy <Highlight>c</Highlight>lasses and complex"
+}
+
+49 {
+    "pageno": 9,
+    "type": "Highlight",
+    "message": {
+        "comment": "uppercase first letter of each word",
+        "responses": []
+    },
+    "PDF text selection": "classes and <Highlight>complex characters</Highlight>, Pure Appl."
+}
+
+50 {
+    "pageno": 9,
+    "type": "Highlight",
+    "message": {
+        "comment": "F",
+        "responses": []
+    },
+    "PDF text selection": "Atlas of <Highlight>f</Highlight>nite groups, Clarendon"
+}
+
+51 {
+    "pageno": 9,
+    "type": "Highlight",
+    "message": {
+        "comment": "G",
+        "responses": []
+    },
+    "PDF text selection": "of finite <Highlight>g</Highlight>roups, Clarendon Press,"
+}
+
+52 {
+    "pageno": 9,
+    "type": "Highlight",
+    "message": {
+        "comment": "italic",
+        "responses": []
+    },
+    "PDF text selection": "J. Thompson, <Highlight>Solvability of groups of odd order</Highlight>, Pacific J."
+}
+
+53 {
+    "pageno": 9,
+    "type": "Highlight",
+    "message": {
+        "comment": "make upright",
+        "responses": []
+    },
+    "PDF text selection": "odd order, <Highlight>Pacific J. Math</Highlight>. 13 (1963),"
+}
+
+54 {
+    "pageno": 9,
+    "type": "Replace",
+    "message": {
+        "comment": "A",
+        "responses": []
+    },
+    "PDF text selection": "Lie type: <Replace>a</Replace> guided tour,"
+}
+

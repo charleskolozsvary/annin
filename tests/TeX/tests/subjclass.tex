@@ -1,0 +1,48 @@
+\documentclass{amsart}
+\newif\ifPRD
+\ifdefined\PRD
+\PRDtrue
+\else
+\PRDfalse
+\fi
+
+\ifPRD
+\usepackage{hyperams}
+\else
+\usepackage{hyperref}
+\fi
+
+\def\publname{NOT A REAL JOURNAL}
+
+\title{title}
+\address{simple addr}
+\curraddr{current address}
+\urladdr{https://something.something.com}
+\email{my email}
+\thanks{This is not an issue, I believe. AM\@.}
+\keywords{And this shouldn't be either (an issue)}
+\subjclass[2020]{But this is for some reason}
+\dedicatory{dedicated to the dedicated}
+\translator{translated by translated}
+\commby{this doesn't show up without the pub thing, but that's alright}
+\copyrightinfo{xxxx}{copyrightinfo}
+
+
+
+                            %% 'title': 1,
+                            %% 'address': 1,
+                            %% 'curraddr': 1,
+                            %% 'urladdr': 1,
+                            %% 'email': 1,
+                            %% 'thanks': 0,
+                            %% 'keywords': 0,
+                            %% 'subjclass': 1,
+                            %% 'dedicatory': 0,
+                            %% 'translator': 0,
+                            %% 'commby': 0,
+                            %% 'copyrightinfo': 1,
+                            %% 'bib': 2,}
+
+\begin{document}
+\maketitle
+\end{document}

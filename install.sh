@@ -1,6 +1,6 @@
 #!/bin/bash
 
-script_name="inlinecorr"
+script_name="corrinline"
 
 if [ -z "$1" ]; then
     echo "Error: no destination directory provided"
@@ -12,7 +12,12 @@ if [ ! -d "$1" ]; then
     exit 1
 fi
 
-echo "This script should only be run after installing pixi and while inside the top-level texpdfedits directory."
+if ! command -v pixi &> /dev/null; then
+    echo "Error: pixi not found. Please install pixi and make sure it is on your PATH."
+    exit 1
+fi  
+
+echo "This script should only be run while inside the top-level tex-pdf-edits directory."
 read -p "Would you like to proceed? (yes/no): " answer
 
 if [ "$answer" != "yes" ]; then

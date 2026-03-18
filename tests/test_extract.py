@@ -5,6 +5,8 @@ import logging
 from texpdfedits.extractanns import getRobustAnnots, getEdits, PDF_ANNOT_TEXT, PDF_ANNOT_CARET, PDF_ANNOT_STRIKE_OUT
 from pathlib import Path
 
+pymupdf.TOOLS.set_small_glyph_heights(True)
+
 import os
 
 def shipPdfFilename(filename, output_dir, unique_ending):
@@ -41,7 +43,36 @@ def drawRobustAnnots(filename, robust_annots, output_dir, unique_ending = 'robus
             box.set_border(width=.5)
             box.update()
     doc.save(save_filename)
-    logging.info(f"Done. Results saved to {save_filename}")    
+    logging.info(f"Done. Results saved to {save_filename}")
+
+def drawCharacters(filename, output_dir, unique_ending = 'pymupdf_characters'):
+    logging.info(f"Drawing character boxes in {filename}...")
+    pymupdf.TOOLS.set_small_glyph_heights(True)
+    doc = pymupdf.open(filename)
+    save_filename = shipPdfFilename(filename, output_dir, unique_ending)
+    for i, page in enumerate(doc):
+        if i != 1:
+            continue
+        raw_dict = page.get_text('rawdict', sort=True)
+        for block in raw_dict.get('blocks'):
+            for line in block.get('lines'):
+                for span in line.get('spans'):
+                    for char in span.get('chars'):
+                        # x0, y0, x1, y1 = char['bbox'] 
+                        # char_center = (x0 + (x1 - x0)/2, y0 + (y1 - y0)/2)
+                        # char_off = (char_center[0]+.0001, char_center[1]+.0001)
+                        box = page.add_freetext_annot(char['bbox'], '', text_color=(1,0,1))
+                        box.set_border(width=0.1)
+                        box.update()
+                        
+                        # dot = page.add_ink_annot([[char_center, char_off]])
+                        # dot.update()
+
+        logging.info(f"Finished page {i:3d}/{doc.page_count:3d}")
+        break
+    doc.save(save_filename)
+    logging.info(f"Done. Results saved to {save_filename}.")
+        
 
 def drawWords(filename, output_dir, unique_ending = 'pymupdf_words'):
     logging.info(f"Drawing word boxes in {filename}...")
@@ -55,6 +86,7 @@ def drawWords(filename, output_dir, unique_ending = 'pymupdf_words'):
             box.update()
     doc.save(save_filename)
     logging.info(f"Done. Results saved to {save_filename}.")
+
 
 def drawLines(filename, output_dir, unique_ending = 'lines'):
     """draw the bounding boxes of the lines from page.get_text('dict', sort=True)['blocks']"""
@@ -146,8 +178,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('filename')
     parser.add_argument("-d", "--debug", action="store_true", help='debugging output')
+    parser.add_argument("-c", "--draw-chars", action="store_true", help='draw character boxes')            
+    parser.add_argument("-w", "--draw-words", action="store_true", help='draw word boxes')        
     parser.add_argument("-l", "--draw-lines", action="store_true", help='draw line boxes')
-    parser.add_argument("-w", "--draw-words", action="store_true", help='draw word boxes')    
     parser.add_argument("-a", "--draw-annots", action="store_true", help='draw original and robust annot boxes')    
     parser.add_argument("-e", "--draw-edits", action="store_true", help='draw edit selections')
     parser.add_argument("--tryhack", action="store_true", help='Try adjusting the widths of the noncaret Annots; default=False')    
@@ -160,11 +193,14 @@ if __name__ == '__main__':
     
     bb_dir = Path('bbox_drawings')
 
-    if args.draw_lines:
-        drawLines(filename, bb_dir)
+    if args.draw_chars:
+        drawCharacters(filename, bb_dir)
 
     if args.draw_words:
         drawWords(filename, bb_dir)
+
+    if args.draw_lines:
+        drawLines(filename, bb_dir)
 
     if args.draw_annots:
         drawAnnots(filename, bb_dir)
