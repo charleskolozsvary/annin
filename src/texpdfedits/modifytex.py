@@ -8,9 +8,20 @@ from pathlib import Path
 
 import texpdfedits.extractanns as extractanns
 import texpdfedits.marktex as marktex
-from texpdfedits.corr import Correction, getCorrections, toCodeblock
+import texpdfedits.cformats as cformats
+import texpdfedits.utils as utils
 
-def getBetweenLatex(prev_pos: int, char_pos: int, prev_rest_of_line: str, *args):
+from texpdfedits.corr import Correction, toCodeblock
+from texpdfedits.extractanns import Annot
+
+MAX_PROGRESSIVE_AUTO_ATTEMPTS = 10
+
+def getBetweenLatex(
+        prev_pos: int,
+        char_pos: int,
+        prev_rest_of_line: str,
+        *args
+) -> str:
     (tex_str, charpos_to_kinds_and_corrections, corrected_snippets) = args
     
     between_source_tex = tex_str[prev_pos:char_pos]
@@ -23,10 +34,17 @@ def getBetweenLatex(prev_pos: int, char_pos: int, prev_rest_of_line: str, *args)
         return between_source_tex
 
     # filter out start corrections in the rare case a char_pos is both the start and end of corrections
-    kinds, corrs = zip(*[kandc for kandc in kinds_and_corrs if kandc[0] == 'end'])
+    kinds, corrs = zip(*[
+        kandc
+        for kandc in kinds_and_corrs
+        if kandc[0] == 'end'
+    ])
         
     if not all(k == 'end' for k in kinds) or len(kinds) != num_ends:
-        logger.error("Did not succesfully filter out corrections that start at this char_pos")
+        logger.critical(
+            "Did not succesfully filter out corrections "
+            "that start at this char_pos"
+        )
         sys.exit(1)
         
     if len(corrs) > 1:
@@ -40,16 +58,23 @@ def getBetweenLatex(prev_pos: int, char_pos: int, prev_rest_of_line: str, *args)
                 sys.exit(1)
         group = corrs[0].group
         if not all(c.group == group for c in corrs):
-            logger.error(
+            logger.critical(
                 "Could not get between latex: "
-                "Corrections sharing end positions were not all part of the same group"
+                "Corrections sharing end positions "
+                "were not all part of the same group"
             )
-            sys.exit(1)    
+            sys.exit(1)
         if len(set(corrected_snippets[g_key] for g_key in group)) != 1:
-            for corrected_snip in [corrected_snippets[g_key] for g_key in group]:
+            for corrected_snip in [
+                    corrected_snippets[g_key]
+                    for g_key in group
+            ]:
                 logger.error(toCodeblock(corrected_snip))
                     
-            logger.error(f"Corrections in overlapping group {group} did not have identical corrected snippets")
+            logger.critical(
+                f"Corrections in overlapping group {group} "
+                "did not have identical corrected snippets"
+            )
             sys.exit(1)
         corrected_snip = corrected_snippets[group[0]]
         
@@ -64,8 +89,9 @@ def getBetweenLatex(prev_pos: int, char_pos: int, prev_rest_of_line: str, *args)
 
     if not re.match(r'^\S$', prev_rest_of_line):
         logger.warning(
-            "prev_rest_of_line was not single nonwhitespace as expected; "
-            f"correction(s) {group} were not automatically completed (original source used)"
+            "prev_rest_of_line was not single nonwhitespace as "
+            f"expected; correction(s) {group} were not "
+            "automatically completed (original source used)"
         )
         return between_source_tex
 
@@ -73,9 +99,14 @@ def getBetweenLatex(prev_pos: int, char_pos: int, prev_rest_of_line: str, *args)
     # they all begin at a markbox command which will always be at a nonwhitespace character,
     # so we're always in the `if re.match(r'\S$', last_char):` case in commentSource
     # and the while not re.match(r'[\r\n\S]' ... ) does not run at all so prev_pos = char_idx = char_pos
-    return corrected_snip 
+    return corrected_snip
 
-def commentSource(tex_str: str, char_positions: list[int], charpos_to_kinds_and_corrections: dict[int, list[tuple[str, Correction]]], **kwargs) -> str:
+def commentSource(
+        tex_str: str,
+        char_positions: list[int],
+        charpos_to_kinds_and_corrections: dict[int, list[tuple[str, Correction]]],
+        **kwargs
+) -> str:
     """
     Add the corrections to the original source as comments.
 
@@ -109,6 +140,7 @@ def commentSource(tex_str: str, char_positions: list[int], charpos_to_kinds_and_
     """
 
     corrected_snippets = kwargs.get('corrected_snippets', None)
+    format             = kwargs.get('comment_format', cformats.DEFAULT_COMMENT_FORMAT)
     
     inserted_comments = [] #list of tuples where tuple[0] is the char_pos and tuple[1] is the inserted material
     for char_pos in char_positions:
@@ -118,29 +150,43 @@ def commentSource(tex_str: str, char_positions: list[int], charpos_to_kinds_and_
         for kind_and_corr in kinds_and_corrs:
             (kind, corr) = kind_and_corr
             if kind == 'start':
-                corr_descriptions.append(corr.asComment())
+                corr_descriptions.append(corr.asCommentStart(format))
                 start_corr_idxs.append(corr.index)
             elif kind == 'end':
+                corr_descriptions.append(corr.asCommentEnd(format)) # new with 0.12.0
                 end_corr_idxs.append(corr.index)
             else:
                 assert False, f"Invalid kind of position '{kind}'."
-                
-        def writeCallout(corr_idxs: list[int], start_or_end: str):
-            sing_plural = 'correction' if len(corr_idxs) == 1 else 'corrections'
-            return f'{start_or_end.upper()} of {sing_plural} ' + ', '.join([str(idx) for idx in corr_idxs])
         
         start_end_callout = []
-        if start_corr_idxs:
-            start_end_callout.append(writeCallout(start_corr_idxs, 'start'))
-        if start_corr_idxs and end_corr_idxs:
-            start_end_callout.append(' *AND* ')
+
         if end_corr_idxs:
-            start_end_callout.append(writeCallout(end_corr_idxs, 'end'))
+            start_end_callout.append(
+                cformats.writeCallout(
+                    end_corr_idxs,
+                    'end',
+                    format
+                )
+            )
+            
+        if start_corr_idxs:
+            start_end_callout.append(
+                cformats.writeCallout(
+                    start_corr_idxs,
+                    'start',
+                    format
+                )
+            )
+        # if start_corr_idxs and end_corr_idxs:
+        #     start_end_callout.append('% *AND* ')
 
         description_str = ''.join(corr_descriptions)
         callout_str = ''.join(start_end_callout)
 
-        inserted_comments.append((char_pos, f'%%\n{description_str}%% {callout_str}\n')) # orig
+        inserted_comments.append((
+            char_pos,
+            f'%%\n{description_str}{callout_str}'
+        )) 
 
     len_tex_str = len(tex_str)
     commented_source = []
@@ -163,7 +209,10 @@ def commentSource(tex_str: str, char_positions: list[int], charpos_to_kinds_and_
         rest_of_line = [] # rest of line from char_pos or until non-horizontal space
         while not re.match(r'[\r\n\S]', curr_char):
             if char_idx >= len_tex_str:
-                logger.critical("Ran out of file while looking for rest_of_line; aborting...")
+                logger.critical(
+                    "Ran out of file while looking "
+                    "for rest_of_line"
+                )
                 sys.exit(1)
             rest_of_line.append(curr_char)
             char_idx += 1
@@ -195,112 +244,258 @@ def tagsAreValid(tagged_text: str) -> bool:
     tag_regex = r'(</?)([a-zA-Z]+)>'
     all_tags = list(re.finditer(tag_regex, tagged_text))
     if not all_tags:
-        logger.warning("string passed for tag validation contained no tags")
+        logger.warning(
+            "string passed for tag validation contained no tags"
+        )
         return True
     
     tag_info = [(tag.group(1), tag.group(2)) for tag in all_tags]
-    tag_starts, tag_names = zip(*tag_info)
+    (tag_starts, tag_names) = zip(*tag_info)
 
-    if tag_names.count(extractanns.Edit.CARET_NAME) > 1:
+    annot_name = tag_names[0]    
+
+    # should have even number for noncaret tags
+    if annot_name != Annot.CARET_NAME and len(tag_info) % 2 != 0:
         return False
 
+    if tag_names.count(Annot.CARET_NAME) > 1:
+        return False
+
+    # we only accept one kind of tag used 
     if len(set(tag_names)) != 1:
         return False
 
-    prev_start, prev_name = '', ''
-    for (tag_start, tag_name) in tag_info:
+    prev_start = ''
+    for tag_start in tag_starts:
         if prev_start == '' and tag_start != '<':
             return False
-        if prev_start == '<' and not (tag_start == '</' and tag_name == prev_name):
+        # we consider nested tags invalid in this context
+        if prev_start == '<' and not tag_start == '</':
             return False
         if prev_start == '</' and tag_start != '<':
             return False
         prev_start = tag_start
-        prev_name = tag_name
+
+    # N.B.: caret tags are just of the form <Caret>, not <Caret></Caret>    
+    if prev_start == '<' and annot_name != Annot.CARET_NAME:
+        return False
         
     return True
 
+def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
+    tag_name = corr.type[1]
+    annotated_pdf_text = corr.pdf_selected_text
+
+    existing_snippet = kwargs.get('snippet', None)
+    latex_snippet = corr.latex_snippet if existing_snippet is None else existing_snippet
+
+    regex = rf"<{tag_name}>(.*?)</{tag_name}>"
+    match = list(re.finditer(regex, annotated_pdf_text, flags=re.DOTALL))
+
+    if len(match) == 0:
+        logger.error(
+            "No match despite valid tags from "
+            f"`{regex}` on `{annotated_pdf_text}`"
+        )
+        return None
+    if len(match) > 1:
+        logger.debug(f"More than one set of tags in {annotated_pdf_text}")
+        return None
+
+    m = match[0]
+    tagged_text = re.escape(m.group(1))
+    
+    comment_text = utils.backslashEscape(corr.messages['comment'])
+
+    # simple attempt first
+    simple_auto, num_subs = re.subn(
+        tagged_text,
+        comment_text,
+        latex_snippet,
+        flags=re.IGNORECASE
+    )    
+    
+    if num_subs == 0:
+        return None
+    if num_subs == 1:
+        return simple_auto
+
+    left_context  = annotated_pdf_text[:m.start()]
+    right_context = annotated_pdf_text[m.end():]
+
+    def context_to_regex(chars):
+        return ''.join(r'\s+?' if c == ' ' else re.escape(c) for c in chars)    
+
+    # progressive expansion using annotation context
+    max_left  = len(left_context)
+    max_right = len(right_context)
+    max_k = max(max_left, max_right)
+
+    for k in range(1, min(max_k, MAX_PROGRESSIVE_AUTO_ATTEMPTS) + 1):
+        left_chars  = left_context[-k:] if k <= max_left  else None
+        right_chars = right_context[:k] if k <= max_right else None
+
+        if left_chars is not None:
+            l_regex = context_to_regex(left_chars)
+            m_left = rf'({l_regex})({tagged_text})'
+            auto_left, ns_left = re.subn(
+                m_left,
+                rf'\1{comment_text}',
+                latex_snippet,
+                flags=re.IGNORECASE | re.DOTALL
+            )
+            if ns_left == 1:
+                return auto_left
+
+        if right_chars is not None:
+            r_regex = context_to_regex(right_chars)
+            m_right = rf'({tagged_text})({r_regex})'
+            auto_right, ns_right = re.subn(
+                m_right,
+                rf'{comment_text}\2',
+                latex_snippet,
+                flags=re.IGNORECASE | re.DOTALL
+            )
+            if ns_right == 1:
+                return auto_right
+
+        if left_chars is not None and right_chars is not None:
+            l_regex = context_to_regex(left_chars)
+            r_regex = context_to_regex(right_chars)
+            m_ambi = rf'({l_regex})({tagged_text})({r_regex})'
+            auto_ambi, ns_ambi = re.subn(
+                m_ambi,
+                rf'\1{comment_text}\3',
+                latex_snippet,
+                flags=re.IGNORECASE | re.DOTALL
+            )
+            if ns_ambi == 1:
+                return auto_ambi
+
+    logger.debug("Progressive attempts exhausted")
+    return None
+
 def correctSnippet(corr: Correction, **kwargs):
-    if corr.type not in {'Caret', 'Replace', 'Remove'}:
+    if corr.type[0] not in {
+            Annot.CARET,
+            Annot.REPLACE,
+            Annot.REMOVE
+    }:
         return None
     
     pdf_selection_text = corr.pdf_selected_text
     if not tagsAreValid(pdf_selection_text):
+        logger.warning(
+            f"Invalid tags: {pdf_selection_text} "
+            f"for corr on page {corr.pageno} with comment"
+            f" {corr.messages['comment']}"
+        )
         return None
+    else:
+        logger.debug(f"`{pdf_selection_text}` is valid!")
 
     comment_text = corr.messages['comment']
 
     # expect empty comment with remove annotation
-    if corr.type == 'Remove' and comment_text != '':
+    if corr.type[0] == Annot.REMOVE and comment_text != '':
         return None
 
-    # insertion or replacement text very likely not exact/literal
-    if re.search(r'pls\s*link|<\s*link\s*>|comp', comment_text, re.IGNORECASE):
+    # insertion or replacement text that is very likely
+    # not exact/literal
+    if re.search(
+            r'pls\s*link|<\s*link\s*>|comp:',
+            comment_text,
+            flags=re.IGNORECASE
+    ):
         return None
 
-    tag_name = corr.type if corr.type != 'Caret' else extractanns.Edit.CARET_NAME
+    # ⭣⭣⭣
+    if corr.type[0] in {Annot.REPLACE, Annot.REMOVE}:
+        return progressiveAutocorrectAttempt(corr, **kwargs)
+    # ⭡⭡⭡ 0.12.0
+        
+    tag_name = corr.type[1]
 
     # TODO: other enhancements/character substitutions like getting a correction
     # Annotated text: "stands for “closed<Replace>”,</Replace> as opposed" to work
     # Check (home)/notes/enhancements.md for more examples
-    
-    # I don't think I like how I do this. It should be simpler.
-    # I should to the autocorrect if the caret matches just once in the snippet the character
-    # to the left of the caret followed by the character to the right of the caret
-    # though maybe that would create too many more-than-one-matches
 
-    # for the other two selected text autocorrections, though, I should just do it if the selected text matches
-    # once in the snippet. None of this surrounding space and nonspace...
-
-    nonwhite_left = r'(\S+)?(\s*)'
-    nonwhite_right = r'(\s*)(\S+)?'
-    if corr.type == 'Caret':
-        regex = rf'{nonwhite_left}<{tag_name}>(){nonwhite_right}'
+    nonspace_left = r'(\S+)?(\s*)'
+    nonspace_right = r'(\s*)(\S+)?'
+    if corr.type[0] == Annot.CARET:
+        regex = rf'{nonspace_left}<{tag_name}>(){nonspace_right}'
     else:
-        regex = rf'{nonwhite_left}<{tag_name}>(.*?)</{tag_name}>{nonwhite_right}'
+        regex = (
+            rf'{nonspace_left}'
+            rf'<{tag_name}>(.*?)</{tag_name}>'
+            rf'{nonspace_right}'
+        )
 
-    tagged_and_surr_text = list(re.finditer(regex, pdf_selection_text, re.DOTALL))
+    tagged_and_surr_text = list(re.finditer(
+        regex,
+        pdf_selection_text,
+        flags=re.DOTALL
+    ))
     
-    if len(tagged_and_surr_text) != 1:
-        logger.debug("Did not match tagged + surr text")
+    if len(tagged_and_surr_text) == 0:
+        logger.error(
+            "No match despite valid tags:"
+            fr"`{regex}` on `{pdf_selection_text}`"
+        )
+        return None
+
+    if len(tagged_and_surr_text) > 1:
+        logger.debug(f"Multiple tags in `{pdf_selection_text}`")
         return None
 
     match = tagged_and_surr_text[0]
-    left, leftsp, tagged, rightsp, right = [re.escape(m) if m is not None else '' for m in [match.group(i) for i in range(1,6)]]
-
-    # logger.debug(f"Correction {corr.index}:\n{repr(left)}\n{repr(tagged)}\n{repr(right)}")
+    left, leftsp, tagged, rightsp, right = [
+        re.escape(m)
+        if m is not None else ''
+        for m in [match.group(i) for i in range(1,6)]
+    ]
 
     l_sp = r'\s+?' if leftsp else ''
     r_sp = r'\s+?' if rightsp else ''
     
-    m_left, m_right = rf'({left}{l_sp})({tagged})', rf'({tagged})({r_sp}{right})'
+    m_left  = rf'({left}{l_sp})({tagged})'
+    m_right = rf'({tagged})({r_sp}{right})'
 
     # if the snippet has already been updated    
-    existing_snippet = kwargs.get('snippet', None) 
-    latex_snippet = corr.latex_snippet if existing_snippet is None else existing_snippet
+    existing_snippet = kwargs.get('snippet', None)
+    
+    if existing_snippet is None:
+        latex_snippet = corr.latex_snippet
+    else:
+        latex_snippet = existing_snippet
 
     def doSubstitution(sub_left, sub_right):
-        cs_left,  ns_left  = re.subn(m_left, sub_left, latex_snippet)
-        cs_right, ns_right = re.subn(m_right, sub_right, latex_snippet)
+        auto_left,  ns_left  = re.subn(m_left, sub_left, latex_snippet, flags=re.IGNORECASE)
+        auto_right, ns_right = re.subn(m_right, sub_right, latex_snippet, flags=re.IGNORECASE)
         
         logger.debug(
-            f"for Correction {corr.index}\ncs_left  is {repr(cs_left)}\ncs_right is "
-            f"{repr(cs_right)}\nns_left  is {ns_left}\nns_right is {ns_right}"
+            f"for Correction {corr.index}\nauto_left  is "
+            f"{repr(auto_left)}\nauto_right is "
+            f"{repr(auto_right)}\nns_left  is "
+            f"{ns_left}\nns_right is {ns_right}"
         )
         
         if ns_left == 1 and ns_right == 1:
             # <<<
-            # return cs_left if cs_left == cs_right else None
+            # return auto_left if auto_left == auto_right else None
             # ========================
-            if cs_left == cs_right:
-                return cs_left
+            if auto_left == auto_right:
+                return auto_left
             # if one of the matches inserts something inside $$ (to the right of it is `$` or `\)`) and the other doesn't
             # (to the right of it is not `$` or `\)`), go with the one that doesn't
             # This is not robust. We would still have issues if something was inserted
             # on either side of a start math shift.
             # Would need to properly check if inserted content is inside inline math, ideally
             # with a TeX parser on the snippet
-            elif ns_left == 1 and ns_left == ns_right and corr.type == 'Caret':
+            elif (ns_left == 1
+                  and ns_left == ns_right
+                  and corr.type[0] == Annot.CARET):
+                
                 l_rstart = list(re.finditer(m_left, latex_snippet))[0].start()+1
                 r_rstart = list(re.finditer(m_right, latex_snippet))[0].start()+1
 
@@ -314,24 +509,25 @@ def correctSnippet(corr: Correction, **kwargs):
                 r_inline_math = hasEndMathShift(r_right_of)
                 
                 if l_inline_math ^ r_inline_math: # xor
-                    return cs_left if r_inline_math else cs_right
+                    return auto_left if r_inline_math else auto_right
                 else:
                     return None
             else:
                 return None
             # >>> 
         elif ns_left == 1:
-            return cs_left
+            return auto_left
         elif ns_right == 1:
-            return cs_right
+            return auto_right
         else:
             return None
 
-    match corr.type:
-        case 'Caret' | 'Replace':
-            sub_left = lambda m: m.group(1) + comment_text
-            sub_right = lambda m: comment_text + m.group(2)
-        case 'Remove':
+    replacement_text = utils.backslashEscape(comment_text)
+    match corr.type[0]:
+        case Annot.CARET | Annot.REPLACE:
+            sub_left = rf'\1{replacement_text}'
+            sub_right = rf'{replacement_text}\2'
+        case Annot.REMOVE:
             sub_left = r'\1'
             sub_right = r'\2'
         case _:
@@ -339,20 +535,27 @@ def correctSnippet(corr: Correction, **kwargs):
 
     return doSubstitution(sub_left, sub_right)
 
-def getCorrectedSnippets(corrections: list[Correction], overlapping_keys: list[list[int]]) -> dict[int, str]:
+def getCorrectedSnippets(
+        corrections: list[Correction],
+        overlapping_keys: list[list[int]]
+) -> dict[int, str]:
     """ Carry out simple (strikeout, replace, or caret) corrections to the LaTeX source string
     Return corrected_snippets: dictionary of correction keys (correction indicies) -> corrected latex snippets (strings)
 
     Note: overlapping corrections must be grouped
     """
     key_to_correction = {corr.index: corr for corr in corrections}
-    standalone_keys = [corridx for corridx in key_to_correction if corridx not in {idx for group in overlapping_keys for idx in group}]
+    standalone_keys = [
+        corridx
+        for corridx in key_to_correction
+        if corridx not in {idx for group in overlapping_keys for idx in group}
+    ]
 
     corrected_snippets = {corr.index: None for corr in corrections}
     
     for s_key in standalone_keys:
         corr = key_to_correction[s_key]
-        corrected_snip = correctSnippet(corr)        
+        corrected_snip = correctSnippet(corr)
         if corrected_snip is not None:
             corrected_snippets[s_key] = corrected_snip            
             corr.is_autocorrected = True
@@ -361,16 +564,21 @@ def getCorrectedSnippets(corrections: list[Correction], overlapping_keys: list[l
         existing_snippet = None
         for g_key in group:
             corr = key_to_correction[g_key]
-            corrected_snip = correctSnippet(corr, snippet=existing_snippet)
+            corrected_snip = correctSnippet(
+                corr,
+                snippet=existing_snippet
+            )
             if corrected_snip is None:
                 continue
+            
             corrected_snippets[g_key] = corrected_snip
             corr.is_autocorrected = True
             
             # update all of the corrected snippets in the group
             for g_key in group:
                 corrected_snippets[g_key] = corrected_snip
-            existing_snippet = corrected_snip               
+                
+            existing_snippet = corrected_snip
     
     return corrected_snippets
 
@@ -391,3 +599,4 @@ def getSourcePosToCorrections(corrections: list[Correction]):
 
     char_positions = sorted(set(char_positions))
     return (char_positions, charpos_to_kinds_and_corrections)
+

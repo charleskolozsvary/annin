@@ -572,18 +572,18 @@ def getWordBoxes(boxpositions_filename: Path):
     for mark_id in markids_to_delete:
         del word_boxes[mark_id]
 
-    document_word_boxes = dict()
+    tex_word_boxes = dict()
     for key, info in word_boxes.items():
         (one_indexed_pageno, rectangle) = boxinfoToPDFRectangle(key, info['pwhd'], info['spxy'])
         pageno = int(one_indexed_pageno) - 1
-        if pageno in document_word_boxes:
-            document_word_boxes[pageno][key] = rectangle
+        if pageno in tex_word_boxes:
+            tex_word_boxes[pageno][key] = rectangle
         else:
-            document_word_boxes[pageno] = {key:rectangle}
+            tex_word_boxes[pageno] = {key:rectangle}
 
     logger.info(f"Created {len(word_boxes)} marked boxes.")
     
-    return (document_word_boxes, markids_to_delete)
+    return (tex_word_boxes, markids_to_delete)
 
 def readBalancedBraces(idx: int, s: str) -> tuple[str, int]:
     """Read unescaped balanced braces, return (contents without outer braces, chars_read)."""
@@ -669,9 +669,9 @@ def markIdToCountInfo(mark_id: str) -> list[dict[str, int]]:
         count_info.append({'name': count_name, 'head': head_count, 'stem': stem_count})
     return count_info
 
-def validateMarkPositions(mark_positions: dict[str, tuple[int, int]], document_word_boxes: dict[int, dict[str, pymupdf.Rect]]) -> None:
+def validateMarkPositions(mark_positions: dict[str, tuple[int, int]], tex_word_boxes: dict[int, dict[str, pymupdf.Rect]]) -> None:
     """Verify that no mark positions overlap and that the mark position keys are a superset of the document word box keys. Raises ValueError if they do.
-    Also verify that document_word_boxes.keys() is a subset of in mark_positions.keys()
+    Also verify that tex_word_boxes.keys() is a subset of in mark_positions.keys()
     Args:
         mark_positions: dict mapping mark_id -> (start, end) positions
     Raises:
@@ -712,13 +712,13 @@ def validateMarkPositions(mark_positions: dict[str, tuple[int, int]], document_w
                 f"start ({start_last}) >= end ({end_last})"
             )
 
-    # check that mark_positions.keys() is a superset of all document_word_boxes mark_ids
-    for page_boxes in document_word_boxes.values():
+    # check that mark_positions.keys() is a superset of all tex_word_boxes mark_ids
+    for page_boxes in tex_word_boxes.values():
         for mark_id in page_boxes.keys():
             if mark_id not in mark_positions:
                 raise ValueError(
                     f"mark_id '{mark_id}' not in mark_positions. "
-                    "mark_positions.keys() is not a superset of all mark_ids in document_word_boxes."
+                    "mark_positions.keys() is not a superset of all mark_ids in tex_word_boxes."
                 )
 
     logger.info("Mark positions are valid.")
@@ -772,13 +772,15 @@ def getInsertedCodeForMarking(boxpositions_filename: str):
     return (tex_write_commands, markcs_def)
 
 def markLatex(tex_filename: Path, *parse_out, **kwargs):
-    extra_marked_environment_names = kwargs.get('emen', set()) # set[str]
+    extra_mark_envs = kwargs.get('extra_mark_envs', '') 
+    extra_mark_envs = set(extra_mark_envs.split(','))
+    
     (docclass_nodes, preamble_nodes, document_node, post_document_nodes) = parse_out
 
     # Track \newtheorems
     enunciations = getEnunciations(preamble_nodes)
     enunciation_names = set(enun['name'] for enun in enunciations)
-    all_allowed_mark_environments = ALLOWED_MARK_ENVIRONMENTS.union(enunciation_names).union(extra_marked_environment_names)    
+    all_allowed_mark_environments = ALLOWED_MARK_ENVIRONMENTS.union(enunciation_names).union(extra_mark_envs)    
 
     # build LatexCharsNode node marking regexes
     left = r"[\n\t $(~]"
@@ -814,8 +816,8 @@ def markLatex(tex_filename: Path, *parse_out, **kwargs):
     
     
 def getSyncInfo(tex_filename: str, **kwargs):
-    clean    = kwargs.get('clean', True) 
-    compiler = kwargs.get('compiler', utils.DEFAULT_LATEX_COMPILER)
+    clean           = kwargs.get('clean', True) 
+    compiler        = kwargs.get('compiler', utils.DEFAULT_LATEX_COMPILER)
 
     tex_filename = Path(tex_filename)
     tex_str = utils.sourceAsString(tex_filename)        
@@ -827,7 +829,11 @@ def getSyncInfo(tex_filename: str, **kwargs):
 
     # Mark
     logger.info("Inserting marks...")
-    (marked_preamble, marked_document, marked_filename, boxpositions_filename) = markLatex(tex_filename, *parse_out, **kwargs)
+    (marked_preamble, marked_document, marked_filename, boxpositions_filename) = markLatex(
+        tex_filename,
+        *parse_out,
+        **kwargs
+    )
     logger.info("Done.")
 
     # Compile and diff-pdf
@@ -849,7 +855,7 @@ def getSyncInfo(tex_filename: str, **kwargs):
 
     # Retrieve box info
     logger.info("Getting word boxes...")
-    (document_word_boxes, deleted_mark_IDs) = getWordBoxes(tmp_dir / boxpositions_filename)
+    (tex_word_boxes, deleted_mark_IDs) = getWordBoxes(tmp_dir / boxpositions_filename)
     logger.info("Done.")    
 
     logger.info("Unmarking LaTeX...")
@@ -867,12 +873,12 @@ def getSyncInfo(tex_filename: str, **kwargs):
         logger.critical("Unmarked LaTeX does NOT match original LaTeX!")
         sys.exit(1)
 
-    validateMarkPositions(mark_positions, document_word_boxes)
+    validateMarkPositions(mark_positions, tex_word_boxes)
 
     if clean:
         utils.removeDir(tmp_dir)
 
-    return (mark_positions, document_word_boxes)
+    return (mark_positions, tex_word_boxes)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -903,4 +909,4 @@ if __name__ == '__main__':
     
     logging.basicConfig(level=_level, format='%(asctime)s - %(levelname)s - %(message)s')
 
-    (mark_positions, document_word_boxes) = getSyncInfo(filename, clean=args.clean, compiler=args.compiler)
+    (mark_positions, tex_word_boxes) = getSyncInfo(filename, clean=args.clean, compiler=args.compiler)

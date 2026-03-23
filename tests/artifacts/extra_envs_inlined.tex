@@ -1,0 +1,96 @@
+\documentclass{amsart}
+\newenvironment{dummy}{}{}
+\newenvironment{test}{}{}
+\begin{document}
+\begin{dummy}
+Without the \texttt{--extra\_mark\_envs} option specified, {\tt corrinline} could not run successfully on this %%
+%% Correction 0, page 1 [ ]
+%% Selection: "have an <Replace>**ERROUR**</Replace> in this"
+%% Comment:   "ERROR" 
+%%
+%⭣⭣⭣ START of correction 0
+file.
+
+So if we have an **ERROUR** in this document, and we annotate it in the PDF, %%
+%⭡⭡⭡ END of correction 0
+we won't be able to do anything because %%
+%% Correction 1, page 1 [ ]
+%% Selection: "because no <Replace>tex</Replace> boxes will"
+%% Comment:   "\TeX{}" 
+%%
+%⭣⭣⭣ START of correction 1
+no tex boxes %%
+%⭡⭡⭡ END of correction 1
+will be created by %%
+%% Correction 2, page 1 [ ]
+%% Selection: " the program<Caret> since all t"
+%% Comment:   "," 
+%%
+%⭣⭣⭣ START of correction 2
+the program since %%
+%⭡⭡⭡ END of correction 2
+all the text is inside an environment which was not specified for %%
+%% Correction 3, page 1 [ ]
+%% Selection: "for marking. <Replace>Most of the time this isn't an issue because</Replace> the most"
+%% Comment:   "This isn't an issue most of the time since" 
+%%
+%⭣⭣⭣ START of correction 3
+marking.
+
+Most of the time this isn't an issue because the %%
+%⭡⭡⭡ END of correction 3
+most frequently used environments which are safe to mark in are %%
+%% Correction 4, page 1 [ ]
+%% Selection: "are already <Replace>compiled</Replace> by the"
+%% Comment:   "tracked" 
+%%
+%⭣⭣⭣ START of correction 4
+already compiled
+by %%
+%⭡⭡⭡ END of correction 4
+the %%
+%% Correction 5, page 1 [ ]
+%% Selection: "ram. Ideally<Caret> you should "
+%% Comment:   "," 
+%%
+%⭣⭣⭣ START of correction 5
+program.
+
+Ideally you %%
+%⭡⭡⭡ END of correction 5
+should never need to use this option, but if for some reason, even after cleanup, there remains
+peculiar environments which you know can be marked but are %%
+%% Correction 6, page 1 [ ]
+%% Selection: "not standard<Replace>,</Replace> you can"
+%% Comment:   ",\footnote{i.e., you know {\tt corrinline} will miss them}" 
+%%
+%⭣⭣⭣ START of correction 6
+not standard, you %%
+%⭡⭡⭡ END of correction 6
+can add %%
+%% Correction 7, page 1 [ ]
+%% Selection: "add them <Replace>to this option like</Replace> corrinline annotated_file.pdf"
+%% Comment:   "by doing" 
+%%
+%⭣⭣⭣ START of correction 7
+them to this option like
+\begin{verbatim}
+corrinline annotated_file.pdf latex_file.tex --extra-marked-envs=test,dummy
+\end{verbatim}
+\end{dummy}
+\begin{test}
+You %%
+%⭡⭡⭡ END of correction 7
+can %%
+%% Correction 8, page 1 [ ]
+%% Selection: " can also do<Caret> corrinline "
+%% Comment:   ".\footnote{(I think.)}" 
+%%
+%⭣⭣⭣ START of correction 8
+also do %%
+%⭡⭡⭡ END of correction 8
+\begin{verbatim}
+corrinline annotated_file.pdf latex_file.tex --extra-marked-envs="test,dummy"
+\end{verbatim}
+\end{test}
+\end{document}

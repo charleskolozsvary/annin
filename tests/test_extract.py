@@ -2,7 +2,7 @@ import pymupdf
 import argparse
 import logging
 
-from texpdfedits.extractanns import getRobustAnnots, getEdits, PDF_ANNOT_TEXT, PDF_ANNOT_CARET, PDF_ANNOT_STRIKE_OUT
+from texpdfedits.extractanns import getRobustAnnots, getEdits, Annot
 
 import texpdfedits.utils as utils
 
@@ -24,7 +24,7 @@ def drawAnnots(filename, output_dir, unique_ending = 'orig_annots'):
     logging.info(f"Drawing original annotations to {save_filename}...")
     for page in doc:
         for annot in page.annots():
-            if annot.type == PDF_ANNOT_TEXT:
+            if annot.type[0] == Annot.TEXT:
                 continue
             box = page.add_freetext_annot(annot.rect, '', text_color=(1,0,1))
             box.set_border(width=.5)
@@ -40,7 +40,7 @@ def drawRobustAnnots(filename, robust_annots, output_dir, unique_ending = 'robus
     logging.info(f"Drawing robust annotations to {save_filename}...")    
     for pageno,page in enumerate(doc):
         for annot in annots[pageno]:
-            if annot.type == PDF_ANNOT_TEXT:
+            if annot.type[0] == Annot.TEXT:
                 continue
             box = page.add_freetext_annot(annot.rect, '', text_color=(1,0,1))
             box.set_border(width=.5)
@@ -71,9 +71,19 @@ def drawCharacters(filename, output_dir, unique_ending = 'pymupdf_characters', *
                         # x0, y0, x1, y1 = char['bbox'] 
                         # char_center = (x0 + (x1 - x0)/2, y0 + (y1 - y0)/2)
                         # char_off = (char_center[0]+.0001, char_center[1]+.0001)
-                        box = page.add_freetext_annot(char['bbox'], '', text_color=(1,0,1))
-                        box.set_border(width=0.1)
-                        box.update()
+                        char_rect = pymupdf.Rect(*char['bbox'])
+                        if char_rect.is_valid and not char_rect.is_empty:
+                            box = page.add_freetext_annot(char_rect, '', text_color=(1,0,1))
+                            box.set_border(width=0.1)
+                            box.update()
+                            
+                            ox, oy = char['origin']
+                            # print(ox, oy)
+                            origin_rect = pymupdf.Rect(ox, oy, ox+1, oy+1)
+                            box2 = page.add_circle_annot(origin_rect)
+                            box2.set_border(width=0.25)
+                            box2.update()
+                            
                 bar.addProgress()
         bar.end()
         logging.info(f"Drew character rectangles on page {i:3d} of {filename}")
@@ -133,7 +143,7 @@ def drawEdits(filename, output_dir, edits, unique_ending = 'edit_selections'):
         selection_bbs = edit.selection_bbs
 
         box2 = page.add_freetext_annot(edit.annot_rect, '', fontsize=8, text_color=(1,.5,1))
-        box2.set_border(width=.75)
+        box2.set_border(width=.25)
         box2.update()
         
         for bbs in selection_bbs:

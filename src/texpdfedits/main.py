@@ -9,6 +9,7 @@ import texpdfedits.extractanns as extractanns
 import texpdfedits.modifytex as modifytex
 import texpdfedits.corr as corr
 import texpdfedits.utils as utils
+import texpdfedits.cformats as cformats
 
 from importlib.metadata import version
 __version__ = version('texpdfedits')
@@ -19,20 +20,16 @@ AUTO_SUFFIX = 'autocorrected'
 def process_files(*args, **kwargs) -> int:
     annot_filename, tex_filename = args
     
-    group_overlapping   = kwargs.get('group_overlapping', True)
     compiler            = kwargs.get('compiler', 'pdflatex')
     clean               = kwargs.get('clean', True)    
     validate            = kwargs.get('validate', True)
     do_autocorrections  = kwargs.get('autocorrect', False)
-    adjust_annots = kwargs.get('adjust_annots', False)
 
     corrections, overlapping_keys = corr.getCorrections(
         *args,
-        group_overlapping = group_overlapping,
-        compiler          = compiler,            
-        clean             = clean,
-        adjust_annots     = adjust_annots
+        **kwargs,
     )
+    
     (char_positions, charpos_to_kinds_and_corrections) = modifytex.getSourcePosToCorrections(corrections)
 
     tex_filename = Path(tex_filename)
@@ -42,7 +39,8 @@ def process_files(*args, **kwargs) -> int:
     commented_tex_str = modifytex.commentSource(
         tex_str,
         char_positions,
-        charpos_to_kinds_and_corrections
+        charpos_to_kinds_and_corrections,
+        **kwargs
     )
     utils.writeStringToFile(commented_tex_str, commented_tex_filename)
 
@@ -75,14 +73,16 @@ def process_files(*args, **kwargs) -> int:
     if not do_autocorrections:
         return 0
 
-    logger.info(f"Doing autocorrections.")
+    logger.info("Doing autocorrections...")
     corrected_snippets = modifytex.getCorrectedSnippets(corrections, overlapping_keys)
+    logger.info("Done.")
     
     autocorrected_tex_str = modifytex.commentSource(
         tex_str,
         char_positions,
         charpos_to_kinds_and_corrections,
-        corrected_snippets = corrected_snippets
+        corrected_snippets = corrected_snippets,
+        **kwargs
     )
     n_corrected = sum(1 for corr in corrections if corr.is_autocorrected)    
     
@@ -119,17 +119,12 @@ def main():
         action="store_true",
         help='set logging level to only warnings or greater'
     )
+    
     parser.add_argument(
         "--grp-overlap",
         action=argparse.BooleanOptionalAction,
         help='Merge overlapping selected snippets; default=True',
         default=True
-    )
-    parser.add_argument(
-        "--compiler",
-        type=str,
-        help='Specify the TeX compiler; default=pdflatex',
-        default='pdflatex'
     )
     parser.add_argument(
         "--clean",
@@ -145,12 +140,45 @@ def main():
     parser.add_argument(
         "--adjust-annots",
         action="store_true",
-        help='Adjust non-caret annotation rectangles---a simple patch to a likely deeper bug; default=False'
+        help=(
+            'Adjust non-caret annotation rectangles---a simple patch '
+            'to a likely deeper bug; default=False'
+        )
+    )
+
+    parser.add_argument(
+        "--compiler",
+        type=str,
+        help='Specify the TeX compiler; default=pdflatex',
+        default='pdflatex'
+    )    
+    parser.add_argument(
+        "--extra-mark-envs",
+        type=str,
+        help=(
+            'Comma-separated names of additional environments to mark inside. '
+            'Example: `--extra-mark-envs="quote,textequation*"`; '
+            'default = ""'
+        ),
+        default=''
+    )
+    parser.add_argument(
+        "--comment-format",
+        type=str,
+        help=(
+            'Specify how comments are inserted into the source. '
+            f'Choices: "{cformats.FORMAT_FRONT}", '
+            f'"{cformats.FORMAT_SPLIT}", and "{cformats.FORMAT_BACK}"; '
+            f'default = `--comment-format="{cformats.DEFAULT_COMMENT_FORMAT}"`'
+        ),
+        default=cformats.DEFAULT_COMMENT_FORMAT
     )
     
     args = parser.parse_args()
+    
     _level = logging.DEBUG if args.debug else logging.INFO
-    _level = logging.WARN  if args.quiet else _level 
+    _level = logging.WARN  if args.quiet else _level
+    
     logging.basicConfig(
         encoding='utf-8',
         level=_level,
@@ -170,7 +198,9 @@ def main():
         compiler          = args.compiler,        
         clean             = args.clean,
         autocorrect       = args.auto,
-        adjust_annots = args.adjust_annots
+        adjust_annots     = args.adjust_annots,
+        extra_mark_envs   = args.extra_mark_envs,
+        comment_format    = args.comment_format,
     )    
     
     # TODO: add a way of automatically removing the inlined correction comments

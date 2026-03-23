@@ -1,0 +1,26 @@
+\documentclass{amsart}
+\newenvironment{dummy}{}{}
+\newenvironment{test}{}{}
+\begin{document}
+\begin{dummy}
+Without the \texttt{--extra\_mark\_envs} option specified, {\tt corrinline} could not run successfully on this file.
+
+So if we have an **ERROUR** in this document, and we annotate it in the PDF, we won't be able to do anything because no tex boxes
+will be created by the program since all the text is inside an environment which was not specified for marking.
+
+Most of the time this isn't an issue because the most frequently used environments which are safe to mark in are already compiled
+by the program.
+
+Ideally you should never need to use this option, but if for some reason, even after cleanup, there remains
+peculiar environments which you know can be marked but are not standard, you can add them to this option like
+\begin{verbatim}
+corrinline annotated_file.pdf latex_file.tex --extra-marked-envs=test,dummy
+\end{verbatim}
+\end{dummy}
+\begin{test}
+You can also do 
+\begin{verbatim}
+corrinline annotated_file.pdf latex_file.tex --extra-marked-envs="test,dummy"
+\end{verbatim}
+\end{test}
+\end{document}
