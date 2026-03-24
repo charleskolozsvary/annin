@@ -8,7 +8,7 @@ from pathlib import Path
 
 import texpdfedits.extractanns as extractanns
 import texpdfedits.marktex as marktex
-import texpdfedits.cformats as cformats
+import texpdfedits.formatcomm as formatcomm
 import texpdfedits.utils as utils
 
 from texpdfedits.corr import Correction, toCodeblock
@@ -140,7 +140,7 @@ def commentSource(
     """
 
     corrected_snippets = kwargs.get('corrected_snippets', None)
-    format             = kwargs.get('comment_format', cformats.DEFAULT_COMMENT_FORMAT)
+    format             = kwargs.get('comment_format', formatcomm.DEFAULT_COMMENT_FORMAT)
     
     inserted_comments = [] #list of tuples where tuple[0] is the char_pos and tuple[1] is the inserted material
     for char_pos in char_positions:
@@ -162,23 +162,24 @@ def commentSource(
 
         if end_corr_idxs:
             start_end_callout.append(
-                cformats.writeCallout(
+                formatcomm.writeCallout(
                     end_corr_idxs,
                     'end',
                     format
                 )
             )
+
+        if end_corr_idxs and start_corr_idxs:
+            start_end_callout.append('%%\n')
             
         if start_corr_idxs:
             start_end_callout.append(
-                cformats.writeCallout(
+                formatcomm.writeCallout(
                     start_corr_idxs,
                     'start',
                     format
                 )
             )
-        # if start_corr_idxs and end_corr_idxs:
-        #     start_end_callout.append('% *AND* ')
 
         description_str = ''.join(corr_descriptions)
         callout_str = ''.join(start_end_callout)
@@ -282,6 +283,16 @@ def tagsAreValid(tagged_text: str) -> bool:
         
     return True
 
+def literalSearchRegex(s: str):
+    """
+    return a regex of the string which we can use to search for it literally up to whitespace,
+    where all individual white space characters are treated the same
+    """
+    return ''.join(
+        r'\s+?' if re.match(r'^\s$', c) is not None else re.escape(c)
+        for c in s
+    )
+
 def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
     tag_name = corr.type[1]
     annotated_pdf_text = corr.pdf_selected_text
@@ -303,9 +314,12 @@ def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
         return None
 
     m = match[0]
-    tagged_text = re.escape(m.group(1))
     
-    comment_text = utils.backslashEscape(corr.messages['comment'])
+    tagged_text = literalSearchRegex(m.group(1))
+    
+    comment_text = utils.backslashEscape(
+        utils.UnicodeToTeX(corr.messages['comment'])
+    )
 
     # simple attempt first
     simple_auto, num_subs = re.subn(
@@ -323,9 +337,6 @@ def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
     left_context  = annotated_pdf_text[:m.start()]
     right_context = annotated_pdf_text[m.end():]
 
-    def context_to_regex(chars):
-        return ''.join(r'\s+?' if c == ' ' else re.escape(c) for c in chars)    
-
     # progressive expansion using annotation context
     max_left  = len(left_context)
     max_right = len(right_context)
@@ -336,7 +347,7 @@ def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
         right_chars = right_context[:k] if k <= max_right else None
 
         if left_chars is not None:
-            l_regex = context_to_regex(left_chars)
+            l_regex = literalSearchRegex(left_chars)
             m_left = rf'({l_regex})({tagged_text})'
             auto_left, ns_left = re.subn(
                 m_left,
@@ -348,7 +359,7 @@ def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
                 return auto_left
 
         if right_chars is not None:
-            r_regex = context_to_regex(right_chars)
+            r_regex = literalSearchRegex(right_chars)
             m_right = rf'({tagged_text})({r_regex})'
             auto_right, ns_right = re.subn(
                 m_right,
@@ -360,8 +371,8 @@ def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
                 return auto_right
 
         if left_chars is not None and right_chars is not None:
-            l_regex = context_to_regex(left_chars)
-            r_regex = context_to_regex(right_chars)
+            l_regex = literalSearchRegex(left_chars)
+            r_regex = literalSearchRegex(right_chars)
             m_ambi = rf'({l_regex})({tagged_text})({r_regex})'
             auto_ambi, ns_ambi = re.subn(
                 m_ambi,
@@ -522,7 +533,9 @@ def correctSnippet(corr: Correction, **kwargs):
         else:
             return None
 
-    replacement_text = utils.backslashEscape(comment_text)
+    replacement_text = utils.backslashEscape(
+        utils.UnicodeToTeX(comment_text)
+    )
     match corr.type[0]:
         case Annot.CARET | Annot.REPLACE:
             sub_left = rf'\1{replacement_text}'

@@ -458,14 +458,14 @@ class Correction:
         return str(self)
 
     def asCommentStart(self, format: str):
-        import texpdfedits.cformats as cformats        
+        import texpdfedits.formatcomm as formatcomm        
         replies = '", "'.join(utils.replaceNewlines(reply) for reply in self.messages['responses'])
-        return cformats.startComment(self, format, replies)
+        return formatcomm.startComment(self, format, replies)
         
     def asCommentEnd(self, format: str):
-        import texpdfedits.cformats as cformats
+        import texpdfedits.formatcomm as formatcomm
         replies = '", "'.join(utils.replaceNewlines(reply) for reply in self.messages['responses'])        
-        return cformats.endComment(self, format, replies)
+        return formatcomm.endComment(self, format, replies)
     
     def asMarkdownPrompt(self):
         replies = markdownReplies(self.messages['responses'])

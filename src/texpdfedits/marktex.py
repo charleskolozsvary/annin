@@ -424,25 +424,39 @@ def markNodes(
             
             if prev_node is not None:
                 prev_ends_square = re.search(r'[\]\}]\s*$', prev_node.latex_verbatim())
-                prev_includes_forbidden_mark_bib_keys = re.search('|'.join(FORBIDDEN_BIB_KEYS), prev_node.latex_verbatim(), re.IGNORECASE)
+                prev_includes_forbidden_mark_bib_keys = re.search(
+                    '|'.join(FORBIDDEN_BIB_KEYS),
+                    prev_node.latex_verbatim(),
+                    flags=re.IGNORECASE
+                )
                 
                 if in_bib and prev_includes_forbidden_mark_bib_keys is not None:
                     return node_verbatim
             
-            if (prev_node is not None and prev_node.isNodeType(LatexCharsNode) and prev_ends_square is None) or parent_is_distinctly_marked_macro:
+            if (prev_node is not None
+                and prev_node.isNodeType(LatexCharsNode)
+                and prev_ends_square is None) or parent_is_distinctly_marked_macro:
                 # every LatexGroupNode has a nodelist                
                 verbatim_contents = joinNodesVerbatim(node.nodelist) 
                 
                 joined_whole = rf'{{{verbatim_contents}}}'
                 if node_verbatim != joined_whole:
-                    logger.error(f"Group node '{node_verbatim}' in markNode was malformed or parsed incorrectly")
+                    logger.error(
+                        f"Group node '{node_verbatim}' in markNode "
+                        "was malformed or parsed incorrectly"
+                    )
                     logger.debug(f"{verbatim_contents} != {joined_whole}")                
                     sys.exit(1)
 
                 marked_contents = []
                 this_prev_node = None
                 for nested_node in node.nodelist:
-                    marked_contents.append(recMark(nested_node, node, this_prev_node, parent_counter_keys))
+                    marked_contents.append(recMark(
+                        nested_node,
+                        node,
+                        this_prev_node,
+                        parent_counter_keys
+                    ))
                     this_prev_node = nested_node
                 return "{" + ''.join(marked_contents) + "}"
             else:
@@ -453,27 +467,45 @@ def markNodes(
         
         else:
             logger.warning(
-                f"Unrecognized latex node '{node.nodeType()}' during markNode(); "
-                f"writing node.latex_verbatim(): '{node_verbatim}'"
+                f"Unrecognized latex node '{node.nodeType()}'"
+                f"during markNode(); writing "
+                f"node.latex_verbatim(): '{node_verbatim}'"
             )
             return node_verbatim
 
+    # markNodes body
     manuscript_marked_contents = []
     outer_prev_node = None
     for start_node in to_mark_nodelist:
-        manuscript_marked_contents.append(recMark(start_node, None, outer_prev_node, []))
+        manuscript_marked_contents.append(
+            recMark(
+                start_node,
+                None,
+                outer_prev_node,
+                []
+            )
+        )
         outer_prev_node = start_node
     return ''.join(manuscript_marked_contents)
 
 def getPreambleAndDocument(nodelist):
-    num_document_envs = len(list(filter(lambda n: n.isNodeType(LatexEnvironmentNode) and n.envname == 'document', nodelist)))
+    num_document_envs = sum(
+        1 for n in nodelist
+        if n.isNodeType(LatexEnvironmentNode) and n.envname == 'document'
+    )
     if num_document_envs != 1:
-        logger.critical(r"Found more (or less) than one `\begin{document}`s during getPreambleAndDocument().")
+        logger.critical(
+            r"Found more (or less) than one `\begin{document}`s"
+            "during getPreambleAndDocument()."
+        )
         sys.exit(1)
 
     i = 0
+    # so I've been assuming that the first environment of the
+    # file is the document environment. That's alright actually
     while nodelist[i].nodeType() != LatexEnvironmentNode:
         i += 1
+        
     preamble_nodes = nodelist[:i]
     document_node = nodelist[i]
     post_document_nodes = nodelist[i+1:]
@@ -487,24 +519,34 @@ def splitPreambleNodes(preamble_nodes: list[LatexNode]):
     logger.critical("\\documentclass command not found")
     sys.exit(1)
 
-def texPointsToPDFpoints(tex_pts: float):
+def texPointsToPDFpoints(tex_pts: float) -> float:
     return tex_pts * TEX_POINTS_TO_PDF_POINTS_CONVERSION_RATIO
 
-def scaledPointsToPDFpoints(sp: int):
+def scaledPointsToPDFpoints(sp: int) -> float:
     tex_pts = sp / SCALED_POINTS_PER_TEX_POINT
     return texPointsToPDFpoints(tex_pts)
 
+# these two unzips could be made more readable
 def unzipHbox(hbox):
-    return hbox[0], tuple(map(lambda pts: texPointsToPDFpoints(float(pts)), hbox[1:]))
+    return (
+        hbox[0],
+        tuple(map(lambda pts: texPointsToPDFpoints(float(pts)), hbox[1:]))
+    )
 
 def unzipPos(stend_xy):
-    return stend_xy[0], tuple(map(lambda spts: scaledPointsToPDFpoints(int(spts)), stend_xy[1:-1]))
+    return (
+        stend_xy[0],
+        tuple(map(lambda spts: scaledPointsToPDFpoints(int(spts)), stend_xy[1:-1]))
+    )
 
 def boxinfoToPDFRectangle(key: str, hbox, start_xy):
     pgA, (width, height, depth) = unzipHbox(hbox)
     pgB, (x0, sy) = unzipPos(start_xy)
     
-    return (pgB, pymupdf.Rect(x0, sy - height, x0 + width, sy + depth))
+    return (
+        pgB,
+        pymupdf.Rect(x0, sy - height, x0 + width, sy + depth)
+    )
         
 def getWordBoxes(boxpositions_filename: Path):
     word_boxes = dict()
@@ -514,12 +556,23 @@ def getWordBoxes(boxpositions_filename: Path):
         line = f.readline().strip()
         line_no = 1
         while line:
-            box_info = re.match(fr"^{not_colon}:(pwhd|spxy):(\d+):{not_colon}:{not_colon}:{not_colon}$", line)
+            box_info = re.match(
+                fr"^{not_colon}:(pwhd|spxy):(\d+):{not_colon}:{not_colon}:{not_colon}$",
+                line,
+                flags=re.IGNORECASE
+            )
             if box_info is None:
-                logger.critical(f"Line {line_no} of {boxpositions_filename} '{repr(line)}' did not match the info spec")
+                logger.critical(
+                    f"Line {line_no} of {boxpositions_filename} "
+                    f"'{repr(line)}' did not match the info spec"
+                )
                 sys.exit(1)
             matches = box_info.groups()
-            key, label, values = matches[0], matches[1], tuple(map(lambda m: m.strip('pt'), matches[2:]))
+            (key, label, values) = (
+                matches[0],
+                matches[1],
+                tuple(map(lambda m: m.strip('pt'), matches[2:]))
+            )
             
             if key in word_boxes:
                 if label in word_boxes[key] and word_boxes[key][label] != values:
@@ -816,8 +869,9 @@ def markLatex(tex_filename: Path, *parse_out, **kwargs):
     
     
 def getSyncInfo(tex_filename: str, **kwargs):
-    clean           = kwargs.get('clean', True) 
-    compiler        = kwargs.get('compiler', utils.DEFAULT_LATEX_COMPILER)
+    clean    = kwargs.get('clean', True) 
+    compiler = kwargs.get('compiler', utils.DEFAULT_LATEX_COMPILER)
+    validate = kwargs.get('validate', True)
 
     tex_filename = Path(tex_filename)
     tex_str = utils.sourceAsString(tex_filename)        

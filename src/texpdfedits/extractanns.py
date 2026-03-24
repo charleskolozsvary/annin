@@ -310,14 +310,14 @@ def getAllResponses(robust_annots):
                 all_responses[annot.irt_xref] = [annot]
     return all_responses
 
-def getResponses(in_annot, all_responses):
+def getResponses(in_annot, all_responses) -> dict:
     """
     return dictionary where dict[TYPE_CONST] =>
     list of annots where annot.type[0] == TYPE_CONST
     and are a response to in_annot
     """
     if in_annot.xref not in all_responses:
-        return []
+        return dict()
 
     resps_by_type = dict()
     for resp in all_responses[in_annot.xref]:
@@ -749,11 +749,11 @@ def isNotForCOMP(message: dict[str, str | list[str]]) -> bool:
     responses = message['responses']
     first_response = responses[0] if responses else ''
 
-    not_for_comp = r"\b(?:AU|PE|PTG|GA)\b:?"
+    not_for_comp = r"\b(?:AU|PE|PTG|GA|^AUTHOR:)\b:?"
     for_comp = r"\b(?:COMP|TEG)\b:?"
 
-    if re.search(not_for_comp, head_comment, re.IGNORECASE) is not None:
-        if re.search(for_comp, first_response, re.IGNORECASE) is not None:
+    if re.search(not_for_comp, head_comment, flags=re.IGNORECASE) is not None:
+        if re.search(for_comp, first_response, flags=re.IGNORECASE) is not None:
             return False
         else:
             return True
@@ -773,7 +773,10 @@ def getEdits(filename, **kwargs):
     num_not_for_comp = 0
     edits = []
 
-    num_pages_with_annots_to_extract = len([pageno for pageno, _ in enumerate(doc) if robust_annots[pageno]])
+    num_pages_with_annots_to_extract = len([
+        pageno for pageno, _ in enumerate(doc)
+        if robust_annots[pageno]
+    ])
 
     bar = utils.TextProgressBar(num_pages_with_annots_to_extract)
     bar.showSize()
@@ -781,16 +784,23 @@ def getEdits(filename, **kwargs):
     for pageno, page in enumerate(doc):
         for annot in robust_annots[pageno]:
             if annot.irt_xref != 0:
-                # only true for text responses and annotations which combine with another to make an annotation of type 'Replace'
+                # only true for text responses and annotations which combine
+                # with another to make an annotation of type 'Replace'
                 continue
             target_num_edits += 1
             
             responses = getResponses(annot, all_responses)
-            text_responses = responses[Annot.TEXT] if Annot.TEXT in responses else []
-            text_responses = [resp.info['content'] for resp in text_responses]
-            message = {'comment': annot.info['content'], 'responses': text_responses}
 
-            # skip annots whose comment text starts with AU:, PE:, or PTG: among other things, unless the first response has COMP: or TEG:
+            text_responses = responses.get(Annot.TEXT, [])
+            text_responses = [resp.info['content'] for resp in text_responses]
+            
+            message = {
+                'comment': annot.info['content'],
+                'responses': text_responses
+            }
+
+            # skip annots whose comment text starts with AU:, PE:, or PTG: among other things,
+            # unless the first response has COMP: or TEG:
             if isNotForCOMP(message):
                 logger.debug(f"Annot {annot} deemed not for COMP")
                 num_not_for_comp += 1
@@ -833,9 +843,16 @@ def getEdits(filename, **kwargs):
             if selection_text is None:
                 continue
 
-            selection_text = utils.UTFtoTeX(selection_text)
+            selection_text = utils.UnicodeToTeX(selection_text)
             
-            edits.append(Edit(annot.pageno, annot.type, message, selection_text, selection_bbs, latex_extraction_bb))
+            edits.append(Edit(
+                annot.pageno,
+                annot.type,
+                message,
+                selection_text,
+                selection_bbs,
+                latex_extraction_bb
+            ))
 
         if robust_annots[pageno]:
             bar.addProgress()
