@@ -13,9 +13,14 @@ import texpdfedits.extractanns as extractanns
 import texpdfedits.marktex as marktex
 import texpdfedits.utils as utils
 
-from pathlib import Path      
+import functools
 
-BOXES_ORDER_THRESHOLD_BUFF = 6
+from pathlib import Path
+
+BOXES_Y_EQUIV_RANGE = 6
+
+MAYBE_COMPATIBLE_POSITION_DIFFERENCE_THRESH = 100 # 100 characters
+
 """
 When a rectangle doesn't intersect any word boxes, we look for
 the word boxes "before" and "after" the rectangle. If the given
@@ -196,6 +201,129 @@ def checkMaybeCompatible(
         max(head_partitions[sorted_head_counts[-1]], key=returnCinfoStem)
     )
     return start_key, end_key
+
+def getAdjacentPageID(
+        tex_word_boxes: dict[int, dict[str, pymupdf.Rect]],
+        pageno: int,
+        first_or_last: str
+) -> str:
+    page_word_boxes = tex_word_boxes.get(pageno, None)
+    
+    if page_word_boxes is None:
+        logger.warning(f"No tex_word_boxes on page {pageno}")
+        return None
+
+    simpleIDs = [
+        mark_id
+        for mark_id in page_word_boxes.keys()
+        if isSimpleID(mark_id)
+    ]
+    
+    if not simpleIDs:
+        logger.warning(f"No simple IDs on page {pageno}")
+        return None
+    
+    match first_or_last:
+        case 'first':
+            return min(simpleIDs, key = getTerminalStem)
+        case 'last':
+            return max(simpleIDs, key = getTerminalStem)
+        case _:
+            logger.error(
+                f"first_or_last was {first_or_last}"
+                ": not 'first' or 'last'"
+            )
+            return None
+
+def compareBoxes(a, b):
+    if abs(a.y0 - b.y0) < BOXES_Y_EQUIV_RANGE:
+        if a.x0 < b.x0:
+            return -1
+        elif a.x0 > b.x0:
+            return 1
+        else:
+            return 0
+    else:
+        if a.y0 < b.y0:
+            return -1
+        else:
+            return 1
+
+def useAllIDs(in_rectangle, page_word_boxes, tex_word_boxes, pageno):
+    """
+    Try to find the before and after boxes by looking at nearby boxes of any kind (not just simple)
+    """
+    just_boxes = [box for box in page_word_boxes.values()]
+    just_boxes.append(in_rectangle)
+    sorted_boxes = sorted(
+        just_boxes,
+        key=functools.cmp_to_key(compareBoxes)
+    )
+    inrect_idx = sorted_boxes.index(in_rectangle)
+    boxes_before = sorted_boxes[:inrect_idx]
+    boxes_after  = sorted_boxes[inrect_idx+1:]
+
+    boxes_to_ids = {
+        box : id
+            for id, box in page_word_boxes.items()
+    }        
+
+    if not boxes_before:
+        start_key = getAdjacentPageID(tex_word_boxes, pageno-1, 'last')
+    else:
+        start_key = boxes_to_ids[boxes_before[-1]]
+
+    if not boxes_after:
+        end_key = getAdjacentPageID(tex_word_boxes, pageno+1, 'first')
+    else:
+        end_key = boxes_to_ids[boxes_after[0]]
+
+    if start_key is None or end_key is None:
+        return (start_key, end_key)
+
+    category = categorizeMarkIDs([start_key, end_key])
+
+    if category != 'compatible':
+        logger.debug(
+            f"Start and end IDs ('{start_key}', '{end_key}') "
+            "from were not compatible (in no-intersection case)"
+        )        
+        return (None, None)
+
+    return (start_key, end_key)
+
+def useSimpleIDs(in_rectangle, page_word_boxes, tex_word_boxes, pageno):
+    """
+    Try to find the before and after boxes by just looking at nearby boxes with simple IDs
+    """
+    boxes_before = {
+        k: rect
+            for k, rect in page_word_boxes.items()
+            if compareBoxes(rect, in_rectangle) < 0 
+            and isSimpleID(k)
+    }
+    boxes_after = {
+        k: rect
+            for k, rect in page_word_boxes.items()
+            if compareBoxes(rect, in_rectangle) > 0 
+            and isSimpleID(k)
+    }
+
+    logger.debug(f"boxes before: {boxes_before}\n\n")
+    logger.debug(f"boxes after: {boxes_after}\n\n")        
+        
+    start_key = max(boxes_before.keys(), key=getTerminalStem) if boxes_before else None
+    end_key = min(boxes_after.keys(), key=getTerminalStem) if boxes_after else None
+        
+    if start_key is None:
+        simple_IDs = [fid for fid in tex_word_boxes[pageno - 1] if isSimpleID(fid)] if pageno-1 in tex_word_boxes else []
+        start_key = max(simple_IDs, key=getTerminalStem) if len(simple_IDs) > 0 else None
+
+    if end_key is None:
+        simple_IDs = [fid for fid in tex_word_boxes[pageno + 1] if isSimpleID(fid)] if pageno+1 in tex_word_boxes else []
+        end_key = min(simple_IDs, key=getTerminalStem) if len(simple_IDs) > 0  else None
+
+    return (start_key, end_key)
                 
 def rectangleToLatex(
         pageno: int,
@@ -203,7 +331,7 @@ def rectangleToLatex(
         tex_word_boxes: dict[int, dict[str, pymupdf.Rect]],
         mark_positions: dict[str, tuple[int, int]],
         tex_str: str
-) -> str | None:
+) -> tuple[str, tuple[int, int]] | tuple[None, None]:
     r"""
     Args:
         pageno: Zero-indexed page number
@@ -240,17 +368,20 @@ def rectangleToLatex(
           3. The word boxes are "incompatible"
              -> we don't extract any source
 
-    Otherwise, (the inputted rectangle does not intersect any boxes) -> 
-    We simply use the boxes only numbered within the document and the
-    range of the first document box before the rectangle through
-    (and including) the first document box after the rectangle
+    Otherwise, (the inputted rectangle does not intersect any boxes) ->
+    we order the boxes including the inputted one by x then by y and
+    take the start key to be the last of the ones before and the end
+    key to be the first of the ones after (we also check compatibility)
+
+    And we do some additional handling if there are no boxes
+    before or after on that page
     """
     if pageno not in tex_word_boxes:
         logger.warning(
             f"Cannot extract LaTeX: "
             f"pageno {pageno} not in tex_word_boxes"
         )
-        return None, None
+        return (None, None)
 
     page_word_boxes = tex_word_boxes[pageno]
     intersecting_word_boxes = {
@@ -290,38 +421,17 @@ def rectangleToLatex(
                 f"intersected mark IDs were not compatible."
             )
             logger.debug(f"Incompatible mark IDs were\n{mark_ids}")
-            return None, None
+            return (None, None)
     else:
         logger.debug(
             f"Rectangle {in_rectangle} did NOT intersect "
             f"any word box on page {pageno}"
         )
-        boxes_before = {
-            k: rect
-            for k, rect in page_word_boxes.items()
-            if rect.y0 < in_rectangle.y0 - BOXES_ORDER_THRESHOLD_BUFF
-            and isSimpleID(k)
-        }
-        boxes_after = {
-            k: rect
-            for k, rect in page_word_boxes.items()
-            if rect.y0 > in_rectangle.y0 + BOXES_ORDER_THRESHOLD_BUFF
-            and isSimpleID(k)
-        }
-
-        # logger.debug(f"boxes before: {boxes_before}\n\n")
-        # logger.debug(f"boxes after: {boxes_after}\n\n")        
         
-        start_key = max(boxes_before.keys(), key=getTerminalStem) if boxes_before else None
-        end_key = min(boxes_after.keys(), key=getTerminalStem) if boxes_after else None
-        
-        if start_key is None:
-            simple_IDs = [fid for fid in tex_word_boxes[pageno - 1] if isSimpleID(fid)] if pageno-1 in tex_word_boxes else []
-            start_key = max(simple_IDs, key=getTerminalStem) if len(simple_IDs) > 0 else None
+        (start_key, end_key) = useAllIDs(in_rectangle, page_word_boxes, tex_word_boxes, pageno)
 
-        if end_key is None:
-            simple_IDs = [fid for fid in tex_word_boxes[pageno + 1] if isSimpleID(fid)] if pageno+1 in tex_word_boxes else []
-            end_key = min(simple_IDs, key=getTerminalStem) if len(simple_IDs) > 0  else None
+        if start_key is None or end_key is None:
+            (start_key, end_key) = useSimpleIDs(in_rectangle, page_word_boxes, tex_word_boxes, pageno)
 
     if start_key is None or end_key is None:
         # This should only happen if
@@ -333,7 +443,7 @@ def rectangleToLatex(
             f"Rectangle outside marked boxes "
             f"(start_key={start_key}, end_key={end_key})"
         )
-        return None, None
+        return (None, None)
 
     # logger.debug(f"Before key is {start_key} and after key is {end_key}")
 
@@ -341,12 +451,12 @@ def rectangleToLatex(
     end_pos = mark_positions[end_key][1]
 
     if start_pos > end_pos:
-        # this shouldn't happen thanks to BOXES_ORDER_THRESHOLD_BUFF
+        # this shouldn't happen thanks to BOXES_Y_EQUIV_RANGE
         logger.warning(
             f"Cannot extract LaTeX: "
             f"start_pos = '{start_pos}' > '{end_pos}' = end_pos"
         )
-        return None, None
+        return (None, None)
     
     return (tex_str[start_pos:end_pos], (start_pos, end_pos))
 

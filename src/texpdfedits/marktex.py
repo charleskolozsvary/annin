@@ -121,7 +121,6 @@ MARKED_ENTIRE_CSNAMES = {
     'textbf',
     'textsc',
     'underline',
-    'texttt',
     'textup',
     'url',
 }
@@ -349,7 +348,7 @@ def markNodes(
             elif node.macroname in DISTINCTLY_MARKED_MACROS:
                 if is_in_only_mark_caption_env and node.macroname != 'caption':
                     return node_verbatim
-                # process args >>>
+                # process args vvv
                 len_arg_spec = len(CSNAMES_ARGSPEC[node.macroname])
                 argnlist = node.nodeargd.argnlist
                 joined_verbatim_macro = rf"\{node.macroname}" + ''.join([n.latex_verbatim() if n is not None else '' for n in argnlist])
@@ -383,7 +382,7 @@ def markNodes(
                 parent_counter_keys.pop()
                 
                 return ''.join(marked_macro)
-                # <<<
+                # ^^^
             else:
                 return node_verbatim
 

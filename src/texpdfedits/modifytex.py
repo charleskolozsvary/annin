@@ -416,8 +416,8 @@ def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
     if not contending_autocorrects:
         return None
 
-    if corr.index == 119:
-        ic(contending_autocorrects)
+    # if corr.index == 119:
+    #     ic(contending_autocorrects)
 
     (best_auto, _) = max(
         contending_autocorrects,
