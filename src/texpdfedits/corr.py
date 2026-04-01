@@ -569,12 +569,18 @@ class Correction:
 
     def asCommentStart(self, format: str):
         import texpdfedits.formatcomm as formatcomm        
-        replies = '", "'.join(utils.replaceNewlines(reply) for reply in self.messages['responses'])
+        replies = '", "'.join(
+            utils.sanitizePdfText(reply)
+            for reply in self.messages['responses']
+        )
         return formatcomm.startComment(self, format, replies)
         
     def asCommentEnd(self, format: str):
         import texpdfedits.formatcomm as formatcomm
-        replies = '", "'.join(utils.replaceNewlines(reply) for reply in self.messages['responses'])        
+        replies = '", "'.join(
+            utils.sanitizePdfText(reply)
+            for reply in self.messages['responses']
+        )
         return formatcomm.endComment(self, format, replies)
     
     def asMarkdownPrompt(self):

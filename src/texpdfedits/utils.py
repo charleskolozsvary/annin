@@ -231,6 +231,9 @@ class TextProgressBar:
     def end(self):
         print(flush=True)
 
+def sanitizePdfText(text: str):
+    return UnicodeToTeX(replaceNewlines(text))
+
 def pdfFname(tex_fname: Path):
     return f"{tex_fname.stem}.pdf"        
 

@@ -64,15 +64,15 @@ def startComment(corr: Correction, format: str, replies: str):
     if format == FORMAT_FRONT:
         return (
             f"%% Correction {corr.index}, page {corr.pageno+1} {status_message}\n"
-            f"%% Selection: \"{utils.replaceNewlines(corr.pdf_selected_text)}\"\n"
-            f"%% Comment:   \"{utils.replaceNewlines(corr.messages['comment'])}\"{replies}\n"
+            f"%% Selection: \"{utils.sanitizePdfText(corr.pdf_selected_text)}\"\n"
+            f"%% Comment:   \"{utils.sanitizePdfText(corr.messages['comment'])}\"{replies}\n"
             f"%%\n"
         )
         
     if format == FORMAT_SPLIT:
         return (
             f"%% Correction {corr.index}, page {corr.pageno+1} {status_message}\n"
-            f"%% Selection: \"{utils.replaceNewlines(corr.pdf_selected_text)}\"{replies}\n"
+            f"%% Selection: \"{utils.sanitizePdfText(corr.pdf_selected_text)}\"{replies}\n"
             f"%{c_id}\n"
         )
         
@@ -92,14 +92,14 @@ def endComment(corr: Correction, format: str, replies: str):
         return (
             f"%{c_id}\n"
             f"%% Comment {corr.index}: "
-            f"\"{utils.replaceNewlines(corr.messages['comment'])}\"\n"
+            f"\"{utils.sanitizePdfText(corr.messages['comment'])}\"\n"
         )
         
     if format == FORMAT_BACK:
         return (
             f"%{c_id} Correction {corr.index}, page {corr.pageno+1} {status_message}\n"
-            f"%{c_id} Selection: \"{utils.replaceNewlines(corr.pdf_selected_text)}\"\n"
-            f"%{c_id} Comment:   \"{utils.replaceNewlines(corr.messages['comment'])}\"{replies}\n"
+            f"%{c_id} Selection: \"{utils.sanitizePdfText(corr.pdf_selected_text)}\"\n"
+            f"%{c_id} Comment:   \"{utils.sanitizePdfText(corr.messages['comment'])}\"{replies}\n"
             f"%{c_id}\n"
         )
 

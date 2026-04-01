@@ -24,6 +24,15 @@ NUM_CONTEXT_WORDS = 2
 # annotation
 PAGE_GET_TEXT_VERT_BEFORE_AFTER = 15
 
+# for adjust annots option
+CMR10_ADJUST = 2.75 # in points
+STIX_ADJUST = 4
+
+USE_STIX = [
+    'cams',
+    'gsm',
+]
+
 class Annot:
     """
     Revised version of pymupdf's Annot which adjusts the bounding box of the
@@ -234,7 +243,7 @@ def adjustCaretRect(caret_rect: pymupdf.Rect, page):
         y0 = y1 - span['size']
         return pymupdf.Rect(caret_rect.x0, y0, caret_rect.x1, y1)
 
-def getRobustAnnots(doc, **kwargs):
+def getRobustAnnots(filename, **kwargs):
     """
     pymupdf's annotations are kind of fragile---they are
     strongly bound to the page they come from (so when
@@ -258,8 +267,17 @@ def getRobustAnnots(doc, **kwargs):
     # But this hack only works (if therere's a problem to begin
     # with and) if the font is cmr10 (or maybe 11 or 12,
     # I don't recall)
+    doc = pymupdf.open(filename)
     adjust_annots = kwargs.get('adjust_annots', False)
-    HORIZONTAL_REMOVE = 2.75 # in points
+
+    if adjust_annots:
+        uses_stix = re.search('|'.join(USE_STIX), filename, flags=re.IGNORECASE)
+        if uses_stix:
+            logger.info("Adjusting annots for STIX2")
+            annot_adjustment = STIX_ADJUST
+        else:
+            logger.info("Adjusting annots for cmr10")
+            annot_adjustment = CMR10_ADJUST
     
     robust_annots = {pageno:[] for pageno in range(doc.page_count)}
     for pageno, page in enumerate(doc):
@@ -285,11 +303,17 @@ def getRobustAnnots(doc, **kwargs):
             
             if annot.type[0] == Annot.CARET:
                 new_ann_rect = adjustCaretRect(new_ann_rect, page)
-            else:
-                # logging.debug(f"before horizontal hack: {new_ann_rect}")
-                if adjust_annots:
-                    new_ann_rect.x0 = x0 + HORIZONTAL_REMOVE
-                    new_ann_rect.x1 = x1 - HORIZONTAL_REMOVE
+
+                
+            if adjust_annots and annot.type[0] != Annot.CARET:
+                # logging.debug(f"before horizontal hack: {new_ann_rect}")                
+                new_ann_rect.x0 += annot_adjustment
+                new_ann_rect.x1 -= annot_adjustment
+                if not new_ann_rect.is_valid:
+                    logger.debug(f"annot on page {pageno+1} now valid after adjustment")
+                    while not new_ann_rect.is_valid:
+                        new_ann_rect.x0 -= 1
+                        new_ann_rect.x1 += 1
                 # logging.debug(f"after horizontal hack: {new_ann_rect}")
 
             robust_annots[pageno].append(
@@ -361,14 +385,25 @@ def getAnnotRects(annot: Annot):
         for i in range(0, len(annot.vertices), 4)
     ]
 
-    # validate 
+    # validate
+    to_remove = []
     for rect in multiline_rects:
         if not rect.is_valid:
-            logger.error(
-                "Rectangle in multiline annotation "
-                "proccessing was not valid"
+            logger.debug(
+                "Rectangle in multiline annotation on "
+                f"page {annot.pageno+1} was not valid {rect}"
             )
-            return default
+            to_remove.append(rect)
+            
+    for remove in to_remove:
+        multiline_rects.remove(remove)
+
+    if not multiline_rects:
+        logger.warning(
+            "None of the individual rects in multiline annotations"
+            f" on page {annot.pageno+1} were valid {annot.info}"
+        )
+        return default
 
     return multiline_rects
 
@@ -775,7 +810,7 @@ def getEdits(filename, **kwargs):
     """return a list of Edits. See class Edit."""
     logger.info("Loading PDF annotations...")
     doc = pymupdf.open(filename)
-    robust_annots = getRobustAnnots(doc, **kwargs)
+    robust_annots = getRobustAnnots(filename, **kwargs)
     all_responses = getAllResponses(robust_annots)
     logger.info("Done.")
 
