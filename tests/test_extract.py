@@ -229,7 +229,7 @@ if __name__ == '__main__':
         drawAnnots(filename, bb_dir)
 
         doc = pymupdf.open(filename)
-        annots = getRobustAnnots(doc, adjust_annots=args.adjust_annots) # from extract.py    
+        annots = getRobustAnnots(filename, adjust_annots=args.adjust_annots) # from extract.py    
         drawRobustAnnots(filename, annots, bb_dir)
 
 

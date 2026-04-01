@@ -310,7 +310,7 @@ def getRobustAnnots(filename, **kwargs):
                 new_ann_rect.x0 += annot_adjustment
                 new_ann_rect.x1 -= annot_adjustment
                 if not new_ann_rect.is_valid:
-                    logger.debug(f"annot on page {pageno+1} now valid after adjustment")
+                    logger.debug(f"annot on page {pageno+1} not valid after adjustment")
                     while not new_ann_rect.is_valid:
                         new_ann_rect.x0 -= 1
                         new_ann_rect.x1 += 1
