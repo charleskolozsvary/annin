@@ -17,6 +17,7 @@ from texpdfedits.extractanns import Annot
 from icecream import ic
 
 MAX_PROGRESSIVE_AUTO_ATTEMPTS = 10
+MIN_MATCH_FOR_AUTO = 3 # autocorrect must match at least three total characters
 
 def getBetweenLatex(
         prev_pos: int,
@@ -358,14 +359,14 @@ def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
     # (new text,
     #  length of regex used to make the sub) 
     # tuples
-    # We only care about autocorrects which have just one substitution,
+    # We only care about autocorrects which carry out just one substitution,
     # and if there are more than one of those, we take the one
-    # which matched the longest length string in the latex
+    # which matched the longest length string in the LaTeX
 
-    # This is done to reduce false positives
-    # much better idea than the greedy approach before
+    # This is done to reduce false positives.
+    # Better than the greedy approach before
     # and these checks are essentially free. No need
-    # to be greedy.
+    # to worry about resources here.
     
     if num_subs == 0:
         return None
@@ -393,7 +394,6 @@ def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
                 m_left,
                 rf'\1{comment_text}',
                 latex_snippet,
-#                flags=re.IGNORECASE # | re.DOTALL
             )
             if ns_left == 1:
                 contending_autocorrects.append(
@@ -407,13 +407,11 @@ def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
                 m_right,
                 rf'{comment_text}\2',
                 latex_snippet,
-#                flags=re.IGNORECASE # | re.DOTALL
             )
             if ns_right == 1:
                 contending_autocorrects.append(
                     (auto_right, len(matchingText(m_right, latex_snippet)))
                 )
-                # return auto_right
 
         if left_chars is not None and right_chars is not None:
             l_regex = pdf2texSearchRegex(left_chars)
@@ -423,143 +421,27 @@ def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
                 m_ambi,
                 rf'\1{comment_text}\3',
                 latex_snippet,
-#                flags=re.IGNORECASE # | re.DOTALL
             )
             if ns_ambi == 1:
                 contending_autocorrects.append(
                     (auto_ambi, len(matchingText(m_ambi, latex_snippet)))
                 )
-                # return auto_ambi
     if not contending_autocorrects:
         return None
 
-    # if corr.index == 119:
-    #     ic(contending_autocorrects)
-
-    (best_auto, _) = max(
+    (best_auto, len_best_match) = max(
         contending_autocorrects,
         key=lambda cauto: cauto[1]
     )
+
+    if len_best_match < MIN_MATCH_FOR_AUTO:
+        # ic(best_auto, len_best_match)
+        return None
     
     return best_auto
 
-def autocorrectCaret(corr: Correction, **kwargs):
-    tag_name = corr.type[1]
-    pdf_selection_text = corr.pdf_selected_text
-    comment_text = corr.messages['comment']    
-
-    nonspace_left = r'(\S+)?(\s*)'
-    nonspace_right = r'(\s*)(\S+)?'
-
-    regex = rf'{nonspace_left}<{tag_name}>(){nonspace_right}'
-
-    tagged_and_surr_text = list(re.finditer(
-        regex,
-        pdf_selection_text,
-        flags=re.DOTALL
-    ))
-    
-    if len(tagged_and_surr_text) == 0:
-        logger.error(
-            "No match despite valid tags:"
-            fr"'{regex}' on '{pdf_selection_text}'"
-        )
-        return None
-
-    if len(tagged_and_surr_text) > 1:
-        logger.debug(f"Multiple tags in '{pdf_selection_text}'")
-        return None
-
-    match = tagged_and_surr_text[0]
-    left, leftsp, tagged, rightsp, right = [
-        re.escape(m)
-        if m is not None else ''
-        for m in [match.group(i) for i in range(1,6)]
-    ]
-
-    l_sp = r'\s+?' if leftsp else ''
-    r_sp = r'\s+?' if rightsp else ''
-    
-    m_left  = rf'({left}{l_sp})({tagged})'
-    m_right = rf'({tagged})({r_sp}{right})'
-
-    # if the snippet has already been updated    
-    existing_snippet = kwargs.get('snippet', None)
-    
-    if existing_snippet is None:
-        latex_snippet = corr.latex_snippet
-    else:
-        latex_snippet = existing_snippet
-
-    def doSubstitution(sub_left, sub_right):
-        auto_left,  ns_left  = re.subn(m_left, sub_left, latex_snippet, flags=re.IGNORECASE)
-        auto_right, ns_right = re.subn(m_right, sub_right, latex_snippet, flags=re.IGNORECASE)
-        
-        logger.debug(
-            f"for Correction {corr.index}\nauto_left  is "
-            f"{repr(auto_left)}\nauto_right is "
-            f"{repr(auto_right)}\nns_left  is "
-            f"{ns_left}\nns_right is {ns_right}"
-        )
-        
-        if ns_left == 1 and ns_right == 1:
-            # <<<
-            # return auto_left if auto_left == auto_right else None
-            # ========================
-            if auto_left == auto_right:
-                return auto_left
-            # if one of the matches inserts something inside $$ (to the right of it is `$` or `\)`) and the other doesn't
-            # (to the right of it is not `$` or `\)`), go with the one that doesn't
-            # This is not robust. We would still have issues if something was inserted
-            # on either side of a start math shift.
-            # Would need to properly check if inserted content is inside inline math, ideally
-            # with a TeX parser on the snippet
-            elif (ns_left == 1
-                  and ns_left == ns_right
-                  and corr.type[0] == Annot.CARET):
-                
-                l_rstart = list(re.finditer(m_left, latex_snippet))[0].start()+1
-                r_rstart = list(re.finditer(m_right, latex_snippet))[0].start()+1
-
-                l_right_of = latex_snippet[l_rstart:l_rstart+2]
-                r_right_of = latex_snippet[r_rstart:r_rstart+2]
-
-                def hasEndMathShift(chars: str) -> bool:
-                    return chars[0] == '$' or chars[0:2] == r'\)'
-                
-                l_inline_math = hasEndMathShift(l_right_of)
-                r_inline_math = hasEndMathShift(r_right_of)
-                
-                if l_inline_math ^ r_inline_math: # xor
-                    return auto_left if r_inline_math else auto_right
-                else:
-                    return None
-            else:
-                return None
-            # >>> 
-        elif ns_left == 1:
-            return auto_left
-        elif ns_right == 1:
-            return auto_right
-        else:
-            return None
-
-    replacement_text = utils.backslashEscape(
-        utils.UnicodeToTeX(comment_text)
-    )
-    match corr.type[0]:
-        case Annot.CARET | Annot.REPLACE:
-            sub_left = rf'\1{replacement_text}'
-            sub_right = rf'{replacement_text}\2'
-        case Annot.REMOVE:
-            sub_left = r'\1'
-            sub_right = r'\2'
-        case _:
-            return None
-
-    return doSubstitution(sub_left, sub_right)
-
 def newCaretAutocorrect(corr: Correction, **kwargs):
+    """should be refactored with progressiveAutocorrectAttempt"""
     tag_name = Annot.CARET_NAME
     annotated_pdf_text = corr.pdf_selected_text
 
@@ -612,13 +494,11 @@ def newCaretAutocorrect(corr: Correction, **kwargs):
                 m_left,
                 rf'\1{insert_text}',
                 latex_snippet,
-                # flags = re.IGNORECASE | re.DOTALL
             )
             if ns_left == 1:
                 contending_autocorrects.append(
                     (auto_left, len(matchingText(m_left, latex_snippet)))
                 )
-                # return auto_left
         if right_chars is not None:
             r_regex = pdf2texSearchRegex(right_chars)
             m_right = rf'({r_regex})'
@@ -626,13 +506,11 @@ def newCaretAutocorrect(corr: Correction, **kwargs):
                 m_right,
                 rf'{insert_text}\1',
                 latex_snippet,
-                # flags = re.IGNORECASE | re.DOTALL
             )
             if ns_right == 1:
                 contending_autocorrects.append(
                     (auto_right, len(matchingText(m_right, latex_snippet)))
                 )
-                # return auto_right
         if left_chars is not None and right_chars is not None:
             l_regex = pdf2texSearchRegex(left_chars)
             r_regex = pdf2texSearchRegex(right_chars)
@@ -641,20 +519,22 @@ def newCaretAutocorrect(corr: Correction, **kwargs):
                 m_ambi,
                 rf'\1{insert_text}\2',
                 latex_snippet,
-                # flags = re.IGNORECASE | re.DOTALL
             )
             if ns_ambi == 1:
                 contending_autocorrects.append(
                     (auto_ambi, len(matchingText(m_ambi, latex_snippet)))
                 )
-                # return auto_ambi
     if not contending_autocorrects:
         return None
         
-    (best_auto, _) = max(
+    (best_auto, len_best_match) = max(
         contending_autocorrects,
         key=lambda cauto: cauto[1]
     )
+
+    if len_best_match < MIN_MATCH_FOR_AUTO:
+        # ic(best_auto, len_best_match)        
+        return None
     
     return best_auto
 
@@ -698,9 +578,7 @@ def correctSnippet(corr: Correction, **kwargs):
 
     if corr.type[0] in {Annot.REPLACE, Annot.REMOVE}:
         return progressiveAutocorrectAttempt(corr, **kwargs)
-    # else:
-    #     return autocorrectCaret(corr, **kwargs)
-    else: # 0.13.2
+    else: 
         return newCaretAutocorrect(corr, **kwargs)
 
 def getCorrectedSnippets(
