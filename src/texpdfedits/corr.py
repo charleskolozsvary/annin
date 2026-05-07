@@ -743,19 +743,11 @@ def applySourceOffset(
     and indices 3 and 4 are discarded
     """
     
-    # print(f"tex_word_boxes: {tex_word_boxes.keys()}\n\n")
-    
-    # with open('debug_file.txt', 'w') as f:
-    #     f.write('BEFORE:\n')
-    #     for pageno in tex_word_boxes:
-    #         for markid in tex_word_boxes[pageno]:
-    #             f.write(f"tex_word_boxes[{pageno}][{markid}] = {tex_word_boxes[pageno][markid]}\n")
-    
     max_page = max(tex_word_boxes.keys())
     
     if source_offset == 0:
         logger.debug("No source offset applied")
-        return tex_word_boxes
+        return (tex_word_boxes, None)
     
     if source_offset not in tex_word_boxes:
         assert source_offset > max_page, "source page offset should be greater than max_page"
@@ -784,13 +776,7 @@ def applySourceOffset(
             continue
         del tex_word_boxes[page_no]
 
-    # with open('debug_file.txt', 'a') as f:
-    #     f.write('\n\nAFTER:\n')
-    #     for pageno in tex_word_boxes:
-    #         for markid in tex_word_boxes[pageno]:
-    #             f.write(f"tex_word_boxes[{pageno}][{markid}] = {tex_word_boxes[pageno][markid]}\n")        
-
-    return tex_word_boxes, now_empty_pages
+    return (tex_word_boxes, now_empty_pages)
     
 def getCorrections(
         annot_filename: str,
@@ -814,6 +800,7 @@ def getCorrections(
         **kwargs
     )
 
+    # could maybe use now_empty_pages for some kind of sanity check elsewhere 
     (tex_word_boxes, now_empty_pages) = applySourceOffset(source_offset, tex_word_boxes)
     
     tex_str = utils.sourceAsString(Path(latex_filename))

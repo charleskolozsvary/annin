@@ -231,8 +231,18 @@ def main():
         logger.critical(f"Unrecognized comment format: '{args.comment_format}'")
         sys.exit(1)
 
+    annotated_PDF_file = args.annotated_PDF_file
+
+    if not Path(annotated_PDF_file).exists():
+        logger.critical(f"{annotated_PDF_file} does not exist")
+        sys.exit(1)
+        
+    if not Path(latex_file).exists():
+        logger.critical(f"{latex_file} does not exist")
+        sys.exit(1)
+
     process_files(
-        args.annotated_PDF_file,
+        annotated_PDF_file,
         latex_file,
         group_overlapping = args.grp_overlap,
         compiler          = args.compiler,        
