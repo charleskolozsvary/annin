@@ -128,6 +128,9 @@ if __name__ == '__main__':
     logging.info("Finished segment().")
     
     output_dir = 'bbox_drawings'
+    if not Path(output_dir).exists():
+        Path.mkdir(output_dir)
+        
     pdf_filename = Path(args.tex_filename).parent / f'{Path(args.tex_filename).stem}.pdf'
         
     testRectangleToLatex(in_recpage, in_rectangle, document_word_boxes, mark_positions, tex_str, pdf_filename, output_dir)

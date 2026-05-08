@@ -225,6 +225,25 @@ ONLY_MARK_CAPTION_ENVS = {
     'subfigure*'
 }
 
+ACCENT_MACROS = {
+    '`', # grave
+    "'", # acute
+    '^', # circumflex
+    '"', # umlaut, trema, or dieresis
+    'H', # long Hungarian umlaut
+    '~', # tilde
+    'c', # cedilla
+    'k', # ogonek
+    '=', # macron
+    'b', # bar under 
+    '.', # dot over 
+    'd', # dot under 
+    'r', # ring over
+    'u', # breve over
+    'v', # caron over
+    't', # tie over next two
+}
+
 """
 There are 72.27 TeX points in an inch, while there are 
 72 PDF points (what TeX calls a big point or "bp") in an inch, which is what
@@ -520,6 +539,10 @@ def markNodes(
                      or prev_node.isNodeType(LatexGroupNode)
                      or prev_node.isNodeType(LatexCommentNode))
                 ):
+                
+                if prev_node.isNodeType(LatexMacroNode) and prev_node.macroname in ACCENT_MACROS:
+                    return node_verbatim
+                
                 if parent_is_distinctly_marked_macro:
                     pass
                 elif (prev_node.isNodeType(LatexMacroNode)
@@ -527,7 +550,7 @@ def markNodes(
                     pass
                 else:
                     left = r"[\n\t $(~]"
-                    inside = r"[a-zA-Z0-9!?.,'`/;:\-()]+"
+                    inside = r"[a-zA-Z0-9!?.,'`/;:\-()@]+"
                     right = r"[\n\t $)~]"
                     pattern = rf"(?<={left}){inside}(?:(?={right})|$)"
             marked_str, num_subs = re.subn(

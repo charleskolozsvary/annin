@@ -1,4 +1,6 @@
 tmp_prompt/
 tmp_pickle/
+bbox_drawings/
+tmp_marktex/
 
 TeX_comment_corr_out/

@@ -3,7 +3,7 @@ authors = [{name = "Charles Kolozsvary", email = "charleskolozsvary@gmail.com"}]
 dependencies = ["pymupdf>=1.26.7,<2", "pylatexenc>=2.10,<3"]
 name = "texpdfedits"
 requires-python = ">= 3.14"
-version = "0.14.1"
+version = "0.14.2"
 
 [project.scripts]
 corrinline = "texpdfedits.main:main"
@@ -27,3 +27,4 @@ ptpython = ">=3.0.32,<4"
 python-dotenv = ">=1.2.1,<2"
 pillow = ">=12.1.1,<13"
 icecream = ">=2.1.10,<3"
+pytest = ">=9.0.3,<10"
