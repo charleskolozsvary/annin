@@ -3,10 +3,10 @@ All notable changes to this project will be documented in this file (since versi
 
 ## [0.14.3](https://github.com/charleskolozsvary/tex-pdf-edits/commit/144f7b16bdb89425eefd84c11ea1864c5223b4bc) (2026-05-12)
 ### Features
-- Removed "not for COMP" heuristic annotation filtering. It is better to insert all the annotations from the PDF into the source. [extractanns.py]()
-- Updated filter for replacement or insertion text which is likely not literal (e.g. to prevent inserting "the au: okay?") [modifytex.py]()
-- Added short versions of command line options and renamed `--source-start-page` to `--tex-start` [main.py]()
-- Removed check mark from status brackets for autocorrected edits. Now they are only indicated by `(AUTOCORRECTED)`
+- Removed "not for COMP" heuristic annotation filtering. It is better to insert all the annotations from the PDF into the source. [extractanns.py](https://github.com/charleskolozsvary/tex-pdf-edits/commit/144f7b16bdb89425eefd84c11ea1864c5223b4bc#diff-e339d74da60e0ed06ea1977c9b0b4608dce1b139ba3f8b6b06c068684aaadbfb)
+- Updated filter for replacement or insertion text which is likely not literal (e.g. to prevent inserting "the au: okay?") [modifytex.py](https://github.com/charleskolozsvary/tex-pdf-edits/commit/144f7b16bdb89425eefd84c11ea1864c5223b4bc#diff-ccd051762c8d0d9e1780e47e5453f3072ee1eb805bfb56c4c87b8e119bb4c848)
+- Added short versions of command line options and renamed `--source-start-page` to `--tex-start` [main.py](https://github.com/charleskolozsvary/tex-pdf-edits/commit/144f7b16bdb89425eefd84c11ea1864c5223b4bc#diff-f5d4255ff46dd480d9c9f54ed5ca8d1ecb3375f9e7a5dd3a0ba36ebf12402758)
+- Removed check mark from status brackets for autocorrected edits. Now they are only indicated by `(AUTOCORRECTED)` [formatcomm.py](https://github.com/charleskolozsvary/tex-pdf-edits/commit/144f7b16bdb89425eefd84c11ea1864c5223b4bc#diff-20f13c668a1d29a77ac42ec65a8692371eeb2491c8bfb66d3c5713da23a54014)
 
 ## [0.14.2](https://github.com/charleskolozsvary/tex-pdf-edits/commit/366dd4f3a455a1b64fa26242583199a7764a81a8) (2026-05-08)
 ### Bug Fixes
