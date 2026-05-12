@@ -98,6 +98,7 @@ def main():
     parser.add_argument('latex_file', nargs='?', default=None)
 
     parser.add_argument(
+        "-v",
         "--version",
         action="version",
         version=f"%(prog)s {__version__}"
@@ -135,6 +136,7 @@ def main():
         default=True
     )
     parser.add_argument(
+        "-a",
         "--auto",
         action="store_true",
         help='Do simple corrections automatically; default=False'
@@ -145,6 +147,7 @@ def main():
         help=('Adjust annotation rectangles')
     )
     parser.add_argument(
+        "-dc",
         "--delete-comments",
         action="store_true",
         help=('Remove inserted comments from LaTeX.'),
@@ -157,6 +160,7 @@ def main():
         default=utils.DEFAULT_LATEX_COMPILER
     )    
     parser.add_argument(
+        "-eme",
         "--extra-mark-envs",
         type=str,
         help=(
@@ -165,6 +169,7 @@ def main():
         default=''
     )
     parser.add_argument(
+        "-cf",
         "--comment-format",
         type=str,
         help=(
@@ -176,10 +181,11 @@ def main():
         default=formatcomm.DEFAULT_COMMENT_FORMAT
     )
     parser.add_argument(
-        "--source-start-page",
+        "-ts",
+        "--tex-start",
         type=int,
         help=(
-            f'The page of the source\'s outputted PDF '
+            f'The page of the LaTeX source\'s outputted PDF '
             f'that corresponds to the first page of the '
             f'annotated PDF (use rendered page number, not absolute)'
         ),

@@ -17,7 +17,7 @@ from texpdfedits.extractanns import Annot
 from icecream import ic
 
 MAX_PROGRESSIVE_AUTO_ATTEMPTS = 10
-MIN_MATCH_FOR_AUTO = 3 # autocorrect must match at least three total characters
+MIN_MATCH_FOR_AUTO = 5 # autocorrect must match at least this many characters
 
 def getBetweenLatex(
         prev_pos: int,
@@ -352,16 +352,15 @@ def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
         between_tags_lregex,
         comment_text,
         latex_snippet,
-        # flags=re.IGNORECASE
     )
 
     # keep track of
-    # (new text,
-    #  length of regex used to make the sub) 
+    # (new text, length of regex used to make the sub) 
     # tuples
     # We only care about autocorrects which carry out just one substitution,
-    # and if there are more than one of those, we take the one
-    # which matched the longest length string in the LaTeX
+    # and if there are more than one of those
+    # (since we look at the left, right, and left and right text possibilities)
+    # take the one which matched the longest length string in the LaTeX
 
     # This is done to reduce false positives.
     # Better than the greedy approach before
@@ -567,13 +566,19 @@ def correctSnippet(corr: Correction, **kwargs):
         )
         return None
 
-    # insertion or replacement text that is 
-    # very likely not exact/literal
-    if re.search(
-            r'pls\s*link|<\s*link\s*>|comp:',
-            comment_text,
-            flags=re.IGNORECASE
-    ):
+    # some insertion/replacement text is 
+    # very likely not literal
+    not_literal = '|'.join((
+        r'\b(pls|please)\s*link\b',
+        r'<\s*link\s*>',
+        r'\bCOMP\b',
+        r'\bAU\b',
+        r'\bPE\b',
+        r'\bTEG\b',
+        r'\bPTG\b',
+    ))
+    
+    if re.search(not_literal, comment_text, flags=re.IGNORECASE):
         return None
 
     if corr.type[0] in {Annot.REPLACE, Annot.REMOVE}:

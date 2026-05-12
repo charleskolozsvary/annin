@@ -780,7 +780,6 @@ def getSelection(
             sel_bbs,
             annot.rect
         )
-    # >>> 0.11.0
     else:
         selection, annot_rects = newGetSelectionText(
             annot,
@@ -788,7 +787,6 @@ def getSelection(
             page_words
         )
         return selection, annot_rects, annot.rect
-    # >>> 0.12.0
 
 def isNotForCOMP(message: dict[str, str | list[str]]) -> bool:
     head_comment = message['comment']
@@ -845,12 +843,13 @@ def getEdits(filename, **kwargs):
                 'responses': text_responses
             }
 
+            # This turned out to be more harm than help of a heuristic
             # skip annots whose comment text starts with AU:, PE:, or PTG: among other things,
             # unless the first response has COMP: or TEG:
-            if isNotForCOMP(message):
-                logger.debug(f"Annot {annot} deemed not for COMP")
-                num_not_for_comp += 1
-                continue
+            # if isNotForCOMP(message):
+            #     logger.debug(f"Annot {annot} deemed not for COMP")
+            #     num_not_for_comp += 1
+            #     continue
 
             def isReplaceAnnot(ann, ann_resps):
                 if not (ann.type[0] == Annot.STRIKE_OUT or ann.type[0] == Annot.CARET) or ann_resps == []:
@@ -908,11 +907,6 @@ def getEdits(filename, **kwargs):
     logger.info(
         f"Created {len(edits)} edit{utils.plural(len(edits))} from "
         f"{target_num_edits} PDF annotations"
-    )
-    logger.info(
-        f"Ignored {num_not_for_comp} "
-        f"annotation{utils.plural(num_not_for_comp)} "
-        "deemed not for COMP"
     )
     return edits
             

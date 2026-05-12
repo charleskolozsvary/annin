@@ -14,8 +14,8 @@ RECOGNIZED_FORMATS = {FORMAT_FRONT, FORMAT_SPLIT, FORMAT_BACK}
 
 DEFAULT_COMMENT_FORMAT = FORMAT_FRONT
 
-DOWN_SYMBOL = '⭣'
-UP_SYMBOL = '⭡'
+DOWN_SYMBOL = '⭣ '
+UP_SYMBOL = '⭡ '
 
 NUM_FB_SYMBOL = 3
 NUM_SPLIT_SYMBOL = 3
@@ -29,6 +29,7 @@ FORMAT_TO_IDENTIFIER = {
 
 FRONT_OID = FORMAT_TO_IDENTIFIER[FORMAT_FRONT][0]
 FRONT_CID = FORMAT_TO_IDENTIFIER[FORMAT_FRONT][1]
+
 
 SPLIT_OID = FORMAT_TO_IDENTIFIER[FORMAT_SPLIT][0]
 SPLIT_CID = FORMAT_TO_IDENTIFIER[FORMAT_SPLIT][1]
@@ -44,10 +45,10 @@ REMOVE_REGEXES = {
                 %%                                             \n
                 ^%%\ Correction\ [0-9]+,\ page\ [0-9]+ [^\n]*+ \n
                 (?:^% [^\n]*+ \n)+?          
-                ^%{FRONT_OID}                          [^\n]*+ \n
+                ^%{re.escape(FRONT_OID)}               [^\n]*+ \n
                 (.*?)                                   
                 %%                                             \n                                    
-                ^%{FRONT_CID}                          [^\n]*+ \n
+                ^%{re.escape(FRONT_CID)}               [^\n]*+ \n
                 ([ \t\r]*\n)?+
                 """,
                 flags=re.VERBOSE | re.DOTALL | re.MULTILINE
@@ -57,10 +58,10 @@ REMOVE_REGEXES = {
                 %%                                             \n
                 ^%%\ Correction\ [0-9]+,\ page\ [0-9]+ [^\n]*+ \n
                 (?:^% [^\n]*+ \n)+?              
-                ^%{SPLIT_OID}                          [^\n]*+ \n
+                ^%{re.escape(SPLIT_OID)}               [^\n]*+ \n
                 (.*?)                    
                 %%                                             \n   
-                ^%{SPLIT_CID}                          [^\n]*+ \n
+                ^%{re.escape(SPLIT_CID)}               [^\n]*+ \n
                 (?: ^%%\ Comment [^\n]*+ \n)++
                 ([ \t\r]*\n)?+
                 """,
@@ -68,11 +69,11 @@ REMOVE_REGEXES = {
         ),
         FORMAT_BACK: re.compile(
                 rf"""
-                %%                        \n                                            
-                ^%{BACK_OID}     [^\n]*+  \n                              
+                %%                                \n                                            
+                ^%{re.escape(BACK_OID)}  [^\n]*+  \n                              
                 (.*?)                                                
-                %%                        \n                                                 
-                ^%{BACK_CID}     [^\n]*+  \n
+                %%                                \n                                                 
+                ^%{re.escape(BACK_CID)}  [^\n]*+  \n
                 (?:
                 ^%%                       \n
                 ^%%\ Correction\ [^\n]*+  \n
@@ -91,7 +92,7 @@ def get_replies_and_status(corr: Correction, replies: str):
     if replies:
         replies = f'\n%% Replies: "{replies}"'
 
-    status_message = '(auto) [✓]' if corr.is_autocorrected else '[ ]'
+    status_message = '(AUTO) [ ]' if corr.is_autocorrected else '[ ]'
     return (replies, status_message)
     
 
