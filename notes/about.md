@@ -1,6 +1,6 @@
 # About `corrinline` 
 ## Context 
-The American Mathematical Society is a nonprofit which, among many other things, publishes a large volume of books and journals in mathematics. The AMS is also perhaps unique in that it uses LaTeX all throughout its production process. This is in part because LaTeX is the typesetting program of choice in the mathematical community and also because the AMS has been involved in the development of LaTeX for a long time. 
+The American Mathematical Society is a nonprofit which, among many other things, publishes a great number of books and journals in mathematics. The AMS is also perhaps unique in that it uses LaTeX all throughout its production process. This is in part because LaTeX is the typesetting program of choice in the mathematical community and also because the AMS has been involved in the development of LaTeX for a long time. 
 
 Everything the AMS publishes goes through several production stages. One of the crucial but more tedious ones is copy editing. The established workflow is that a copy or production editor will annotate a PDF of the rendered LaTeX source, then someone else will read through those annotations and compose the changes directly to the LaTeX. Broken down, composing those changes involves the following (at some point) for every individual edit
 1. Read the annotation in the PDF 
