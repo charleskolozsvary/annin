@@ -39,9 +39,9 @@ in $\mathsf C[\mathsf W^{-1}];$ on %%
 %⭡ ⭡ ⭡  END of correction 6
 the right, we mean the 1-category of monoid objects in $\mathsf C$,
 ```
-There are several other options, too, that are discussed in [notes/option_usage.md](./notes/option_usage.md). 
+There are several other options, too, that are discussed in [notes/option_usage.md](notes/option_usage.md). 
 
-Also, the rest of this example and others can be seen in [notes/corrinline_examples.md](./notes/corrinline_examples.md).
+Also, the rest of this example and others can be seen in [notes/corrinline_examples.md](notes/corrinline_examples.md).
 
 ## Installation
 If you don't already have a LaTeX distribution, download the latest version of TeX Live at https://www.tug.org/texlive/.
@@ -59,10 +59,10 @@ No instructions currently.
 ### Unchanged LaTeX
 For best results, the LaTeX file should be unchanged since it generated the PDF which contains the annotations. Even relatively small changes could effect pagination and cause a cascade of differences between what the source now renders and the original PDF, which prevents correct mapping from PDF coordinates to positions in the LaTeX source.
 
-If the PDF the LaTeX renders and the annotated PDF are only out of sync up to a certain page, the `--tex-start` option might be of use. It, along with the other options, are discussed in [option_usage.md](./notes/option_usage.md).
+If the PDF the LaTeX renders and the annotated PDF are only out of sync up to a certain page, the `--tex-start` option might be of use. It, along with the other options, are discussed in [option_usage.md](notes/option_usage.md).
 
 ### Annotations are precise
-As shown in [corrinline_examples.md](./notes/corrinline_examples.md), the contents of insertion and replacement text are interpreted literally, so correct autocorrections can only happen if the annotations themselves are correct. Additionally, since 'highlight' is too general an annotation, they will never be done automatically. So accurate, dedicated annotations must be used for best results. For more on this, see [notes/annotation_guidelines.md](./notes/annotation_guidelines.md).
+As shown in [corrinline_examples.md](notes/corrinline_examples.md), the contents of insertion and replacement text are interpreted literally, so correct autocorrections can only happen if the annotations themselves are correct. Additionally, since 'highlight' is too general an annotation, they will never be done automatically. So accurate, dedicated annotations must be used for best results. For more on this, see [notes/annotation_guidelines.md](notes/annotation_guidelines.md).
 
 ### Edits aren't specified to roman numeral pages
 This should be able to be resolved, but since the mapping technique from the PDF to the LaTeX relies on the page numbers TeX generates and a static PDF doesn't always include the correct page label metadata, `corrinline` cannot currently inline edits to pages that are labelled with roman numerals for their number.
@@ -92,5 +92,5 @@ Ideally, the text would look something like
 ```
 There might be a way to do this, but I haven't thought about it much, and it would probably be fairly difficult. Such a problem is pretty well outside the scope of the tool and would be a large independent enhancement.
 
-[^1]: For more about the project's context and motivation, see [notes/about.md](./notes/about.md).
+[^1]: For more about the project's context and motivation, see [notes/about.md](notes/about.md).
 [^2]: Recall that a `~` in LaTeX produces a non-breaking space, but spaces aren't written before punctation like a semicolon, so the edit is to close up that space.
