@@ -2,5 +2,13 @@ tmp_prompt/
 tmp_pickle/
 bbox_drawings/
 tmp_marktex/
+extracted_edit_txts
+
+*.pdf
+!annotations.pdf
+*.tex
+!source.tex
 
 TeX_comment_corr_out/
+
+*.synctex.gz
