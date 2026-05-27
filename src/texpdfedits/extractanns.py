@@ -12,11 +12,11 @@ import texpdfedits.utils as utils
 
 pymupdf.TOOLS.set_small_glyph_heights(True)
 
-# how many characters to include on either side of what was selected by an annotation
-NUM_SELECTION_CONTEXT_CHARS = 12
+# how many characters to include on either side of caret annotation 
+NUM_SELECTION_CONTEXT_CHARS = 24
 
-# words to add before and after which are not selected    
-NUM_CONTEXT_WORDS = 2 
+# words to add before and after which are not selected 
+NUM_CONTEXT_WORDS = 4
 
 # instead of iterating through every character on the page
 # to get the selection text of a single annotation, limit
@@ -31,6 +31,8 @@ STIX_ADJUST = 4
 USE_STIX = [
     'cams',
     'gsm',
+    'stml',
+    'amstext',
 ]
 
 class Annot:
@@ -80,7 +82,7 @@ class Annot:
     REPLACE_NAME = 'Replace'
     
     REMOVE = 29
-    REMOVE_NAME = 'Remove'
+    REMOVE_NAME = 'Strikeout'
 
     TEXT_SELECT_ANNOTS = {
             HIGHLIGHT,
@@ -89,7 +91,13 @@ class Annot:
             UNDERLINE,
             REPLACE,
             REMOVE,
-        }            
+    }
+
+    def to_selection_tag_name(annot_str_name: str):
+        if annot_str_name == Annot.CARET_NAME:
+            return "^"
+        else:
+            return "SEL"
     
     def __init__ (
             self,
@@ -177,7 +185,7 @@ class Edit:
         self.selection_bbs = selection_bbs # for debugging
         self.annot_rect = annot_rect # used in marktex routines
         
-    def __str__ (self): 
+    def __repr__ (self): 
         return json.dumps({
             "pageno": self.pageno, 
             "type": self.type, 
@@ -185,11 +193,12 @@ class Edit:
                 "comment": self.message['comment'],
                 "responses": self.message['responses']
             },
-            "PDF text selection": self.selection
+            "PDF text selection": self.selection,
+            "Coordinates": str(self.annot_rect),
         }, indent=4, ensure_ascii=False)
     
-    def __repr__ (self):
-        return str(self)
+    def __str__ (self):
+        return repr(self)
 
 def pageGetTextClipRect(annot_rect: pymupdf.Rect, page_rect: pymupdf.Rect):
     return pymupdf.Rect(
@@ -532,7 +541,9 @@ def caretSelectionText(caret_annot, page_rawdict):
     page_chars_with_synthetic = []
     synthetic_insert_indices = []
     i, synth_idx = 0, 0
-    caret_tag = f'<{Annot.CARET_NAME}>'
+    
+    focus_tag_name = Annot.to_selection_tag_name(Annot.CARET_NAME)
+    caret_tag = f'<{focus_tag_name}>'
 
     def addSyntheticSpace():
         nonlocal synth_idx
@@ -629,10 +640,11 @@ def newGetSelectionText(annot: Annot, page_rawdict, page_words):
             # last char of the page in selection            
             close_tag_transitions.add(i)
         prev_in = curr_in
-            
+        
+    focus_tag_name = Annot.to_selection_tag_name(annot.type[1])
     annot_tags = {
-        'open': rf'<{annot.type[1]}>',
-        'close': rf'</{annot.type[1]}>'
+        'open': rf'<{focus_tag_name}>',
+        'close': rf'</{focus_tag_name}>'
     }
     
     annotated_pdf_text = []
@@ -697,7 +709,7 @@ def newGetSelectionText(annot: Annot, page_rawdict, page_words):
         if annot.type[0] in Annot.TEXT_SELECT_ANNOTS:
             logger.warning(f"Did not find insert indices for {annot}")
         # print(annot_rects)
-        return (f'None, annot.type = <{annot.type[1]}>', annot_rects)
+        return (f'None', annot_rects)
     
     first_tag_insert_idx = insert_indices[0]
     last_tag_insert_idx  = insert_indices[-1]
@@ -813,7 +825,7 @@ def getEdits(filename, **kwargs):
     logger.info("Done")
 
     target_num_edits = 0
-    logger.info("Turning annotations into edits...")
+    logger.info(f"Processing {len(robust_annots)} pages of annotations...")
     num_not_for_comp = 0
     edits = []
 

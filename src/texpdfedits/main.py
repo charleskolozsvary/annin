@@ -40,7 +40,7 @@ def process_files(*args, **kwargs) -> int:
 
     kwargs['replace'] = False    
         
-    corrections, overlapping_keys = corr.getCorrections(
+    corrections, overlapping_keys = corr.get_corrections_synctex(
         *args,
         **kwargs,
     )
@@ -48,7 +48,7 @@ def process_files(*args, **kwargs) -> int:
     (char_positions, charpos_to_kinds_and_corrections) = modifytex.getSourcePosToCorrections(corrections)
     
     commented_tex_filename = Path(f"{tex_filename.parent / tex_filename.stem}_{INLINED_TAG}.tex")
-    commented_tex_str = modifytex.commentSource(
+    commented_tex_str = modifytex.new_comment_source(
         tex_str,
         char_positions,
         charpos_to_kinds_and_corrections,
@@ -194,12 +194,20 @@ def main():
     
     args = parser.parse_args()
 
-    log_file = utils.newTaggedFname(
-        Path(args.latex_file),
-        'corrinline',
-        new_suffix='.log',
-        put_front=True,
-    )
+    if args.latex_file is None:
+        log_file = utils.newTaggedFname(
+            Path(args.pdf_file),
+            'corrinline',
+            new_suffix='.log',
+            put_front=True,
+        )
+    else:
+        log_file = utils.newTaggedFname(
+            Path(args.latex_file),
+            'corrinline',
+            new_suffix='.log',
+            put_front=True,
+        )
             
     logger_level = logging.DEBUG if args.debug else logging.INFO
     logger_level = logging.WARN  if args.quiet else logger_level

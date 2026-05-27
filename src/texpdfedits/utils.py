@@ -11,26 +11,26 @@ DEFAULT_LATEX_COMPILER = 'pdflatex'
 DIFF_PDF_DPI = 175
 
 COMPILER_INFO = {
-    'pdflatex': (2, 'latin-1', ['--interaction=nonstopmode']),
-    'prdlatex': (1, 'latin-1', ['-pdf', '-nonstopmode']),
-    'xelatex': (2, 'utf-8', ['--interaction=nonstopmode'])
+    'pdflatex': (2, 'latin-1', ['--interaction=nonstopmode', '-synctex=1'], 'pdf'),
+    'prdlatex': (1, 'latin-1', ['-nonstopmode', '-synctex'], 'dvi'),
+    'xelatex': (2, 'utf-8', ['--interaction=nonstopmode', '-synctex=1'], 'pdf')
 }
-
-MAX_ROMAN = 2001
-
-r"""
-The tolerance of 50_000 pixels is a heuristic picked by trial and error.
-Unfortunately, italic correction can still be inserted *before* a markbox, too, which will introduce some pixel differences.
-Example: '(\emph{Boundary depletion})' (\markbox{}{\emph{Boundary depletion}}) will prevent space from being inserted after the
-first open parenthesis if the entire string is in italic font.
-"""
-DIFFPDF_PER_PAGE_PIXEL_TOLERANCE = 50_000
 
 INTERMEDIATE_EXTENSIONS_TO_DELETE = set(
     ".aux .out .log .toc .bbl .blg .thm "
     ".synctex.gz .synctex .brf .pdf"
     .split()
 )
+
+PDF_WORKFLOW = [
+    'cams',
+    'gsm',
+    'stml',
+    'amstext',
+]
+
+class PDFDiff(RuntimeError):
+    pass
 
 UNICODE2TEX = {
     # COMMON PUNCTUATION
@@ -226,35 +226,35 @@ class TextProgressBar:
     def __init__(self, num_to_be_done):
         self.total = num_to_be_done
         self.bar_str = '|' + '-' * self.total + '|'
-    def showSize(self):
+    def show_size(self):
         print(self.bar_str, end='\n ', flush=True)
-    def addProgress(self):
+    def add_progress(self):
         print('.', end='', flush=True)
     def end(self):
         print(flush=True)
 
-def sanitizePdfText(text: str):
-    return UnicodeToTeX(replaceNewlines(text))
+def sanitize_pdf_text(text: str):
+    return unicode_to_tex(replace_newlines(text))
 
-def pdfFname(tex_fname: Path):
+def _pdf_fname(tex_fname: Path):
     return f"{tex_fname.stem}.pdf"        
 
-def sourceAsString(filename: Path, **kwargs) -> str:
+def source_as_string(filename: Path, **kwargs) -> str:
     enc = kwargs.get('encoding', 'utf-8')    
     with open(filename, 'r', encoding = enc) as f:
         tex_file_str = f.read()
     return tex_file_str
 
-def writeStringToFile(string: str, filename: Path, **kwargs) -> int:
+def write_string_to_file(string: str, filename: Path, **kwargs) -> int:
     enc = kwargs.get('encoding', 'utf-8')
     with open(filename, 'w', encoding = enc) as f:
         f.write(string)
     return 0
 
-def tagFileStem(file: Path, tag: str) -> Path:
+def tag_file_stem(file: Path, tag: str) -> Path:
     return file.parent / f"{file.stem}_{tag}{file.suffix}"
 
-def newTaggedFname(
+def new_tagged_fname(
         file: Path,
         tag: str,
         new_suffix: str = '',
@@ -265,7 +265,7 @@ def newTaggedFname(
     else:
         return Path(f"{file.stem}_{tag}{new_suffix if new_suffix else file.suffix}")
 
-def transferTeXFiles(
+def _transfer_tex_files(
         tex_filename: Path,
         files_to: Path,
         move_or_copy: str
@@ -294,7 +294,7 @@ def transferTeXFiles(
                 )
                 sys.exit(1)
 
-def removeDir(directory: Path):
+def remove_dir(directory: Path):
     if not directory.exists():
         return
     files_in_dir = [f for f in directory.glob('**/*') if f.is_file()]
@@ -305,56 +305,79 @@ def removeDir(directory: Path):
         f.unlink()
     directory.rmdir()
 
-def compileLatex(
-        tex_filename: Path,
+def _exchange_suffix(file: Path, suffix_no_dot: str) -> Path:
+    return Path(f"{file.parent / file.stem}.{suffix_no_dot}")
+
+def compile_latex(
+        tex_file: Path,
         compiler: str = DEFAULT_LATEX_COMPILER
-) -> subprocess.CompletedProcess:
-    """Compile .tex file with provided compiler"""
+) -> Path:
+    """
+    Compile .tex file with provided compiler
+    Args:
+        tex_file: latex file to compile
+        compiler:     name of LaTeX compiler
     
-    result = None
-    tex_filename_dir = tex_filename.parent
+    Returns:
+        Path: pathlib Path object of outputted file from compilation
+    """
+    tex_file_dir = tex_file.parent
     
-    (num_runs, encoding, compile_options) = COMPILER_INFO.get(
+    (num_runs, encoding, compile_options, output_extension) = COMPILER_INFO.get(
         compiler,
-        (2, 'latin-1', ['--interaction=nonstopmode'])
+        (
+            2,
+            'latin-1',
+            ['--interaction=nonstopmode', '-synctex=1'],
+            'pdf'
+        )
     )
-    command = [compiler, *compile_options, tex_filename.name]    
+    command = [compiler, *compile_options, tex_file.name]
     for i in range(num_runs):
         logger.info(
-            f"Running {compiler} on {tex_filename} "
+            f"Running {compiler} on {tex_file} "
             f"(pass {i+1}/{num_runs})..."
         )
-        logger.debug(f"I.e., {' '.join(command)}")        
-        result = subprocess.run(
-            command,
-            cwd=tex_filename_dir,
-            capture_output=True, # see result.stdout, result.stderr
-            text=True,
-            encoding=encoding
-        )
+        logger.debug(f"I.e., {' '.join(command)}")
+
+        try:
+            result = subprocess.run(
+                command,
+                cwd=tex_file_dir,
+                capture_output=True, # see result.stdout, result.stderr
+                text=True,
+                encoding=encoding
+            )
+        except FileNotFoundError as e:
+            raise RuntimeError(f"Unable to locate binary: {command[0]}") from e
         
         if result.returncode != 0:
-            logger.error(
+            logger.critical(
                 f"{compiler} failed on pass {i+1} of "
-                f"{tex_filename.name}: {result.stderr}."
+                f"{tex_file.name}: {result.stderr}."
                 f"Output: {result.stdout}"
             )
-            sys.exit(1)
-        
-    return result
+            raise RuntimeError("Compilation failed: see log for details")
 
-def runDiffpdf(
-        first_fname: str,
-        second_fname: str,
-        output_dir: Path,
-        per_page_tol: int = DIFFPDF_PER_PAGE_PIXEL_TOLERANCE
+    output_file = _exchange_suffix(tex_file, output_extension)
+    if not output_file.exists():
+        logger.critical(f"Could not find output of LaTeX compilation '{output_file}'")
+        raise RuntimeError("Expected LaTeX output does not exist")
+
+    return output_file
+
+def run_diff_pdf(
+        first_fname: Path,
+        second_fname: Path,
+        output_dir: Path = Path('.'),
+        per_page_tol: int = 0
 ) -> subprocess.CompletedProcess:
     
-    first_stem = Path(first_fname).stem
-    second_stem = Path(second_fname).stem
+    first_stem = first_fname.stem
+    second_stem = second_fname.stem
     diff_fname = f'diff_{first_stem}_{second_stem}.pdf'
 
-    subprocess_command = [
+    command = [
         'diff-pdf',
         f'--per-page-pixel-tolerance={per_page_tol}',
         f'--dpi={DIFF_PDF_DPI}',
@@ -363,63 +386,66 @@ def runDiffpdf(
         '--mark-differences',
         '--verbose',
         f'--output-diff={diff_fname}',
-        first_fname,
-        second_fname
+        first_fname.name,
+        second_fname.name
     ]
     
-    logger.info(f"Running `{' '.join(subprocess_command)}`...")
-    
-    result = subprocess.run(
-        subprocess_command,
-        cwd=output_dir
-    )
-    
+    logger.info(f"Running `{' '.join(command)}`...")
+
+    try:
+        result = subprocess.run(
+            command,
+            cwd=output_dir
+        )
+    except FileNotFoundError as e:
+        raise RuntimeError(f"Unable to locate binary: {command[0]}") from e
+        
     if result.returncode != 0:
         logger.error(
             f"{first_fname} and {second_fname} are not identical. "
             f"See {Path(output_dir) / diff_fname}"
         )
-        sys.exit(1)
+        raise PDFDiff("Detected PDF differences")
         
-    return (result, Path(diff_fname))
+    return Path(diff_fname)
     
-def deleteIntermediateLaTeX(tex_filename: Path):
-    body = tex_filename.stem
+def delete_intermediate_latex(tex_file: Path):
+    body = tex_file.stem
     for extension in INTERMEDIATE_EXTENSIONS_TO_DELETE:
         to_delete = Path(body + extension)
         if to_delete.exists():
             logger.debug(f"Deleted {to_delete}")
             to_delete.unlink()
             
-def replaceNewlines(s: str) -> str:
+def replace_newlines(s: str) -> str:
     return re.sub(r'[\n\r]', r' ', s)
 
-def backslashEscape(s: str) -> str:
+def backslash_escape(s: str) -> str:
     return s.replace('\\', r'\\')
 
-def UnicodeToTeX(s: str) -> str:
+def unicode_to_tex(s: str) -> str:
     return ''.join(
         UNICODE2TEX.get(char, char)
         for char in s
     )
 
-def compileValidateClean(tex_file1: Path, tex_file2: Path, cwd: Path, **kwargs):
+def compile_validate_clean(tex_file1: Path, tex_file2: Path, cwd: Path, **kwargs):
     compiler = kwargs.get('compiler', DEFAULT_LATEX_COMPILER)
     validate = kwargs.get('validate', True)
     clean    = kwargs.get('clean', True)
     replace  = kwargs.get('replace', False)
     
-    process1 = compileLatex(tex_file1, compiler=compiler)
-    process2 = compileLatex(tex_file2, compiler=compiler)
+    process1 = compile_latex(tex_file1, compiler=compiler)
+    process2 = compile_latex(tex_file2, compiler=compiler)
 
-    transferTeXFiles(tex_file1, cwd, 'cp')
-    transferTeXFiles(tex_file2, cwd, 'mv')
+    _transfer_tex_files(tex_file1, cwd, 'cp')
+    _transfer_tex_files(tex_file2, cwd, 'mv')
 
-    pdf_file1 = pdfFname(tex_file1)
-    pdf_file2 = pdfFname(tex_file2)
+    pdf_file1 = _pdf_fname(tex_file1)
+    pdf_file2 = _pdf_fname(tex_file2)
     
     if validate:
-        process3, diff_fname = runDiffpdf(
+        diff_fname = run_diff_pdf(
             pdf_file1,
             pdf_file2,
             cwd,
@@ -431,40 +457,13 @@ def compileValidateClean(tex_file1: Path, tex_file2: Path, cwd: Path, **kwargs):
     if clean:
         logger.info("Deleting intermediate files.")
         diff_fname.unlink()
-        deleteIntermediateLaTeX(tex_file1)
-        deleteIntermediateLaTeX(tex_file2)
+        delete_intermediate_latex(tex_file1)
+        delete_intermediate_latex(tex_file2)
 
     if replace:
-        # replace second file with first
+        # overwrite first file with second 
         tex_file2.move(tex_file1)
         logger.info(f"Overwrote {tex_file1} with {tex_file2}")
         
 def plural(num: int):
     return 's' if num > 1 else ''
-
-def fromRoman(roman: str):
-    """converts roman numeral to integer"""
-    numerals = roman.upper()
-    roman_to_int = {
-        "I": 1,
-        "V": 5,
-        "X": 10,
-        "L": 50,
-        "C": 100,
-        "D": 500,
-        "M": 1000,
-    }
-    total = 0
-    prev = 0
-
-    for letter in reversed(numerals):
-        curr = roman_to_int[letter]
-        if curr >= prev:
-            total += curr
-        else:
-            total -= curr
-        prev = curr
-    if total < 1 or total > MAX_ROMAN:
-        return -1
-    else:
-        return total

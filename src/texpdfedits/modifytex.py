@@ -90,18 +90,6 @@ def getBetweenLatex(
     if corrected_snip is None:
         return between_source_tex
 
-    if not re.match(r'^\S$', prev_rest_of_line):
-        logger.warning(
-            "prev_rest_of_line was not single nonwhitespace as "
-            f"expected; correction(s) {group} were not "
-            "automatically completed (original source used)"
-        )
-        return between_source_tex
-
-    # The beginning of the corrected_snippets appear to never have any leading white space since
-    # they all begin at a markbox command which will always be at a nonwhitespace character,
-    # so we're always in the `if re.match(r'\S$', last_char):` case in commentSource
-    # and the while not re.match(r'[\r\n\S]' ... ) does not run at all so prev_pos = char_idx = char_pos
     return corrected_snip
 
 def commentSource(
@@ -175,8 +163,8 @@ def commentSource(
         if end_corr_idxs and start_corr_idxs:
             logger.error(
                 f"The start of correction(s) {start_corr_idxs} "
-                f"coincided with the end of correction(s) {end_corr_idxs}"
-                f"grouping of the overlapping snippets failed"
+                f"coincided with the end of correction(s) {end_corr_idxs} "
+                f"merging of the overlapping snippets failed"
             )
             start_end_callout.append('%% double trouble\n')
             
@@ -226,6 +214,10 @@ def commentSource(
         
         commented_source.append(between_latex)
 
+        # if char_pos >= len(tex_str):
+        #     logger.warning(f"Character position {char_pos} in modifytex >= {len(tex_str)}")
+        #     char_pos = len(tex_str)-1
+            
         curr_char, char_idx = tex_str[char_pos], char_pos
         rest_of_line = [] # rest of line from char_pos or until non-horizontal space
         while not re.match(r'[\r\n\S]', curr_char):
@@ -261,8 +253,8 @@ def commentSource(
     commented_source.append(tex_str[prev_pos:])
     return ''.join(commented_source)
 
-def tagsAreValid(tagged_text: str) -> bool:
-    tag_regex = r'(</?)([a-zA-Z]+)>'
+def tagsAreValid(tagged_text: str, annot_name: str) -> bool:
+    tag_regex = r'(</?)([a-zA-Z^‸]+)>'
     all_tags = list(re.finditer(tag_regex, tagged_text))
     if not all_tags:
         logger.warning(
@@ -273,13 +265,12 @@ def tagsAreValid(tagged_text: str) -> bool:
     tag_info = [(tag.group(1), tag.group(2)) for tag in all_tags]
     (tag_starts, tag_names) = zip(*tag_info)
 
-    annot_name = tag_names[0]    
-
     # should have even number for noncaret tags
     if annot_name != Annot.CARET_NAME and len(tag_info) % 2 != 0:
         return False
 
-    if tag_names.count(Annot.CARET_NAME) > 1:
+    caret_focus_tag_name = Annot.to_selection_tag_name(Annot.CARET_NAME)
+    if tag_names.count(caret_focus_tag_name) > 1:
         return False
 
     # we only accept one kind of tag used 
@@ -319,7 +310,7 @@ def matchingText(regex, string):
     return string[m.start():m.end()]
 
 def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
-    tag_name = corr.type[1]
+    tag_name = Annot.to_selection_tag_name(corr.annot_name)
     annotated_pdf_text = corr.pdf_selected_text
 
     existing_snippet = kwargs.get('snippet', None)
@@ -441,7 +432,7 @@ def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
 
 def newCaretAutocorrect(corr: Correction, **kwargs):
     """should be refactored with progressiveAutocorrectAttempt"""
-    tag_name = Annot.CARET_NAME
+    tag_name = Annot.to_selection_tag_name(Annot.CARET_NAME)
     annotated_pdf_text = corr.pdf_selected_text
 
     existing_snippet = kwargs.get('snippet', None)
@@ -449,7 +440,7 @@ def newCaretAutocorrect(corr: Correction, **kwargs):
 
     regex = rf"<{tag_name}>"
     match = list(re.finditer(
-            regex,
+            re.escape(regex),
             annotated_pdf_text,
     ))
 
@@ -538,7 +529,7 @@ def newCaretAutocorrect(corr: Correction, **kwargs):
     return best_auto
 
 def correctSnippet(corr: Correction, **kwargs):
-    if corr.type[0] not in {
+    if corr.annot not in {
             Annot.CARET,
             Annot.REPLACE,
             Annot.REMOVE
@@ -546,7 +537,7 @@ def correctSnippet(corr: Correction, **kwargs):
         return None
     
     pdf_selection_text = corr.pdf_selected_text
-    if not tagsAreValid(pdf_selection_text):
+    if not tagsAreValid(pdf_selection_text, corr.annot_name):
         logger.warning(
             f"Invalid tags: {pdf_selection_text} "
             f"for corr on page {corr.pageno} with comment"
@@ -559,7 +550,7 @@ def correctSnippet(corr: Correction, **kwargs):
     comment_text = corr.messages['comment']
 
     # expect empty comment with remove annotation
-    if corr.type[0] == Annot.REMOVE and comment_text != '':
+    if corr.annot == Annot.REMOVE and comment_text != '':
         logger.debug(
             f"Remove annotation on page {corr.pageno} "
             "did not have empty comment text"
@@ -582,7 +573,7 @@ def correctSnippet(corr: Correction, **kwargs):
     if re.search(not_literal, comment_text, flags=re.IGNORECASE):
         return None
 
-    if corr.type[0] in {Annot.REPLACE, Annot.REMOVE}:
+    if corr.annot in {Annot.REPLACE, Annot.REMOVE}:
         return progressiveAutocorrectAttempt(corr, **kwargs)
     else: 
         return newCaretAutocorrect(corr, **kwargs)
@@ -652,3 +643,129 @@ def getSourcePosToCorrections(corrections: list[Correction]):
     char_positions = sorted(set(char_positions))
     return (char_positions, charpos_to_kinds_and_corrections)
 
+def insert_comments(
+        inserts: list[int],
+        comments: list[str],
+        tex_str: str,
+) -> str:
+    """Insert comment at the beginning of a line
+
+    tex_str before the comment
+    comment
+    tex_str after comment
+    """
+    if len(inserts) != len(comments):
+        logger.error("number of comments and insertion points don't match")
+        return tex_str
+    
+    for insert in inserts:
+        if insert >= len(tex_str) or insert < 0:
+            logger.error(f"Insert idx out of range: {insert}")
+            return tex_str
+        
+    for comment in comments: 
+        expected_comment_format = re.match(
+            r"^(^\s* % .*? \n)+$",
+            comment,
+            flags = re.MULTILINE | re.VERBOSE,
+        )
+        if expected_comment_format is None:
+            logger.warning(f"Comment formatted incorrectly: {comment}")
+            return tex_str
+
+    inserts.insert(0, 0)
+
+    tex_with_comments = []
+    for i in range(1, len(comments)+1):
+        tex_with_comments.extend(
+            (
+                tex_str[inserts[i-1]:inserts[i]],
+                comments[i-1],
+            )
+        )
+    tex_with_comments.extend(tex_str[inserts[-1]:])
+
+    return ''.join(tex_with_comments)
+
+def new_comment_source(
+        tex_str: str,
+        char_positions: list[int],
+        charpos_to_kinds_and_corrections: dict[int, list[tuple[str, Correction]]],
+        **kwargs
+) -> str:
+
+    corrected_snippets = kwargs.get('corrected_snippets', None)
+    format             = kwargs.get('comment_format', formatcomm.DEFAULT_COMMENT_FORMAT)
+    
+    inserted_comments = [] #list of tuples where tuple[0] is the char_pos and tuple[1] is the inserted material
+    for char_pos in char_positions:
+        kinds_and_corrs = charpos_to_kinds_and_corrections[char_pos]
+        corr_descriptions = []
+        start_corr_idxs, end_corr_idxs = [], []
+        for kind_and_corr in kinds_and_corrs:
+            (kind, corr) = kind_and_corr
+            if kind == 'start':
+                corr_descriptions.append(corr.asCommentStart(format))
+                start_corr_idxs.append(corr.index)
+            elif kind == 'end':
+                corr_descriptions.append(corr.asCommentEnd(format)) # new with 0.12.0
+                end_corr_idxs.append(corr.index)
+            else:
+                assert False, f"Invalid kind of position '{kind}'."
+        
+        start_end_callout = []
+
+        if end_corr_idxs:
+            start_end_callout.append(
+                formatcomm.writeCallout(
+                    end_corr_idxs,
+                    'end',
+                    format
+                )
+            )
+
+        if end_corr_idxs and start_corr_idxs:
+            logger.error(
+                f"The start of correction(s) {start_corr_idxs} "
+                f"coincided with the end of correction(s) {end_corr_idxs} "
+                f"merging of the overlapping snippets failed"
+            )
+            start_end_callout.append('%% double trouble\n')
+            
+        if start_corr_idxs:
+            start_end_callout.append(
+                formatcomm.writeCallout(
+                    start_corr_idxs,
+                    'start',
+                    format
+                )
+            )
+
+        description_str = ''.join(corr_descriptions)
+        callout_str = ''.join(start_end_callout)
+
+        if start_corr_idxs:
+            inserted_comments.append((
+                char_pos,
+                f'{description_str}{callout_str}'
+            ))
+        elif end_corr_idxs:
+            inserted_comments.append((
+                char_pos,
+                f'{callout_str}{description_str}'
+            ))
+        else:
+            logger.error(
+                "There were neither start or end "
+                "correction indices?"
+            )
+
+    inserts = [
+        char_pos
+        for char_pos, _ in inserted_comments
+    ]
+    comments = [
+        comment
+        for _, comment in inserted_comments
+    ]
+    return insert_comments(inserts, comments, tex_str)
