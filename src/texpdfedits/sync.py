@@ -3,6 +3,145 @@ from pathlib import Path
 import subprocess
 import re
 
+MACROS_IMPROVE_START = {
+    'caption' : '[{',
+    'bibitem' : '[{',
+    'bib'     : '{{{',
+    'footnote': '[{',
+}
+
+ENVS_IMPROVE_START = (
+    'equation',
+    'align',
+    'multline',
+)
+
+OTHER_IMPROVE_START = {
+    r'\\\[': r'\\\]',
+    r'\$\$': r'\$\$',
+}
+
+NUM_LINES_LOOK_BEHIND = 20
+NUM_LINES_LOOK_AHEAD = 30
+
+def _read_balanced(string: str, delimiters: tuple[str, str]) -> tuple[int, int] | None:
+    start_delim, end_delim = delimiters
+    encountered_open = False
+    idx, stack, start_balanced = 0, 0, 0
+    while idx < len(string):
+        char = string[idx]
+        substr = char
+        while start_delim.startswith(substr) and idx < len(string):
+            if substr == start_delim:
+                if not encountered_open:
+                    start_balanced = idx - len(substr) + 1
+                    encountered_open = True
+                stack += 1
+                break
+            idx += 1
+            char = string[idx]
+            substr += char
+        while end_delim.startswith(substr) and idx < len(string):
+            if substr == end_delim:
+                stack -= 1
+                break
+            idx += 1
+            char = string[idx]
+            substr += char
+        idx += 1
+        if not stack and encountered_open:
+            return (start_balanced, idx)
+    return None
+
+def _macro_end_sync(
+        ahead_str: str,
+        tex_read_start: int,
+        synctex_line_start: int,
+        macro_name: str,
+) -> int:
+    raise NotImplementedError()
+
+def _env_end_sync(
+        ahead_str: str,
+        tex_read_start: int,
+        synctex_line_start: int,
+        env_name: str,
+) -> int:
+    raise NotImplementedError()
+
+def _other_end_sync(
+        ahead_str: str,
+        tex_read_start: int,
+        synctex_line_start: int,
+        other_name: str,
+) -> int:
+    raise NotImplementedError()
+
+def _end_synctex_span(
+        tex_str: str,
+        last_match: re.Match,
+        match_snippet_start: int,
+        line: int,
+        line2pos: dict[int, int],
+) -> int:
+    try:
+        match_type = ('macro', last_match.span('macro'))
+    except IndexError as e:
+        try: 
+            match_type = ('env', last_match.span('env'))
+        except IndexError as e:
+            match_type = ('other', last_match.span('other'))
+    group_id, group_span = match_type
+    
+    read_start = group_span[1] + match_snippet_start
+    
+    end_line = line + NUM_LINES_LOOK_AHEAD
+    if end_line not in line2pos:
+        end_line = max(line2pos)
+        
+    ahead_str = tex_str[read_start:line2pos[end_line]]
+    args = ahead_str, read_start, line2pos[line], last_match.group(group_id)
+    if group_id == 'macro':
+        return _macro_end_sync(*args)
+    elif group_id == 'env':
+        return _env_end_sync(*args)
+    else:
+        return _other_end_sync(*args)
+    
+
+def _improve_synctex_span(
+        tex_str: str,
+        line: int,
+        line2pos: dict[int, int]
+) -> tuple[int, int]:
+    if line + 2 not in line2pos:
+        line -= 2        
+    start, end = line2pos[line - NUM_LINES_LOOK_BEHIND], line2pos[line + 1]
+    behind_str = tex_str[start:end]
+    envs = [
+        rf'\\begin\s*{{(?P<env>{env}\*?)}}'
+        for env in ENVS_IMPROVE_START
+    ]
+    macros = [
+        rf'\\(?P<macro>{macro})\b'
+        for macro in MACROS_IMPROVE_START
+    ]
+    other = [
+        rf'(?P<other>{other})'
+        for other in OTHER_IMPROVE_START
+    ]
+    regex = '|'.join(envs + macros + other)
+    
+    matches = list(re.finditer(regex, behind_str))
+    if not matches:
+        return line2pos[line - 1], line2pos[line + 2]
+    last_match = matches[-1]
+    synctex_span = (
+        start + last_match.span()[0],
+        _end_synctex_span(tex_str, last_match, start)
+    )
+    return synctex_span
+
 def _run_synctex(
         pageno: int,
         x: int,
@@ -171,35 +310,10 @@ def rectangle_to_latex(
     
     if line_no not in line2pos:
         raise ValueError(f"Line number {line_no} out of range for {input_file}")
-    
-    # TODO enhance line finding with some heuristics informed by
-    # parsing the LaTeX with pylatexenc.
 
-    if line_no + 1 not in line2pos:
-        line_no -= 1
-        
-    snippet_start = line2pos[line_no]
-    snippet_end   = line2pos[line_no+1]
+    snippet_start, snippet_end = _improve_synctex_span(line_no, line2pos, tex_str)
+    
     latex_snippet = tex_str[snippet_start:snippet_end]
     
     return latex_snippet, (snippet_start, snippet_end), line_no
-
-def improve_synctex_line(
-        line_no: int,
-        line2pos: dict[int, int],
-        tex_str: str,
-) -> int:
-    r"""
-    Use some simple heuristics to improve the line
-    number given from SyncTeX. Primarily for
-    \bibitem, \bib, \footnote, and \caption
-    adjacent text. See notes/module_musings.md for more
-    Args:
-        line number from SyncTeX
-        map from lines to start source positions in tex_str
-        entire LaTeX source file as string
-    Returns:
-        (potentially) new line number
-    """
-    raise NotImplementedError()
 
