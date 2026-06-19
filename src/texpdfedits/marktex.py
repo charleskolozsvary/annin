@@ -197,6 +197,9 @@ ALLOWED_MARK_ENVIRONMENTS = {
     'bibsection',
     'appendix',
     'allowdisplaybreaks',
+    'center',
+    'bookreview',
+    'review',
 }
 
 # amsrefs bib keys whose values cannot be marked
@@ -696,55 +699,6 @@ def boxinfoToPDFRectangle(hbox, start_xy):
         pgB,
         pymupdf.Rect(x0, sy - height, x0 + width, sy + depth)
     )
-
-def makeTexPagenoMap(word_boxes: dict[str, dict[str, list]]):
-    """
-    The annotated PDF doesn't care about how the pages are numbered, of course,
-    but we only learn what word_boxes are on what page from the TeX source, and that page number
-    can be ... whatever TeX is set to output. We only "account" for the pages that are numbered with only
-    digits, for now ignoring the roman numeral pages.
-
-    The issue I'm reflecting on now is if we have a roman numeral page of 18 that is marked, 19 that is not marked, and
-    then the main matter starts at 1. Since 19 is not marked, I wouldn't know it exists and an absolute zero-indexed
-    page numbering would result in 17, 18, 19 (which used to be "1") rather than 17, 18, 19, 20 (which used to be "1") as it should
-    be and which would line up with a complete annotated PDF of the document.
-
-    There's probably a simple way around this, but for now I'm just going to ignore the pages that are numbered
-    with roman numerals. There shouldn't be that many corrections for such pages anyway.
-    """
-    roman_pagenos = set()
-    decimal_pagenos = set()
-    other_pagenos = set()
-    for info in word_boxes.values():
-        # tex_pageno is either one-indexed or a roman numeral
-        (tex_pageno, _) = boxinfoToPDFRectangle(
-            info['pwhd'],
-            info['spxy']
-        )
-        if re.match(r"^[ivxlcdm]+$", tex_pageno, flags=re.IGNORECASE):
-            roman_pagenos.add(tex_pageno) # make zero-indexed
-        elif re.match(r"^[0-9]+$", tex_pageno):
-            decimal_pagenos.add(tex_pageno)
-        else:
-            other_pagenos.add(tex_pageno)
-            
-    tex_pageno_map = dict()
-    if len(roman_pagenos) > 0:
-        logger.warning(
-            f"roman page numbers '{roman_pagenos}' ignored"
-        )
-    if len(other_pagenos) > 0:
-        logger.error(
-            f"neither roman or decimal page numbers '{other_pagenos}' ignored"
-        )
-    # make zero indexed
-    tex_pageno_map = dict()
-    for decimal_page in decimal_pagenos:
-        tex_pageno_map[decimal_page] = int(decimal_page)-1
-
-    ignored_pagenos = roman_pagenos.union(other_pagenos)
-    
-    return (ignored_pagenos, tex_pageno_map)
         
 def getWordBoxes(boxpositions_filename: Path):
     word_boxes = dict()
@@ -839,23 +793,17 @@ def getWordBoxes(boxpositions_filename: Path):
     for mark_id in markids_to_delete:
         del word_boxes[mark_id]
 
-    (ignored_pagenos, tex_pageno_map) = makeTexPagenoMap(word_boxes)
-
     tex_word_boxes = dict()
     for key, info in word_boxes.items():
-        (tex_pageno, rectangle) = boxinfoToPDFRectangle(
+        (page_label, rectangle) = boxinfoToPDFRectangle(
             info['pwhd'],
             info['spxy']
         )
-        if tex_pageno not in tex_pageno_map:
-            assert tex_pageno in ignored_pagenos, f"{tex_pageno} must be in ignored_pagenos"
-            continue
         
-        pageno = tex_pageno_map[tex_pageno]
-        if pageno in tex_word_boxes:
-            tex_word_boxes[pageno][key] = rectangle
+        if page_label in tex_word_boxes:
+            tex_word_boxes[page_label][key] = rectangle
         else:
-            tex_word_boxes[pageno] = {key:rectangle}
+            tex_word_boxes[page_label] = {key:rectangle}
 
     num_boxes = sum(
         len(markids_to_rectangles)
