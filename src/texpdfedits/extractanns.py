@@ -2,6 +2,7 @@ import pymupdf
 import json
 import argparse
 import logging
+from icecream import ic
 logger = logging.getLogger(__name__)
 
 import math
@@ -31,6 +32,7 @@ STIX_ADJUST = 4
 USE_STIX = [
     'cams',
     'gsm',
+    'stml',
 ]
 
 class Annot:
@@ -94,6 +96,7 @@ class Annot:
     def __init__ (
             self,
             pageno: int,
+            page_label: str,
             type: tuple[int, str],
             info: dict,
             xref: int,
@@ -101,7 +104,8 @@ class Annot:
             rect: pymupdf.Rect,
             vertices: list[list[pymupdf.Point]]
     ): 
-        self.pageno = pageno        
+        self.pageno = pageno
+        self.page_label = page_label
         self.type = type
         self.info = info                
         self.xref = xref
@@ -113,6 +117,7 @@ class Annot:
         return str(
             {
                 'pageno':self.pageno,
+                'pagelabel':self.page_label,
                 'type':self.type,
                 'info':self.info['content'],
                 'rect':self.rect,
@@ -123,6 +128,7 @@ class Annot:
         return str(
             {
                 'pageno':self.pageno,
+                'pagelabel':self.page_label,                
                 'type':self.type,
                 'info':self.info,
                 'xref':self.xref,
@@ -164,13 +170,15 @@ class Edit:
     def __init__ (
             self,
             pageno: int,
+            page_label: str,
             type: tuple[int, str],
             message: dict[str, str | list[str]],
             selection: str,
             selection_bbs: list[pymupdf.Rect],
             annot_rect: pymupdf.Rect
     ):
-        self.pageno = pageno 
+        self.pageno = pageno
+        self.page_label = page_label
         self.type = type
         self.message = message
         self.selection = selection
@@ -179,7 +187,8 @@ class Edit:
         
     def __str__ (self): 
         return json.dumps({
-            "pageno": self.pageno, 
+            "pageno": self.pageno,
+            "page_label": self.page_label,             
             "type": self.type, 
             "message": {
                 "comment": self.message['comment'],
@@ -281,6 +290,7 @@ def getRobustAnnots(filename, **kwargs):
     
     robust_annots = {pageno:[] for pageno in range(doc.page_count)}
     for pageno, page in enumerate(doc):
+        page_label = page.get_label()
         for annot in page.annots():
             new_ann_rect = pymupdf.Rect(
                 annot.rect.top_left,
@@ -290,6 +300,7 @@ def getRobustAnnots(filename, **kwargs):
                 robust_annots[pageno].append(
                     Annot(
                         pageno,
+                        page_label,
                         annot.type,
                         annot.info,
                         annot.xref,
@@ -318,6 +329,7 @@ def getRobustAnnots(filename, **kwargs):
 
             robust_annots[pageno].append(
                 Annot(pageno,
+                      page_label,
                       annot.type,
                       annot.info,
                       annot.xref,
@@ -695,7 +707,7 @@ def newGetSelectionText(annot: Annot, page_rawdict, page_words):
         
     if not insert_indices:
         if annot.type[0] in Annot.TEXT_SELECT_ANNOTS:
-            logger.warning(f"Did not find insert indices for {annot}")
+            logger.debug(f"Did not find insert indices for {annot}")
         # print(annot_rects)
         return (f'None, annot.type = <{annot.type[1]}>', annot_rects)
     
@@ -893,6 +905,7 @@ def getEdits(filename, **kwargs):
             
             edits.append(Edit(
                 annot.pageno,
+                annot.page_label,
                 annot.type,
                 message,
                 selection_text,

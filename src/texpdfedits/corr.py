@@ -36,6 +36,11 @@ We may need to eventually find a new and better way to determine word
 box order if we continue to encounter issues (but I haven't so far).
 """
 
+def getPageLabels(pdf_file: str) -> list[str]:
+    page_labels = [page.get_label() for page in pymupdf.open(pdf_file)]
+    # ic(page_labels)
+    return page_labels
+
 def sortBoxes(boxes):
     if not boxes:
         return []
@@ -127,11 +132,24 @@ def infoToMarkID(count_info: list[dict[str, str]]):
         ]
     )
 
+def getAdjacentPageLabel(
+        page_labels: list[str],
+        page_label: str,
+        plus_minus: int
+) -> str | None:
+    idx = page_labels.index(page_label)
+    # allow value error if page_label not in page_labels
+    adj_idx = idx + plus_minus
+    if adj_idx < 0 or adj_idx >= len(page_labels):
+        return None
+    return page_labels[adj_idx]    
+
 def getAdjacentKey(
         mark_id: str,
         plus_minus: int,
-        page: int,
+        page_label: str,
         tex_word_boxes: dict[int, dict[str, pymupdf.Rect]],
+        page_labels: list[str],
 ) -> str:
     """return the previous and next key based on the terminal stem value.
     So document0;0,caption0;1,footnote5;10
@@ -144,15 +162,17 @@ def getAdjacentKey(
     count_info = marktex.markIdToCountInfo(mark_id)
     stem_val = int(count_info[-1]['stem']) 
     count_info[-1]['stem'] = str(stem_val + plus_minus)
-    adjacentMark = infoToMarkID(count_info) 
+    adjacent_mark = infoToMarkID(count_info)
+
+    adjacent_pagelabel = getAdjacentPageLabel(page_labels, page_label, plus_minus)
         
-    if adjacentMark in tex_word_boxes[page]:
-        return adjacentMark
+    if adjacent_mark in tex_word_boxes[page_label]:
+        return adjacent_mark
     elif (
-        page + plus_minus in tex_word_boxes
-        and adjacentMark in tex_word_boxes[page + plus_minus]
+        adjacent_pagelabel in tex_word_boxes
+        and adjacent_mark in tex_word_boxes[adjacent_pagelabel]
     ):
-        return adjacentMark
+        return adjacent_mark
     else:
         return None
 
@@ -228,13 +248,13 @@ def checkMaybeCompatible(
 
 def getAdjacentPageID(
         tex_word_boxes: dict[int, dict[str, pymupdf.Rect]],
-        pageno: int,
+        page_label: str,
         first_or_last: str
 ) -> str:
-    page_word_boxes = tex_word_boxes.get(pageno, None)
+    page_word_boxes = tex_word_boxes.get(page_label, None)
     
     if page_word_boxes is None:
-        logger.warning(f"No tex_word_boxes on page {pageno}")
+        logger.debug(f"No tex_word_boxes on page {page_label}")
         return None
 
     simpleIDs = [
@@ -244,7 +264,7 @@ def getAdjacentPageID(
     ]
     
     if not simpleIDs:
-        logger.warning(f"No simple IDs on page {pageno}")
+        logger.warning(f"No simple IDs on page {page_label}")
         return None
     
     match first_or_last:
@@ -285,7 +305,7 @@ def getPositionalBoxesBeforeAfter(in_rectangle, page_word_boxes):
     return (boxes_before, boxes_after)
     
 
-def useAllIDs(in_rectangle, page_word_boxes, tex_word_boxes, pageno):
+def useAllIDs(in_rectangle, page_word_boxes, tex_word_boxes, page_label, page_labels):
     """
     Try to find the before and after boxes by looking at nearby boxes of any kind (not just simple)
     """
@@ -293,16 +313,19 @@ def useAllIDs(in_rectangle, page_word_boxes, tex_word_boxes, pageno):
 
     boxes_to_ids = {
         box : id
-            for id, box in page_word_boxes.items()
-    }        
+        for id, box in page_word_boxes.items()
+    }
+
+    prev_pagelabel = getAdjacentPageLabel(page_labels, page_label, -1)
+    post_pagelabel = getAdjacentPageLabel(page_labels, page_label,  1)
 
     if not boxes_before:
-        start_key = getAdjacentPageID(tex_word_boxes, pageno-1, 'last')
+        start_key = getAdjacentPageID(tex_word_boxes, prev_pagelabel, 'last')
     else:
         start_key = boxes_to_ids[boxes_before[-1]]
 
     if not boxes_after:
-        end_key = getAdjacentPageID(tex_word_boxes, pageno+1, 'first')
+        end_key = getAdjacentPageID(tex_word_boxes, post_pagelabel, 'first')
     else:
         end_key = boxes_to_ids[boxes_after[0]]
 
@@ -320,7 +343,7 @@ def useAllIDs(in_rectangle, page_word_boxes, tex_word_boxes, pageno):
 
     return (start_key, end_key)
 
-def useSimpleIDs(in_rectangle, page_word_boxes, tex_word_boxes, pageno):
+def useSimpleIDs(in_rectangle, page_word_boxes, tex_word_boxes, page_label, page_labels):
     """
     Try to find the before and after boxes by just looking at nearby boxes with simple IDs
     """
@@ -343,19 +366,32 @@ def useSimpleIDs(in_rectangle, page_word_boxes, tex_word_boxes, pageno):
         
     start_key = max(boxes_before.keys(), key=getTerminalStem) if boxes_before else None
     end_key = min(boxes_after.keys(), key=getTerminalStem) if boxes_after else None
+
+    behind = -1
+    prev_pagelabel = getAdjacentPageLabel(page_labels, page_label, behind)
+    while prev_pagelabel not in tex_word_boxes and prev_pagelabel in page_labels:
+        behind -= 1
+        prev_pagelabel = getAdjacentPageLabel(page_labels, page_label, behind)
+
+    ahead = 1
+    post_pagelabel = getAdjacentPageLabel(page_labels, page_label,  ahead)
+    while post_pagelabel not in tex_word_boxes and post_pagelabel in page_labels:
+        ahead += 1
+        post_pagelabel = getAdjacentPageLabel(page_labels, page_label, ahead)
         
     if start_key is None:
-        simple_IDs = [fid for fid in tex_word_boxes[pageno - 1] if isSimpleID(fid)] if pageno-1 in tex_word_boxes else []
+        simple_IDs = [fid for fid in tex_word_boxes[prev_pagelabel] if isSimpleID(fid)] if prev_pagelabel in tex_word_boxes else []
         start_key = max(simple_IDs, key=getTerminalStem) if len(simple_IDs) > 0 else None
 
     if end_key is None:
-        simple_IDs = [fid for fid in tex_word_boxes[pageno + 1] if isSimpleID(fid)] if pageno+1 in tex_word_boxes else []
+        simple_IDs = [fid for fid in tex_word_boxes[post_pagelabel] if isSimpleID(fid)] if post_pagelabel in tex_word_boxes else []
         end_key = min(simple_IDs, key=getTerminalStem) if len(simple_IDs) > 0  else None
 
     return (start_key, end_key)
                 
 def rectangleToLatex(
-        pageno: int,
+        page_labels: list[str],
+        page_label: str,
         in_rectangle: pymupdf.Rect,
         tex_word_boxes: dict[int, dict[str, pymupdf.Rect]],
         mark_positions: dict[str, tuple[int, int]],
@@ -363,7 +399,7 @@ def rectangleToLatex(
 ) -> tuple[str, tuple[int, int]] | tuple[None, None]:
     r"""
     Args:
-        pageno: Zero-indexed page number
+        page_label: marked page label 
         in_rectangle: Rectangle on the page (pymupdf format)
         tex_word_boxes: Dictionary from getWordBoxes()
         in marktex.py mark_positions:
@@ -405,14 +441,14 @@ def rectangleToLatex(
     And we do some additional handling if there are no boxes
     before or after on that page
     """
-    if pageno not in tex_word_boxes:
+    if page_label not in tex_word_boxes:
         logger.warning(
             f"Cannot extract LaTeX: "
-            f"pageno {pageno} not in tex_word_boxes"
+            f"page {page_label} not in tex_word_boxes"
         )
         return (None, None)
 
-    page_word_boxes = tex_word_boxes[pageno]
+    page_word_boxes = tex_word_boxes[page_label]
     intersecting_word_boxes = {
         k : rect
         for k, rect in page_word_boxes.items()
@@ -420,7 +456,7 @@ def rectangleToLatex(
     }
 
     if intersecting_word_boxes:
-        # logger.debug(f"Rectangle {in_rectangle} on page {pageno} intersected {len(intersecting_word_boxes)} word boxes")
+        # logger.debug(f"Rectangle {in_rectangle} on page {page_label} intersected {len(intersecting_word_boxes)} word boxes")
         mark_ids = list(intersecting_word_boxes.keys())
         category = categorizeMarkIDs(mark_ids)
         if category == 'compatible':
@@ -430,14 +466,16 @@ def rectangleToLatex(
             before_min = getAdjacentKey(
                 min_key,
                 -1,
-                pageno,
+                page_label,
                 tex_word_boxes,
+                page_labels,
             )
             after_max = getAdjacentKey(
                 max_key,
                 1,
-                pageno,
+                page_label,
                 tex_word_boxes,
+                page_labels,
             )
             
             start_key = before_min if before_min is not None else min_key
@@ -455,13 +493,13 @@ def rectangleToLatex(
     else:
         logger.debug(
             f"Rectangle {in_rectangle} did NOT intersect "
-            f"any word box on page {pageno}"
+            f"any word box on page {page_label}"
         )
         
-        (start_key, end_key) = useAllIDs(in_rectangle, page_word_boxes, tex_word_boxes, pageno)
+        (start_key, end_key) = useAllIDs(in_rectangle, page_word_boxes, tex_word_boxes, page_label, page_labels)
 
         if start_key is None or end_key is None:
-            (start_key, end_key) = useSimpleIDs(in_rectangle, page_word_boxes, tex_word_boxes, pageno)
+            (start_key, end_key) = useSimpleIDs(in_rectangle, page_word_boxes, tex_word_boxes, page_label, page_labels)
 
     if start_key is None or end_key is None:
         # This should only happen if
@@ -517,7 +555,9 @@ class Correction:
     Attributes:
     index: the zero-indexed correction number
     
-    pageno: the (also zero-indexed) page the correction appears on
+    pageno: the (also zero-indexed) page the correction appears on (absolute page number from annotated PDF)
+
+    page_label: the written page number the correction appears on (from PDF generated by source)
     
     type: the annotation type of the correction, e.g.,
           "Caret", "Strikeout", "Highlight".
@@ -557,7 +597,8 @@ class Correction:
     def __init__(
             self,
             index: int,
-            pageno: int, 
+            pageno: int,
+            page_label: str,
             type: tuple[int, str],
             messages: dict[str, str | list[str]],
             pdf_selected_text: str,
@@ -568,6 +609,7 @@ class Correction:
     ) -> None:
         self.index                    = index
         self.pageno                   = pageno
+        self.page_label               = page_label
         self.type                     = type
         self.messages                 = messages
         self.pdf_selected_text        = pdf_selected_text
@@ -583,6 +625,7 @@ class Correction:
         return json.dumps({
             "index" : self.index,
             "pageno": self.pageno,
+            "page_label": self.page_label,
             "type": self.type[1],
             "messages": {
                 "comment": self.messages['comment'],
@@ -806,21 +849,24 @@ def getCorrections(
     tex_str = utils.sourceAsString(Path(latex_filename))
 
     logger.info("Making correction objects...")
+    page_labels = getPageLabels(annot_filename)
     corrections = []
     for i, edit in enumerate(edits):
         progress = f"{i}/{len(edits)-1}"
         pageno = edit.pageno
-        if pageno not in tex_word_boxes:
+        page_label = edit.page_label
+        if page_label not in tex_word_boxes:
             logger.warning(
                 f"Could not create correction {progress}: "
-                f"page '{pageno}' not in tex_word_boxes for edit {edit}"
+                f"page '{page_label}' not in tex_word_boxes for edit {edit}"
             )
             continue
         
         pdf_annot_rect = edit.annot_rect
         logger.debug(f"Getting latex snippet for edit {edit}...")
         latex_snippet, snippet_source_positions = rectangleToLatex(
-            pageno,
+            page_labels,
+            page_label,
             pdf_annot_rect,
             tex_word_boxes,
             mark_positions,
@@ -837,7 +883,7 @@ def getCorrections(
 
         corrections.append(
             Correction(
-                i, pageno, edit.type, edit.message, edit.selection,
+                i, pageno, page_label, edit.type, edit.message, edit.selection,
                 pdf_annot_rect, edit.selection_bbs, latex_snippet,
                 snippet_source_positions
             )
