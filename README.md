@@ -8,7 +8,7 @@ to write annotations from the PDF as comments at their corresponding locations i
 
 Here's an example PDF annotation
 
-<img width="1107" height="578" alt="image" src="https://github.com/user-attachments/assets/52c7af9b-0f1b-43f0-be55-83ec2116f1ef"/>
+<img width="1076" height="121" alt="image" src="https://github.com/user-attachments/assets/ceee8317-870b-4f89-987c-a85b57ddf616" />
 
 And this is how its information is written to the LaTeX
 ```latex
