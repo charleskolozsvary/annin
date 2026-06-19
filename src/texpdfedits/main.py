@@ -202,6 +202,8 @@ def main():
 
     if args.latex_file is None:
         file_log_based_on = args.pdf_file
+    else:
+        file_log_based_on = args.latex_file
 
     script_name = Path(sys.argv[0]).name    
     log_file = utils.newTaggedFname(
