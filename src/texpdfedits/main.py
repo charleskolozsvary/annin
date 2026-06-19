@@ -58,7 +58,13 @@ def process_files(*args, **kwargs) -> int:
 
     cwd = Path('./')
 
-    utils.compileValidateClean(tex_filename, commented_tex_filename, cwd, **kwargs)
+    utils.compileValidateClean(
+        tex_filename,
+        commented_tex_filename,
+        cwd,
+        no_first = True,
+        **kwargs
+    )
 
     if not do_autocorrections:
         return 0

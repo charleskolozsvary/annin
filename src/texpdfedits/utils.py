@@ -403,13 +403,14 @@ def UnicodeToTeX(s: str) -> str:
         for char in s
     )
 
-def compileValidateClean(tex_file1: Path, tex_file2: Path, cwd: Path, **kwargs):
+def compileValidateClean(tex_file1: Path, tex_file2: Path, cwd: Path, no_first: bool=False, **kwargs):
     compiler = kwargs.get('compiler', DEFAULT_LATEX_COMPILER)
     validate = kwargs.get('validate', True)
     clean    = kwargs.get('clean', True)
     replace  = kwargs.get('replace', False)
-    
-    process1 = compileLatex(tex_file1, compiler=compiler)
+
+    if not no_first:
+        process1 = compileLatex(tex_file1, compiler=compiler)
     process2 = compileLatex(tex_file2, compiler=compiler)
 
     transferTeXFiles(tex_file1, cwd, 'cp')
