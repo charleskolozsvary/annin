@@ -194,9 +194,10 @@ def main():
     
     args = parser.parse_args()
 
+    script_name = Path(sys.argv[0]).name    
     log_file = utils.newTaggedFname(
         Path(args.latex_file),
-        'corrinline',
+        script_name,
         new_suffix='.log',
         put_front=True,
     )

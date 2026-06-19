@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file (since version 0.12.0).
 
+## [0.14.4]() (2026-06-19)
+### Features
+- Script name changed from `corrinline` to `annin`
+
 ## [0.14.3](https://github.com/charleskolozsvary/tex-pdf-edits/commit/144f7b16bdb89425eefd84c11ea1864c5223b4bc) (2026-05-12)
 ### Features
 - Removed "not for COMP" heuristic annotation filtering. It is better to insert all the annotations from the PDF into the source. [extractanns.py](https://github.com/charleskolozsvary/tex-pdf-edits/commit/144f7b16bdb89425eefd84c11ea1864c5223b4bc#diff-e339d74da60e0ed06ea1977c9b0b4608dce1b139ba3f8b6b06c068684aaadbfb)
