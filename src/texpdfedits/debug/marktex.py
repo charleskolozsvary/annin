@@ -1,6 +1,7 @@
 from texpdfedits.marktex import getSyncInfo, getWordBoxes, unMarkWithPositions
 from texpdfedits.corr import rectangleToLatex
-from texpdfedits.utils import sourceAsString, DEFAULT_LATEX_COMPILER, TextProgressBar
+from texpdfedits.extractanns import getPageLabels
+from texpdfedits.utils import sourceAsString, DEFAULT_LATEX_COMPILER, TextProgressBar, fromRoman
 
 import logging
 logger = logging.getLogger(__name__)
@@ -20,15 +21,16 @@ def parse_rectangle(s):
     except ValueError:
         raise argparse.ArgumentTypeError("Rectangle values must be numbers")
 
-def drawWordBoxes(pdf_filename, document_word_boxes, output_dir):
+def drawWordBoxes(pdf_filename, document_word_boxes, output_dir, page_labels):
     save_file_name = Path(output_dir) / f'{Path(pdf_filename).stem}_word_boxes.pdf'
     logging.info(f"Drawing word boxes on {pdf_filename} to {save_file_name}...")
     bar = TextProgressBar(len(document_word_boxes))
     bar.showSize()
     doc = pymupdf.open(pdf_filename)
-    for pg_no in document_word_boxes:
+    for page_label in document_word_boxes:
+        pg_no = page_labels.index(page_label)
         page = doc[pg_no]
-        for key, rectangle in document_word_boxes[pg_no].items():
+        for key, rectangle in document_word_boxes[page_label].items():
             try:
                 box = page.add_freetext_annot(rectangle, key, text_color=(0,.25,.7), fontsize=1, fontname="Cour")
                 box.set_border(width=.3)
@@ -43,7 +45,8 @@ def drawWordBoxes(pdf_filename, document_word_boxes, output_dir):
     return 0
 
 def testRectangleToLatex(
-        pageno: int,
+        page_labels: list[str],
+        page_label: str,
         in_rectangle: pymupdf.Rect,
         document_word_boxes: dict[int, dict[str, pymupdf.Rect]],
         mark_positions: dict[str, tuple[int, int]],
@@ -59,13 +62,13 @@ def testRectangleToLatex(
     else:
         doc = pymupdf.open(pdf_filename)
 
-    page = doc[pageno]
+    page = doc[page_labels.index(page_label)]
     
     box = page.add_freetext_annot(in_rectangle, 'in_rectangle', text_color=(1,.25,.7), fontsize=9, fontname="Cour")
     box.set_border(width=.5)
     box.update()
 
-    latex_snippet, source_positions = rectangleToLatex(pageno, in_rectangle, document_word_boxes, mark_positions, tex_str)
+    latex_snippet, source_positions = rectangleToLatex(page_labels, page_label, in_rectangle, document_word_boxes, mark_positions, tex_str)
 
     logging.info(
         f"Here's the latex extracted by the rectangle drawn on {save_file_name}\n```latex\n"
@@ -95,9 +98,9 @@ def main():
     )
 
     parser.add_argument(
-        "--page",
-        type=int,
-        help='Page number for the rectangle'
+        "--page_label",
+        type=str,
+        help='Page label for the rectangle'
     )
 
     parser.add_argument("-emen", "--extra-marked-environment-names", type=str, help='Comma-separated extra environment names to mark in---last resort')
@@ -114,15 +117,22 @@ def main():
     else:
         in_rectangle = pymupdf.Rect(250, 605, 300, 617)
 
-    if args.page:
-        in_recpage = args.page
+    if args.page_label:
+        in_recpage = args.page_label
     else:
-        in_recpage = 0
+        in_recpage = '1'
 
     if args.extra_marked_environment_names:
         extra_names = set(args.extra_marked_environment_names.split(','))
     else:
         extra_names = set()
+
+    # test
+    pdf_filename = Path(args.tex_filename).parent / f'{Path(args.tex_filename).stem}.pdf'
+
+    page_labels = getPageLabels(pdf_filename)
+    print(page_labels)
+    # test
 
     mark_positions, document_word_boxes = getSyncInfo(args.tex_filename, emen=extra_names, compiler=args.compiler, clean=args.clean)
 
@@ -133,13 +143,17 @@ def main():
     output_dir = 'bbox_drawings'
     if not Path(output_dir).exists():
         Path.mkdir(output_dir)
-        
-    pdf_filename = Path(args.tex_filename).parent / f'{Path(args.tex_filename).stem}.pdf'
-        
-    testRectangleToLatex(in_recpage, in_rectangle, document_word_boxes, mark_positions, tex_str, pdf_filename, output_dir)
 
+    pdf_filename = Path(args.tex_filename).parent / f'{Path(args.tex_filename).stem}.pdf'
+
+    page_labels = getPageLabels(pdf_filename)
+    print(page_labels)
+    if '' in page_labels:
+        return
+    testRectangleToLatex(page_labels, in_recpage, in_rectangle, document_word_boxes, mark_positions, tex_str, pdf_filename, output_dir)
+    
     if args.drawboxes:
-        drawWordBoxes(pdf_filename, document_word_boxes, output_dir)
+        drawWordBoxes(pdf_filename, document_word_boxes, output_dir, page_labels)
 
 if __name__ == '__main__':
     main()
