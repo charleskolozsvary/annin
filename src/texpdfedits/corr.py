@@ -818,7 +818,7 @@ def getCorrections(
         annot_filename: str,
         latex_filename: str,
         **kwargs
-) -> list[Correction]:
+) -> tuple[list[Correction], list, int, int]:
 
     # To be honest, I don't know why you would ever group the overlapping
     # snippets and *not* update them. This must be a remnant of something
@@ -830,11 +830,13 @@ def getCorrections(
     clean               = kwargs.get('clean', True)
     source_offset       = kwargs.get('source_offset', '')
 
-    edits = extractanns.getEdits(annot_filename, **kwargs)
+    edits, n_annots = extractanns.getEdits(annot_filename, **kwargs)
     (mark_positions, tex_word_boxes) = marktex.getSyncInfo(
         latex_filename,
         **kwargs
     )
+
+    n_edits = len(edits)
 
     # could maybe use now_empty_pages for some kind of sanity check elsewhere
     if source_offset:
@@ -905,4 +907,4 @@ def getCorrections(
     else:
         logger.info("Overlapping corrections NOT grouped")
 
-    return corrections, overlapping_keys
+    return corrections, overlapping_keys, n_annots, n_edits

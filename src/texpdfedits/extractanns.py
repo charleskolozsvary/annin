@@ -815,7 +815,7 @@ def isNotForCOMP(message: dict[str, str | list[str]]) -> bool:
     else:
         return False
 
-def getEdits(filename, **kwargs):
+def getEdits(filename: str, **kwargs) -> tuple[list[Edit], int]:
     """return a list of Edits. See class Edit."""
     logger.info("Loading PDF annotations...")
     doc = pymupdf.open(filename)
@@ -920,7 +920,7 @@ def getEdits(filename, **kwargs):
         f"Created {len(edits)} edit{utils.plural(len(edits))} from "
         f"{target_num_edits} PDF annotations"
     )
-    return edits
+    return edits, target_num_edits
             
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog = 'python extract.py',
@@ -936,7 +936,7 @@ if __name__ == '__main__':
     
     logging.basicConfig(level=_level, format='%(asctime)s - %(levelname)s - %(message)s')
 
-    edits = getEdits(filename)    
+    edits, target_num_edits = getEdits(filename)    
 
     if args.print_edits:
         for edit in edits:

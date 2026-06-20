@@ -17,7 +17,7 @@ __version__ = version('texpdfedits')
 INLINED_TAG = 'inlined'
 AUTO_TAG = 'autocorrected'
 
-def process_files(*args, **kwargs) -> int:
+def process_files(*args, **kwargs):
     annot_filename, tex_filename = args
     
     compiler           = kwargs.get('compiler', utils.DEFAULT_LATEX_COMPILER)
@@ -40,10 +40,12 @@ def process_files(*args, **kwargs) -> int:
 
     kwargs['replace'] = False    
         
-    corrections, overlapping_keys = corr.getCorrections(
+    corrections, overlapping_keys, n_annots, n_edits = corr.getCorrections(
         *args,
         **kwargs,
     )
+
+    n_corrs = len(corrections)
     
     (char_positions, charpos_to_kinds_and_corrections) = modifytex.getSourcePosToCorrections(corrections)
     
@@ -80,16 +82,17 @@ def process_files(*args, **kwargs) -> int:
         corrected_snippets = corrected_snippets,
         **kwargs
     )
-    n_corrected = sum(1 for corr in corrections if corr.is_autocorrected)
+    n_autos = sum(1 for corr in corrections if corr.is_autocorrected)
     
     # no validation because we expect pdf differences after autocorrections
     autocorrected_tex_filename = Path(f"{tex_filename.stem}_{AUTO_TAG}.tex")
     utils.writeStringToFile(autocorrected_tex_str, autocorrected_tex_filename)
 
-    logger.info(f"Autocorrected {n_corrected:3d}/{len(corrections):3d} corrections")
+    logger.info(f"Autocorrected {n_autos:3d}/{len(corrections):3d} corrections")
     logger.info(f"Autocorrected source written to {autocorrected_tex_filename}")
-
-    return 0
+    logger.info(f"n_annots: {n_annots}, n_edits: {n_edits}, n_corrs: {n_corrs}, n_autos: {n_autos}")
+    
+    return
 
 def ProgramBanner():
     script_name = Path(sys.argv[0]).name
@@ -200,10 +203,7 @@ def main():
     
     args = parser.parse_args()
 
-    if args.latex_file is None:
-        file_log_based_on = args.pdf_file
-    else:
-        file_log_based_on = args.latex_file
+    file_log_based_on = args.pdf_file
 
     script_name = Path(sys.argv[0]).name    
     log_file = utils.newTaggedFname(
@@ -270,6 +270,8 @@ def main():
         replace           = args.replace,
         source_offset     = args.tex_start,
     )
+    return 0
 
 if __name__ == '__main__':    
     main()
+    sys.exit(0)
