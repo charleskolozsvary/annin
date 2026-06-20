@@ -12,4 +12,12 @@ source_marked.pdf
 source_inlined.pdf
 diff_*.pdf
 
+*.synctex.gz
+*_nocomments.tex
+*_nocomments.pdf
+*_reflowed*.tex
+*_reflowed*.pdf
+
+extracted_edit_txts/
+
 TeX_comment_corr_out/
