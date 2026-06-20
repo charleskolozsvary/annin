@@ -1,0 +1,66 @@
+%% AMS amsxelatex
+\documentclass{stml-l}
+\usepackage{hyperams}
+\usepackage{amstix2}
+\begin{document}
+\frontmatter
+\chapter*{Preface}
+This is a preface with some %%
+%% Correction 0, page 1 [ ]
+%% Remove: "some words. <SEL>Sure.</SEL>  "
+%% Comment:   ""
+%%
+%% Correction 2, page 1 [ ]
+%% Highlight: "<SEL>i</SEL>  "
+%% Comment:   "page i"
+%%
+%% Correction 4, page 2 [ ]
+%% Highlight: "ii <SEL>Preface</SEL>  And more"
+%% Comment:   "preface heading page ii"
+%%
+%⭣ ⭣ ⭣ 
+words. Sure.
+
+\newpage
+
+And %%
+%⭡ ⭡ ⭡  END of corrections 0, 2, 4
+%%
+%% Correction 3, page 2 [ ]
+%% Remove: "more words<SEL> on another page</SEL>.  "
+%% Comment:   ""
+%%
+%% Correction 5, page 3 [ ]
+%% Replace: "Preface iii  <SEL>And text on page ``iii.''</SEL>  "
+%% Comment:   "Sure, and, while you're at it, replace that with this."
+%%
+%% Correction 6, page 3 [ ]
+%% Highlight: "Preface <SEL>iii</SEL>  A d"
+%% Comment:   "page iii"
+%%
+%% Correction 8, page 5 [ ]
+%% Highlight: "<SEL>Introduction</SEL>  "
+%% Comment:   "introduction"
+%%
+%⭣ ⭣ ⭣ 
+more words on another page.
+
+\newpage
+
+And text on page ``iii.''
+
+\mainmatter
+
+\chapter{Introduction}
+This %%
+%⭡ ⭡ ⭡  END of corrections 3, 5, 6, 8
+%%
+%% Correction 7, page 5 [ ]
+%% Highlight: "This is <SEL>text</SEL> in the"
+%% Comment:   "highlighting text on page 1 of main matter"
+%%
+%⭣ ⭣ ⭣ 
+is text in %%
+%⭡ ⭡ ⭡  END of correction 7
+the main matter, on page ``1.''
+\end{document}
