@@ -1,6 +1,10 @@
 tmp_prompt/
 tmp_pickle/
 bbox_drawings/
-tmp_marktex/
+tmp_marktex*/
+boxpositions_*.txt
+
+source_autocorrected.tex
+source_inlined.tex
 
 TeX_comment_corr_out/
