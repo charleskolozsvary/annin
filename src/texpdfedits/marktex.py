@@ -360,6 +360,11 @@ def markNodes(
             if parent not in counters:
                 counters[parent] = {'head': 0, 'value': -1}
 
+        if parent_counter_keys[-1] == 'bib':
+            cheated_for_bib = parent_counter_keys.pop()
+        else:
+            cheated_for_bib = ''
+            
         count_key = parent_counter_keys[-1]
         counters[count_key]['value'] += 1
         
@@ -369,6 +374,9 @@ def markNodes(
             f"{counters[key]['value']}"
             for key in parent_counter_keys
         )
+
+        if cheated_for_bib:
+            parent_counter_keys.append('bib')
         
         return rf'{MARK_CSNAME}{{{mark_id}}}{{{string}}}'
         
