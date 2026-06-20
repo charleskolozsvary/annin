@@ -43,7 +43,7 @@ REMOVE_REGEXES = {
         FORMAT_FRONT: re.compile(
                 rf"""
                 %%                                             \n
-                ^%%\ Correction\ [0-9]+,\ page\ [0-9]+ [^\n]*+ \n
+                ^%%\ Annotation\ [0-9]+,\ page\ [0-9]+ [^\n]*+ \n
                 (?:^% [^\n]*+ \n)+?          
                 ^%{re.escape(FRONT_OID)}               [^\n]*+ \n
                 (.*?)                                   
@@ -56,7 +56,7 @@ REMOVE_REGEXES = {
         FORMAT_SPLIT: re.compile(
                 rf"""
                 %%                                             \n
-                ^%%\ Correction\ [0-9]+,\ page\ [0-9]+ [^\n]*+ \n
+                ^%%\ Annotation\ [0-9]+,\ page\ [0-9]+ [^\n]*+ \n
                 (?:^% [^\n]*+ \n)+?              
                 ^%{re.escape(SPLIT_OID)}               [^\n]*+ \n
                 (.*?)                    
@@ -76,7 +76,7 @@ REMOVE_REGEXES = {
                 ^%{re.escape(BACK_CID)}  [^\n]*+  \n
                 (?:
                 ^%%                       \n
-                ^%%\ Correction\ [^\n]*+  \n
+                ^%%\ Annotation\ [^\n]*+  \n
                 ^%%\ [a-zA-Z]+:  [^\n]*+  \n
                 ^%%\ Comment:    [^\n]*+  \n
                 (?:^%%\ Replies: [^\n]*+  \n)?+
@@ -104,7 +104,7 @@ def startComment(corr: Correction, format: str, replies: str):
 
     if format == FORMAT_FRONT:
         return (
-            f"%% Correction {corr.index}, page {corr.pageno+1} {status_message}\n"
+            f"%% Annotation {corr.index}, page {corr.pageno+1} {status_message}\n"
             f"%% {corr_type}: \"{utils.sanitizePdfText(corr.pdf_selected_text)}\"\n"
             f"%% Comment:   \"{utils.sanitizePdfText(corr.messages['comment'])}\"{replies}\n"
             f"%%\n"
@@ -112,7 +112,7 @@ def startComment(corr: Correction, format: str, replies: str):
         
     if format == FORMAT_SPLIT:
         return (
-            f"%% Correction {corr.index}, page {corr.pageno+1} {status_message}\n"
+            f"%% Annotation {corr.index}, page {corr.pageno+1} {status_message}\n"
             f"%% {corr_type}: \"{utils.sanitizePdfText(corr.pdf_selected_text)}\"{replies}\n"
         )
         
@@ -137,7 +137,7 @@ def endComment(corr: Correction, format: str, replies: str):
     if format == FORMAT_BACK:
         return (
             f"%%\n"
-            f"%% Correction {corr.index}, page {corr.pageno+1} {status_message}\n"
+            f"%% Annotation {corr.index}, page {corr.pageno+1} {status_message}\n"
             f"%% {corr_type}: \"{utils.sanitizePdfText(corr.pdf_selected_text)}\"\n"
             f"%% Comment:   \"{utils.sanitizePdfText(corr.messages['comment'])}\"{replies}\n"
         )
@@ -145,7 +145,7 @@ def endComment(corr: Correction, format: str, replies: str):
 def writeCallout(corr_idxs: list[int], start_or_end: str, format: str):
     idx = 0 if start_or_end == 'start' else 1
     c_id = FORMAT_TO_IDENTIFIER[format][idx]
-    sing_plural = 'correction' if len(corr_idxs) == 1 else 'corrections'
+    sing_plural = 'annotation' if len(corr_idxs) == 1 else 'annotations'
     
     if format == FORMAT_FRONT:
         if start_or_end == 'start':
