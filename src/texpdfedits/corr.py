@@ -48,7 +48,7 @@ def getPageLabels(pdf_file: str) -> list[str]:
     if '' in page_labels:
         logger.error(f"{pdf_file} has an empty page label...")
         
-    ic(page_labels)
+    # ic(page_labels)
     return page_labels
 
 def sortBoxes(boxes):
@@ -841,7 +841,7 @@ def getCorrections(
     # could maybe use now_empty_pages for some kind of sanity check elsewhere
     if source_offset:
         tex_word_boxes = applySourceOffset(source_offset, tex_word_boxes)
-        ic(tex_word_boxes.keys())
+        # ic(tex_word_boxes.keys())
     
     tex_str = utils.sourceAsString(Path(latex_filename))
 

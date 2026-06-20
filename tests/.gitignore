@@ -6,5 +6,10 @@ boxpositions_*.txt
 
 source_autocorrected.tex
 source_inlined.tex
+source.pdf
+source_marked.tex
+source_marked.pdf
+source_inlined.pdf
+diff_*.pdf
 
 TeX_comment_corr_out/
