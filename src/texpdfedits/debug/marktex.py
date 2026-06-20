@@ -1,6 +1,5 @@
 from texpdfedits.marktex import getSyncInfo, getWordBoxes, unMarkWithPositions
-from texpdfedits.corr import rectangleToLatex
-from texpdfedits.extractanns import getPageLabels
+from texpdfedits.corr import rectangleToLatex, getPageLabels
 from texpdfedits.utils import sourceAsString, DEFAULT_LATEX_COMPILER, TextProgressBar, fromRoman
 
 import logging
@@ -127,13 +126,6 @@ def main():
     else:
         extra_names = set()
 
-    # test
-    pdf_filename = Path(args.tex_filename).parent / f'{Path(args.tex_filename).stem}.pdf'
-
-    page_labels = getPageLabels(pdf_filename)
-    print(page_labels)
-    # test
-
     mark_positions, document_word_boxes = getSyncInfo(args.tex_filename, emen=extra_names, compiler=args.compiler, clean=args.clean)
 
     tex_str = sourceAsString(args.tex_filename)
@@ -146,10 +138,15 @@ def main():
 
     pdf_filename = Path(args.tex_filename).parent / f'{Path(args.tex_filename).stem}.pdf'
 
-    page_labels = getPageLabels(pdf_filename)
-    print(page_labels)
-    if '' in page_labels:
+    if not pdf_filename.exists():
+        print(f"{pdf_filename} doesn't exist... exiting")
         return
+
+    page_labels = getPageLabels(pdf_filename)
+    if '' in page_labels:
+        print(f"some page labels were empty")
+        return
+    
     testRectangleToLatex(page_labels, in_recpage, in_rectangle, document_word_boxes, mark_positions, tex_str, pdf_filename, output_dir)
     
     if args.drawboxes:
