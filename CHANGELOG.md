@@ -1,18 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file (since version 0.12.0).
 
-## [0.15.0](https://github.com/charleskolozsvary/annin/commit/d89a177be3e4680af35e8951751f99be7865c4e5) (2026-06-20)
+## [0.15.0](https://github.com/charleskolozsvary/annin/commit/f9e1ff3aca3b3263486019b610e113f4f8a266fc) (2026-06-20)
 ### Features
-- Script name changed from `corrinline` to `annin` (after updating, rerun `./install.sh` like during original installation) [commit](https://github.com/charleskolozsvary/annin/commit/3f782f84f91e73e184432b701569f3514ec77e5c)
-- Now supports PDFs with roman numeral paging (e.g. in books) as long as label metadata is accurate [commit](https://github.com/charleskolozsvary/annin/commit/780447d8b7faf6bb4dd794028e5f17c1e425985a)
-- Updated annotation comment formatting: `Selection: "Or <Hightlight>something</Hightlight>"` to `Highlight: "Or <SEL>something</SEL>"` [commit](https://github.com/charleskolozsvary/annin/commit/be96c650bec55bc52c7a26637345bbf872b34a5c)
-- Greatly improved snippet isolation for annotations in or near `\bib` commands [commit](https://github.com/charleskolozsvary/annin/commit/2d5637bde80287f6fce5dd8c257e8dc02ef4a671)
-- Improved marking (and hence snippet identification) for characters after accents [commit](https://github.com/charleskolozsvary/annin/commit/d89a177be3e4680af35e8951751f99be7865c4e5)
+- Script name changed from `corrinline` to `annin` (after updating, rerun `./install.sh` like during original installation) [3f782f8](https://github.com/charleskolozsvary/annin/commit/3f782f84f91e73e184432b701569f3514ec77e5c)
+- Now supports PDFs with roman numeral paging (e.g. in books) as long as label metadata is accurate [780447d](https://github.com/charleskolozsvary/annin/commit/780447d8b7faf6bb4dd794028e5f17c1e425985a)
+- Updated annotation comment formatting: `Selection: "Or <Hightlight>something</Hightlight>"` to `Highlight: "Or <SEL>something</SEL>"` [be96c65](https://github.com/charleskolozsvary/annin/commit/be96c650bec55bc52c7a26637345bbf872b34a5c)
+- Greatly improved snippet isolation for annotations in or near `\bib` commands [2d5637b](https://github.com/charleskolozsvary/annin/commit/2d5637bde80287f6fce5dd8c257e8dc02ef4a671)
+- Improved marking (and hence snippet identification) for characters after accents [d89a177](https://github.com/charleskolozsvary/annin/commit/d89a177be3e4680af35e8951751f99be7865c4e5)
 
 ### Bug Fixes
-- Discrepancies between `prdlatex -pdf` and `prdlatex` -> `pubprint` now resolved by running `pubprint` by default for any compiler that doesn't generate a PDF [commit](https://github.com/charleskolozsvary/annin/commit/b4efce8f390bac0cf01ebd8814f7959e71ee87c4)
-- `annin -dc latex_file` now works as intended (you don't need to supply `pdf_file` if just deleting comments) [commit](https://github.com/charleskolozsvary/annin/commit/e13af39257adc1a52753b13c0152d38ab68838d0)
-- Fixed `re.subn` replacement string bug if interpolated text in `\1{left}` started with digit (`\1` and the like to `\g<1>`) [commit](https://github.com/charleskolozsvary/annin/commit/c3b36288d59fbfbff73253ee0a3c47763a1f4388)
+- Discrepancies between `prdlatex -pdf` and `prdlatex` -> `pubprint` now resolved by running `pubprint` by default for any compiler that doesn't generate a PDF [](https://github.com/charleskolozsvary/annin/commit/b4efce8f390bac0cf01ebd8814f7959e71ee87c4)
+- `annin -dc latex_file` now works as intended (you don't need to supply `pdf_file` if just deleting comments) [](https://github.com/charleskolozsvary/annin/commit/e13af39257adc1a52753b13c0152d38ab68838d0)
+- Fixed `re.subn` replacement string bug if interpolated text in `\1{left}` started with digit (`\1` and the like to `\g<1>`) [](https://github.com/charleskolozsvary/annin/commit/c3b36288d59fbfbff73253ee0a3c47763a1f4388)
 
 ## [0.14.3](https://github.com/charleskolozsvary/tex-pdf-edits/commit/144f7b16bdb89425eefd84c11ea1864c5223b4bc) (2026-05-12)
 ### Features
