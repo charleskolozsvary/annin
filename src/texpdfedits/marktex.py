@@ -415,14 +415,20 @@ def markNodes(
                 rf'{verbatim_contents}'
                 rf'\end{{{node.envname}}}'
             )
-            
-            if node_verbatim != joined_whole:
+            joined_regex = (
+                rf'^\\begin(\s*){{{re.escape(node.envname)}}}(\s*)'
+                rf'{re.escape(verbatim_args)}'
+                rf'{re.escape(verbatim_contents)}'
+                rf'\\end(\s*){{{re.escape(node.envname)}}}$'
+            )
+            re_res = re.search(joined_regex, node_verbatim)
+            if re_res is None:
                 logger.error(
                     f"Environment node '{node_verbatim}' in "
                     f"markNode was malformed or parsed incorrectly"
                 )
-                logger.debug(f"{node_verbatim} != {joined_whole}")
                 sys.exit(1)
+            aft_begin_sp, bef_args_sp, aft_end_sp = re_res.groups()
                 
             if node.envname in allowed_environments or node.envname in ONLY_MARK_CAPTION_ENVS:
                 marked_contents = []
@@ -447,13 +453,13 @@ def markNodes(
                     parent_counter_keys.pop()
                     
                 return (
-                    rf"\begin{{{node.envname}}}"
+                    rf"\begin{aft_begin_sp}{{{node.envname}}}{bef_args_sp}"
                     rf"{verbatim_args}"
                     rf"{''.join(marked_contents)}"
-                    rf"\end{{{node.envname}}}"
+                    rf"\end{aft_end_sp}{{{node.envname}}}"
                 )
             else:
-                return joined_whole
+                return node_verbatim
             
         elif isinstance(node, LatexMacroNode):
             if (node.macroname in MARKED_ENTIRE_CSNAMES

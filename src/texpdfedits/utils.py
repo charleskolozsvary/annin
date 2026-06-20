@@ -490,7 +490,7 @@ def compileValidateClean(tex_file1: Path, tex_file2: Path, cwd: Path, no_first: 
 def plural(num: int):
     return 's' if num > 1 else ''
 
-def fromRoman(roman: str):
+def fromRoman(roman: str) -> int:
     """converts roman numeral to integer"""
     numerals = roman.upper()
     roman_to_int = {

@@ -287,6 +287,8 @@ def getRobustAnnots(filename, **kwargs):
     robust_annots = {pageno:[] for pageno in range(doc.page_count)}
     for pageno, page in enumerate(doc):
         page_label = page.get_label()
+        if not page_label:
+            page_label = str(pageno+1)
         for annot in page.annots():
             new_ann_rect = pymupdf.Rect(
                 annot.rect.top_left,

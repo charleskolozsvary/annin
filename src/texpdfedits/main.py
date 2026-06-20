@@ -189,13 +189,13 @@ def main():
     parser.add_argument(
         "-ts",
         "--tex-start",
-        type=int,
+        type=str,
         help=(
             f'The page of the LaTeX source\'s outputted PDF '
             f'that corresponds to the first page of the '
             f'annotated PDF (use rendered page number, not absolute)'
         ),
-        default=1
+        default=''
     )
     
     args = parser.parse_args()
@@ -227,10 +227,6 @@ def main():
     )
 
     logger.info(ProgramBanner())
-
-    if args.tex_start < 1:
-        logger.critical("The source page cannot be less than one")
-        sys.exit(1)
 
     if args.latex_file is None and not args.delete_comments:
         logger.critical("Missing latex_file")
