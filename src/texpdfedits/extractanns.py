@@ -78,7 +78,7 @@ class Annot:
     REPLACE_NAME = 'Replace'
     
     REMOVE = 29
-    REMOVE_NAME = 'Remove'
+    REMOVE_NAME = 'Delete'
 
     TEXT_SELECT_ANNOTS = {
             HIGHLIGHT,

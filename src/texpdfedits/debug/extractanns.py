@@ -235,7 +235,7 @@ def main():
 
 
     # logging.info(f'Running getEdits({filename})...')
-    edits = getEdits(filename, adjust_annots=args.adjust_annots)
+    edits, n_annots = getEdits(filename, adjust_annots=args.adjust_annots)
     # logging.info("Done.")
         
     if args.draw_edits:    
