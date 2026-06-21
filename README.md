@@ -1,81 +1,79 @@
 # `annin`
-## Usage
-`annin` is a tool that aids a LaTeX- and PDF-based manuscript correction workflow.[^1] Run 
+`annin` is a command-line tool that aids a LaTeX- and PDF-based manuscript correction workflow.[^1] Run 
 ```shell
 annin pdf_file latex_file
 ```
-to write annotations from the PDF as comments at their corresponding locations in a new LaTeX file, `[latex_file]_inlined.tex`.
+to write annotations from the PDF as comments at their corresponding locations in the LaTeX.[^3]
 
-Here's an example PDF annotation
+Here's an example PDF annotation[^2]
 
-<img width="1076" height="121" alt="image" src="https://github.com/user-attachments/assets/ceee8317-870b-4f89-987c-a85b57ddf616" />
+<img width="932" height="82" alt="image" src="https://github.com/user-attachments/assets/00068a4b-547e-4f2b-baa2-1a3eeb89476f" />
 
 And this is how its information is written to the LaTeX
 ```latex
-the left we mean the $\infty$-category of $\mathbb E_1$-algebras %%
-%% Correction 6, page 2 [ ]
-%% Selection: "in C[W−1]<Replace> ;</Replace> on the"
-%% Comment:   ";"
+$\mathbb E_1$-algebras %%
+%% Annotation 4, page 2 [ ]
+%% Delete: "in C[W−1]<SEL> </SEL>; on"
+%% Comment:   ""
+%% Replies: "make sure punct. outside inline math, too"
 %%
 %⭣ ⭣ ⭣ 
 in $\mathsf C[\mathsf W^{-1}]~;$ on %%
-%⭡ ⭡ ⭡  END of correction 6
-the right, we mean the 1-category of monoid objects in $\mathsf C$,
+%⭡ ⭡ ⭡  END of annotation 4
+the right,
 ```
-A general index, the page the annotation appears on, the text selected in the PDF by the annotation, and the contents of the annotation text box are all written to the LaTeX file at the corresponding location (delineated by the down and up arrows).[^2]
+The comment includes
+1. The annotation counter (`4`)---a running index that starts at 0
+2. The page the annotation appears on (`2`). The number is absoluate, starting from 1 (not page label)
+3. The annotation type (`Delete`)[^4]
+4. The text selected by the annotation in the PDF (`"in C[W−1]<SEL> </SEL>; on"`)---the precise selection is between HTML-like focus tags and some surrounding text is included
+5. The contents of the annotation comment box (`""`)
+6. Any replies to the annotation (`"make sure punct. outside inline math, too"`).
+   
+The corresponding LaTeX is isolated to the region between the up and down arrows.
 
-### Autocorrections
-`annin` tries to automatically carry out three types of annotations if the `--auto` option is supplied
+## Option: autocorrections
+`annin` tries to automatically perform **three types of annotations** if the `--auto` option is supplied.[^5]
 1. Replace
-2. Strikeout (remove)
-3. Insert (caret)
+2. Strikeout (delete)
+3. Insert (caret).
 
-Running
-```shell
-annin --auto pdf_file latex_file
-```
-outputs `_autocorrected.tex` (in addition to the same `_inlined.tex` file from before) which for this example looks like
+For the same example annotation, this results in
 ```latex
-the left we mean the $\infty$-category of $\mathbb E_1$-algebras %%
-%% Correction 6, page 2 (AUTOCORRECTED) [ ]
-%% Selection: "in C[W−1]<Replace> ;</Replace> on the"
-%% Comment:   ";"
+$\mathbb E_1$-algebras %%
+%% Annotation 4, page 2 (AUTOCORRECTED) [ ]
+%% Delete: "in C[W−1]<SEL> </SEL>; on"
+%% Comment:   ""
+%% Replies: "make sure punct. outside inline math, too"
 %%
 %⭣ ⭣ ⭣ 
 in $\mathsf C[\mathsf W^{-1}];$ on %%
-%⭡ ⭡ ⭡  END of correction 6
-the right, we mean the 1-category of monoid objects in $\mathsf C$,
+%⭡ ⭡ ⭡  END of annotation 4
+the right,
 ```
 
-<!-- There are several other options, too, that are discussed in [notes/option_usage.md](notes/option_usage.md).  -->
-
-<!-- Also, the rest of this example and others can be seen in [notes/annin_examples.md](notes/annin_examples.md). -->
-
 ## Installation
-If you don't already have a LaTeX distribution, download the latest version of TeX Live at https://www.tug.org/texlive/.
+If you don't already have a LaTeX distribution, go to https://www.latex-project.org/get/ or https://www.tug.org/texlive/.
 ### Linux/Mac
 1. Install pixi (the python package and dependency manager): https://pixi.prefix.dev/latest/installation/
 2. Install `diff-pdf` (CL tool for comparing PDFs): https://github.com/vslavik/diff-pdf
 3. Clone this repository to your machine
-4. Run `./install.sh [annin shell script install directory]`, e.g., `./install.sh /usr/local/bin/` at the top-level directory of the cloned repository
+4. Run `./install.sh [annin shell script install directory]` (e.g., `./install.sh /usr/local/bin/`) at the top-level directory of the cloned repository.
 
-Verify it is installed properly with `annin -h`. You should see the usage message.
+Verify it is installed properly with `annin -h`. You should see the usage message. If the directory you installed it to is on your PATH, you can run `annin` anywhere on your machine.
 ### Windows
 No instructions currently.
 
 ## Assumptions and limitations
-### Unchanged LaTeX
-For the tool to work as intended, the LaTeX file should be unchanged since it generated the PDF which was then annotated. Even relatively small changes could effect pagination and cause a cascade of differences between what the source now renders and the original PDF, which prevents correct mapping from PDF coordinates to positions in the LaTeX source.
+### PDF generated by LaTeX and LaTeX unchanged
+It might be obvious, but the PDF supplied to `annin` must have been generated by the supplied LaTeX file.
 
-If the PDF the current LaTeX generates and the annotated PDF are only out of sync up to a certain page, the `--tex-start` option might be of use. It, along with the other options, are discussed in [option_usage.md](notes/option_usage.md) (incomplete).
+Also, the LaTeX file should be unchanged since it generated the PDF which was then annotated. Even relatively small changes could effect pagination and cause a cascade of differences between what the source now renders and the original PDF. Such differences prevent PDF positions from correctly mapping to the LaTeX, so snippets no longer correspond to the selected text.
 
-### Annotations are precise
-As shown in [annin_examples.md](notes/annin_examples.md), the contents of insertion and replacement text are interpreted literally, so correct autocorrections can only happen if the annotations themselves are correct. Additionally, since 'highlight' is too general an annotation, they will never be done automatically. So accurate, dedicated annotations must be used for best results. For more on this, see [notes/annotation_guidelines.md](notes/annotation_guidelines.md).
+If the PDF the current LaTeX generates and the annotated PDF are out of sync only up to a certain page, the `--tex-start` option might be of use.
 
-<!-- ### Annotated PDF has correct page label metadata (if there are roman numeral pages) -->
-
-<!-- ### Edits aren't specified to roman numeral pages -->
-<!-- This should be able to be resolved, but since the mapping technique from the PDF to the LaTeX relies on the page numbers TeX generates and a static PDF doesn't always include the correct page label metadata, `annin` cannot currently inline edits to pages that are labelled with roman numerals for their number. -->
+### Annotations are precise (for autocorrections)
+The selected text and contents of the comment box are interpreted literally, so correct autocorrections can only happen if the annotations themselves are correct. It might also be worth reiterating that annotations outside the listed three types will **never be performed automatically**. For more on how to use PDF annotations for best results with this tool, see [notes/annotation_guidelines.md](notes/annotation_guidelines.md).
 
 ### Incomplete character maps
 Complicated math formulas render beautifully with LaTeX, but their character encoding in the PDF is not great. Take for example this LaTeX
@@ -100,7 +98,10 @@ Ideally, the text would look something like
 ```text
 𝑋 ↦ ∐_{𝑛≥0} 𝑋^{⊗𝑛}
 ```
-There might be a way to do this, but I haven't thought about it much, and it would probably be fairly difficult. Such a problem is pretty well outside the scope of the tool and would be a large independent enhancement.
+Such a problem is well outside the scope of the tool. There might be a way to improve the PDF encoding for math glyphs using compilers other than `pdflatex` like `lualtex`.
 
 [^1]: For more about the project's context and motivation, see [notes/about.md](notes/about.md).
 [^2]: Recall that a `~` in LaTeX produces a non-breaking space, but spaces aren't written before punctation like a semicolon, so the edit is to close up that space.
+[^3]: `annin` does not overwrite the original LaTeX---it creates a modified version of it, `[latex_file]_inlined.tex`. Also, `annin` verifies that the modified version is visually identical to the original `latex_file`. The inserted comments should never produce visual differences.
+[^4]: This annotation is typically called "Strikeout" or "Strikethrough".
+[^5]: The same `_inlined.tex` file is created in addition to `_autocorrected.tex`.
