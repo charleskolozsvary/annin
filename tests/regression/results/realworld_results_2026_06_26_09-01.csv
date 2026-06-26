@@ -1,0 +1,10 @@
+failed,log_exists,n_annots,n_edits,n_corrs,n_autos,directory,pdf_file,runtime
+0,1,55,55,55,25,arxiv01,annotations.pdf,5.652
+0,1,194,194,194,117,arxiv01,annotations_carets.pdf,6.689
+0,1,429,429,429,274,arxiv05,annotations.pdf,34.441
+0,1,157,157,157,101,arxiv05,annotations_carets.pdf,33.775
+0,1,88,88,88,13,arxiv07,annotations.pdf,14.356
+0,1,11,11,8,4,arxiv10,annotations.pdf,28.152
+0,1,171,171,171,44,arxiv13,annotations.pdf,10.8
+0,1,180,180,180,51,arxiv13,annotations2.pdf,10.532
+0,1,38,38,38,16,fake_article,annotations.pdf,6.699
