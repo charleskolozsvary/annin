@@ -826,8 +826,9 @@ def getCorrections(
     n_edits = len(edits)
 
     if opt['tex_start']:
+        logger.info(f"Treating {latex_file} start as page '{opt['tex_start']}'...")
         tex_word_boxes = apply_source_offset(opt['tex_start'], tex_word_boxes)
-        # ic(tex_word_boxes.keys())
+        logger.info("Done")
     
     tex_str = utils.sourceAsString(Path(latex_file))
 

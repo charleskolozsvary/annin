@@ -9,7 +9,7 @@ N_STATUS_COLUMNS = 9
 TIMEOUT_DURATION = 60 * 5 # five minutes
 
 def verify_status_clean(file: Path):
-    command = ['svn', 'status', '-u', file]
+    command = ['svn', 'status', '-u', file.name]
     try:
         status = subprocess.run(
             command,
@@ -36,15 +36,15 @@ def verify_status_clean(file: Path):
     # to be extra safe, check that the file is not in the output either
     is_clean = (
         EMPTY_STATUS.match(status.stdout) is not None and
-        str(file) not in status.stdout
+        file.name not in status.stdout
     )
     if is_clean:
         return    
     columns = status.stdout[:N_STATUS_COLUMNS]
-    # could check exactly why it's not clean, but that seems like overkill    
+    # could check exactly why it's not clean. Could be helpful
     if columns != ' ' * N_STATUS_COLUMNS:
-        logger.critical(f"svn status columns are not blank")
-        raise RuntimeError(f"{file} not clean: {status.stdout}")
+        logger.critical(f"svn status -u {file} columns are not blank")
+        raise RuntimeError(f"{file} is not clean in svn working directory: {status.stdout}")
     return
 
 def commit(file: Path, message: str):

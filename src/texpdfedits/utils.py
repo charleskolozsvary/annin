@@ -20,6 +20,14 @@ COMPILER_INFO = {
 INLINED_TAG = 'inlined'
 AUTO_TAG = 'autocorrected'
 
+PRDLATEX_ERR_LINES = (
+    r'^!',
+    r'tex failed!',
+    r'summary of following errors:',
+)
+
+PRDLATEX_FAILED = re.compile('|'.join(PRDLATEX_ERR_LINES), flags = re.IGNORECASE | re.MULTILINE)
+
 MAX_ROMAN = 2001
 
 r"""
@@ -352,6 +360,16 @@ def compile_tex(
             encoding=encoding,
             check=True, # raises subprocess.CalledProcessError
         )
+        # it looks like prdlatex doesn't return nonzero exit status when
+        # compilation fails. And it is always captured by stderr
+        error_match = PRDLATEX_FAILED.search(result.stderr)
+        prdlatex_failed = (
+            compiler == 'prdlatex' and
+            error_match is not None
+        )
+        if prdlatex_failed:
+            logger.critical(f"prdlatex failed on {latex_file}; stderr match: {error_match}")
+            raise RuntimeError(f"prdlatex failed on {latex_file}")
 
     as_pdf = exchangeExtension(latex_file, 'pdf')
     if as_pdf.exists():
@@ -450,11 +468,11 @@ def compile_validate_clean_replace(
         latex_file1: Path,
         latex_file2: Path,
         cwd: Path,
-        compile_first: bool=False,
+        compile_file1: bool=True,
         **opt
 ):
     # no point in compiling first if not validating
-    if opt['validate'] and compile_first: 
+    if opt['validate'] and compile_file1: 
         process1 = compile_tex(latex_file1, opt['compiler'])
         
     if opt['validate']:

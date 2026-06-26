@@ -18,8 +18,9 @@ __version__ = version('texpdfedits')
 
 def process_files(pdf_file: Path, latex_file: Path, **opt):
     tex_str = utils.sourceAsString(latex_file)    
-
+    
     if opt['svn']:
+        logger.info(f"Checking {latex_file} is clean...")
         svn.verify_status_clean(latex_file)
 
     if opt['delete_comments']:
@@ -61,7 +62,7 @@ def process_files(pdf_file: Path, latex_file: Path, **opt):
         latex_file,
         commented_latex_file,
         cwd,
-        compile_first = False,
+        compile_file1 = False,
         **opt
     )
 
@@ -101,7 +102,7 @@ def process_files(pdf_file: Path, latex_file: Path, **opt):
             latex_file,
             autocorrected_latex_file,
             cwd,
-            compile_first = False,
+            compile_file1 = False,
             **opt
         )
     except subprocess.CalledProcessError as e:
