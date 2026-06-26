@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file (since versi
 ## [0.16.1](https://github.com/charleskolozsvary/annin/commit/559f8cf147aca54737ec35aa47cdea445b98029d) (2026-06-26)
 ### Bug Fixes
 - Fixed `--no-svn --delete-comments` optional argument combination which would still svn commit [a4d6b84](https://github.com/charleskolozsvary/annin/commit/a4d6b84f2b9aa43c9faf6b27f91b01cb2ed9e4b5)
-- Fixed nongreedy svn commit of `latex_file` [a4d6b84](https://github.com/charleskolozsvary/annin/commit/a4d6b84f2b9aa43c9faf6b27f91b01cb2ed9e4b5)
+- Fixed greedy svn commit of `latex_file` directory [a4d6b84](https://github.com/charleskolozsvary/annin/commit/a4d6b84f2b9aa43c9faf6b27f91b01cb2ed9e4b5)
 
 ## [0.16.0](https://github.com/charleskolozsvary/annin/commit/1a009115b30007890baf4eb39c6248f589ae0129) (2026-06-26)
 ### Features
