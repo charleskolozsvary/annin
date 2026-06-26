@@ -1,0 +1,553 @@
+\documentclass{amsart}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Low orbit foliations of $\mathrm{CAT}(0)$}
+\author{Leroy Hubbard}
+\address{Department of Quadratics, University of Belarus, 3 Corporal %%
+%% Annotation 35, page 6 (AUTOCORRECTED) [ ]
+%% Caret: "ay, Genevive<Caret> 06578, Bela"
+%% Comment: ","
+%%
+%⭣ ⭣ ⭣ 
+Way, Genevive, 06578, %%
+%⭡ ⭡ ⭡  END of annotation 35
+Belarus}
+\email{lhubard@qbela.edu}
+
+\author{Francis Euler}
+\address{Department of Mathematics and Statistics, Georgetown University, 301 Prospect %%
+%% Annotation 36, page 6 (AUTOCORRECTED) [ ]
+%% Caret: ", Washington<Caret> 12765, USA "
+%% Comment: ","
+%%
+%% Annotation 37, page 6 (AUTOCORRECTED) [ ]
+%% Caret: "n 12765, USA<Caret> Email addre"
+%% Comment: "; and Department of Mathematics, Princeton University, Nassau Street, Princeton New Jersey, 02854"
+%%
+%⭣ ⭣ ⭣ 
+Circle, Washington, 12765, USA; and Department of Mathematics, Princeton University, Nassau Street, Princeton New Jersey, 02854%%
+%⭡ ⭡ ⭡  END of annotations 36, 37
+}
+\email{feuler@gtown.edu}
+
+\thanks{%%
+%% Annotation 5, page 1 (AUTOCORRECTED) [ ]
+%% Replace: "grant No. <SEL>314159357</SEL>. F."
+%% Comment: "765489"
+%%
+%% Annotation 6, page 1 [ ]
+%% Replace: "<SEL>L. H.</SEL> was supported"
+%% Comment: "The first author"
+%%
+%% Annotation 7, page 1 [ ]
+%% Highlight: "No. 314159357. <SEL>F. E. thanks the Department of Linguistics for the valuable conversations.</SEL> 1Originally conjectured"
+%% Comment: "please move to Acknowledgments section."
+%%
+%⭣ ⭣ ⭣ 
+L.\ H.\ was supported by NSF grant No.\ 765489. F.\ E.\ thanks the Department of Linguistics for the valuable conversations.%%
+%⭡ ⭡ ⭡  END of annotations 5, 6, 7
+}
+
+\begin{document}
+\begin{abstract}
+We set $\mathcal{G} = \sim\frac{\lambda^2}{[H : K]}$ and investigate the orbits of 
+$\mathfrak{I} = \frac{\mathrm{CAT}(0)}{\mathcal{G}^{\lambda k}}$ 
+provided $\lambda \in [1-\varphi, 1+\varphi]$, where $\varphi$ is the golden ratio. 
+Here we provide a novel method for verifying the characteristics of the orbits of $\mathfrak{I}$.
+\end{abstract}
+
+\maketitle
+
+
+\section{Introduction}
+
+Ever since 1689 with Fermat's treatise on prime enumeration \cite{fermat89}, 
+attempts at understanding $\frac{\mathrm{CAT}(0)}{\mathcal{G}^{\lambda k}}$ have been underway but mostly unsuccessful. 
+Our main objective is to describe the low-orbit foliations induced by $\mathfrak{I}$ on 
+the pseudo-Euclidean completion of a $\mathrm{CAT}(0)$ complex. 
+This perspective arose from the need to understand the failure of the ``Flat Orbit Conjecture'' in higher curvature %%
+%% Annotation 0, page 1 [ ]
+%% Delete: "curvature regimes1<SEL>.</SEL>  "
+%% Comment: "delete"
+%% Replies: "reply", "another reply"
+%%
+%% Annotation 1, page 1 (AUTOCORRECTED) [ ]
+%% Caret: "ture regimes<Caret>1.  "
+%% Comment: ". <period: put foootnote after period>"
+%%
+%% Annotation 2, page 1 [ ]
+%% Replace: "of the <SEL>``Flat Orbit Conjecture''</SEL> in higher"
+%% Comment: "Flat orbit conjecture"
+%%
+%⭣ ⭣ ⭣ 
+regimes. <period: put foootnote after period>\footnote{
+Originally conjectured by P.\ Alexandrov, the Flat Orbit Conjecture proposed that all $\lambda$-periodic orbits of a $\mathrm{CAT}(0)$ space are isometric to Euclidean circles. 
+This is now known to be false in dimensions $\geq 3$ due to \cite{hubard23}.}.
+
+\section{Background and Preliminaries}
+
+
+
+Let %%
+%⭡ ⭡ ⭡  END of annotations 0, 1, 2
+$(X,d)$ be a $\mathrm{CAT}(0)$ space in %%
+%% Annotation 8, page 1 [ ]
+%% Replace: "Background and <SEL>P</SEL>reliminaries  Let"
+%% Comment: "p <small cap>"
+%%
+%⭣ ⭣ ⭣ 
+the sense of Gromov. %%
+%⭡ ⭡ ⭡  END of annotation 8
+For a fixed $\lambda > 0$, define the \emph{low orbit foliation} $\mathcal{F}_\lambda(X)$ as
+\begin{equation}\label{eq:foliation}
+    \mathcal{F}_\lambda(X) = \{\,x \in X \mid \Delta(x, \lambda) = \text{const.}\,\},
+\end{equation}
+where $\Delta(x, \lambda) = d(x, \lambda x)$ denotes the displacement function under $\lambda$-scaling.  
+This function is trivially constant when $X$ is Euclidean, but varies dramatically in non-flat $\mathrm{CAT}(0)$ %%
+%% Annotation 3, page 1 [ ]
+%% Delete: "in non<SEL>-</SEL> flat CAT(0)"
+%% Comment: "<close up space>"
+%%
+%⭣ ⭣ ⭣ 
+manifolds.
+
+\subsection{A remark on $\mathcal{G}$-stabilizers}
+We %%
+%⭡ ⭡ ⭡  END of annotation 3
+shall repeatedly use the stabilizer %%
+%% Annotation 4, page 1 (AUTOCORRECTED) [ ]
+%% Delete: "= x}<SEL>,</SEL>  whose index"
+%% Comment: ""
+%%
+%⭣ ⭣ ⭣ 
+group
+\[
+    \mathrm{Stab}_{\mathcal{G}}(x) = \{ g \in \mathcal{G} \mid g \cdot x = x \}
+\]
+whose %%
+%⭡ ⭡ ⭡  END of annotation 4
+index $[\mathcal{G} : \mathrm{Stab}_{\mathcal{G}}(x)]$ determines the \emph{orbit density} at $x$.  
+In general, we have
+\begin{equation}\label{eq:orbit-density}
+    \rho(x) = \frac{1}{[\mathcal{G} : \mathrm{Stab}_{\mathcal{G}}(x)]} \cdot \exp(-\kappa(x)),
+\end{equation}
+where $\kappa(x)$ denotes the local curvature contribution, computed by a modified Ricci form.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.2]
+  \draw[thick,->] (-2,0) -- (2,0) node[right] {$x$};
+  \draw[thick,->] (0,-1.5) -- (0,2) node[above] {$y$};
+  \draw[domain=-1.4:1.4, smooth, variable=\t, blue, thick] plot ({\t}, {0.8*\t*\t - 0.3});
+  \filldraw[red] (1,0.5) circle (2pt) node[right] {$p$};
+  \draw[dashed, gray] (1,0) -- (1,0.5);
+  \node at (0.5,-0.8) {$\mathrm{CAT}(0)$ curvature basin};
+\end{tikzpicture}
+\caption{A schematic of local orbit curvature under %%
+%% Annotation 11, page 2 (AUTOCORRECTED) [ ]
+%% Delete: "under λ-perturbation<SEL>.</SEL>  "
+%% Comment: ""
+%%
+%⭣ ⭣ ⭣ 
+$\lambda$-perturbation%%
+%⭡ ⭡ ⭡  END of annotation 11
+}
+\label{fig:curvature}
+\end{figure}
+
+Equation~\eqref{eq:orbit-density} implies that low orbit foliations are sensitive to curvature fluctuations, as illustrated in Figure~\ref{fig:curvature}. 
+
+\section{Main Results}
+
+Our principal theorem relates the orbit structure of $\mathfrak{I}$ to the golden window of $\lambda$:
+
+\begin{theorem}\label{thm:main}
+Let $(X,d)$ be a complete $\mathrm{CAT}(0)$ space and $\lambda \in [1-\varphi,1+\varphi]$.  
+Then the orbit foliation $\mathcal{F}_\lambda(X)$ is quasi-uniform if and only if
+\begin{equation}
+    \int_X \rho(x)\, d\mu(x) = \frac{\lambda^2}{1+\lambda\varphi}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We proceed by expanding $\mathfrak{I}$ as a quotient operator:
+\[
+    \mathfrak{I} = \frac{\mathrm{CAT}(0)}{\mathcal{G}^{\lambda k}}
+    = \mathrm{CAT}(0) \otimes \mathcal{G}^{-\lambda k}.
+\]
+Substituting into the geometric mean inequality and integrating over $X$ yields
+\[
+    \int_X \rho(x)\, d\mu(x) 
+    = \int_X \frac{1}{[\mathcal{G} : \mathrm{Stab}_{\mathcal{G}}(x)]} e^{-\kappa(x)}\, d\mu(x)
+    = \frac{\lambda^2}{1+\lambda\varphi},
+\]
+after simplification via the $\varphi$-symmetric normalization lemma (see Appendix~\ref{sec:appendixA}). 
+\end{proof}
+
+\begin{corollary}
+If $\lambda = 1$, then $\mathcal{F}_1(X)$ coincides with the canonical horospherical foliation of $X$%%
+%% Annotation 9, page 2 (AUTOCORRECTED) [ ]
+%% Replace: "at x0<SEL>. E</SEL>ach ellipse"
+%% Comment: "; e"
+%% Replies: "a reply to a replace annotation"
+%%
+%% Annotation 10, page 2 [ ]
+%% Delete: "\Delta(x, λ)<SEL>.</SEL>  "
+%% Comment: ""
+%%
+%% Annotation 18, page 3 [ ]
+%% Highlight: "Applications and <SEL>E</SEL>xamples  Consider"
+%% Comment: "lowercase"
+%%
+%⭣ ⭣ ⭣ 
+.
+\end{corollary}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.1]
+  \foreach \a in {0,30,...,330}{
+    \draw[thick, blue!60] (0,0) ellipse ({2+0.3*sin(\a)} and {1+0.2*cos(\a)});
+  }
+  \filldraw[black] (0,0) circle (2pt) node[below left] {$x_0$};
+  \node at (1.5,1.2) {$\mathcal{F}_\lambda(X)$};
+\end{tikzpicture}
+\caption{Low orbit foliations centered at $x_0$; each ellipse represents an orbit of constant $\Delta(x,\lambda)$.}
+\end{figure}
+
+\section{Applications and Examples}
+
+Consider %%
+%⭡ ⭡ ⭡  END of annotations 9, 10, 18
+$X = \mathbb{H}^2$, the hyperbolic plane.  
+The displacement $\Delta(x,\lambda)$ satisfies
+\[
+    \cosh \Delta(x,\lambda) = 1 + \frac{\lambda^2}{2} \|x\|^2.
+\]
+Thus $\mathcal{F}_\lambda(X)$ forms a family of equidistant hyperbolae, asymptotically orthogonal to geodesic %%
+%% Annotation 17, page 3 [ ]
+%% Highlight: "4.1. Numerical <SEL>S</SEL>imulation. Following"
+%% Comment: "lowercase"
+%%
+%⭣ ⭣ ⭣ 
+boundaries.
+
+\subsection{Numerical Simulation}
+Following %%
+%⭡ ⭡ ⭡  END of annotation 17
+\cite{euler24}, we can simulate the orbit structure numerically. 
+Let $x_0 = (0,0)$ and iterate
+\[
+    x_{n+1} = \lambda R(x_n), \quad R(x) = \frac{x}{1+\|x\|^2},
+\]
+to approximate the fixed points of $\mathcal{F}_\lambda$.  
+Convergence occurs for $\lambda < \sqrt{\varphi}$.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=0.9]
+  \foreach \r in {0.5,1,1.5,2}{
+    \draw[thick, red!60] (0,0) circle (\r);
+  }
+  \draw[->,thick] (-2.5,0)--(2.5,0);
+  \draw[->,thick] (0,-2.5)--(0,2.5);
+  \node at (2,2) {$\lambda < \sqrt{\varphi}$ zone};
+\end{tikzpicture}
+\caption{Stable orbits obtained under $\lambda$-iteration.}
+\end{figure}
+
+
+\textbf{Theorem 4.3.} 
+Let $(X,d)$ be a complete $\mathrm{CAT}(0)$ space and $\lambda \in [1-\varphi,1+\varphi]$.  
+Then the orbit foliation $\mathcal{F}_\lambda(X)$ is %%
+%% Annotation 12, page 3 (AUTOCORRECTED) [ ]
+%% Replace: "is quasi-uniform <SEL>if</SEL>f  (4)"
+%% Comment: "if and only if"
+%%
+%% Annotation 13, page 3 (AUTOCORRECTED) [ ]
+%% Delete: "+ λφ.  <SEL>(</SEL>The proof"
+%% Comment: ""
+%%
+%⭣ ⭣ ⭣ 
+quasi-uniform if and only iff
+\begin{equation}
+    \int_X \rho(x)\, d\mu(x) = \frac{\lambda^2}{1+\lambda\varphi}.
+\end{equation}
+The proof %%
+%⭡ ⭡ ⭡  END of annotations 12, 13
+is omitted for space reasons; see %%
+%% Annotation 14, page 3 (AUTOCORRECTED) [ ]
+%% Delete: "Appendix B.<SEL>)</SEL>  4.2. Curvature"
+%% Comment: ""
+%%
+%⭣ ⭣ ⭣ 
+Appendix~B.
+
+\subsection{Curvature sensitivity}
+A %%
+%⭡ ⭡ ⭡  END of annotation 14
+quick computation shows that the variance of $\rho$ satisfies
+\begin{equation}\label{eq:var}
+    \mathrm{Var}(\rho) = \int_X (\rho(x) - \bar\rho)^2\,d\mu(x) = \frac{\lambda^3 - 1}{2+\lambda^2},
+\end{equation}
+which vanishes only when $\lambda = 1$.  
+This implies that even minor perturbations from the Euclidean limit result in exponential orbit %%
+%% Annotation 16, page 3 [ ]
+%% Highlight: "5. Numerical <SEL>E</SEL>xperiments  We"
+%% Comment: "small cap"
+%%
+%⭣ ⭣ ⭣ 
+divergence.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.0]
+  \draw[->] (-2,0)--(2,0) node[right] {$\lambda$};
+  \draw[->] (0,-0.2)--(0,2.5) node[above] {$\mathrm{Var}(\rho)$};
+  \draw[domain=0.5:1.8, smooth, variable=\x, blue, thick]
+     plot ({\x},{(\x*\x*\x-1)/(2+\x*\x)});
+  \draw[dashed, red] (1,0)--(1,0.0);
+  \node at (1.3,1.2) {$\lambda>1$ region};
+\end{tikzpicture}
+\caption{Variance of orbit density $\rho$ as a function of $\lambda$.}
+\end{figure}
+
+\section{Numerical Experiments}
+
+We %%
+%⭡ ⭡ ⭡  END of annotation 16
+implemented a simple prototype %%
+%% Annotation 15, page 3 [ ]
+%% Highlight: "prototype in <SEL>Julia 1.10</SEL> to visualize"
+%% Comment: "COMP: set typewriter font <\texttt{}>"
+%%
+%⭣ ⭣ ⭣ 
+in \textsf{Julia 1.10} to %%
+%⭡ ⭡ ⭡  END of annotation 15
+visualize $\mathcal{F}_\lambda(X)$ for synthetic $\mathrm{CAT}(0)$ surfaces generated by random triangulations.
+Let $\lambda = 1.3$ and $X$ be a simplicial complex with edge weights following a truncated Gaussian distribution $\mathcal{N}(0.8, 0.05)$.  
+
+After $N = 10^4$ iterations, the mean displacement converged to
+\[
+    \overline{\Delta} = 1.274 \pm 0.006,
+\]
+while the empirical curvature parameter $\kappa$ stabilized near $-0.218$.  
+The results are summarized in Table~\ref{tab:data}.
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+$\lambda$ & $\overline{\Delta}$ & $\kappa$ \\
+\hline
+0.9 & 0.913 & -0.054 \\
+1.0 & 1.000 &  0.000 \\
+1.3 & 1.274 & -0.218 \\
+1.6 & 1.589 & -0.403 \\
+\hline
+\end{tabular}
+\caption{%%
+%% Annotation 19, page 4 [ ]
+%% Highlight: "1.589 -0.403 <SEL>Table 1. Empirical orbit metrics under λ-iteration.</SEL>  "
+%% Comment: "Move caption to top of table"
+%%
+%⭣ ⭣ ⭣ 
+Empirical orbit metrics under $\lambda$-iteration.%%
+%⭡ ⭡ ⭡  END of annotation 19
+}
+\label{tab:data}
+\end{table}
+
+A peculiar %%
+%% Annotation 20, page 4 (AUTOCORRECTED) [ ]
+%% Replace: "observation (<SEL>Fig.</SEL> 5) was"
+%% Comment: "Figure"
+%%
+%⭣ ⭣ ⭣ 
+observation (Figure~\ref{fig:scatter}) was %%
+%⭡ ⭡ ⭡  END of annotation 20
+that for large $\lambda$, the orbit clusters exhibited a double-lobed structure reminiscent of quasi-periodic tori in Hamiltonian %%
+%% Annotation 21, page 4 [ ]
+%% Highlight: "Hamiltonian systems<SEL>2.</SEL>  "
+%% Comment: "put footnote after period"
+%%
+%% Annotation 28, page 4 [ ]
+%% Highlight: "discretization artifact<SEL>, but we were unable to reproduce it analytically.</SEL>  "
+%% Comment: "AU: is this necessary?"
+%%
+%⭣ ⭣ ⭣ 
+systems\footnote{A referee pointed out that this might be a discretization artifact, but we were unable to reproduce it analytically.}. 
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.0]
+  \filldraw[blue!50,opacity=0.6] (0.3,0.5) circle (0.15);
+  \filldraw[blue!50,opacity=0.6] (-0.3,0.5) circle (0.15);
+  \filldraw[red!60,opacity=0.5] (0,-0.6) circle (0.3);
+  \node at (0,-1.1) {bifurcation lobes};
+  \draw[->,thick] (-1,0)--(1,0);
+  \draw[->,thick] (0,-1.5)--(0,1.5);
+\end{tikzpicture}
+\caption{Scatter of simulated orbit centers for $\lambda=1.6$.}
+\label{fig:scatter}
+\end{figure}
+
+\section{Discussion and Further Work}
+
+Our %%
+%⭡ ⭡ ⭡  END of annotations 21, 28
+experiments confirm that the function $\psi(\lambda) = \lambda^2 / (1+\lambda\varphi)$ behaves as a geometric invariant for the foliation type.  
+%%
+%% Annotation 22, page 4 (AUTOCORRECTED) [ ]
+%% Replace: "type. However, <SEL>Eq.</SEL> (7) reveals"
+%% Comment: "Equation"
+%%
+%% Annotation 23, page 4 [ ]
+%% Replace: "However, Eq. <SEL>(7)</SEL> reveals an"
+%% Comment: "(5) <pls link>"
+%%
+%⭣ ⭣ ⭣ 
+However, Equation~(7) reveals %%
+%⭡ ⭡ ⭡  END of annotations 22, 23
+an unexpected %%
+%% Annotation 26, page 4 (AUTOCORRECTED) [ ]
+%% Replace: "φ2 ≈2.618<SEL>. At</SEL> that point,"
+%% Comment: "; at"
+%%
+%% Annotation 27, page 4 [ ]
+%% Highlight: "unexpected resonance <SEL>near λ = φ2 ≈</SEL>2.618. At"
+%% Comment: "does this look right?"
+%%
+%⭣ ⭣ ⭣ 
+resonance near $\lambda = \varphi^2 \approx 2.618$; at that %%
+%⭡ ⭡ ⭡  END of annotations 26, 27
+point, the curvature-weighted orbit integral appears to \emph{flip sign}, leading to a chaotic drift that violates the $\mathrm{CAT}(0)$ inequality in the discrete %%
+%% Annotation 24, page 4 [ ]
+%% Highlight: "hypothesize (Hypothesis <SEL>5.1</SEL>) that"
+%% Comment: "<link>"
+%%
+%% Annotation 25, page 4 [ ]
+%% Highlight: "discrete setting. <SEL>We hypothesize</SEL> (Hypothesis 5.1)"
+%% Comment: "remove new paragraph: continue the last paragraph with this sentence."
+%%
+%⭣ ⭣ ⭣ 
+setting.
+
+We hypothesize (Hypothesis 5.1) that %%
+%⭡ ⭡ ⭡  END of annotations 24, 25
+this anomaly corresponds to a hidden symmetry in the $\mathcal{G}$-action:
+\[
+    g \mapsto \frac{1}{\lambda}g^{-1}\lambda,
+\]
+which has order two when $\lambda=\varphi^2$.  
+The numerical confirmation of this phenomenon will be discussed in a forthcoming note by the %%
+%% Annotation 29, page 5 [ ]
+%% Highlight: "first author<SEL>3.</SEL>  6 1"
+%% Comment: "place footnote after period"
+%%
+%⭣ ⭣ ⭣ 
+first author\footnote{Submitted to the \emph{Journal of Approximate Topologies}, 2025.}.  
+
+\subsection{Error analysis and convergence}
+
+While %%
+%⭡ ⭡ ⭡  END of annotation 29
+most trajectories converged in under $10^3$ iterations, approximately $2.7\%$ diverged, displaying quasi-helical wandering.  
+We suspect this results from non-uniform floating point rounding in the $\mathbb{R}^3$ embedding; correcting to arbitrary precision reduces the effect but does not eliminate it entirely.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.0]
+  \draw[->,thick] (0,0)--(3,0) node[right] {$n$};
+  \draw[->,thick] (0,0)--(0,2.5) node[above] {$\|\Delta_n - \Delta_{n-1}\|$};
+  \draw[domain=0:2.5,smooth,variable=\x,blue,thick]
+    plot ({\x*1.2},{2*exp(-1.3*\x)});
+  \node at (2.5,1.2) {$\lambda=1.3$};
+\end{tikzpicture}
+\caption{Convergence of displacement %%
+%% Annotation 34, page 5 (AUTOCORRECTED) [ ]
+%% Delete: "∥\Deltan −\Deltan−1∥<SEL>.</SEL>  "
+%% Comment: ""
+%%
+%⭣ ⭣ ⭣ 
+difference $\|\Delta_n - \Delta_{n-1}\|$%%
+%⭡ ⭡ ⭡  END of annotation 34
+}
+\end{figure}
+
+\section{Appendix B: Proof sketch of Theorem 4.3}
+
+The argument proceeds by constructing a pseudo-measure $\nu$ such that
+\[
+    d\nu = e^{-\kappa(x)}\,d\mu(x),
+\]
+then integrating $\rho$ against $\nu$ over $X$.  
+By expanding $\rho$ in the eigenbasis of the Laplace–Beltrami operator and applying the $\varphi$%%
+%% Annotation 31, page 5 [ ]
+%% Delete: "+ λφ)<SEL>,</SEL>  we recover"
+%% Comment: ""
+%%
+%% Annotation 33, page 5 (AUTOCORRECTED) [ ]
+%% Delete: "φ-orthogonality condition<SEL>,</SEL>  ⟨fi, fj⟩φ"
+%% Comment: ""
+%%
+%⭣ ⭣ ⭣ 
+-orthogonality condition
+\[
+    \langle f_i, f_j \rangle_\varphi = \delta_{ij}(1+\lambda\varphi),
+\]
+we %%
+%⭡ ⭡ ⭡  END of annotations 31, 33
+recover Eq.~(5).  
+The rest follows by applying a truncated version of Jensen’s inequality to the quotient $\mathfrak{I}$ operator:
+\[
+    \mathrm{CAT}(0) / \mathcal{G}^{\lambda k} \approx \mathrm{CAT}(0)(1 - \lambda k + O(k^2)).
+\]
+Although the convergence of this expansion is %%
+%% Annotation 30, page 5 [ ]
+%% Highlight: "is questionable<SEL>4,</SEL> the leading"
+%% Comment: "place footnote after comma"
+%%
+%⭣ ⭣ ⭣ 
+questionable\footnote{We observed divergence for $|\lambda| > 2.1$, which we did not persue.}, the %%
+%⭡ ⭡ ⭡  END of annotation 30
+leading term suffices to justify %%
+%% Annotation 32, page 5 [ ]
+%% Highlight: "justify Theorem <SEL>4.3.</SEL>  A k"
+%% Comment: "<link>"
+%%
+%⭣ ⭣ ⭣ 
+Theorem~4.3.
+
+\bigskip
+
+\noindent
+\textbf{Acknowledgements.} %%
+%⭡ ⭡ ⭡  END of annotation 32
+The authors thank the anonymous reviewers for their sharp-eyed corrections, especially for pointing out a missing minus sign in Eq.~(3), which has since been \emph{mostly} fixed.
+
+\begin{thebibliography}{9}
+
+\bibitem{fermat89}
+P.~Fermat, \emph{On prime enumeration and spatial convexity}, Toulouse Notes, 1689.
+
+\bibitem{hubard23}
+L.~Hubbard, \emph{Counterexamples to the flat orbit conjecture}, 
+Ann.\ Quad.\ Math.\ (2023), 13--57.
+
+\bibitem{euler24}
+F.~Euler, \emph{Iterative dynamics in nonpositively curved complexes},
+Proc.\ Geom.\ Dyn.\ (2024), 211--230.
+
+\bibitem{zelinsky19}
+B.~Zelinsky, \emph{On modular eigenmodes of golden-ratio systems},
+J.\ Nonlin.\ Struct.\ (2019), 98--114.
+
+\end{thebibliography}
+\end{document}

@@ -4,8 +4,8 @@ bbox_drawings/
 tmp_marktex*/
 boxpositions_*.txt
 
-source_autocorrected.tex
-source_inlined.tex
+# source_autocorrected.tex
+# source_inlined.tex
 source.pdf
 source_marked.tex
 source_marked.pdf
