@@ -20,7 +20,6 @@ def process_files(pdf_file: Path, latex_file: Path, **opt):
     tex_str = utils.sourceAsString(latex_file)    
     
     if opt['svn']:
-        logger.info(f"Checking {latex_file} is clean...")
         svn.verify_status_clean(latex_file)
 
     if opt['delete_comments']:
@@ -34,7 +33,8 @@ def process_files(pdf_file: Path, latex_file: Path, **opt):
             Path('./'),
             **opt
         )
-        svn.commit(latex_file, f'removed annotation comments from {latex_file} [annin -dc]')
+        if opt['svn']:
+            svn.commit(latex_file, f'removed annotation comments from {latex_file} [annin -dc]')
         return
         
     corrections, overlapping_keys, n_annots, n_edits = corr.getCorrections(
@@ -69,9 +69,7 @@ def process_files(pdf_file: Path, latex_file: Path, **opt):
     if not opt['auto']:
         logger.info(f"n_annots: {n_annots}, n_edits: {n_edits}, n_corrs: {n_corrs}")
         if opt['svn']:
-            logger.info(f"Committing {latex_file}...")
             svn.commit(latex_file, f'wrote annotations from {pdf_file} in {latex_file} [annin]')
-            logger.info("Done")
         return 
 
     logger.info("Doing autocorrections...")
@@ -118,7 +116,6 @@ def process_files(pdf_file: Path, latex_file: Path, **opt):
             f'wrote annotations from {pdf_file} in '
             f'{latex_file} [annin{auto_message_flag}]'
         )
-        logger.info(f"Commiting {latex_file}...")
         svn.commit(latex_file, commit_message)
     
     return

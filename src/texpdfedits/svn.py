@@ -9,6 +9,7 @@ N_STATUS_COLUMNS = 9
 TIMEOUT_DURATION = 60 * 5 # five minutes
 
 def verify_status_clean(file: Path):
+    logger.info(f"Verifying {file} is clean in svn working directory...")
     command = ['svn', 'status', '-u', file.name]
     try:
         status = subprocess.run(
@@ -45,10 +46,12 @@ def verify_status_clean(file: Path):
     if columns != ' ' * N_STATUS_COLUMNS:
         logger.critical(f"svn status -u {file} columns are not blank")
         raise RuntimeError(f"{file} is not clean in svn working directory: {status.stdout}")
+    logger.info("Done")
     return
 
 def commit(file: Path, message: str):
-    command = ['svn', 'commit', '-m', message]
+    command = ['svn', 'commit', file.name, '-m', message]
+    logger.info(f"Committing {file}...")
     try:
         result = subprocess.run(
             command,
@@ -63,6 +66,7 @@ def commit(file: Path, message: str):
     except subprocess.TimeoutExpired as e:
         logger.critical(f"svn timed out (after {TIMEOUT_DURATION} seconds)")
         raise e
+    logger.info("Done")
         
         
     

@@ -111,7 +111,8 @@ def commentSource(
         tex_str: str,
         char_positions: list[int],
         charpos_to_kinds_and_corrections: dict[int, list[tuple[str, Correction]]],
-        **kwargs
+        corrected_snippets: list = None,
+        **opt
 ) -> str:
     """
     Add the corrections to the original source as comments.
@@ -144,9 +145,7 @@ def commentSource(
 
     %% START of correction ... and END of correction ...
     """
-
-    corrected_snippets = kwargs.get('corrected_snippets', None)
-    format             = kwargs.get('comment_format', formatcomm.DEFAULT_COMMENT_FORMAT)
+    format = opt['comment_format']
     
     inserted_comments = [] #list of tuples where tuple[0] is the char_pos and tuple[1] is the inserted material
     for char_pos in char_positions:
