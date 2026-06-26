@@ -4,11 +4,8 @@ import argparse
 import logging
 from icecream import ic
 logger = logging.getLogger(__name__)
-
 import math
 import re
-import sys
-
 import texpdfedits.utils as utils
 
 pymupdf.TOOLS.set_small_glyph_heights(True)
@@ -248,7 +245,7 @@ def adjustCaretRect(caret_rect: pymupdf.Rect, page):
         y0 = y1 - span['size']
         return pymupdf.Rect(caret_rect.x0, y0, caret_rect.x1, y1)
 
-def getRobustAnnots(filename, **kwargs):
+def getRobustAnnots(pdf_file: Path, **opt):
     """
     pymupdf's annotations are kind of fragile---they are
     strongly bound to the page they come from (so when
@@ -272,11 +269,11 @@ def getRobustAnnots(filename, **kwargs):
     # But this hack only works (if therere's a problem to begin
     # with and) if the font is cmr10 (or maybe 11 or 12,
     # I don't recall)
-    doc = pymupdf.open(filename)
-    adjust_annots = kwargs.get('adjust_annots', False)
+    doc = pymupdf.open(pdf_file)
+    adjust_annots = opt['adjust_annots']
 
     if adjust_annots:
-        uses_stix = re.search('|'.join(USE_STIX), filename, flags=re.IGNORECASE)
+        uses_stix = re.search('|'.join(USE_STIX), pdf_file.name, flags=re.IGNORECASE) is not None
         if uses_stix:
             logger.info("Adjusting annots for STIX2")
             annot_adjustment = STIX_ADJUST
@@ -799,27 +796,10 @@ def getSelection(
         )
         return selection, annot_rects, annot.rect
 
-def isNotForCOMP(message: dict[str, str | list[str]]) -> bool:
-    head_comment = message['comment']
-    responses = message['responses']
-    first_response = responses[0] if responses else ''
-
-    not_for_comp = r"\b(?:AU|PE|PTG|GA|^AUTHOR:)\b:?"
-    for_comp = r"\b(?:COMP|TEG)\b:?"
-
-    if re.search(not_for_comp, head_comment, flags=re.IGNORECASE) is not None:
-        if re.search(for_comp, first_response, flags=re.IGNORECASE) is not None:
-            return False
-        else:
-            return True
-    else:
-        return False
-
-def getEdits(filename: str, **kwargs) -> tuple[list[Edit], int]:
+def getEdits(pdf_file: Path, **opt) -> tuple[list[Edit], int]:
     """return a list of Edits. See class Edit."""
     logger.info("Loading PDF annotations...")
-    doc = pymupdf.open(filename)
-    robust_annots = getRobustAnnots(filename, **kwargs)
+    robust_annots = getRobustAnnots(pdf_file, **opt)
     all_responses = getAllResponses(robust_annots)
     logger.info("Done")
 
@@ -828,6 +808,7 @@ def getEdits(filename: str, **kwargs) -> tuple[list[Edit], int]:
     num_not_for_comp = 0
     edits = []
 
+    doc = pymupdf.open(pdf_file)    
     num_pages_with_annots_to_extract = len([
         pageno for pageno, _ in enumerate(doc)
         if robust_annots[pageno]
@@ -853,14 +834,6 @@ def getEdits(filename: str, **kwargs) -> tuple[list[Edit], int]:
                 'comment': annot.info['content'],
                 'responses': text_responses
             }
-
-            # This turned out to be more harm than help of a heuristic
-            # skip annots whose comment text starts with AU:, PE:, or PTG: among other things,
-            # unless the first response has COMP: or TEG:
-            # if isNotForCOMP(message):
-            #     logger.debug(f"Annot {annot} deemed not for COMP")
-            #     num_not_for_comp += 1
-            #     continue
 
             def isReplaceAnnot(ann, ann_resps):
                 if not (ann.type[0] == Annot.STRIKE_OUT or ann.type[0] == Annot.CARET) or ann_resps == []:
@@ -921,23 +894,3 @@ def getEdits(filename: str, **kwargs) -> tuple[list[Edit], int]:
         f"{target_num_edits} PDF annotations"
     )
     return edits, target_num_edits
-            
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(prog = 'python extract.py',
-                                     description = 'Return edits from annotated pdf as json')
-    parser.add_argument('filename')
-    parser.add_argument("-d", "--debug", action="store_true", help='debugging output')
-    parser.add_argument("-pe", "--print-edits", action="store_true", help='print edits at the end')
-    
-    args = parser.parse_args()
-    
-    filename = args.filename
-    _level = logging.DEBUG if args.debug else logging.INFO
-    
-    logging.basicConfig(level=_level, format='%(asctime)s - %(levelname)s - %(message)s')
-
-    edits, target_num_edits = getEdits(filename)    
-
-    if args.print_edits:
-        for edit in edits:
-            print(edit)

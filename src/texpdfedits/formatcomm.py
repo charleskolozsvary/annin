@@ -105,15 +105,15 @@ def startComment(corr: Correction, format: str, replies: str):
     if format == FORMAT_FRONT:
         return (
             f"%% Annotation {corr.index}, page {corr.pageno+1} {status_message}\n"
-            f"%% {corr_type}: \"{utils.sanitizePdfText(corr.pdf_selected_text)}\"\n"
-            f"%% Comment: \"{utils.sanitizePdfText(corr.messages['comment'])}\"{replies}\n"
+            f"%% {corr_type}: \"{utils.sanitize_pdf_text(corr.pdf_selected_text)}\"\n"
+            f"%% Comment: \"{utils.sanitize_pdf_text(corr.messages['comment'])}\"{replies}\n"
             f"%%\n"
         )
         
     if format == FORMAT_SPLIT:
         return (
             f"%% Annotation {corr.index}, page {corr.pageno+1} {status_message}\n"
-            f"%% {corr_type}: \"{utils.sanitizePdfText(corr.pdf_selected_text)}\"{replies}\n"
+            f"%% {corr_type}: \"{utils.sanitize_pdf_text(corr.pdf_selected_text)}\"{replies}\n"
         )
         
     if format == FORMAT_BACK:
@@ -131,15 +131,15 @@ def endComment(corr: Correction, format: str, replies: str):
     if format == FORMAT_SPLIT:
         return (
             f"%% Comment {corr.index}: "
-            f"\"{utils.sanitizePdfText(corr.messages['comment'])}\"\n"
+            f"\"{utils.sanitize_pdf_text(corr.messages['comment'])}\"\n"
         )
         
     if format == FORMAT_BACK:
         return (
             f"%%\n"
             f"%% Annotation {corr.index}, page {corr.pageno+1} {status_message}\n"
-            f"%% {corr_type}: \"{utils.sanitizePdfText(corr.pdf_selected_text)}\"\n"
-            f"%% Comment: \"{utils.sanitizePdfText(corr.messages['comment'])}\"{replies}\n"
+            f"%% {corr_type}: \"{utils.sanitize_pdf_text(corr.pdf_selected_text)}\"\n"
+            f"%% Comment: \"{utils.sanitize_pdf_text(corr.messages['comment'])}\"{replies}\n"
         )
 
 def writeCallout(corr_idxs: list[int], start_or_end: str, format: str):

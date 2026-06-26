@@ -35,7 +35,6 @@ from pylatexenc.macrospec import (
 
 from pathlib import Path
 import re
-import sys
 import pymupdf
 import time
 import textwrap
@@ -81,7 +80,7 @@ class IgnoreRegionArgsParser:
             
             current_pos = tok.pos + tok.len
         
-        return (ParsedMacroArgs(argnlist=[]), end_pos, 0)
+        return ParsedMacroArgs(argnlist=[]), end_pos, 0
 
 # chosen csname for marking command
 MARK_CSNAME = r'\markbox'
@@ -350,11 +349,12 @@ def markNodes(
         (and so there's no head value to reset)
         """
         if not parent_counter_keys:
-            logger.critical(
+            err_message = (
                 f"Could not mark {string}: it is not "
                 "within any recognized macro/environment"
             )
-            sys.exit(1)
+            logger.critical(err_message)
+            raise RuntimeError(err_message)
             
         for parent in parent_counter_keys:
             if parent not in counters:
@@ -431,11 +431,12 @@ def markNodes(
             )
             re_res = re.search(joined_regex, node_verbatim)
             if re_res is None:
-                logger.error(
+                err_message = (
                     f"Environment node '{node_verbatim}' in "
                     f"markNode was malformed or parsed incorrectly"
                 )
-                sys.exit(1)
+                logger.critical(err_message)
+                raise RuntimeError(err_message)
             aft_begin_sp, bef_args_sp, aft_end_sp = re_res.groups()
                 
             if node.envname in allowed_environments or node.envname in ONLY_MARK_CAPTION_ENVS:
@@ -620,12 +621,13 @@ def markNodes(
                 
                 joined_whole = rf'{{{verbatim_contents}}}'
                 if node_verbatim != joined_whole:
-                    logger.error(
+                    err_message = (
                         f"Group node '{node_verbatim}' in markNode "
                         "was malformed or parsed incorrectly"
                     )
                     logger.debug(f"{verbatim_contents} != {joined_whole}")
-                    sys.exit(1)
+                    logger.critical(err_message)
+                    raise RuntimeError(err_message)
 
                 marked_contents = []
                 this_prev_node = None
@@ -674,10 +676,11 @@ def getPreambleAndDocument(nodelist):
         and n.envname == 'document'
     )
     if num_document_envs != 1:
-        logger.critical(
+        err_message = (
             fr"\begin{{document}} appeared {num_document_envs} times"
         )
-        sys.exit(1)
+        logger.critical(err_message)
+        raise RuntimeError(err_message)
 
     i = 0
     # so I've been assuming that the first environment of the
@@ -689,15 +692,16 @@ def getPreambleAndDocument(nodelist):
     document_node = nodelist[i]
     post_document_nodes = nodelist[i+1:]
 
-    return (preamble_nodes, document_node, post_document_nodes)
+    return preamble_nodes, document_node, post_document_nodes
 
 def splitPreambleNodes(preamble_nodes: list[LatexNode]):
     for i, node in enumerate(preamble_nodes):
         if (isinstance(node, LatexMacroNode)
             and node.macroname == 'documentclass'):
-            return (preamble_nodes[:i+1], preamble_nodes[i+1:])
-    logger.critical("\\documentclass command not found")
-    sys.exit(1)
+            return preamble_nodes[:i+1], preamble_nodes[i+1:]
+    err_message = ("\\documentclass command not found")
+    logger.critical(err_message)
+    raise RuntimeError(err_message)
 
 def texPointsToPDFpoints(tex_pts: float) -> float:
     return tex_pts * TEX_POINTS_TO_PDF_POINTS_CONVERSION_RATIO
@@ -742,11 +746,12 @@ def getWordBoxes(boxpositions_filename: Path):
                 flags=re.IGNORECASE
             )
             if box_info is None:
-                logger.critical(
+                err_message = (
                     f"Line {line_no} of {boxpositions_filename} "
                     f"'{repr(line)}' did not match the info spec"
                 )
-                sys.exit(1)
+                logger.critical(err_message)
+                raise RuntimeError(err_message)
             matches = box_info.groups()
             (key, label, values) = (
                 matches[0],
@@ -783,14 +788,15 @@ def getWordBoxes(boxpositions_filename: Path):
                     # 'pwhd' for page, width, height, depth;
                     # and 'spxy' for start, page, x pos, y pos
                     # see above comment for when they aren't the same
-                    logger.critical(
+                    err_message = (
                         f"Key '{key}' with label '{label}' was already "
                         f"in '{word_boxes[key]}' and values differed\n"
                         f"current value:\n```python\n"
                         f"{word_boxes[key][label]}\n```\n"
                         f"new value:\n```python\n{values}\n```"
                     )
-                    sys.exit(1)
+                    logger.critical(err_message)
+                    raise RuntimeError(err_message)
                 word_boxes[key][label] = values
             else:
                 word_boxes[key] = {label:values}
@@ -812,11 +818,12 @@ def getWordBoxes(boxpositions_filename: Path):
             # all marks should have exactly two fields (except for
             # the ones which don't make it to the page)
             # the hbox dimensions and the start page and xy positions
-            logger.critical(
+            err_message = (
                 f"mark id '{key}' in '{boxpositions_filename}' "
                 "differed from specification"
             )
-            sys.exit(1)
+            logger.critical(err_message)
+            raise RuntimeError(err_message)
 
     for mark_id in markids_to_delete:
         del word_boxes[mark_id]
@@ -839,7 +846,7 @@ def getWordBoxes(boxpositions_filename: Path):
     )
     logger.info(f"Saved {num_boxes} tex word boxes")
     
-    return (tex_word_boxes, markids_to_delete)
+    return tex_word_boxes, markids_to_delete
 
 def readBalancedBraces(idx: int, s: str) -> tuple[str, int]:
     """Read unescaped balanced braces, return (contents without outer braces, chars_read)."""
@@ -857,8 +864,9 @@ def readBalancedBraces(idx: int, s: str) -> tuple[str, int]:
             idx += 1
             
     if depth != 0:
-        logger.critical('Unbalanced curly braces in marked string')
-        sys.exit(1)
+        err_message = ('Unbalanced curly braces in marked string')
+        logger.critical(err_message)
+        raise RuntimeError(err_message)
     
     contents = s[start_idx:idx-1]
     return contents, idx - start_idx
@@ -1048,17 +1056,18 @@ def parseLatex(
     (nodelist, _, _) = LatexWalker(tex_str, latex_context=latex_context).get_latex_nodes(pos=0)
 
     if joinNodesVerbatim(nodelist) != tex_str:
-        logger.critical(
+        err_message = (
             f"TeX source was not preserved after LatexWalker parsing"
         )
-        sys.exit(1)
+        logger.critical(err_message)
+        raise RuntimeError(err_message)
            
     (preamble_nodes, document_node, post_document_nodes) = getPreambleAndDocument(nodelist)
 
     # update preamble_nodes, exlude docclass
     (docclass_nodes, preamble_nodes) = splitPreambleNodes(preamble_nodes)
 
-    return (docclass_nodes, preamble_nodes, document_node, post_document_nodes)
+    return docclass_nodes, preamble_nodes, document_node, post_document_nodes
 
 def getInsertedCodeForMarking(boxpositions_filename: str) -> tuple[str, str]:
     r"""
@@ -1093,10 +1102,10 @@ def getInsertedCodeForMarking(boxpositions_filename: str) -> tuple[str, str]:
         }}
         """
     )
-    return (tex_write_commands, markcs_def)
+    return tex_write_commands, markcs_def
 
-def markLatex(tex_filename: Path, *parse_out, **kwargs):
-    extra_mark_envs = kwargs.get('extra_mark_envs', '') 
+def markLatex(latex_file: Path, *parse_out, **opt):
+    extra_mark_envs = opt['extra_mark_envs']
     extra_mark_envs = set(extra_mark_envs.split(','))
     
     (docclass_nodes, preamble_nodes, document_node, post_document_nodes) = parse_out
@@ -1124,7 +1133,7 @@ def markLatex(tex_filename: Path, *parse_out, **kwargs):
         chars_node_match_regex
     )
 
-    boxpositions_filename = f'boxpositions_{tex_filename.stem}.txt'
+    boxpositions_filename = f'boxpositions_{latex_file.stem}.txt'
     (tex_write_commands, markcs_def) = getInsertedCodeForMarking(boxpositions_filename)
 
     # build marked file out of components    
@@ -1132,58 +1141,58 @@ def markLatex(tex_filename: Path, *parse_out, **kwargs):
     post_document_str = joinNodesVerbatim(post_document_nodes)
     marked_tex = docclass_str + tex_write_commands + markcs_def + marked_preamble + marked_document + post_document_str
 
-    # Save the marked file to the same directory as the input tex_filename, compile it, then move it
-    marked_filename = tex_filename.parent / f"{tex_filename.stem}_marked{tex_filename.suffix}" # automatically Path object from / 
+    # Save the marked file to the same directory as the input latex_file, compile it, then move it
+    marked_filename = latex_file.parent / f"{latex_file.stem}_marked{latex_file.suffix}" # automatically Path object from / 
     utils.writeStringToFile(marked_tex, marked_filename)
 
-    return (marked_preamble, marked_document, marked_filename, boxpositions_filename)
+    return marked_preamble, marked_document, marked_filename, boxpositions_filename
     
     
-def getSyncInfo(tex_filename: str, **kwargs):
-    clean    = kwargs.get('clean', True) 
-    compiler = kwargs.get('compiler', utils.DEFAULT_LATEX_COMPILER)
-    validate = kwargs.get('validate', True)
-
-    tex_filename = Path(tex_filename)
-    tex_str = utils.sourceAsString(tex_filename)        
+def getSyncInfo(latex_file: Path, **opt):
+    tex_str = utils.sourceAsString(latex_file)        
 
     # Parse
-    logger.info(f"Parsing {tex_filename}...")    
+    logger.info(f"Parsing {latex_file}...")    
     parse_out = parseLatex(tex_str)
     logger.info("Done")    
 
     # Mark
     logger.info("Inserting marks...")
-    (marked_preamble, marked_document, marked_filename, boxpositions_filename) = markLatex(
-        tex_filename,
+    marked_preamble, marked_document, marked_filename, boxpositions_filename = markLatex(
+        latex_file,
         *parse_out,
-        **kwargs
+        **opt
     )
     logger.info("Done")
 
     # Compile and diff-pdf
-    process1 = utils.compileLatex(tex_filename, compiler = compiler)
-    process2 = utils.compileLatex(marked_filename, compiler = compiler)
+    if opt['validate']:
+        process1 = utils.compile_tex(latex_file, opt['compiler'])
+        
+    process2 = utils.compile_tex(marked_filename, opt['compiler'])
 
     tmp_dir = Path('tmp_marktex')
     Path.mkdir(tmp_dir, exist_ok = True)
-    utils.transferTeXFiles(tex_filename, tmp_dir, 'cp')
-    utils.transferTeXFiles(marked_filename, tmp_dir, 'mv')    
-    moved_boxpositions_filename = (tex_filename.parent/boxpositions_filename).move_into(tmp_dir)
+    utils.transfer_tex_files(latex_file, tmp_dir, 'cp')
+    utils.transfer_tex_files(marked_filename, tmp_dir, 'mv')    
+    moved_boxpositions_filename = (latex_file.parent/boxpositions_filename).move_into(tmp_dir)
 
-    orig_pdf = utils.pdfFname(tex_filename)
-    marked_pdf = utils.pdfFname(marked_filename)
-    
-    (process3, _) = utils.runDiffpdf(
-        orig_pdf,
-        marked_pdf,
-        tmp_dir
-    )
-    logger.info(f"{orig_pdf} and {marked_pdf} are within tolerance")
+    orig_pdf = utils.pdf_name(latex_file)
+    marked_pdf = utils.pdf_name(marked_filename)
+
+    if opt['validate']:
+        process3, _ = utils.run_diff_pdf(
+            orig_pdf,
+            marked_pdf,
+            tmp_dir
+        )
+        logger.info(f"{orig_pdf} and {marked_pdf} are within tolerance")
+    else:
+        logger.info(f"Did not compare {orig_pdf} and {marked_pdf} (--no-validate)")
 
     # Retrieve box info
     logger.info("Getting word boxes...")
-    (tex_word_boxes, deleted_mark_IDs) = getWordBoxes(tmp_dir / boxpositions_filename)
+    tex_word_boxes, deleted_mark_IDs = getWordBoxes(tmp_dir / boxpositions_filename)
     logger.info("Done")    
 
     logger.info("Unmarking LaTeX...")
@@ -1192,49 +1201,19 @@ def getSyncInfo(tex_filename: str, **kwargs):
     docclass_str = joinNodesVerbatim(docclass_nodes)
     post_document_str = joinNodesVerbatim(post_document_nodes)    
     
-    (unmarked_str, mark_positions) = unMarkWithPositions(
+    unmarked_str, mark_positions = unMarkWithPositions(
         docclass_str + marked_preamble + marked_document + post_document_str, deleted_mark_IDs
     )
     logger.info("Done")
 
     if unmarked_str != tex_str:
-        logger.critical("Unmarked LaTeX does not match input LaTeX")
-        sys.exit(1)
+        err_message = ("Unmarked LaTeX does not match input LaTeX")
+        logger.critical(err_message)
+        raise RuntimeError(err_message)
 
     validateMarkPositions(mark_positions, tex_word_boxes)
 
-    if clean:
+    if opt['clean']:
         utils.removeDir(tmp_dir)
 
-    return (mark_positions, tex_word_boxes)
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(
-        prog = f'python {MODULE_NAME}.py',
-        description = r'Marks small units in source LaTeX to extract source using positional information (i.e., rectangles)'
-    )
-    
-    parser.add_argument('filename')
-    parser.add_argument("-d", "--debug", action="store_true", help='debugging output')
-    parser.add_argument(
-        "-c",
-        "--clean",
-        action=argparse.BooleanOptionalAction,
-        help='Delete intermediate files (and temporary directories); default=True',
-        default=True
-    )
-    parser.add_argument(
-        "--compiler",
-        type=str,
-        help=f'Specify LaTeX compiler; default={utils.DEFAULT_LATEX_COMPILER}',
-        default=utils.DEFAULT_LATEX_COMPILER
-    )
-    
-    args = parser.parse_args()
-    
-    filename = args.filename
-    _level = logging.DEBUG if args.debug else logging.INFO
-    
-    logging.basicConfig(level=_level, format='%(asctime)s - %(levelname)s - %(message)s')
-
-    (mark_positions, tex_word_boxes) = getSyncInfo(filename, clean=args.clean, compiler=args.compiler)
+    return mark_positions, tex_word_boxes

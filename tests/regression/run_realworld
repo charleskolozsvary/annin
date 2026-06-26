@@ -75,11 +75,13 @@ def run_job(job):
     command = [
         "annin",
         "-a",
+        '--no-svn',
+        '--no-replace',
         pdf_file.name,
         tex_file.name,
     ]
     command_str = ' '.join(command)
-    print(f'Testing {article_dir.name}, {pdf_file.name}...', flush = True)
+    print(f'Running {article_dir.name}, {pdf_file.name}...', flush = True)
     result = subprocess.run(
         command,
         cwd=article_dir,
@@ -162,7 +164,7 @@ def generate_realworld_results():
             # keep going, but make failures visible
             article_dir, pdf_file, _ = job
             print(
-                f"ERROR running {article_dir}/{pdf_file}: {e}",
+                f"ERROR processing {pdf_file}: {e}",
                 flush=True,
             )
 

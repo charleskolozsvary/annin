@@ -3,7 +3,6 @@ logger = logging.getLogger(__name__)
 import argparse
 import pymupdf
 import re
-import sys
 from pathlib import Path
 
 import texpdfedits.extractanns as extractanns
@@ -44,29 +43,32 @@ def getBetweenLatex(
     ])
         
     if not all(k == 'end' for k in kinds) or len(kinds) != num_ends:
-        logger.critical(
+        err_message = (
             "Did not succesfully filter out corrections "
             "that start at this char_pos"
         )
-        sys.exit(1)
+        logger.critical(err_message)
+        raise RuntimeError(err_message)
         
     if len(corrs) > 1:
         # group processing
         for c in corrs:
             if c.group is None:
-                logger.error(
+                err_message = (
                     "Could not get between latex: "
                     f"Correction {c} expected to be part of group"
                 )
-                sys.exit(1)
+                logger.critical(err_message)                
+                raise RuntimeError(err_message)
         group = corrs[0].group
         if not all(c.group == group for c in corrs):
-            logger.critical(
+            err_message = (
                 "Could not get between latex: "
                 "Corrections sharing end positions "
                 "were not all part of the same group"
             )
-            sys.exit(1)
+            logger.critical(err_message)            
+            raise RuntimeError(err_message)
         if len(set(corrected_snippets[g_key] for g_key in group)) != 1:
             for corrected_snip in [
                     corrected_snippets[g_key]
@@ -74,11 +76,12 @@ def getBetweenLatex(
             ]:
                 logger.error(toCodeblock(corrected_snip))
                     
-            logger.critical(
+            err_message = (
                 f"Corrections in overlapping group {group} "
                 "did not have identical corrected snippets"
             )
-            sys.exit(1)
+            logger.critical(err_message)
+            raise RuntimeError(err_message)
         corrected_snip = corrected_snippets[group[0]]
         
     elif len(corrs) == 1:
@@ -230,11 +233,12 @@ def commentSource(
         rest_of_line = [] # rest of line from char_pos or until non-horizontal space
         while not re.match(r'[\r\n\S]', curr_char):
             if char_idx >= len_tex_str:
-                logger.critical(
+                err_message = (
                     "Ran out of file while looking "
                     "for rest_of_line"
                 )
-                sys.exit(1)
+                logger.critical(err_message)
+                raise RuntimeError(err_message)
             rest_of_line.append(curr_char)
             char_idx += 1
             curr_char = tex_str[char_idx]

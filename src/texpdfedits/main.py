@@ -3,6 +3,7 @@ logger = logging.getLogger(__name__)
 import argparse
 import re
 import sys
+import subprocess
 from pathlib import Path
 
 import texpdfedits.extractanns as extractanns
@@ -10,66 +11,67 @@ import texpdfedits.modifytex as modifytex
 import texpdfedits.corr as corr
 import texpdfedits.utils as utils
 import texpdfedits.formatcomm as formatcomm
+import texpdfedits.svn as svn
 
 from importlib.metadata import version
 __version__ = version('texpdfedits')
 
-INLINED_TAG = 'inlined'
-AUTO_TAG = 'autocorrected'
+def process_files(pdf_file: Path, latex_file: Path, **opt):
+    tex_str = utils.sourceAsString(latex_file)    
 
-def process_files(*args, **kwargs):
-    annot_filename, tex_filename = args
-    
-    compiler           = kwargs.get('compiler', utils.DEFAULT_LATEX_COMPILER)
-    clean              = kwargs.get('clean', True)    
-    validate           = kwargs.get('validate', True)
-    do_autocorrections = kwargs.get('autocorrect', False)
-    delete_comments    = kwargs.get('delete_comments', False)
-    comment_format     = kwargs.get('comment_format', formatcomm.DEFAULT_COMMENT_FORMAT)
+    if opt['svn']:
+        svn.verify_status_clean(latex_file)
 
-    tex_filename = Path(tex_filename)
-    tex_str = utils.sourceAsString(tex_filename)    
-
-    if delete_comments:
-        logger.info(f"Deleting comments from {tex_filename}...")
-        (_, nocomments_file) = formatcomm.deleteComments(tex_filename, comment_format)
+    if opt['delete_comments']:
+        logger.info(f"Deleting comments from {latex_file}...")
+        _, nocomments_file = formatcomm.deleteComments(latex_file, opt['comment_format'])
         logger.info(f"Done. Written to {nocomments_file}")
 
-        utils.compileValidateClean(tex_filename, nocomments_file, Path('./'), **kwargs)
-        return 0
-
-    kwargs['replace'] = False    
+        utils.compile_validate_clean_replace(
+            latex_file,
+            nocomments_file,
+            Path('./'),
+            **opt
+        )
+        svn.commit(latex_file, f'removed annotation comments from {latex_file} [annin -dc]')
+        return
         
     corrections, overlapping_keys, n_annots, n_edits = corr.getCorrections(
-        *args,
-        **kwargs,
+        pdf_file,
+        latex_file,
+        **opt,
     )
 
     n_corrs = len(corrections)
     
-    (char_positions, charpos_to_kinds_and_corrections) = modifytex.getSourcePosToCorrections(corrections)
+    char_positions, charpos_to_kinds_and_corrections = modifytex.getSourcePosToCorrections(corrections)
     
-    commented_tex_filename = Path(f"{tex_filename.parent / tex_filename.stem}_{INLINED_TAG}.tex")
+    commented_latex_file = Path(f"{latex_file.parent / latex_file.stem}_{utils.INLINED_TAG}.tex")
     commented_tex_str = modifytex.commentSource(
         tex_str,
         char_positions,
         charpos_to_kinds_and_corrections,
-        **kwargs
+        **opt
     )
-    utils.writeStringToFile(commented_tex_str, commented_tex_filename)
+    utils.writeStringToFile(commented_tex_str, commented_latex_file)
 
     cwd = Path('./')
 
-    utils.compileValidateClean(
-        tex_filename,
-        commented_tex_filename,
+    utils.compile_validate_clean_replace(
+        latex_file,
+        commented_latex_file,
         cwd,
-        no_first = True,
-        **kwargs
+        compile_first = False,
+        **opt
     )
 
-    if not do_autocorrections:
-        return 0
+    if not opt['auto']:
+        logger.info(f"n_annots: {n_annots}, n_edits: {n_edits}, n_corrs: {n_corrs}")
+        if opt['svn']:
+            logger.info(f"Committing {latex_file}...")
+            svn.commit(latex_file, f'wrote annotations from {pdf_file} in {latex_file} [annin]')
+            logger.info("Done")
+        return 
 
     logger.info("Doing autocorrections...")
     corrected_snippets = modifytex.getCorrectedSnippets(corrections, overlapping_keys)
@@ -80,17 +82,43 @@ def process_files(*args, **kwargs):
         char_positions,
         charpos_to_kinds_and_corrections,
         corrected_snippets = corrected_snippets,
-        **kwargs
+        **opt
     )
     n_autos = sum(1 for corr in corrections if corr.is_autocorrected)
     
-    # no validation because we expect pdf differences after autocorrections
-    autocorrected_tex_filename = Path(f"{tex_filename.stem}_{AUTO_TAG}.tex")
-    utils.writeStringToFile(autocorrected_tex_str, autocorrected_tex_filename)
+    autocorrected_latex_file = Path(f"{latex_file.stem}_{utils.AUTO_TAG}.tex")
+    utils.writeStringToFile(autocorrected_tex_str, autocorrected_latex_file)
 
     logger.info(f"Autocorrected {n_autos:3d}/{len(corrections):3d} corrections")
-    logger.info(f"Autocorrected source written to {autocorrected_tex_filename}")
-    logger.info(f"n_annots: {n_annots}, n_edits: {n_edits}, n_corrs: {n_corrs}, n_autos: {n_autos}")
+    logger.info(f"n_annots: {n_annots}, n_edits: {n_edits}, n_corrs: {n_corrs}, n_autos: {n_autos}")    
+
+    if not opt['replace']:
+        return
+    
+    autocorrected_compiles = True
+    try:
+        utils.compile_validate_clean_replace(
+            latex_file,
+            autocorrected_latex_file,
+            cwd,
+            compile_first = False,
+            **opt
+        )
+    except subprocess.CalledProcessError as e:
+        logger.warning(f"{e}\n{autocorrected_latex_file} failed to compile")
+        autocorrected_compiles = False
+    except FileNotFoundError as e:
+        logger.error(f"{e}\n{autocorrected_latex_file} did not generate expected output")
+        autocorrected_compiles = False
+
+    if opt['svn'] and autocorrected_compiles:
+        auto_message_flag = ' --auto' if n_autos > 0 else ''
+        commit_message = (
+            f'wrote annotations from {pdf_file} in '
+            f'{latex_file} [annin{auto_message_flag}]'
+        )
+        logger.info(f"Commiting {latex_file}...")
+        svn.commit(latex_file, commit_message)
     
     return
 
@@ -100,7 +128,7 @@ def ProgramBanner():
 
 def main():
     parser = argparse.ArgumentParser(
-        description = f'Writes PDF corrections into the source LaTeX as comments'
+        description = f'writes PDF annotations in LaTeX source as comments'
     )
 
     parser.add_argument('pdf_file')
@@ -123,80 +151,91 @@ def main():
         "-q",
         "--quiet",
         action="store_true",
-        help='set logging level to only warnings or greater'
+        help='set logging level only warnings or greater'
     )
     
     parser.add_argument(
-        "--grp-overlap",
+        "--svn",
         action=argparse.BooleanOptionalAction,
-        help='Merge overlapping correction snippets; default=True',
+        help='perform svn operations; default=True',
+        default=True,
+    )
+    parser.add_argument(
+        "--validate",
+        action=argparse.BooleanOptionalAction,
+        help='validate results (run diff-pdf); default=True',
+        default=True,
+    )    
+    parser.add_argument(
+        "--merge-overlapping",
+        action=argparse.BooleanOptionalAction,
+        help='merge overlapping corrections; default=True',
         default=True
     )
     parser.add_argument(
         "--clean",
         action=argparse.BooleanOptionalAction,
-        help='Delete intermediate LaTeX files and tmp dirs; default=True',
+        help='delete intermediate files and tmp dirs; default=True',
         default=True
     )
     parser.add_argument(
         "--replace",
         action=argparse.BooleanOptionalAction,
-        help='Overwrite latex file when comments are deleted successfully; default=True',
+        help='overwrite latex file; default=True',
         default=True
     )
     parser.add_argument(
         "-a",
         "--auto",
         action="store_true",
-        help='Do simple corrections automatically; default=False'
+        help='perform simple annotations automatically; default=False'
     )
     parser.add_argument(
         "--adjust-annots",
         action="store_true",
-        help=('Adjust annotation rectangles')
+        help=('adjust annotation rectangles; default=False'),
     )
     parser.add_argument(
         "-dc",
         "--delete-comments",
         action="store_true",
-        help=('Remove inserted comments from LaTeX.'),
+        help=('remove annin comments; default=False'),
     )
 
     parser.add_argument(
         "--compiler",
         type=str,
-        help='TeX compiler; default=pdflatex',
+        help='latex_file compiler; default=pdflatex',
         default=utils.DEFAULT_LATEX_COMPILER
     )    
     parser.add_argument(
         "-eme",
         "--extra-mark-envs",
         type=str,
-        help=(
-            'Comma-separated names of additional environments to mark'
-        ),
+        help=('comma-separated additional environments to mark; default=\'\''),
         default=''
     )
     parser.add_argument(
-        "-cf",
+        "-f",
         "--comment-format",
         type=str,
         help=(
-            'Customize how comments are inserted. '
-            f'Choices: {formatcomm.FORMAT_FRONT}, '
+            'annotation comment format: choices are '
+            f'{formatcomm.FORMAT_FRONT}, '
             f'{formatcomm.FORMAT_SPLIT}, and {formatcomm.FORMAT_BACK}; '
             f'default={formatcomm.DEFAULT_COMMENT_FORMAT}'
         ),
         default=formatcomm.DEFAULT_COMMENT_FORMAT
     )
     parser.add_argument(
-        "-ts",
+        "-s",
         "--tex-start",
         type=str,
         help=(
-            f'The page of the LaTeX source\'s outputted PDF '
-            f'that corresponds to the first page of the '
-            f'annotated PDF (use rendered page number, not absolute)'
+            'first page of PDF generated by latex_file that '
+            'corresponds to first page of pdf_file '
+            '(not absolute, use written page label); '
+            'default=\'\''
         ),
         default=''
     )
@@ -229,8 +268,7 @@ def main():
     logger.info(ProgramBanner())
 
     if args.latex_file is None and not args.delete_comments:
-        logger.critical("Missing latex_file")
-        sys.exit(1)
+        raise RuntimeError("Missing latex_file")
 
     if args.delete_comments and args.latex_file is None:
         logger.info(f"Treating {args.pdf_file} as latex_file")
@@ -238,40 +276,50 @@ def main():
     else:
         latex_file = args.latex_file    
 
-    if not args.grp_overlap and args.autocorrect:
-        logger.critical("--autocorrect requires --grp-overlap; please enable it or drop --autocorrect")
-        sys.exit(1)
+    if not args.replace and args.svn:
+        logger.info("--no-replace disables --svn; not performing svn operations")
+        args.svn = False
+
+    if not args.merge_overlapping and args.autocorrect:
+        raise RuntimeError("--auto requires --merge-overlapping; enable it or drop --auto")
 
     if args.comment_format not in formatcomm.RECOGNIZED_FORMATS:
-        logger.critical(f"Unrecognized comment format: '{args.comment_format}'")
-        sys.exit(1)
+        raise ValueError(f"Unrecognized comment format: '{args.comment_format}'")
 
-    pdf_file = args.pdf_file
+    if not args.validate and args.replace:
+        logger.info(f"--no-validate disables --replace; not overwriting {latex_file}")
+        args.replace = False
 
-    if not Path(pdf_file).exists():
-        logger.critical(f"{pdf_file} does not exist")
-        sys.exit(1)
+    if not args.validate and args.svn:
+        logger.info(f"--no-validate disables --svn; not performing svn operations")
+        args.svn = False
+
+    pdf_file = Path(args.pdf_file)
+    latex_file = Path(latex_file)
+
+    if not pdf_file.exists():
+        raise FileNotFoundError(f"{pdf_file} does not exist")
         
-    if not Path(latex_file).exists():
-        logger.critical(f"{latex_file} does not exist")
-        sys.exit(1)
+    if not latex_file.exists():
+        raise FileNotFoundError(f"{latex_file} does not exist")
 
     process_files(
         pdf_file,
         latex_file,
-        group_overlapping = args.grp_overlap,
+        merge_overlapping = args.merge_overlapping, # left of = are opt names
         compiler          = args.compiler,        
         clean             = args.clean,
-        autocorrect       = args.auto,
+        auto              = args.auto,
         adjust_annots     = args.adjust_annots,
         extra_mark_envs   = args.extra_mark_envs,
         comment_format    = args.comment_format,
         delete_comments   = args.delete_comments,
         replace           = args.replace,
-        source_offset     = args.tex_start,
+        tex_start         = args.tex_start,
+        svn               = args.svn,
+        validate          = args.validate,
     )
-    return 0
+    return
 
 if __name__ == '__main__':    
     main()
-    sys.exit(0)

@@ -7,7 +7,6 @@ import json
 import time
 import pickle
 import re
-import sys
 
 import texpdfedits.extractanns as extractanns
 import texpdfedits.marktex as marktex
@@ -36,7 +35,7 @@ We may need to eventually find a new and better way to determine word
 box order if we continue to encounter issues (but I haven't so far).
 """
 
-def getPageLabels(pdf_file: str) -> list[str]:
+def getPageLabels(pdf_file: Path) -> list[str]:
     # is it a likely possibility that some of the labels are empty and others aren't?
     doc = pymupdf.open(pdf_file)
     page0 = doc[0]
@@ -653,7 +652,7 @@ class Correction:
     def asCommentStart(self, format: str):
         import texpdfedits.formatcomm as formatcomm        
         replies = '", "'.join(
-            utils.sanitizePdfText(reply)
+            utils.sanitize_pdf_text(reply)
             for reply in self.messages['responses']
         )
         return formatcomm.startComment(self, format, replies)
@@ -661,7 +660,7 @@ class Correction:
     def asCommentEnd(self, format: str):
         import texpdfedits.formatcomm as formatcomm
         replies = '", "'.join(
-            utils.sanitizePdfText(reply)
+            utils.sanitize_pdf_text(reply)
             for reply in self.messages['responses']
         )
         return formatcomm.endComment(self, format, replies)
@@ -739,17 +738,15 @@ def groupOverlaps(
         groups.append(current_group)
     return groups
 
-def groupOverlappingCorrections(
+def merge_overlapping_corrections(
         corrections: list[Correction],
         tex_str: str,
-        **kwargs
 ) -> tuple[list[list[int]], list[str]]:
     """
     Find which corrections overlap, and update the
     correction snippets (and source positions) to
     span the union of the overlapping corrections
     """
-    merge_overlapping_snippets = kwargs.get('merge_overlapping_snippets', True)
     
     if not corrections:
         return [], []
@@ -768,19 +765,19 @@ def groupOverlappingCorrections(
         for k in group:
             corr = key_to_correction[k]
             if not corr.latex_snippet in containing_snippet:
-                logger.critical(
+                err_message = (
                      "Failed to create overlapping groups: "
                     f"a snippet \n{corr.snippetToCodeblock()}\n was not in its"
                     f" spanning snippet \n{toCodeblock(containing_snippet)}\n"
                 )
-                sys.exit(1)
-            if merge_overlapping_snippets:
-                corr.updateSnippet((min_start, max_end), containing_snippet)
+                logger.critical(err_message)
+                raise RuntimeError(err_message)
+            corr.updateSnippet((min_start, max_end), containing_snippet)
             corr.group = group
     
     return groups
 
-def applySourceOffset(
+def apply_source_offset(
         source_offset: str,
         tex_word_boxes: dict[str, dict[str, pymupdf.Rect]],
 ):
@@ -815,38 +812,27 @@ def applySourceOffset(
     }
     
 def getCorrections(
-        annot_filename: str,
-        latex_filename: str,
-        **kwargs
+        pdf_file: Path,
+        latex_file: Path,
+        **opt
 ) -> tuple[list[Correction], list, int, int]:
-
-    # To be honest, I don't know why you would ever group the overlapping
-    # snippets and *not* update them. This must be a remnant of something
-    # I discarded before 
-    merge_overlapping_snippets = kwargs.get('merge_overlapping_snippets', True)
     
-    group_overlapping   = kwargs.get('group_overlapping', True)
-    compiler            = kwargs.get('compiler', 'pdflatex')
-    clean               = kwargs.get('clean', True)
-    source_offset       = kwargs.get('source_offset', '')
-
-    edits, n_annots = extractanns.getEdits(annot_filename, **kwargs)
-    (mark_positions, tex_word_boxes) = marktex.getSyncInfo(
-        latex_filename,
-        **kwargs
+    edits, n_annots = extractanns.getEdits(pdf_file, **opt)
+    mark_positions, tex_word_boxes = marktex.getSyncInfo(
+        latex_file,
+        **opt
     )
 
     n_edits = len(edits)
 
-    # could maybe use now_empty_pages for some kind of sanity check elsewhere
-    if source_offset:
-        tex_word_boxes = applySourceOffset(source_offset, tex_word_boxes)
+    if opt['tex_start']:
+        tex_word_boxes = apply_source_offset(opt['tex_start'], tex_word_boxes)
         # ic(tex_word_boxes.keys())
     
-    tex_str = utils.sourceAsString(Path(latex_filename))
+    tex_str = utils.sourceAsString(Path(latex_file))
 
     logger.info("Making correction objects...")
-    page_labels = getPageLabels(annot_filename)
+    page_labels = getPageLabels(pdf_file)
     corrections = []
     for i, edit in enumerate(edits):
         progress = f"{i}/{len(edits)-1}"
@@ -893,18 +879,13 @@ def getCorrections(
     )
 
     overlapping_keys = []
-    if group_overlapping:
-        overlapping_keys = groupOverlappingCorrections(
+    if opt['merge_overlapping']:
+        overlapping_keys = merge_overlapping_corrections(
             corrections,
             tex_str,
-            merge_overlapping_snippets=merge_overlapping_snippets
         )
-        logger.info("Overlapping corrections grouped")
-        if merge_overlapping_snippets:
-            logger.info("Overlapping correction snippets merged")
-        else:
-            logger.info("Overlapping correction snippets NOT merged")
+        logger.info("Overlapping corrections merged")
     else:
-        logger.info("Overlapping corrections NOT grouped")
+        logger.info("Overlapping corrections NOT merged")
 
     return corrections, overlapping_keys, n_annots, n_edits

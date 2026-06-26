@@ -4,7 +4,6 @@ logger = logging.getLogger(__name__)
 from pathlib import Path
 from datetime import datetime
 import subprocess
-import sys
 import re
 
 DEFAULT_LATEX_COMPILER = 'pdflatex'
@@ -14,8 +13,12 @@ DIFF_PDF_DPI = 175
 COMPILER_INFO = {
     'pdflatex': (2, 'latin-1', ['--interaction=nonstopmode']),
     'prdlatex': (1, 'latin-1', ['-nonstopmode']),
-    'xelatex': (2, 'utf-8', ['--interaction=nonstopmode'])
+    'xelatex': (2, 'utf-8', ['--interaction=nonstopmode']),
+    'luatex': (2, 'utf-8', ['--interaction=nonstopmode'])    
 }
+
+INLINED_TAG = 'inlined'
+AUTO_TAG = 'autocorrected'
 
 MAX_ROMAN = 2001
 
@@ -243,11 +246,11 @@ class TextProgressBar:
     def end(self):
         print(flush=True)
 
-def sanitizePdfText(text: str):
+def sanitize_pdf_text(text: str):
     return UnicodeToTeX(replaceNewlines(text))
 
-def pdfFname(tex_fname: Path):
-    return f"{tex_fname.stem}.pdf"        
+def pdf_name(tex_fname: Path) -> Path:
+    return Path(f"{tex_fname.stem}.pdf")
 
 def sourceAsString(filename: Path, **kwargs) -> str:
     enc = kwargs.get('encoding', 'utf-8')    
@@ -275,22 +278,22 @@ def newTaggedFname(
     else:
         return Path(f"{file.stem}_{tag}{new_suffix if new_suffix else file.suffix}")
 
-def transferTeXFiles(
-        tex_filename: Path,
+def transfer_tex_files(
+        latex_file: Path,
         files_to: Path,
         move_or_copy: str
 ):
     logger.debug(
-        f"the tex_filename is {tex_filename}\n"
+        f"the latex_file is {latex_file}\n"
         f"files_to is {files_to}"
     )
-    if tex_filename.parent == files_to:
+    if latex_file.parent == files_to:
         logger.debug(
             "No need to transfer files; they are already in the cwd"
         )
         return
     
-    tex_dot_star_files = [x for x in tex_filename.parent.glob(f'{tex_filename.stem}.*')]
+    tex_dot_star_files = [x for x in latex_file.parent.glob(f'{latex_file.stem}.*')]
     for x in tex_dot_star_files:
         match move_or_copy:
             case 'mv':
@@ -298,11 +301,10 @@ def transferTeXFiles(
             case 'cp':
                 x.copy_into(files_to)
             case _:
-                logger.critical(
+                raise RuntimeError(
                     f"Could not transfer TeX files: "
                     f"unrecognized action '{move_or_copy}'; exiting"
                 )
-                sys.exit(1)
 
 def removeDir(directory: Path):
     if not directory.exists():
@@ -317,90 +319,77 @@ def removeDir(directory: Path):
 
 def exchangeExtension(file: Path, extension: str) -> Path:
     no_extension = file.parent / file.stem
-    return Path(f"{no_extension}.{extension}")    
+    return Path(f"{no_extension}.{extension}")
 
-def compileLatex(
-        tex_filename: Path,
-        compiler: str = DEFAULT_LATEX_COMPILER
+def compile_tex(
+        latex_file: Path,
+        compiler: str,
+        *other_compile_options,
 ) -> subprocess.CompletedProcess:
     """Compile .tex file with provided compiler"""
     before_comp_time = datetime.now()
     
     result = None
-    tex_filename_dir = tex_filename.parent
+    latex_file_dir = latex_file.parent
     
     num_runs, encoding, compile_options = COMPILER_INFO.get(
         compiler,
         (2, 'latin-1', ['--interaction=nonstopmode'])
     )
         
-    command = [compiler, *compile_options, tex_filename.name]    
+    command = [compiler, *compile_options, *other_compile_options, latex_file.name]    
     for i in range(num_runs):
         logger.info(
-            f"Running {compiler} on {tex_filename} "
+            f"Running {compiler} on {latex_file} "
             f"(pass {i+1}/{num_runs})..."
         )
         logger.debug(f"I.e., {' '.join(command)}")        
         result = subprocess.run(
             command,
-            cwd=tex_filename_dir,
+            cwd=latex_file_dir,
             capture_output=True, # see result.stdout, result.stderr
             text=True,
-            encoding=encoding
+            encoding=encoding,
+            check=True, # raises subprocess.CalledProcessError
         )
-        
-        if result.returncode != 0:
-            logger.critical(
-                f"{compiler} failed on pass {i+1} of "
-                f"{tex_filename.name}: {result.stderr}."
-                f"Output: {result.stdout}"
-            )
-            sys.exit(1)
 
-    as_pdf = exchangeExtension(tex_filename, 'pdf')
+    as_pdf = exchangeExtension(latex_file, 'pdf')
     if as_pdf.exists():
         pdf_modtime = datetime.fromtimestamp(as_pdf.stat().st_mtime)
         # if we already have a .pdf and it's modification is after compilation we'll use it        
         if before_comp_time < pdf_modtime:
             return result
 
-    as_dvi = exchangeExtension(tex_filename, 'dvi')
+    as_dvi = exchangeExtension(latex_file, 'dvi')
             
     if not as_dvi.exists():
-        logger.critical(f"Could not find {as_pdf} or {as_dvi} after compiling '{tex_filename}'")
-        sys.exit(1)
+        raise FileNotFoundError(f"Could not find {as_pdf} or {as_dvi} after compiling '{latex_file}'")
 
     pubprint_command = ['pubprint', '-pdf', '-o', as_pdf.name, as_dvi.name]
     logger.info(f"Running `{' '.join(pubprint_command)}`...")
     process = subprocess.run(
         pubprint_command,
-        cwd=tex_filename_dir,
+        cwd=latex_file_dir,
         capture_output=True,
         text=True,
+        check=True,
     )
-    
-    if process.returncode != 0:
-        logger.critical(f"pubprint returned nonzero: {process.stderr}")
-        sys.exit(1)
             
     if not as_pdf.exists():
-        logger.critical(f"pubprint returned zero but it's expected output file doesn't exist: {as_pdf}")
-        sys.exit(1)
+        raise FileNotFoundError(f"pubprint returned zero but it's expected output file doesn't exist: {as_pdf}")
             
     return result
 
-def runDiffpdf(
-        first_fname: str,
-        second_fname: str,
-        output_dir: Path,
+def run_diff_pdf(
+        pdf_1: Path,
+        pdf_2: Path,
+        cwd: Path,
         per_page_tol: int = DIFFPDF_PER_PAGE_PIXEL_TOLERANCE
-) -> subprocess.CompletedProcess:
+) -> tuple[subprocess.CompletedProcess, Path]:
     
-    first_stem = Path(first_fname).stem
-    second_stem = Path(second_fname).stem
-    diff_fname = f'diff_{first_stem}_{second_stem}.pdf'
+    diff_fname = f'diff_{pdf_1.stem}_{pdf_2.stem}.pdf'
 
-    subprocess_command = [
+    diffpdf_command = [
         'diff-pdf',
         f'--per-page-pixel-tolerance={per_page_tol}',
         f'--dpi={DIFF_PDF_DPI}',
@@ -409,28 +398,36 @@ def runDiffpdf(
         '--mark-differences',
         '--verbose',
         f'--output-diff={diff_fname}',
-        first_fname,
-        second_fname
+        pdf_1.name,
+        pdf_2.name
     ]
     
-    logger.info(f"Running `{' '.join(subprocess_command)}`...")
-    
-    result = subprocess.run(
-        subprocess_command,
-        cwd=output_dir
-    )
-    
-    if result.returncode != 0:
-        logger.error(
-            f"{first_fname} and {second_fname} are not identical. "
-            f"See {Path(output_dir) / diff_fname}"
+    logger.info(f"Running `{' '.join(diffpdf_command)}`...")
+
+    try:
+        result = subprocess.run(
+            diffpdf_command,
+            cwd=cwd,
+            check=True,
         )
-        sys.exit(1)
+    except FileNotFoundError as e:
+        logger.critical(
+            "It appears diff-pdf is not installed. "
+            "It is a dependency of this program. For installation "
+            "instructions, go to https://vslavik.github.io/diff-pdf/"
+        )
+        raise e
+    except subprocess.CalledProcessError as e:
+        logger.critical(
+            f"{pdf_1} and {pdf_2} are not identical. "
+            f"See {Path(cwd) / diff_fname}"
+        )
+        raise e
         
-    return (result, Path(diff_fname))
+    return result, Path(diff_fname)
     
-def deleteIntermediateLaTeX(tex_filename: Path):
-    body = tex_filename.stem
+def delete_intermediate_latex(latex_file: Path):
+    body = latex_file.stem
     for extension in INTERMEDIATE_EXTENSIONS_TO_DELETE:
         to_delete = Path(body + extension)
         if to_delete.exists():
@@ -449,42 +446,56 @@ def UnicodeToTeX(s: str) -> str:
         for char in s
     )
 
-def compileValidateClean(tex_file1: Path, tex_file2: Path, cwd: Path, no_first: bool=False, **kwargs):
-    compiler = kwargs.get('compiler', DEFAULT_LATEX_COMPILER)
-    validate = kwargs.get('validate', True)
-    clean    = kwargs.get('clean', True)
-    replace  = kwargs.get('replace', False)
+def compile_validate_clean_replace(
+        latex_file1: Path,
+        latex_file2: Path,
+        cwd: Path,
+        compile_first: bool=False,
+        **opt
+):
+    # no point in compiling first if not validating
+    if opt['validate'] and compile_first: 
+        process1 = compile_tex(latex_file1, opt['compiler'])
+        
+    if opt['validate']:
+        process2 = compile_tex(latex_file2, opt['compiler'])
 
-    if not no_first:
-        process1 = compileLatex(tex_file1, compiler=compiler)
-    process2 = compileLatex(tex_file2, compiler=compiler)
+    pdf_1 = pdf_name(latex_file1)
+    pdf_2 = pdf_name(latex_file2)
 
-    transferTeXFiles(tex_file1, cwd, 'cp')
-    transferTeXFiles(tex_file2, cwd, 'mv')
+    second_is_auto = latex_file2.stem.endswith(AUTO_TAG)
 
-    pdf_file1 = pdfFname(tex_file1)
-    pdf_file2 = pdfFname(tex_file2)
-    
-    if validate:
-        process3, diff_fname = runDiffpdf(
-            pdf_file1,
-            pdf_file2,
+    if opt['validate'] and not second_is_auto:
+        process3, diff_fname = run_diff_pdf(
+            pdf_1,
+            pdf_2,
             cwd,
-            per_page_tol=0
+            per_page_tol=0,
         )
+        logger.info(f"{pdf_1} and {pdf_2} are identical")
+    else:
+        diff_fname = None
+        reason_no_diff = "expected differences" if second_is_auto else "--no-validate"
+        logger.info(f"Did not compare {pdf_1} and {pdf_2} ({reason_no_diff})")
 
-    logger.info(f"{pdf_file1} and {pdf_file2} are identical")
-
-    if clean:
+    if opt['clean']:
         logger.info("Deleting intermediate files.")
-        diff_fname.unlink()
-        deleteIntermediateLaTeX(tex_file1)
-        deleteIntermediateLaTeX(tex_file2)
+        if diff_fname is not None:
+            diff_fname.unlink()
+        delete_intermediate_latex(latex_file1)
+        delete_intermediate_latex(latex_file2)
 
-    if replace:
-        # replace second file with first
-        tex_file2.move(tex_file1)
-        logger.info(f"Overwrote {tex_file1} with {tex_file2}")
+    # don't replace _inlined if planning to replace with _autocorrected        
+    should_not_overwrite_despite_replace = (
+        latex_file2.stem.endswith(INLINED_TAG) and
+        opt['auto']
+    ) 
+    if should_not_overwrite_despite_replace:
+        return
+
+    if opt['replace']:
+        latex_file2.move(latex_file1)
+        logger.info(f"{latex_file1} overwritten by {latex_file2}")
         
 def plural(num: int):
     return 's' if num > 1 else ''
