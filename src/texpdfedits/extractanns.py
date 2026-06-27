@@ -168,7 +168,8 @@ class Edit:
             message: dict[str, str | list[str]],
             selection: str,
             selection_bbs: list[pymupdf.Rect],
-            annot_rect: pymupdf.Rect
+            annot_rect: pymupdf.Rect,
+            xref: int,
     ):
         self.pageno = pageno
         self.page_label = page_label
@@ -177,10 +178,12 @@ class Edit:
         self.selection = selection
         self.selection_bbs = selection_bbs # for debugging
         self.annot_rect = annot_rect # used in marktex routines
+        self.xref = xref
         
     def __str__ (self): 
         return json.dumps({
             "pageno": self.pageno,
+            "xref": self.xref,
             "page_label": self.page_label,             
             "type": self.type, 
             "message": {
@@ -882,7 +885,8 @@ def getEdits(pdf_file: Path, **opt) -> tuple[list[Edit], int]:
                 message,
                 selection_text,
                 selection_bbs,
-                latex_extraction_bb
+                latex_extraction_bb,
+                annot.xref,
             ))
 
         if robust_annots[pageno]:

@@ -7,6 +7,7 @@ import json
 import time
 import pickle
 import re
+import sys
 
 import texpdfedits.extractanns as extractanns
 import texpdfedits.marktex as marktex
@@ -609,6 +610,7 @@ class Correction:
             pageno: int,
             page_label: str,
             type: tuple[int, str],
+            xref: int,
             messages: dict[str, str | list[str]],
             pdf_selected_text: str,
             pdf_annot_rect: pymupdf.Rect,
@@ -620,6 +622,7 @@ class Correction:
         self.pageno                   = pageno
         self.page_label               = page_label
         self.type                     = type
+        self.xref                     = xref        
         self.messages                 = messages
         self.pdf_selected_text        = pdf_selected_text
         self.pdf_annot_rect           = pdf_annot_rect
@@ -633,6 +636,7 @@ class Correction:
     def __str__ (self): 
         return json.dumps({
             "index" : self.index,
+            "xref" : self.xref,
             "pageno": self.pageno,
             "page_label": self.page_label,
             "type": self.type[1],
@@ -810,6 +814,25 @@ def apply_source_offset(
         str(labelVal(label) - labelVal(source_offset) + 1) : info
         for label, info in tex_word_boxes.items()
     }
+
+def write_vercorr_data(
+        pdf_file: Path,
+        corrections: list[Correction],
+):
+    script_name = Path(sys.argv[0]).name
+    data_file = f"{pdf_file.stem}.{script_name}"
+    # only two fields right now, but if I wanted to extend this for some
+    # reason later, json makes that simple enough
+    data = '\n'.join(
+        json.dumps({ 
+            'index' : corr.index,
+            'xref'  : corr.xref,
+        })
+        for corr in corrections
+    )
+    logger.info(f"Writing {data_file}...")
+    utils.writeStringToFile(data, data_file)
+    logger.info("Done")
     
 def getCorrections(
         pdf_file: Path,
@@ -867,7 +890,7 @@ def getCorrections(
 
         corrections.append(
             Correction(
-                i, pageno, page_label, edit.type, edit.message, edit.selection,
+                i, pageno, page_label, edit.type, edit.xref, edit.message, edit.selection,
                 pdf_annot_rect, edit.selection_bbs, latex_snippet,
                 snippet_source_positions
             )
@@ -888,5 +911,7 @@ def getCorrections(
         logger.info("Overlapping corrections merged")
     else:
         logger.info("Overlapping corrections NOT merged")
+
+    write_vercorr_data(pdf_file, corrections)
 
     return corrections, overlapping_keys, n_annots, n_edits
