@@ -6,6 +6,9 @@ from icecream import ic
 logger = logging.getLogger(__name__)
 import math
 import re
+from dataclasses import dataclass
+from typing import ClassVar
+
 import texpdfedits.utils as utils
 
 pymupdf.TOOLS.set_small_glyph_heights(True)
@@ -131,6 +134,26 @@ class Annot:
              }
         )
     
+@dataclass
+class TextAnnotXrefObj:
+    CHECKMARK_SMODEL: ClassVar[str] = 'Marked'
+    CHECKMARK_CHECKED: ClassVar[str]   = 'Marked'
+    CHECKMARK_UNCHECKED: ClassVar[str] = 'Unmarked'
+    
+    STATUS_SMODEL: ClassVar[str] = 'Review'
+    STATUS_NONE: ClassVar[str]      = 'None'
+    STATUS_ACCEPTED: ClassVar[str]  = 'Accepted'
+    STATUS_REJECTED: ClassVar[str]  = 'Rejected'
+    STATUS_CANCELLED: ClassVar[str] = 'Cancelled'
+    STATUS_COMPLETED: ClassVar[str] = 'Completed'
+    STATUS_DEFERRED: ClassVar[str] = 'Deferred'
+    STATUS_FUTURE: ClassVar[str] = 'Future'    
+    
+    xref: int
+    state_model: str
+    state: str
+
+@dataclass
 class Edit:
     """
     Represents the information necessary to carry out an edit.
@@ -159,31 +182,23 @@ class Edit:
     }
 
     """
-    
-    def __init__ (
-            self,
-            pageno: int,
-            page_label: str,
-            type: tuple[int, str],
-            message: dict[str, str | list[str]],
-            selection: str,
-            selection_bbs: list[pymupdf.Rect],
-            annot_rect: pymupdf.Rect,
-            xref: int,
-    ):
-        self.pageno = pageno
-        self.page_label = page_label
-        self.type = type
-        self.message = message
-        self.selection = selection
-        self.selection_bbs = selection_bbs # for debugging
-        self.annot_rect = annot_rect # used in marktex routines
-        self.xref = xref
+    pageno: int
+    page_label: str
+    type: tuple[int, str]
+    message: dict[str, str | list[str]]
+    selection: str
+    selection_bbs: list[pymupdf.Rect] # for debugging
+    annot_rect: pymupdf.Rect # used in marktex routines
+    xref: int
+    checkmark: TextAnnotXrefObj
+    status: TextAnnotXrefObj
         
     def __str__ (self): 
         return json.dumps({
             "pageno": self.pageno,
             "xref": self.xref,
+            "checkmark": str(self.checkmark),
+            "status": str(self.status),
             "page_label": self.page_label,             
             "type": self.type, 
             "message": {
@@ -192,9 +207,6 @@ class Edit:
             },
             "PDF text selection": self.selection
         }, indent=4, ensure_ascii=False)
-    
-    def __repr__ (self):
-        return str(self)
 
 def pageGetTextClipRect(annot_rect: pymupdf.Rect, page_rect: pymupdf.Rect):
     return pymupdf.Rect(
@@ -337,9 +349,13 @@ def getRobustAnnots(pdf_file: Path, **opt):
             )
     return robust_annots
 
-def getAllResponses(robust_annots):
+def getAllResponses(
+        robust_annots: dict[int, list[Annot]],
+) -> dict[int, list[Annot]]:
     """return dictionary where dict[xref]
            => [annots for which annot.irt_xref == xref]
+    i.e., values are list of annots that are in response
+    to xref key
     """
     all_responses = dict()
     for pageno, annots in robust_annots.items():
@@ -799,6 +815,106 @@ def getSelection(
         )
         return selection, annot_rects, annot.rect
 
+def get_irt_from_doc(doc: pymupdf.Document, xref: int) -> int | None:
+    raw_irt = doc.xref_get_key(xref, 'IRT')
+    type, val = raw_irt
+    try:
+        if type != 'xref':
+            raise ValueError(f"Expected type = 'xref', instead type = {type}")
+        return int(val.split(' ')[0])
+    except Exception as e:
+        logger.error(
+            f"Could not read irt_val '{val}' from xref "
+            f"'{xref}' in Document '{doc}': {e}"
+        )
+        return None
+
+def to_text_annot_xref_obj(doc: pymupdf.Document, xref: int) -> TextAnnotXrefObj:
+    return TextAnnotXrefObj(
+        xref,
+        doc.xref_get_key(xref, 'StateModel')[1],
+        doc.xref_get_key(xref, 'State')[1],
+    )
+
+def get_ann_xref_resps(
+        doc: pymupdf.Document,
+        page: pymupdf.Page,
+) -> dict[int, list[TextAnnotXrefObj]]:
+    """
+    Return dictionary where
+            key: xref that belongs to an annotation
+            value: list of text annotation xref objects in response to it
+                   (typically annotations that represent checkmark or status)
+    """
+    xref_keys = [
+        xref for xref, type, name in page.annot_xrefs()
+        if type != Annot.LINK and type != Annot.POPUP # no need for these, never used
+    ]
+    text_xrefs = [
+        xref for xref, type, name in page.annot_xrefs()
+        if type == Annot.TEXT
+    ]
+    return {
+        x_key : [
+            to_text_annot_xref_obj(doc, txref) for txref in text_xrefs
+            if get_irt_from_doc(doc, txref) == x_key
+        ] for x_key in xref_keys
+    }
+
+def _get_checkmark(
+        annot_xref: int,
+        doc: pymupdf.Document,
+        ann_xref_resps: dict[int, list[TextAnnotXrefObj]],
+) -> TextAnnotXrefObj | None:
+    checkmarks = [
+        resp_tann_xref for resp_tann_xref in ann_xref_resps[annot_xref]
+        if resp_tann_xref.state_model == TextAnnotXrefObj.CHECKMARK_SMODEL
+    ]
+    if not checkmarks:
+        return None
+    elif len(checkmarks) == 1:
+        [checkmark_xref_obj] = checkmarks
+    else:
+        logger.error(
+            f"Malformed PDF annotations: xref {annot_xref} "
+            f"has multiple checkmark annotations {checkmarks}"
+        )
+        checkmark_xref_obj = max(
+            checkmarks,
+            key=lambda xr: doc.xref_get_key(xr, 'M')[1] # mod time
+        )
+    return checkmark_xref_obj
+
+def _get_status(
+        annot_xref: int,        
+        doc: pymupdf.Document,
+        ann_xref_resps: dict[int, list[TextAnnotXrefObj]],
+) -> TextAnnotXrefObj | None:
+    status_xref_obj = None
+    parent_xref = annot_xref
+    children_ta_xref_objs = ann_xref_resps[parent_xref]
+    while children_ta_xref_objs:
+        statuses = [
+            ta_xref_obj for ta_xref_obj in children_ta_xref_objs
+            if ta_xref_obj.state_model == TextAnnotXrefObj.STATUS_SMODEL
+        ]
+        if not statuses:
+            break
+        elif len(statuses) == 1:
+            [status_xref_obj] = statuses
+        else:
+            logger.error(
+                f"Malformed PDF annotations: xref {parent_xref} "
+                f"has multiple status annotations {statuses}"
+            )
+            status_xref_obj = max(
+                statuses,
+                key=lambda xr_obj: doc.xref_get_key(xr_obj.xref, 'M')[1] # mod time
+            )
+        parent_xref = status_xref_obj.xref
+        children_ta_xref_objs = ann_xref_resps[parent_xref]
+    return status_xref_obj
+
 def getEdits(pdf_file: Path, **opt) -> tuple[list[Edit], int]:
     """return a list of Edits. See class Edit."""
     logger.info("Loading PDF annotations...")
@@ -829,9 +945,17 @@ def getEdits(pdf_file: Path, **opt) -> tuple[list[Edit], int]:
             target_num_edits += 1
             
             responses = getResponses(annot, all_responses)
+            
+            ann_xref_resps = get_ann_xref_resps(doc, page)
+            checkmark_xref_obj = _get_checkmark(annot.xref, doc, ann_xref_resps)
+            status_xref_obj = _get_status(annot.xref, doc, ann_xref_resps)
 
             text_responses = responses.get(Annot.TEXT, [])
-            text_responses = [resp.info['content'] for resp in text_responses]
+            text_responses = [
+                resp.info['content'] for resp in text_responses
+                if to_text_annot_xref_obj(doc, resp.xref).state_model == 'null'
+                # normal text annotations for replies don't have xref_object key 'StateModel' defined
+            ]
             
             message = {
                 'comment': annot.info['content'],
@@ -887,6 +1011,8 @@ def getEdits(pdf_file: Path, **opt) -> tuple[list[Edit], int]:
                 selection_bbs,
                 latex_extraction_bb,
                 annot.xref,
+                checkmark_xref_obj,
+                status_xref_obj,
             ))
 
         if robust_annots[pageno]:

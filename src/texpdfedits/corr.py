@@ -10,6 +10,7 @@ import re
 import sys
 
 import texpdfedits.extractanns as extractanns
+from texpdfedits.extractanns import TextAnnotXrefObj
 import texpdfedits.marktex as marktex
 import texpdfedits.utils as utils
 
@@ -371,8 +372,8 @@ def useSimpleIDs(in_rectangle, page_word_boxes, tex_word_boxes, page_label, page
         and isSimpleID(k)
     }
 
-    logger.debug(f"boxes before: {boxes_before}\n\n")
-    logger.debug(f"boxes after: {boxes_after}\n\n")        
+    # logger.debug(f"boxes before: {boxes_before}\n\n")
+    # logger.debug(f"boxes after: {boxes_after}\n\n")        
         
     start_key = max(boxes_before.keys(), key=getTerminalStem) if boxes_before else None
     end_key = min(boxes_after.keys(), key=getTerminalStem) if boxes_after else None
@@ -611,6 +612,8 @@ class Correction:
             page_label: str,
             type: tuple[int, str],
             xref: int,
+            checkmark: TextAnnotXrefObj,
+            status: TextAnnotXrefObj,
             messages: dict[str, str | list[str]],
             pdf_selected_text: str,
             pdf_annot_rect: pymupdf.Rect,
@@ -622,6 +625,8 @@ class Correction:
         self.pageno                   = pageno
         self.page_label               = page_label
         self.type                     = type
+        self.checkmark                = checkmark
+        self.status                   = status
         self.xref                     = xref        
         self.messages                 = messages
         self.pdf_selected_text        = pdf_selected_text
@@ -637,6 +642,8 @@ class Correction:
         return json.dumps({
             "index" : self.index,
             "xref" : self.xref,
+            "checkmark" : str(self.checkmark),
+            "status" : str(self.status),
             "pageno": self.pageno,
             "page_label": self.page_label,
             "type": self.type[1],
@@ -890,9 +897,19 @@ def getCorrections(
 
         corrections.append(
             Correction(
-                i, pageno, page_label, edit.type, edit.xref, edit.message, edit.selection,
-                pdf_annot_rect, edit.selection_bbs, latex_snippet,
-                snippet_source_positions
+                i,
+                pageno,
+                page_label,
+                edit.type,
+                edit.xref,
+                edit.checkmark,
+                edit.status,
+                edit.message,
+                edit.selection,
+                pdf_annot_rect,
+                edit.selection_bbs,
+                latex_snippet,
+                snippet_source_positions,
             )
         )
     logger.info("Done")
