@@ -31,7 +31,7 @@ EPILOG = f"""
         Here is an example annotation comment in the latex_file 
 
         Hall $\pi$%%
-        %% Annotation 0, page 1 [✓] [ ] [None]
+        %% Annotation 0, page 1 [✓] ( ) (None)
         %% Caret: "UBGROUPS AND<Caret> CHARACTERS "
         %% Comment: ","
         %%
@@ -80,3 +80,5 @@ EPILOG = f"""
 
         Whitespace is stripped from the key=value pairs, so it doesn't matter.
 """
+
+"""The filtering message is mostly moot since I intend to turn this into a full GUI application"""

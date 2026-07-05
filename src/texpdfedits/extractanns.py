@@ -31,6 +31,10 @@ STIX_ADJUST = 4
 
 USE_STIX = utils.PDF_WORKFLOW
 
+EXPECT_NO_IRT_KEY = '|'.join(
+    r'popup',
+)
+
 class Annot:
     """
     Revised version of pymupdf's Annot which adjusts the bounding box of the
@@ -190,6 +194,7 @@ class Edit:
     selection_bbs: list[pymupdf.Rect] # for debugging
     annot_rect: pymupdf.Rect # used in marktex routines
     xref: int
+    related_xref: int
     checkmark: TextAnnotXrefObj
     status: TextAnnotXrefObj
         
@@ -197,6 +202,7 @@ class Edit:
         return json.dumps({
             "pageno": self.pageno,
             "xref": self.xref,
+            "related_xref": self.related_xref,
             "checkmark": str(self.checkmark),
             "status": str(self.status),
             "page_label": self.page_label,             
@@ -816,6 +822,14 @@ def getSelection(
         return selection, annot_rects, annot.rect
 
 def get_irt_from_doc(doc: pymupdf.Document, xref: int) -> int | None:
+    xref_keys = ' '.join(doc.xref_get_keys(xref))
+    bad_key_match = re.search(
+        EXPECT_NO_IRT_KEY,
+        xref_keys,
+        flags = re.IGNORECASE
+    )
+    if bad_key_match is not None:
+        return None
     raw_irt = doc.xref_get_key(xref, 'IRT')
     type, val = raw_irt
     try:
@@ -979,6 +993,11 @@ def getEdits(pdf_file: Path, **opt) -> tuple[list[Edit], int]:
                 return True, other_ann
                 
             is_replace, other_ann = isReplaceAnnot(annot, responses)
+
+            if other_ann is not None:
+                related_xref = other_ann.xref
+            else:
+                related_xref = None
             
             if is_replace:
                 if annot.type[0] == Annot.CARET:
@@ -1011,6 +1030,7 @@ def getEdits(pdf_file: Path, **opt) -> tuple[list[Edit], int]:
                 selection_bbs,
                 latex_extraction_bb,
                 annot.xref,
+                related_xref,
                 checkmark_xref_obj,
                 status_xref_obj,
             ))

@@ -5,6 +5,7 @@ from pathlib import Path
 from datetime import datetime
 import subprocess
 import re
+from icecream import ic
 
 DEFAULT_LATEX_COMPILER = 'pdflatex'
 
@@ -260,6 +261,9 @@ def sanitize_pdf_text(text: str):
 def pdf_name(tex_fname: Path) -> Path:
     return Path(f"{tex_fname.stem}.pdf")
 
+def replace_suffix(filename: Path, suffix: str) -> Path:
+    return filename.parent / f'{filename.stem}.{suffix}'
+
 def sourceAsString(filename: Path, **kwargs) -> str:
     enc = kwargs.get('encoding', 'utf-8')    
     with open(filename, 'r', encoding = enc) as f:
@@ -345,7 +349,7 @@ def compile_tex(
         (2, 'latin-1', ['--interaction=nonstopmode'])
     )
         
-    command = [compiler, *compile_options, *other_compile_options, latex_file.name]    
+    command = [compiler, *compile_options, *other_compile_options, latex_file.name]
     for i in range(num_runs):
         logger.info(
             f"Running {compiler} on {latex_file} "
