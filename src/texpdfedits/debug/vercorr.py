@@ -88,27 +88,6 @@ def main():
         action="store_true",
         help='set logging level only warnings or greater'
     )    
-
-    parser.add_argument(
-        "--clean",
-        action=argparse.BooleanOptionalAction,
-        help='delete intermediate files; default=True',
-        default=True
-    )
-    parser.add_argument(
-        "--update",
-        action=argparse.BooleanOptionalAction,
-        help='update annotation statuses; default=True',
-        default=True
-    )
-
-    parser.add_argument(
-        "-f",
-        "--filter",
-        type=str,
-        help='comma-separated key=value pairs for filtering annotations',
-        default='',
-    )    
     
     parser.add_argument(
         '--compiler',

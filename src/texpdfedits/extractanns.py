@@ -202,7 +202,7 @@ class Edit:
         return json.dumps({
             "pageno": self.pageno,
             "xref": self.xref,
-            "related_xref": self.related_xref,
+            "related_xref": str(self.related_xref),
             "checkmark": str(self.checkmark),
             "status": str(self.status),
             "page_label": self.page_label,             

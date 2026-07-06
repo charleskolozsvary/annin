@@ -245,13 +245,17 @@ UNICODE2TEX = {
 }
 
 class TextProgressBar:
-    def __init__(self, num_to_be_done):
-        self.total = num_to_be_done
+    def __init__(self, num_to_be_done, show_per: int=1):
+        self.total = num_to_be_done // show_per
+        self.show_per = show_per
         self.bar_str = '|' + '-' * self.total + '|'
+        self.num_done = 0
     def showSize(self):
         print(self.bar_str, end='\n ', flush=True)
     def addProgress(self):
-        print('.', end='', flush=True)
+        self.num_done += 1
+        if self.num_done % self.show_per == 0:
+            print('.', end='', flush=True)
     def end(self):
         print(flush=True)
 

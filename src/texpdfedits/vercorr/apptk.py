@@ -1,104 +1,22 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk  # pip install Pillow
+from pathlib import Path
+
+import texpdfedits.vercorr.manu as manu
+from texpdfedits.vercorr.manu import Manuscript
+from texpdfedits.extractanns import TextAnnotXrefObj
 
 # ---------------------------------------------------------------------------
 # Placeholder data -- replace with your real PDF-backed values.
 # ---------------------------------------------------------------------------
 
-STATUS_OPTIONS = ["Pending Review", "Approved", "Needs Revision", "Rejected"]
-
-PLACEHOLDER_ANNOTATIONS = [
-    {
-        "type": "Highlight",
-        "comment": "Check that the highlighted term matches the glossary.",
-        "replies": ["Looks good to me.", "Confirmed with style guide."],
-        "page": 3,
-        "checked": False,
-        "status": "Pending Review",
-        "top_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_before/test5.png",
-        "bottom_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_after/test5.png",
-    },
-    {
-        "type": "Replace",
-        "comment": "Replace 'utilize' with 'use' throughout paragraph.",
-        "replies": [],
-        "page": 5,
-        "checked": True,
-        "status": "Approved",
-        "top_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_before/test6.png",
-        "bottom_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_after/test6.png",
-    },
-    {
-        "type": "Strikethrough",
-        "comment": "Remove redundant sentence at end of section.",
-        "replies": ["Double check this doesn't break the flow."],
-        "page": 8,
-        "checked": False,
-        "status": "Needs Revision",
-        "top_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_before/test7.png",
-        "bottom_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_after/test7.png",
-    },
-    {
-        "type": "Strikethrough",
-        "comment": "Remove redundant sentence at end of section.",
-        "replies": ["Double check this doesn't break the flow."],
-        "page": 8,
-        "checked": False,
-        "status": "Needs Revision",
-        "top_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_before/test8.png",
-        "bottom_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_after/test8.png",
-    },
-    {
-        "type": "Strikethrough",
-        "comment": "Remove redundant sentence at end of section.",
-        "replies": ["Double check this doesn't break the flow."],
-        "page": 8,
-        "checked": False,
-        "status": "Needs Revision",
-        "top_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_before/test9.png",
-        "bottom_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_after/test9.png",
-    },
-    {
-        "type": "Strikethrough",
-        "comment": "Remove redundant sentence at end of section.",
-        "replies": ["Double check this doesn't break the flow."],
-        "page": 8,
-        "checked": False,
-        "status": "Needs Revision",
-        "top_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_before/test10.png",
-        "bottom_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_after/test10.png",
-    },
-    {
-        "type": "Strikethrough",
-        "comment": "Remove redundant sentence at end of section.",
-        "replies": ["Double check this doesn't break the flow."],
-        "page": 8,
-        "checked": False,
-        "status": "Needs Revision",
-        "top_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_before/test11.png",
-        "bottom_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_after/test11.png",
-    },
-    {
-        "type": "Strikethrough",
-        "comment": "Remove redundant sentence at end of section.",
-        "replies": ["Double check this doesn't break the flow."],
-        "page": 8,
-        "checked": False,
-        "status": "Needs Revision",
-        "top_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_before/test12.png",
-        "bottom_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_after/test12.png",
-    },
-    {
-        "type": "Strikethrough",
-        "comment": "Remove redundant sentence at end of section. This is a very long thing is it not?",
-        "replies": ["Double check this doesn't break the flow."],
-        "page": 8,
-        "checked": False,
-        "status": "Needs Revision",
-        "top_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_before/test13.png",
-        "bottom_image": "/Users/kolozsvary/github/annin/tests/regression/real_world/arxiv05/vercorr_im_after/test13.png",
-    },    
+STATUS_OPTIONS = [
+    TextAnnotXrefObj.STATUS_NONE,
+    TextAnnotXrefObj.STATUS_ACCEPTED,
+    TextAnnotXrefObj.STATUS_REJECTED,
+    TextAnnotXrefObj.STATUS_CANCELLED,
+    TextAnnotXrefObj.STATUS_COMPLETED,
 ]
 
 # ---------------------------------------------------------------------------
@@ -108,12 +26,12 @@ PLACEHOLDER_ANNOTATIONS = [
 # ---------------------------------------------------------------------------
 
 # --- Window ---
-WINDOW_TITLE = "Copy Edit Review"
+WINDOW_TITLE = "Correction Review"
 WINDOW_SIZE = "1000x700"
 
 # --- Layout proportions (relative to the whole window; must stay in [0, 1]) ---
-PANEL_PROPORTION = 0.2   # right-hand annotation panel: fraction of window WIDTH
-DIVISION_PROP = 0.03      # divider line: fraction of window HEIGHT
+PANEL_PROPORTION = 0.225   # right-hand annotation panel: fraction of window WIDTH
+DIVISION_PROP = 0.025      # divider line: fraction of window HEIGHT
 
 # --- Colors ---
 DEFAULT_BG = "black"
@@ -134,12 +52,14 @@ SCROLLBAR_ACTIVE_BG = "#777777"
 
 # --- Fonts ---
 FONT_FAMILY = "Arial"
-FONT_SIZE_TYPE = 11        # annotation type label (e.g. "Highlight"), bold
-FONT_SIZE_BODY = 10        # default/unspecified body text size
-FONT_SIZE_META = 9         # page number, replies
+FONT_SIZE_TYPE = 14        # annotation type label (e.g. "Highlight"), bold
+FONT_SIZE_BODY = 13        # default/unspecified body text size
+FONT_SIZE_META = 12        # page number, replies
+FONT_SIZE_NO_IMG = 50
 TYPE_FONT = (FONT_FAMILY, FONT_SIZE_TYPE, "bold")
 META_FONT = (FONT_FAMILY, FONT_SIZE_META)
 REPLY_FONT = (FONT_FAMILY, FONT_SIZE_META)
+NO_IMG_FONT = (FONT_FAMILY, FONT_SIZE_NO_IMG, "bold")
 
 # --- Spacing / padding within each annotation box ---
 BOX_BORDER_WIDTH = 1
@@ -270,7 +190,7 @@ class ScrollableFrame(tk.Frame):
 # One annotation entry in the right-hand list.
 # ---------------------------------------------------------------------------
 class AnnotationBox(tk.Frame):
-    def __init__(self, master, index, annotation, on_select, on_check_toggle, on_status_change,
+    def __init__(self, master, index, annotation, man, on_select, on_check_toggle, on_status_change,
                  redirect_scroll):
         super().__init__(
             master, bg=DEFAULT_BG, bd=BOX_BORDER_WIDTH, relief="solid",
@@ -279,26 +199,36 @@ class AnnotationBox(tk.Frame):
         )
         self.index = index
         self.annotation = annotation
+        self.man = man
 
         header = tk.Frame(self, bg=DEFAULT_BG)
         header.pack(fill="x")
+        
         type_label = tk.Label(
-            header, text=annotation["type"], font=TYPE_FONT, bg=DEFAULT_BG, fg=DEFAULT_FG,
+            header, text=annotation.type, font=TYPE_FONT, bg=DEFAULT_BG, fg=DEFAULT_FG,
         )
         type_label.pack(side="left")
+
+        before_page = annotation.pageno + 1 # both pages are 0-based
+        if annotation.xref not in self.man.xref_to_synctex:
+            after_page = 'none'
+        else:
+            line, synctex_out = self.man.xref_to_synctex[annotation.xref]
+            pageno = synctex_out.page + 1
+            after_page = f'{pageno}, line {line}'
         page_label = tk.Label(
-            header, text=f"Page {annotation['page']}", font=META_FONT, bg=DEFAULT_BG, fg=META_FG,
+            header, text=f"Page {before_page} vs. {after_page}", font=META_FONT, bg=DEFAULT_BG, fg=META_FG,
         )
         page_label.pack(side="right")
 
         comment_label = tk.Label(
-            self, text=annotation["comment"], justify="left", anchor="w",
+            self, text=annotation.comment, justify="left", anchor="w",
             bg=DEFAULT_BG, fg=DEFAULT_FG,
         )
         comment_label.pack(fill="x", pady=(COMMENT_TOP_PADDING, 0))
 
         reply_widgets = []
-        for reply in annotation["replies"]:
+        for reply in annotation.responses:
             reply_label = tk.Label(
                 self, text=f"\u21b3 {reply}", justify="left", anchor="w",
                 font=REPLY_FONT, bg=DEFAULT_BG, fg=REPLY_FG,
@@ -309,7 +239,8 @@ class AnnotationBox(tk.Frame):
         controls = tk.Frame(self, bg=DEFAULT_BG)
         controls.pack(fill="x", pady=(CONTROLS_TOP_PADDING, 0))
 
-        self.checked_var = tk.BooleanVar(value=annotation["checked"])
+        is_checked = annotation.checkmark.state == TextAnnotXrefObj.CHECKMARK_CHECKED
+        self.checked_var = tk.BooleanVar(value=is_checked)
         self.checkbox = tk.Checkbutton(
             controls, text="Checked", variable=self.checked_var,
             bg=DEFAULT_BG, fg=DEFAULT_FG, selectcolor=DEFAULT_BG,
@@ -318,7 +249,8 @@ class AnnotationBox(tk.Frame):
         )
         self.checkbox.pack(side="left")
 
-        self.status_var = tk.StringVar(value=annotation["status"])
+        ann_status = annotation.status.state
+        self.status_var = tk.StringVar(value=str(ann_status))
         self.status_dropdown = ttk.Combobox(
             controls, textvariable=self.status_var, values=STATUS_OPTIONS,
             state="readonly", width=STATUS_DROPDOWN_WIDTH,
@@ -351,13 +283,14 @@ class AnnotationBox(tk.Frame):
 # Main application frame.
 # ---------------------------------------------------------------------------
 class CopyEditReviewApp(tk.Frame):
-    def __init__(self, master, annotations):
+    def __init__(self, master, man: Manuscript):
         super().__init__(master, bg=DEFAULT_BG)
         self.grid(row=0, column=0, sticky="nsew")
         master.grid_rowconfigure(0, weight=1)
         master.grid_columnconfigure(0, weight=1)
 
-        self.annotations = annotations
+        self.man = man
+        self.annotations = self.man.gui_annotations
         self.selected_index = 0
 
         self._top_photo = None
@@ -411,6 +344,7 @@ class CopyEditReviewApp(tk.Frame):
                 self.panel.inner,
                 index=i,
                 annotation=annotation,
+                man=self.man,
                 on_select=self._select_annotation,
                 on_check_toggle=self._on_check_toggle,
                 on_status_change=self._on_status_change,
@@ -458,11 +392,18 @@ class CopyEditReviewApp(tk.Frame):
         self._on_check_toggle(self.selected_index, box.checked_var.get())
 
     def _on_check_toggle(self, index, checked):
-        self.annotations[index]["checked"] = checked
+        annotation = self.annotations[index]
+        if checked:
+            annotation.checkmark.state = TextAnnotXrefObj.CHECKMARK_CHECKED
+        else:
+            annotation.checkmark.state = TextAnnotXrefObj.CHECKMARK_UNCHECKED
+        self.man.update_from_tannot(annotation.checkmark)
         # TODO: persist this change to your real annotation store.
 
     def _on_status_change(self, index, status):
-        self.annotations[index]["status"] = status
+        annotation = self.annotations[index]
+        annotation.status.state = status
+        self.man.update_from_tannot(annotation.status)
         # TODO: persist this change to your real annotation store.
 
     # ------------------------------------------------------------------
@@ -477,11 +418,23 @@ class CopyEditReviewApp(tk.Frame):
         self._resize_job = None
         annotation = self.annotations[self.selected_index]
 
-        self._top_photo = self._load_image_fit(annotation["top_image"], self.top_frame)
-        self._bottom_photo = self._load_image_fit(annotation["bottom_image"], self.bottom_frame)
+        top_path = annotation.before_path
+        bottom_path = annotation.after_path
 
-        self.top_image_label.config(image=self._top_photo)
-        self.bottom_image_label.config(image=self._bottom_photo)
+        if top_path is None or not Path(top_path).exists():
+            self.top_image_label.config(image="", text="Not available", font=NO_IMG_FONT)
+            self._top_photo = None
+        else:
+            self._top_photo = self._load_image_fit(top_path, self.top_frame)
+            self.top_image_label.config(image=self._top_photo)
+
+        if bottom_path is None or not Path(bottom_path).exists():
+            self.bottom_image_label.config(image="", text="Not available", font=NO_IMG_FONT)
+            self._bottom_photo = None
+        else:
+            self._bottom_photo = self._load_image_fit(bottom_path, self.bottom_frame)
+            self.bottom_image_label.config(image=self._bottom_photo)
+        return
 
     def _load_image_fit(self, path, container):
         container.update_idletasks()
@@ -520,10 +473,11 @@ def on_quit(root, app):
         # print so you can see the hook firing.
         print("Would prompt to save changes here.")
 
+    app.man.save()
+
     root.destroy()
 
-
-if __name__ == "__main__":
+def run_gui(man: Manuscript):
     root = tk.Tk()
     root.title(WINDOW_TITLE)
     root.geometry(WINDOW_SIZE)
@@ -535,7 +489,7 @@ if __name__ == "__main__":
     # Windows-only, for a native .ico file instead:
     #     root.iconbitmap("path/to/icon.ico")
 
-    app = CopyEditReviewApp(root, PLACEHOLDER_ANNOTATIONS)
+    app = CopyEditReviewApp(root, man)
 
     # --- Quit hook ---
     root.protocol("WM_DELETE_WINDOW", lambda: on_quit(root, app))
