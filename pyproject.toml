@@ -26,6 +26,9 @@ texpdfedits = { path = ".", editable = true }
 [tool.pixi.tasks]
 test-unit = "pytest tests/unit"
 
+[tool.pixi.target.linux-64.dependencies]
+tk = { version = "==8.6.13", build = "xft_*" }
+
 [tool.pixi.dependencies]
 python = "3.14.*"
 ptpython = ">=3.0.32,<4"
