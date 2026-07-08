@@ -18,6 +18,8 @@ diff_*.pdf
 *_reflowed*.tex
 *_reflowed*.pdf
 
+*.annin
+
 extracted_edit_txts/
 
 TeX_comment_corr_out/
