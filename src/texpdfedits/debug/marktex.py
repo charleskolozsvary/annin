@@ -121,14 +121,16 @@ def main():
     else:
         in_recpage = '1'
 
-    if args.extra_marked_environment_names:
-        extra_names = set(args.extra_marked_environment_names.split(','))
+    if args.extra_marked_environment_names is not None:
+        extra_names = args.extra_marked_environment_names
     else:
-        extra_names = set()
+        extra_names = ''
 
-    mark_positions, document_word_boxes = getSyncInfo(args.tex_filename, emen=extra_names, compiler=args.compiler, clean=args.clean)
+    latex_file = Path(args.tex_filename)
 
-    tex_str = sourceAsString(args.tex_filename)
+    mark_positions, document_word_boxes = getSyncInfo(latex_file, extra_mark_envs=extra_names, compiler=args.compiler, clean=args.clean, validate=True)
+
+    tex_str = sourceAsString(latex_file)
 
     logging.info("Finished segment().")
     
@@ -136,7 +138,7 @@ def main():
     if not Path(output_dir).exists():
         Path.mkdir(output_dir)
 
-    pdf_filename = Path(args.tex_filename).parent / f'{Path(args.tex_filename).stem}.pdf'
+    pdf_filename = Path(latex_file).parent / f'{Path(latex_file).stem}.pdf'
 
     if not pdf_filename.exists():
         print(f"{pdf_filename} doesn't exist... exiting")
