@@ -33,9 +33,9 @@ def run_synctex_view(
         'synctex',
         'view',
         '-i',
-        f'{line}:0:{input.name}',
+        f'{line}:0:{str(input)}',
         '-o',
-        f'{output.name}',
+        f'{str(output)}',
     ]
     # logger.debug(' '.join(command))
     result = subprocess.run(

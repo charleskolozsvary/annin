@@ -4,6 +4,8 @@ import pymupdf
 import json
 import re
 import tempfile
+import sys
+
 from pathlib import Path
 from icecream import ic
 
@@ -11,21 +13,22 @@ import texpdfedits.utils as utils
 import texpdfedits.extractanns as extractanns
 import texpdfedits.vercorr.sync as sync
 
-from texpdfedits.extractanns import Edit, TextAnnotXrefObj
+from texpdfedits.extractanns import Edit, XrefObj
 from texpdfedits.vercorr.sync import SynctexOut
 
-IMAGE_X_START = 40 # in points (TeX's big points)
-IMAGE_AROUND = 55 # in points
+IMAGE_X_START = 30 # in points (TeX's big points)
+IMAGE_AROUND = 45 # in points
 
-IMAGE_DPI = 225
+IMAGE_DPI = 125
 SHOW_ONLY_ISOLATED_EDITS = True
 SHOW_ANNS = True
 
 BEFORE_IMG_SUBDIR = 'before'
 AFTER_IMG_SUBDIR = 'after'
 
+ATTENTION_BOX_GROW = 7.5
+
 class GuiAnnot:
-    CS_F_STREAM = '30'
     def __init__(
             self,
             man: Manuscript,
@@ -50,27 +53,27 @@ class GuiAnnot:
         # initialize them ourselves by creating new text annotations
         
         if self.checkmark is None:
-            state_model = TextAnnotXrefObj.CHECKMARK_SMODEL
-            state = TextAnnotXrefObj.CHECKMARK_UNCHECKED
+            state_model = XrefObj.CHECKMARK_MODEL
+            state = XrefObj.UNCHECKED
             check_xref = self.initialize_tannot(man, state_model, state)
-            self.checkmark = TextAnnotXrefObj(check_xref, state_model, state)
+            self.checkmark = XrefObj(check_xref, state_model, state)
             
         if self.status is None:
-            state_model = TextAnnotXrefObj.STATUS_SMODEL
-            state = TextAnnotXrefObj.STATUS_NONE
+            state_model = XrefObj.STATUS_MODEL
+            state = XrefObj.STATUS_NONE
             status_xref = self.initialize_tannot(man, state_model, state)
-            self.status = TextAnnotXrefObj(status_xref, state_model, state)
+            self.status = XrefObj(status_xref, state_model, state)
             
         self.before_path = man.xref_to_before_after_images[self.xref][BEFORE_IMG_SUBDIR]
         self.after_path = man.xref_to_before_after_images[self.xref][AFTER_IMG_SUBDIR]            
 
     def initialize_tannot(self, man: Manuscript, state_model: str, state: str) -> int:
         set_to = {
-            'F': ('xref', GuiAnnot.CS_F_STREAM),
-            'IRT': ('xref', f'{self.xref} 0 R'),
-            'StateModel': ('string', state_model),
-            'State': ('string', state),
-            'T': man.obj.xref_get_key(self.xref, 'T'),
+            XrefObj.FLAG_KEY: ('xref', XrefObj.FLAG_IN_USE),
+            XrefObj.IRT_KEY: ('xref', f'{self.xref} 0 R'),
+            XrefObj.STATE_MODEL_KEY: ('string', state_model),
+            XrefObj.STATE_KEY: ('string', state),
+            XrefObj.TITLE_KEY: man.obj.xref_get_key(self.xref, XrefObj.TITLE_KEY),
         }
         page = man.obj[self.pageno]
         local_tannot = page.add_text_annot((0,0), '', icon='Comment')
@@ -116,12 +119,21 @@ class Manuscript:
             xref : self.annidx_to_line.get(annidx, None)
             for xref, annidx in self.xref_to_annidx.items()
         }
+
+        # compile
         if cl_args.gen_synctex:
             utils.compile_tex(
                 self.latex_file,
                 cl_args.compiler,
                 '-synctex=1',
             )
+            dont_delete = [
+                '.synctex.gz',
+                '.synctex',
+                '.pdf',
+            ]
+            utils.delete_intermediate_latex(self.latex_file, ignore=dont_delete)
+            
         self.latex_pdf = utils.replace_suffix(
             self.latex_file,
             'pdf',
@@ -140,9 +152,11 @@ class Manuscript:
             GuiAnnot(self, edit)
             for edit in self.edits
         ]
-        self.obj.save('before.pdf')
+        self.script_name = Path(sys.argv[0]).name
 
-    def save(self, filename='dummy.pdf'):
+    def save(self, filename=''):
+        if not filename:
+            filename = f'{self.annots_pdf.stem}-{self.script_name}.pdf'
         self.obj.save(filename)
 
     def xref_update(self, xref: int, set_to: dict[str, tuple[str, str]]):
@@ -152,9 +166,9 @@ class Manuscript:
             self.obj.xref_set_key(xref, key, value)
         return
 
-    def update_from_tannot(self, tannot: TextAnnotXrefObj):
+    def update_from_tannot(self, tannot: XrefObj):
         set_to = {
-            'State': ('string', tannot.state),
+            XrefObj.STATE_KEY: ('string', tannot.state),
         }
         self.xref_update(tannot.xref, set_to)
 
@@ -269,6 +283,14 @@ def get_isolated_edit_pixmap(
         if not (ann.xref == edit.xref or ann.xref == edit.related_xref):
             # for some reason tmp_page.delete_annot(ann) doesn't work
             tmp_doc_obj.xref_set_key(ann.xref, 'Rect', '[ 0 0 0 0 ]')
+    r = edit.annot_rect
+    circle_rect = pymupdf.Rect(
+        r.x0 - ATTENTION_BOX_GROW,
+        r.y0 - ATTENTION_BOX_GROW,
+        r.x1 + ATTENTION_BOX_GROW,
+        r.y1 + ATTENTION_BOX_GROW,
+    )
+    tmp_page.add_rect_annot(circle_rect)
 
     return tmp_page.get_pixmap(
         dpi=IMAGE_DPI,
@@ -300,12 +322,6 @@ def get_before_pixmap(doc: Manuscript, edit: Edit) -> pymupdf.Pixmap:
             annots=SHOW_ANNS,
         )
     return pixmap
-    
-def get_before_pixmaps(doc: Manuscript) -> list[pymupdf.Pixmap]:
-    """Deprecated"""
-    return [
-        get_before_pixmap(doc, edit) for edit in doc.edits
-    ]
 
 def choose_synctex_out(
         doc: Manuscript,
@@ -327,14 +343,6 @@ def choose_synctex_out(
         sync_out for sync_out in synctex_outs
         if sync_out.page > min_page_thresh
     ]
-    # if doc.xref_to_annidx[edit.xref] == something:
-    #     ic(
-    #         doc.xref_to_line[edit.xref],
-    #         synctex_outs,
-    #         outs_before,
-    #         min_page_thresh,
-    #         filtered_outs,
-    #     )
     if not filtered_outs:
         return synctex_outs[0]
     else:
@@ -345,11 +353,11 @@ def get_after_pixmap(doc: Manuscript, edit: Edit) -> pymupdf.Pixmap | None:
     if line is None:
         logger.warning(f"Annot with xref {edit.xref} was not written in {doc.latex_file}")
         return None
-    synctex_result = sync.run_synctex_view(line, doc.latex_file, doc.latex_pdf)
+    synctex_result = sync.run_synctex_view(line, doc.latex_file.absolute(), doc.latex_pdf.absolute())
     try:
         synctex_outs = sync.parse_synctex_view(synctex_result)
     except RuntimeError as e:
-        logger.warning(f"SyncTeX could not locate output of line {line} from {doc.latex_file}")
+        logger.warning(f"SyncTeX could not locate output of line {line} from {doc.latex_file}: {e}")
         return None
 
     chosen_out = choose_synctex_out(doc, edit, synctex_outs)
@@ -379,11 +387,5 @@ def get_after_pixmap(doc: Manuscript, edit: Edit) -> pymupdf.Pixmap | None:
         clip=image_rectangle,
         dpi=IMAGE_DPI,
     )
-
-def get_after_pixmaps(doc: Manuscript) -> list[pymupdf.Pixmap]:
-    """Deprecated"""
-    return [
-        get_after_pixmap(doc, edit) for edit in doc.edits
-    ]
         
         

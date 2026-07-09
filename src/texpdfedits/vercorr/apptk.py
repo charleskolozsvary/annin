@@ -1,22 +1,24 @@
+import bisect
 import tkinter as tk
 from tkinter import ttk
+from tkinter import font
 from PIL import Image, ImageTk  # pip install Pillow
 from pathlib import Path
 
 import texpdfedits.vercorr.manu as manu
 from texpdfedits.vercorr.manu import Manuscript
-from texpdfedits.extractanns import TextAnnotXrefObj
+from texpdfedits.extractanns import XrefObj
 
 # ---------------------------------------------------------------------------
 # Placeholder data -- replace with your real PDF-backed values.
 # ---------------------------------------------------------------------------
 
 STATUS_OPTIONS = [
-    TextAnnotXrefObj.STATUS_NONE,
-    TextAnnotXrefObj.STATUS_ACCEPTED,
-    TextAnnotXrefObj.STATUS_REJECTED,
-    TextAnnotXrefObj.STATUS_CANCELLED,
-    TextAnnotXrefObj.STATUS_COMPLETED,
+    XrefObj.STATUS_NONE,
+    XrefObj.STATUS_ACCEPTED,
+    XrefObj.STATUS_REJECTED,
+    XrefObj.STATUS_CANCELLED,
+    XrefObj.STATUS_COMPLETED,
 ]
 
 # ---------------------------------------------------------------------------
@@ -30,7 +32,7 @@ WINDOW_TITLE = "Correction Review"
 WINDOW_SIZE = "1000x700"
 
 # --- Layout proportions (relative to the whole window; must stay in [0, 1]) ---
-PANEL_PROPORTION = 0.225   # right-hand annotation panel: fraction of window WIDTH
+PANEL_PROPORTION = 0.25   # right-hand annotation panel: fraction of window WIDTH
 DIVISION_PROP = 0.025      # divider line: fraction of window HEIGHT
 
 # --- Colors ---
@@ -51,19 +53,19 @@ SCROLLBAR_BG = "#555555"
 SCROLLBAR_ACTIVE_BG = "#777777"
 
 # --- Fonts ---
-FONT_FAMILY = "Arial"
-FONT_SIZE_TYPE = 14        # annotation type label (e.g. "Highlight"), bold
-FONT_SIZE_BODY = 13        # default/unspecified body text size
-FONT_SIZE_META = 12        # page number, replies
+FONT_FAMILY = "Ubuntu Mono"
+FONT_SIZE_TYPE = 16        # annotation type label (e.g. "Highlight"), bold
+FONT_SIZE_COMMENT = 15
+FONT_SIZE_META = 14        # page number, replies
 FONT_SIZE_NO_IMG = 50
 TYPE_FONT = (FONT_FAMILY, FONT_SIZE_TYPE, "bold")
 META_FONT = (FONT_FAMILY, FONT_SIZE_META)
+COMMENT_FONT = (FONT_FAMILY, FONT_SIZE_COMMENT)
 REPLY_FONT = (FONT_FAMILY, FONT_SIZE_META)
 NO_IMG_FONT = (FONT_FAMILY, FONT_SIZE_NO_IMG, "bold")
 
 # --- Spacing / padding within each annotation box ---
 BOX_BORDER_WIDTH = 1
-BOX_HIGHLIGHT_THICKNESS = 1
 BOX_INNER_PADX = 8
 BOX_INNER_PADY = 6
 BOX_OUTER_PADX = 6         # space between adjacent boxes and the panel edges
@@ -73,8 +75,11 @@ REPLY_INDENT = 15          # left indent for reply lines, relative to comment
 REPLY_TOP_PADDING = 2
 CONTROLS_TOP_PADDING = 6
 STATUS_DROPDOWN_WIDTH = 9
+CONTROL_ROW_HEIGHT = 30    # vertical space reserved for the checkbox/dropdown row
 
-# --- Text wrapping (comment/reply labels rewrap as the panel is resized) ---
+CHECKBOX_PADX = 20
+
+# --- Text wrapping (comment/reply text rewraps as the panel is resized) ---
 WRAP_LENGTH_PADDING = 40   # subtracted from panel pixel width to get wraplength
 MIN_WRAP_LENGTH = 50       # never wrap narrower than this, even in a tiny panel
 
@@ -84,26 +89,47 @@ FALLBACK_CONTAINER_WIDTH = 400
 FALLBACK_CONTAINER_HEIGHT = 300
 
 # --- Timing ---
-RESIZE_DEBOUNCE_MS = 100      # wait this long after a resize before rescaling images
+RESIZE_DEBOUNCE_MS = 100      # wait this long after a resize before rescaling images / relayout
 INITIAL_SELECT_DELAY_MS = 50  # wait for first layout pass before selecting annotation 0
 
 # --- Keyboard shortcuts (each maps to a list of Tk event sequences) ---
 KEY_NEXT = ["<Key-n>", "<Down>"]
 KEY_PREV = ["<Key-p>", "<Up>"]
+
+KEY_SHORTCUT_NONE = ["<Key-d>"]
+KEY_SHORTCUT_ACCEPTED = ["<Key-a>"]
+KEY_SHORTCUT_REJECTED = ["<Key-r>"]
+KEY_SHORTCUT_COMPLETED = ["<Key-c>"]
+KEY_SHORTCUT_CANCELLED = ["<Key-x>"]
 KEY_TOGGLE_CHECKED = ["<Key-m>"]
 
 
 # ---------------------------------------------------------------------------
-# Scrollable container -- standard Tkinter canvas+scrollbar pattern.
+# Annotation list panel.
+#
+# Each row is drawn directly as Canvas items (text + a background rectangle)
+# instead of as a tree of native widgets (Frame/Label/...). Canvas is built
+# to scroll drawn items efficiently and doesn't suffer the redraw glitches
+# that come from scrolling many embedded native windows -- that combination
+# (Canvas + create_window + lots of child widgets, scrolled via yview) is a
+# known rough edge in Tk, not something you can code your way around by
+# being clever about which widgets exist at a given moment.
+#
+# Only the *currently selected* row gets real interactive widgets (the
+# status dropdown and the checkbox), overlaid via a single create_window
+# call that moves to the new row on selection change. At most one small
+# set of native widgets is ever alive in the whole panel.
 # ---------------------------------------------------------------------------
-class ScrollableFrame(tk.Frame):
-    """A vertically scrollable frame. Add children to `self.inner`."""
-
-    def __init__(self, master):
+class AnnotationPanel(tk.Frame):
+    def __init__(self, master, annotations, man, on_select, on_check_toggle, on_status_change):
         super().__init__(master, bg=DEFAULT_BG)
+        self.annotations = annotations
+        self.man = man
+        self.on_select = on_select
+        self.on_check_toggle = on_check_toggle
+        self.on_status_change = on_status_change
 
         self.canvas = tk.Canvas(self, highlightthickness=0, bg=DEFAULT_BG)
-
         # Classic tk.Scrollbar instead of ttk.Scrollbar: always shows a
         # visible trough + draggable thumb (plus arrow buttons), rather
         # than following macOS's thin auto-hiding Aqua scrollbar style.
@@ -113,38 +139,236 @@ class ScrollableFrame(tk.Frame):
             bg=SCROLLBAR_BG, activebackground=SCROLLBAR_ACTIVE_BG,
             highlightthickness=0,
         )
-        self.inner = tk.Frame(self.canvas, bg=DEFAULT_BG)
-
-        self.inner.bind(
-            "<Configure>",
-            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")),
-        )
-        self._inner_window = self.canvas.create_window((0, 0), window=self.inner, anchor="nw")
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
-
-        # Keep the inner frame's width pinned to the canvas width.
-        self.canvas.bind(
-            "<Configure>",
-            lambda e: self.canvas.itemconfig(self._inner_window, width=e.width),
-        )
-
-        # Pack the scrollbar FIRST so it always reserves its own strip of
-        # space, then let the canvas fill whatever remains. Packing the
-        # canvas first (with expand=True) let it greedily claim the whole
-        # cavity before the scrollbar got a turn, so the scrollbar would
-        # collapse to zero width whenever the panel was narrow.
         self.scrollbar.pack(side="right", fill="y")
         self.canvas.pack(side="left", fill="both", expand=True)
 
-        # Mouse wheel support: bound once, globally, and filtered by
-        # whether the pointer is actually over this panel. (An earlier
-        # Enter/Leave-based bind/unbind was the source of buggy scrolling
-        # -- child widgets like labels/checkboxes sit on top of the
-        # canvas, so moving over them fires <Leave> on the canvas itself,
-        # repeatedly toggling the binding on and off.)
+        self.row_layout = []   # per-annotation dict of item ids / geometry
+        self._tops = []        # parallel list of row["top"], for hit-testing
+        self._total_height = 0
+        self.selected_index = None
+        self._controls = None  # currently-alive real widgets, or None
+        self._resize_job = None
+
+        self.canvas.bind("<Configure>", self._on_resize)
+        self.canvas.bind("<Button-1>", self._on_click)
+
+        # Mouse wheel support: bound globally, filtered by whether the
+        # pointer is over this panel (works for clicks landing on the
+        # embedded control frame too, since its widget path is nested
+        # under the canvas's path).
         self.canvas.bind_all("<MouseWheel>", self._on_mousewheel_global)
         self.canvas.bind_all("<Button-4>", self._on_mousewheel_global)
         self.canvas.bind_all("<Button-5>", self._on_mousewheel_global)
+
+        self._layout_all()
+
+    # ------------------------------------------------------------------
+    # Layout: draw every row as canvas items. Cheap even for thousands of
+    # annotations, since canvas items aren't OS windows.
+    # ------------------------------------------------------------------
+    def _page_text(self, annotation):
+        before_page = annotation.pageno + 1  # both pages are 0-based
+        if annotation.xref not in self.man.xref_to_synctex:
+            after_page = 'none'
+        else:
+            line, synctex_out = self.man.xref_to_synctex[annotation.xref]
+            pageno = synctex_out.page + 1
+            after_page = f'{pageno}, line {line}'
+        return f"Page {before_page} vs. {after_page}"
+
+    def _layout_all(self):
+        previously_selected = self.selected_index
+
+        self._destroy_controls()
+        self.canvas.delete("all")
+        self.row_layout = []
+        self._tops = []
+
+        width = self.canvas.winfo_width()
+        if width <= 1:
+            width = FALLBACK_CONTAINER_WIDTH
+        wrap = max(width - WRAP_LENGTH_PADDING, MIN_WRAP_LENGTH)
+        left = BOX_OUTER_PADX + BOX_INNER_PADX
+        right = width - BOX_OUTER_PADX - BOX_INNER_PADX
+
+        y = BOX_OUTER_PADY
+        for i, annotation in enumerate(self.annotations):
+            row_top = y
+            content_top = y + BOX_INNER_PADY
+
+            type_id = self.canvas.create_text(
+                left, content_top, anchor="nw", text=annotation.type,
+                font=TYPE_FONT, fill=DEFAULT_FG,
+            )
+            page_id = self.canvas.create_text(
+                right, content_top, anchor="ne", text=self._page_text(annotation),
+                font=META_FONT, fill=META_FG,
+            )
+            header_bottom = max(self.canvas.bbox(type_id)[3], self.canvas.bbox(page_id)[3])
+
+            comment_id = self.canvas.create_text(
+                left, header_bottom + COMMENT_TOP_PADDING, anchor="nw",
+                text=f"\"{annotation.comment}\"", font=COMMENT_FONT, fill=DEFAULT_FG,
+                width=wrap,
+            )
+            cursor = self.canvas.bbox(comment_id)[3]
+
+            reply_ids = []
+            for reply in annotation.responses:
+                reply_id = self.canvas.create_text(
+                    left + REPLY_INDENT, cursor + REPLY_TOP_PADDING, anchor="nw",
+                    text=f"\u21b3 \"{reply}\"", font=REPLY_FONT, fill=REPLY_FG,
+                    width=max(wrap - REPLY_INDENT, MIN_WRAP_LENGTH),
+                )
+                cursor = self.canvas.bbox(reply_id)[3]
+                reply_ids.append(reply_id)
+
+            control_y = cursor + CONTROLS_TOP_PADDING
+            index_id = self.canvas.create_text(
+                right, control_y, anchor="ne", text=str(i + 1),
+                font=META_FONT, fill=META_FG,
+            )
+
+            row_bottom = control_y + CONTROL_ROW_HEIGHT + BOX_INNER_PADY
+            rect_id = self.canvas.create_rectangle(
+                BOX_OUTER_PADX, row_top, width - BOX_OUTER_PADX, row_bottom,
+                outline=BOX_BORDER_COLOR, width=BOX_BORDER_WIDTH, fill=DEFAULT_BG,
+            )
+            self.canvas.tag_lower(rect_id)  # behind the text items of this row
+
+            self.row_layout.append({
+                "top": row_top, "bottom": row_bottom, "control_y": control_y,
+                "rect_id": rect_id, "type_id": type_id, "page_id": page_id,
+                "comment_id": comment_id, "reply_ids": reply_ids, "index_id": index_id,
+            })
+            self._tops.append(row_top)
+            y = row_bottom + BOX_OUTER_PADY
+
+        self._total_height = y
+        self.canvas.configure(scrollregion=(0, 0, width, self._total_height))
+
+        if previously_selected is not None and previously_selected < len(self.annotations):
+            self.select(previously_selected, scroll=False)
+
+    def _on_resize(self, event):
+        if self._resize_job is not None:
+            self.after_cancel(self._resize_job)
+        self._resize_job = self.after(RESIZE_DEBOUNCE_MS, self._layout_all)
+
+    # ------------------------------------------------------------------
+    # Selection
+    # ------------------------------------------------------------------
+    def select(self, index, scroll=True):
+        if self.selected_index is not None and self.selected_index < len(self.row_layout):
+            self._set_row_colors(self.selected_index, selected=False)
+        self.selected_index = index
+        self._set_row_colors(index, selected=True)
+        self._create_controls_for_row(index)
+        if scroll:
+            self._scroll_to_row(index)
+
+    def refresh_controls(self):
+        """Re-read the annotation's current status/checked state into the
+        live widgets. Call this after changing status/checked via a
+        keyboard shortcut rather than by interacting with the widgets
+        directly, so the displayed dropdown/checkbox stays in sync."""
+        if self._controls is not None:
+            self._create_controls_for_row(self._controls["index"])
+
+    def _set_row_colors(self, index, selected):
+        row = self.row_layout[index]
+        bg = SELECTED_BG if selected else DEFAULT_BG
+        fg = SELECTED_FG if selected else DEFAULT_FG
+        meta_fg = SELECTED_FG if selected else META_FG
+        reply_fg = SELECTED_FG if selected else REPLY_FG
+        self.canvas.itemconfig(row["rect_id"], fill=bg)
+        self.canvas.itemconfig(row["type_id"], fill=fg)
+        self.canvas.itemconfig(row["page_id"], fill=meta_fg)
+        self.canvas.itemconfig(row["comment_id"], fill=fg)
+        self.canvas.itemconfig(row["index_id"], fill=meta_fg)
+        for rid in row["reply_ids"]:
+            self.canvas.itemconfig(rid, fill=reply_fg)
+
+    def _scroll_to_row(self, index):
+        self.canvas.update_idletasks()
+        if self._total_height <= 0:
+            return
+        row = self.row_layout[index]
+        visible_top = self.canvas.canvasy(0)
+        visible_height = self.canvas.winfo_height()
+        visible_bottom = visible_top + visible_height
+        if row["top"] < visible_top:
+            self.canvas.yview_moveto(row["top"] / self._total_height)
+        elif row["bottom"] > visible_bottom:
+            self.canvas.yview_moveto((row["bottom"] - visible_height) / self._total_height)
+
+    # ------------------------------------------------------------------
+    # Controls: real widgets, only ever for the selected row.
+    # ------------------------------------------------------------------
+    def _create_controls_for_row(self, index):
+        self._destroy_controls()
+        annotation = self.annotations[index]
+        row = self.row_layout[index]
+
+        frame = tk.Frame(self.canvas, bg=SELECTED_BG)
+
+        status_var = tk.StringVar(value=str(annotation.status.state))
+        dropdown = ttk.Combobox(
+            frame, textvariable=status_var, values=STATUS_OPTIONS,
+            state="readonly", width=STATUS_DROPDOWN_WIDTH,
+        )
+        dropdown.pack(side="left")
+        dropdown.bind(
+            "<<ComboboxSelected>>",
+            lambda e: self.on_status_change(index, status_var.get()),
+        )
+        # Don't let the mouse wheel silently change the value while
+        # scrolling the panel -- redirect that scroll to the panel instead.
+        dropdown.bind("<MouseWheel>", self._redirect_scroll)
+        dropdown.bind("<Button-4>", self._redirect_scroll)
+        dropdown.bind("<Button-5>", self._redirect_scroll)
+
+        is_checked = annotation.checkmark.state == XrefObj.CHECKED
+        checked_var = tk.BooleanVar(value=is_checked)
+        checkbox = tk.Checkbutton(
+            frame, variable=checked_var,
+            bg=SELECTED_BG, fg=SELECTED_FG, selectcolor=SELECTED_BG,
+            activebackground=SELECTED_BG, activeforeground=SELECTED_FG,
+            command=lambda: self.on_check_toggle(index, checked_var.get()),
+        )
+        checkbox.pack(side="left", padx=CHECKBOX_PADX)
+
+        window_id = self.canvas.create_window(
+            BOX_OUTER_PADX + BOX_INNER_PADX, row["control_y"], anchor="nw", window=frame,
+        )
+
+        self._controls = {"frame": frame, "window_id": window_id, "index": index}
+
+    def _destroy_controls(self):
+        if self._controls is not None:
+            self.canvas.delete(self._controls["window_id"])
+            self._controls["frame"].destroy()
+            self._controls = None
+
+    def _redirect_scroll(self, event):
+        self._on_mousewheel(event)
+        return "break"  # stop the combobox's own wheel handling
+
+    # ------------------------------------------------------------------
+    # Hit testing / scrolling
+    # ------------------------------------------------------------------
+    def _on_click(self, event):
+        y = self.canvas.canvasy(event.y)
+        idx = self._row_at(y)
+        if idx is not None:
+            self.on_select(idx)
+
+    def _row_at(self, y):
+        i = bisect.bisect_right(self._tops, y) - 1
+        if 0 <= i < len(self.row_layout) and y <= self.row_layout[i]["bottom"]:
+            return i
+        return None
 
     def _on_mousewheel_global(self, event):
         if not self._is_within_panel(event.widget):
@@ -154,129 +378,18 @@ class ScrollableFrame(tk.Frame):
     def _is_within_panel(self, widget):
         try:
             widget_path = str(widget)
-            return widget_path == str(self.canvas) or widget_path.startswith(str(self.inner))
+            return widget_path == str(self.canvas) or widget_path.startswith(str(self.canvas))
         except Exception:
             return False
 
     def _on_mousewheel(self, event):
-        # Treat every wheel "tick" as one scroll unit. (Using event.delta's
-        # raw magnitude via floor division caused an up/down asymmetry --
-        # on trackpads/some platforms delta is a small number like +-1 or
-        # +-2 rather than +-120, and `// 120` silently rounds one
-        # direction to zero. Just checking the sign is more robust.)
+        # Treat every wheel "tick" as one scroll unit (see note in the
+        # original ScrollableFrame about why sign-only is more robust
+        # than dividing event.delta by 120).
         if event.num == 4 or getattr(event, "delta", 0) > 0:
             self.canvas.yview_scroll(-1, "units")
         else:
             self.canvas.yview_scroll(1, "units")
-
-    def scroll_to_widget(self, widget):
-        self.inner.update_idletasks()
-        widget_top = widget.winfo_y()
-        widget_bottom = widget_top + widget.winfo_height()
-        inner_height = self.inner.winfo_height()
-        if inner_height <= 0:
-            return
-
-        visible_top = self.canvas.canvasy(0)
-        visible_bottom = visible_top + self.canvas.winfo_height()
-
-        if widget_top < visible_top:
-            self.canvas.yview_moveto(widget_top / inner_height)
-        elif widget_bottom > visible_bottom:
-            self.canvas.yview_moveto((widget_bottom - self.canvas.winfo_height()) / inner_height)
-
-
-# ---------------------------------------------------------------------------
-# One annotation entry in the right-hand list.
-# ---------------------------------------------------------------------------
-class AnnotationBox(tk.Frame):
-    def __init__(self, master, index, annotation, man, on_select, on_check_toggle, on_status_change,
-                 redirect_scroll):
-        super().__init__(
-            master, bg=DEFAULT_BG, bd=BOX_BORDER_WIDTH, relief="solid",
-            padx=BOX_INNER_PADX, pady=BOX_INNER_PADY,
-            highlightbackground=BOX_BORDER_COLOR, highlightthickness=BOX_HIGHLIGHT_THICKNESS,
-        )
-        self.index = index
-        self.annotation = annotation
-        self.man = man
-
-        header = tk.Frame(self, bg=DEFAULT_BG)
-        header.pack(fill="x")
-        
-        type_label = tk.Label(
-            header, text=annotation.type, font=TYPE_FONT, bg=DEFAULT_BG, fg=DEFAULT_FG,
-        )
-        type_label.pack(side="left")
-
-        before_page = annotation.pageno + 1 # both pages are 0-based
-        if annotation.xref not in self.man.xref_to_synctex:
-            after_page = 'none'
-        else:
-            line, synctex_out = self.man.xref_to_synctex[annotation.xref]
-            pageno = synctex_out.page + 1
-            after_page = f'{pageno}, line {line}'
-        page_label = tk.Label(
-            header, text=f"Page {before_page} vs. {after_page}", font=META_FONT, bg=DEFAULT_BG, fg=META_FG,
-        )
-        page_label.pack(side="right")
-
-        comment_label = tk.Label(
-            self, text=annotation.comment, justify="left", anchor="w",
-            bg=DEFAULT_BG, fg=DEFAULT_FG,
-        )
-        comment_label.pack(fill="x", pady=(COMMENT_TOP_PADDING, 0))
-
-        reply_widgets = []
-        for reply in annotation.responses:
-            reply_label = tk.Label(
-                self, text=f"\u21b3 {reply}", justify="left", anchor="w",
-                font=REPLY_FONT, bg=DEFAULT_BG, fg=REPLY_FG,
-            )
-            reply_label.pack(fill="x", padx=(REPLY_INDENT, 0), pady=(REPLY_TOP_PADDING, 0))
-            reply_widgets.append(reply_label)
-
-        controls = tk.Frame(self, bg=DEFAULT_BG)
-        controls.pack(fill="x", pady=(CONTROLS_TOP_PADDING, 0))
-
-        is_checked = annotation.checkmark.state == TextAnnotXrefObj.CHECKMARK_CHECKED
-        self.checked_var = tk.BooleanVar(value=is_checked)
-        self.checkbox = tk.Checkbutton(
-            controls, text="Checked", variable=self.checked_var,
-            bg=DEFAULT_BG, fg=DEFAULT_FG, selectcolor=DEFAULT_BG,
-            activebackground=DEFAULT_BG, activeforeground=DEFAULT_FG,
-            command=lambda: (on_select(self.index), on_check_toggle(self.index, self.checked_var.get())),
-        )
-        self.checkbox.pack(side="left")
-
-        ann_status = annotation.status.state
-        self.status_var = tk.StringVar(value=str(ann_status))
-        self.status_dropdown = ttk.Combobox(
-            controls, textvariable=self.status_var, values=STATUS_OPTIONS,
-            state="readonly", width=STATUS_DROPDOWN_WIDTH,
-        )
-        self.status_dropdown.pack(side="right")
-        self.status_dropdown.bind(
-            "<<ComboboxSelected>>",
-            lambda e: (on_select(self.index), on_status_change(self.index, self.status_var.get())),
-        )
-        # Don't let the mouse wheel silently change the value while
-        # scrolling the panel -- redirect that scroll to the panel instead.
-        self.status_dropdown.bind("<MouseWheel>", redirect_scroll)
-        self.status_dropdown.bind("<Button-4>", redirect_scroll)
-        self.status_dropdown.bind("<Button-5>", redirect_scroll)
-
-        self.wrap_labels = [comment_label] + reply_widgets
-        self._themed_widgets = [self, header, type_label, page_label, comment_label, controls] + reply_widgets
-
-        for widget in [self, header, type_label, page_label, comment_label] + reply_widgets:
-            widget.bind("<Button-1>", lambda e: on_select(self.index))
-
-    def set_selected(self, selected):
-        bg = SELECTED_BG if selected else DEFAULT_BG
-        for widget in self._themed_widgets:
-            widget.config(bg=bg)
-        self.checkbox.config(bg=bg, activebackground=bg)
 
 
 # ---------------------------------------------------------------------------
@@ -296,8 +409,6 @@ class CopyEditReviewApp(tk.Frame):
         self._top_photo = None
         self._bottom_photo = None
         self._resize_job = None
-
-        self.boxes = []
 
         self._build_ui()
         self._bind_shortcuts()
@@ -332,36 +443,16 @@ class CopyEditReviewApp(tk.Frame):
         self.top_frame.bind("<Configure>", lambda e: self._schedule_resize())
         self.bottom_frame.bind("<Configure>", lambda e: self._schedule_resize())
 
-        # --- Right-hand proportional-width scrollable annotation panel ---
-        self.panel = ScrollableFrame(self)
+        # --- Right-hand proportional-width annotation panel ---
+        self.panel = AnnotationPanel(
+            self,
+            annotations=self.annotations,
+            man=self.man,
+            on_select=self._select_annotation,
+            on_check_toggle=self._on_check_toggle,
+            on_status_change=self._on_status_change,
+        )
         self.panel.place(relx=image_frame_width, rely=0, relwidth=PANEL_PROPORTION, relheight=1)
-        # Reflow comment/reply text wrapping whenever the panel is resized
-        # (either from a window resize, or if you tweak PANEL_PROPORTION).
-        self.panel.canvas.bind("<Configure>", self._on_panel_resize, add="+")
-
-        for i, annotation in enumerate(self.annotations):
-            box = AnnotationBox(
-                self.panel.inner,
-                index=i,
-                annotation=annotation,
-                man=self.man,
-                on_select=self._select_annotation,
-                on_check_toggle=self._on_check_toggle,
-                on_status_change=self._on_status_change,
-                redirect_scroll=self._redirect_scroll_to_panel,
-            )
-            box.pack(fill="x", padx=BOX_OUTER_PADX, pady=BOX_OUTER_PADY)
-            self.boxes.append(box)
-
-    def _redirect_scroll_to_panel(self, event):
-        self.panel._on_mousewheel(event)
-        return "break"  # stop the combobox's own wheel handling
-
-    def _on_panel_resize(self, event):
-        wrap = max(event.width - WRAP_LENGTH_PADDING, MIN_WRAP_LENGTH)
-        for box in self.boxes:
-            for label in box.wrap_labels:
-                label.config(wraplength=wrap)
 
     def _bind_shortcuts(self):
         top = self.winfo_toplevel()
@@ -371,15 +462,23 @@ class CopyEditReviewApp(tk.Frame):
             top.bind(key, lambda e: self._navigate(-1))
         for key in KEY_TOGGLE_CHECKED:
             top.bind(key, lambda e: self._toggle_current_checked())
+        for key in KEY_SHORTCUT_NONE:
+            top.bind(key, lambda e: self._shortcut_change_status(XrefObj.STATUS_NONE))
+        for key in KEY_SHORTCUT_ACCEPTED:
+            top.bind(key, lambda e: self._shortcut_change_status(XrefObj.STATUS_ACCEPTED))
+        for key in KEY_SHORTCUT_REJECTED:
+            top.bind(key, lambda e: self._shortcut_change_status(XrefObj.STATUS_REJECTED))
+        for key in KEY_SHORTCUT_COMPLETED:
+            top.bind(key, lambda e: self._shortcut_change_status(XrefObj.STATUS_COMPLETED))
+        for key in KEY_SHORTCUT_CANCELLED:
+            top.bind(key, lambda e: self._shortcut_change_status(XrefObj.STATUS_CANCELLED))
 
     # ------------------------------------------------------------------
     # Selection / navigation
     # ------------------------------------------------------------------
     def _select_annotation(self, index):
-        self.boxes[self.selected_index].set_selected(False)
         self.selected_index = index
-        self.boxes[self.selected_index].set_selected(True)
-        self.panel.scroll_to_widget(self.boxes[self.selected_index])
+        self.panel.select(index)
         self._load_current_pair()
 
     def _navigate(self, delta):
@@ -387,16 +486,21 @@ class CopyEditReviewApp(tk.Frame):
         self._select_annotation(new_index)
 
     def _toggle_current_checked(self):
-        box = self.boxes[self.selected_index]
-        box.checked_var.set(not box.checked_var.get())
-        self._on_check_toggle(self.selected_index, box.checked_var.get())
+        annotation = self.annotations[self.selected_index]
+        new_checked = annotation.checkmark.state != XrefObj.CHECKED
+        self._on_check_toggle(self.selected_index, new_checked)
+        self.panel.refresh_controls()
+
+    def _shortcut_change_status(self, status):
+        self._on_status_change(self.selected_index, status)
+        self.panel.refresh_controls()
 
     def _on_check_toggle(self, index, checked):
         annotation = self.annotations[index]
         if checked:
-            annotation.checkmark.state = TextAnnotXrefObj.CHECKMARK_CHECKED
+            annotation.checkmark.state = XrefObj.CHECKED
         else:
-            annotation.checkmark.state = TextAnnotXrefObj.CHECKMARK_UNCHECKED
+            annotation.checkmark.state = XrefObj.UNCHECKED
         self.man.update_from_tannot(annotation.checkmark)
         # TODO: persist this change to your real annotation store.
 
