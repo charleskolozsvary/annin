@@ -452,9 +452,11 @@ def run_diff_pdf(
         
     return result, Path(diff_fname)
     
-def delete_intermediate_latex(latex_file: Path):
+def delete_intermediate_latex(latex_file: Path, ignore: list[str]=[]):
     body = latex_file.stem
     for extension in INTERMEDIATE_EXTENSIONS_TO_DELETE:
+        if extension in ignore:
+            continue
         to_delete = Path(body + extension)
         if to_delete.exists():
             logger.debug(f"Deleted {to_delete}")

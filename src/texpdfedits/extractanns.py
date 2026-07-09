@@ -139,23 +139,45 @@ class Annot:
         )
     
 @dataclass
-class TextAnnotXrefObj:
-    CHECKMARK_SMODEL: ClassVar[str] = 'Marked'
-    CHECKMARK_CHECKED: ClassVar[str]   = 'Marked'
-    CHECKMARK_UNCHECKED: ClassVar[str] = 'Unmarked'
+class XrefObj:
+    FLAG_IN_USE: ClassVar[str] = '30'
     
-    STATUS_SMODEL: ClassVar[str] = 'Review'
+    MOD_KEY: ClassVar[str] = 'M'
+    TITLE_KEY: ClassVar[str] = 'T' # "Human readable title" Adobe acrobat writes the user name here
+    IRT_KEY: ClassVar[str] = 'IRT' # In response to xref
+    FLAG_KEY: ClassVar[str] = 'F' # flag tells whether the object is in use or free
+    STATE_MODEL_KEY: ClassVar[str] = 'StateModel'
+    STATE_KEY: ClassVar[str] = 'State'
+    
+    CHECKMARK_MODEL: ClassVar[str] = 'Marked'
+    STATUS_MODEL: ClassVar[str] = 'Review'
+    
+    CHECKED: ClassVar[str]   = 'Marked'
+    UNCHECKED: ClassVar[str] = 'Unmarked'
+    
     STATUS_NONE: ClassVar[str]      = 'None'
     STATUS_ACCEPTED: ClassVar[str]  = 'Accepted'
     STATUS_REJECTED: ClassVar[str]  = 'Rejected'
     STATUS_CANCELLED: ClassVar[str] = 'Cancelled'
     STATUS_COMPLETED: ClassVar[str] = 'Completed'
-    STATUS_DEFERRED: ClassVar[str] = 'Deferred'
-    STATUS_FUTURE: ClassVar[str] = 'Future'    
+    STATUS_DEFERRED: ClassVar[str]  = 'Deferred'
+    STATUS_FUTURE: ClassVar[str]    = 'Future'
     
     xref: int
     state_model: str
     state: str
+
+def get_xref_mod_time(doc: pymupdf.Document, xref: int) -> str:
+    type, val = doc.xref_get_key(xref, XrefObj.MOD_KEY)
+    return val
+
+def get_xref_state(doc: pymupdf.Document, xref: int) -> str:
+    type, val = doc.xref_get_key(xref, XrefObj.STATE_KEY)
+    return val
+    
+def get_xref_statemodel(doc: pymupdf.Document, xref: int) -> str:
+    type, val = doc.xref_get_key(xref, XrefObj.STATE_MODEL_KEY)
+    return val    
 
 @dataclass
 class Edit:
@@ -195,8 +217,8 @@ class Edit:
     annot_rect: pymupdf.Rect # used in marktex routines
     xref: int
     related_xref: int
-    checkmark: TextAnnotXrefObj
-    status: TextAnnotXrefObj
+    checkmark: XrefObj
+    status: XrefObj
         
     def __str__ (self): 
         return json.dumps({
@@ -823,14 +845,11 @@ def getSelection(
 
 def get_irt_from_doc(doc: pymupdf.Document, xref: int) -> int | None:
     xref_keys = ' '.join(doc.xref_get_keys(xref))
-    bad_key_match = re.search(
-        EXPECT_NO_IRT_KEY,
-        xref_keys,
-        flags = re.IGNORECASE
-    )
-    if bad_key_match is not None:
+    irt_key = XrefObj.IRT_KEY
+    if irt_key not in xref_keys:
+        logger.debug(f'{irt_key} not in {xref_keys}')
         return None
-    raw_irt = doc.xref_get_key(xref, 'IRT')
+    raw_irt = doc.xref_get_key(xref, irt_key)
     type, val = raw_irt
     try:
         if type != 'xref':
@@ -843,17 +862,17 @@ def get_irt_from_doc(doc: pymupdf.Document, xref: int) -> int | None:
         )
         return None
 
-def to_text_annot_xref_obj(doc: pymupdf.Document, xref: int) -> TextAnnotXrefObj:
-    return TextAnnotXrefObj(
+def to_xref_obj(doc: pymupdf.Document, xref: int) -> XrefObj:
+    return XrefObj(
         xref,
-        doc.xref_get_key(xref, 'StateModel')[1],
-        doc.xref_get_key(xref, 'State')[1],
+        get_xref_statemodel(doc, xref),
+        get_xref_state(doc, xref),
     )
 
 def get_ann_xref_resps(
         doc: pymupdf.Document,
         page: pymupdf.Page,
-) -> dict[int, list[TextAnnotXrefObj]]:
+) -> dict[int, list[XrefObj]]:
     """
     Return dictionary where
             key: xref that belongs to an annotation
@@ -870,19 +889,20 @@ def get_ann_xref_resps(
     ]
     return {
         x_key : [
-            to_text_annot_xref_obj(doc, txref) for txref in text_xrefs
+            to_xref_obj(doc, txref) for txref in text_xrefs
             if get_irt_from_doc(doc, txref) == x_key
         ] for x_key in xref_keys
     }
+    return res
 
 def _get_checkmark(
         annot_xref: int,
         doc: pymupdf.Document,
-        ann_xref_resps: dict[int, list[TextAnnotXrefObj]],
-) -> TextAnnotXrefObj | None:
+        ann_xref_resps: dict[int, list[XrefObj]],
+) -> XrefObj | None:
     checkmarks = [
         resp_tann_xref for resp_tann_xref in ann_xref_resps[annot_xref]
-        if resp_tann_xref.state_model == TextAnnotXrefObj.CHECKMARK_SMODEL
+        if resp_tann_xref.state_model == XrefObj.CHECKMARK_MODEL
     ]
     if not checkmarks:
         return None
@@ -894,23 +914,27 @@ def _get_checkmark(
             f"has multiple checkmark annotations {checkmarks}"
         )
         checkmark_xref_obj = max(
-            checkmarks,
-            key=lambda xr: doc.xref_get_key(xr, 'M')[1] # mod time
+            checkmarks, # use last modified one
+            key=lambda xr_obj: get_xref_mod_time(doc, xr_obj.xref)
         )
     return checkmark_xref_obj
 
 def _get_status(
         annot_xref: int,        
         doc: pymupdf.Document,
-        ann_xref_resps: dict[int, list[TextAnnotXrefObj]],
-) -> TextAnnotXrefObj | None:
+        ann_xref_resps: dict[int, list[XrefObj]],
+) -> XrefObj | None:
     status_xref_obj = None
     parent_xref = annot_xref
     children_ta_xref_objs = ann_xref_resps[parent_xref]
+    
     while children_ta_xref_objs:
+        # For some reason Adobe will put status annotation in response to the check mark ones
+        # if one already exists. This is a little bewildering
         statuses = [
             ta_xref_obj for ta_xref_obj in children_ta_xref_objs
-            if ta_xref_obj.state_model == TextAnnotXrefObj.STATUS_SMODEL
+            if (ta_xref_obj.state_model == XrefObj.STATUS_MODEL or
+                ta_xref_obj.state_model == XrefObj.CHECKMARK_MODEL)
         ]
         if not statuses:
             break
@@ -923,10 +947,16 @@ def _get_status(
             )
             status_xref_obj = max(
                 statuses,
-                key=lambda xr_obj: doc.xref_get_key(xr_obj.xref, 'M')[1] # mod time
+                key=lambda xr_obj: get_xref_mod_time(doc, xr_obj.xref),
             )
         parent_xref = status_xref_obj.xref
         children_ta_xref_objs = ann_xref_resps[parent_xref]
+    only_checkmark_and_no_status = (
+        status_xref_obj is not None and
+        status_xref_obj.state_model == XrefObj.CHECKMARK_MODEL
+    )
+    if only_checkmark_and_no_status:
+        return None
     return status_xref_obj
 
 def getEdits(pdf_file: Path, **opt) -> tuple[list[Edit], int]:
@@ -951,23 +981,30 @@ def getEdits(pdf_file: Path, **opt) -> tuple[list[Edit], int]:
     bar.showSize()
     
     for pageno, page in enumerate(doc):
+        ann_xref_resps = get_ann_xref_resps(doc, page)
         for annot in robust_annots[pageno]:
             if annot.irt_xref != 0:
                 # only true for text responses and annotations which combine
                 # with another to make an annotation of type 'Replace'
                 continue
+            
+            # For some reason sometimes a text annotation will not be in response to anything but it
+            # will have xref key 'StateModel'
+            annot_statemodel = get_xref_statemodel(doc, annot.xref)
+            if annot_statemodel == XrefObj.STATUS_MODEL or annot_statemodel == XrefObj.CHECKMARK_MODEL:
+                continue
+            
             target_num_edits += 1
             
             responses = getResponses(annot, all_responses)
             
-            ann_xref_resps = get_ann_xref_resps(doc, page)
             checkmark_xref_obj = _get_checkmark(annot.xref, doc, ann_xref_resps)
             status_xref_obj = _get_status(annot.xref, doc, ann_xref_resps)
 
             text_responses = responses.get(Annot.TEXT, [])
             text_responses = [
                 resp.info['content'] for resp in text_responses
-                if to_text_annot_xref_obj(doc, resp.xref).state_model == 'null'
+                if get_xref_statemodel(doc, resp.xref) == 'null'
                 # normal text annotations for replies don't have xref_object key 'StateModel' defined
             ]
             

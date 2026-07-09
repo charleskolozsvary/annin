@@ -10,7 +10,7 @@ import re
 import sys
 
 import texpdfedits.extractanns as extractanns
-from texpdfedits.extractanns import TextAnnotXrefObj
+from texpdfedits.extractanns import XrefObj
 import texpdfedits.marktex as marktex
 import texpdfedits.utils as utils
 
@@ -612,14 +612,14 @@ class Correction:
             page_label: str,
             type: tuple[int, str],
             xref: int,
-            checkmark: TextAnnotXrefObj,
-            status: TextAnnotXrefObj,
+            checkmark: XrefObj,
+            status: XrefObj,
             messages: dict[str, str | list[str]],
             pdf_selected_text: str,
             pdf_annot_rect: pymupdf.Rect,
             pdf_selection_bbs: list[pymupdf.Rect],
             latex_snippet: str,
-            snippet_source_positions: tuple[int, int]
+            snippet_source_positions: tuple[int, int],
     ) -> None:
         self.index                    = index
         self.pageno                   = pageno

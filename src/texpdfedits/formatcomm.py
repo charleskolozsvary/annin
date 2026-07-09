@@ -2,7 +2,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 from texpdfedits.corr import Correction
-from texpdfedits.extractanns import TextAnnotXrefObj
+from texpdfedits.extractanns import XrefObj
 import texpdfedits.utils as utils
 
 import re
@@ -92,19 +92,19 @@ USE_UNICODE_STATUS = True
 
 def status_to_unicode(status: str | None):
     match status:
-        case TextAnnotXrefObj.STATUS_NONE:
+        case XrefObj.STATUS_NONE:
             return b'\xf0\x9f\xaa\xb9'.decode('utf-8')
-        case TextAnnotXrefObj.STATUS_ACCEPTED:
+        case XrefObj.STATUS_ACCEPTED:
             return b'\xf0\x9f\x91\x8d'.decode('utf-8')
-        case TextAnnotXrefObj.STATUS_REJECTED:
+        case XrefObj.STATUS_REJECTED:
             return b'\xe2\x9c\x8b'.decode('utf-8')
-        case TextAnnotXrefObj.STATUS_CANCELLED:
+        case XrefObj.STATUS_CANCELLED:
             return b'\xf0\x9f\x9a\xab'.decode('utf-8')
-        case TextAnnotXrefObj.STATUS_COMPLETED:
+        case XrefObj.STATUS_COMPLETED:
             return b'\xe2\x9c\x8c'.decode('utf-8')
-        case TextAnnotXrefObj.STATUS_DEFERRED:
+        case XrefObj.STATUS_DEFERRED:
             return b'\xe2\x8f\xb3'.decode('utf-8')
-        case TextAnnotXrefObj.STATUS_FUTURE:
+        case XrefObj.STATUS_FUTURE:
             return b'\xf0\x9f\x95\x90'.decode('utf-8')
         case _:
             return '???'
@@ -124,7 +124,7 @@ def get_replies_and_status(corr: Correction, replies: str):
     else:
         status = corr.status.state
     if checkmark:
-        status_message += ' (✔)' if checkmark == TextAnnotXrefObj.CHECKMARK_CHECKED else ' ( )'
+        status_message += ' (✔)' if checkmark == XrefObj.CHECKED else ' ( )'
     if status:
         status_message += f' ({status_to_unicode(status)})' if USE_UNICODE_STATUS else f' ({status})'
 
