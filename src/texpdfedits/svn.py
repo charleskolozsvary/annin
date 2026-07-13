@@ -5,7 +5,6 @@ import subprocess
 import re
 
 EMPTY_STATUS = re.compile(r'^Status against revision:', flags = re.IGNORECASE)
-N_STATUS_COLUMNS = 9
 TIMEOUT_DURATION = 60 * 5 # five minutes
 
 def verify_status_clean(file: Path):
@@ -14,6 +13,7 @@ def verify_status_clean(file: Path):
     try:
         status = subprocess.run(
             command,
+            cwd=file.parent,
             text=True,
             capture_output=True,
             check=True,
@@ -21,51 +21,62 @@ def verify_status_clean(file: Path):
         )
     except FileNotFoundError as e:
         logger.critical(
-            f"It appears svn is not installed. "
+            f"It appears svn is not installed: {e} "
             "If you do not wish to perform svn operations, use `--no-svn`"
         )
-        raise e
+        raise
     except subprocess.CalledProcessError as e:
         logger.critical(
-            f"svn returned non-zero exit status: {status.stderr}"
+            "svn returned non-zero exit status (%s): %s",
+            e.returncode,
+            e.stderr or e.stdout,
         )
-        raise e
-    except subprocess.TimeoutExpired as e:
+        raise
+    except subprocess.TimeoutExpired:
         logger.critical(f"svn timed out (after {TIMEOUT_DURATION} seconds)")
-        raise e    
-    # if status -u only outputs the "Status against revision line" it's clean
+        raise
+    # if status -u only outputs the "Status against revision line", it's clean
     # to be extra safe, check that the file is not in the output either
     is_clean = (
         EMPTY_STATUS.match(status.stdout) is not None and
         file.name not in status.stdout
     )
     if is_clean:
-        return    
-    columns = status.stdout[:N_STATUS_COLUMNS]
-    # could check exactly why it's not clean. Could be helpful
-    if columns != ' ' * N_STATUS_COLUMNS:
-        logger.critical(f"svn status -u {file} columns are not blank")
-        raise RuntimeError(f"{file} is not clean in svn working directory: {status.stdout}")
-    logger.info("Done")
-    return
+        logger.info("Done")        
+        return
+        
+    raise RuntimeError(
+        f"{file} is not clean in svn working directory:\n{status.stdout}"
+    )
 
 def commit(file: Path, message: str):
     command = ['svn', 'commit', file.name, '-m', message]
     logger.info(f"Committing {file}...")
     try:
-        result = subprocess.run(
+        subprocess.run(
             command,
+            cwd=file.parent,
             check=True,
             capture_output=True,
             text=True,
             timeout=TIMEOUT_DURATION,
         )
+    except FileNotFoundError as e:
+        logger.critical(
+            f"It appears svn is not installed: {e} "
+            "If you do not wish to perform svn operations, use `--no-svn`"
+        )
+        raise
     except subprocess.CalledProcessError as e:
-        logger.critical(f"svn returned non-zero exit status: {result.stderr}")
-        raise e
-    except subprocess.TimeoutExpired as e:
+        logger.critical(
+            "svn returned non-zero exit status (%s): %s",
+            e.returncode,
+            e.stderr or e.stdout,
+        )
+        raise
+    except subprocess.TimeoutExpired:
         logger.critical(f"svn timed out (after {TIMEOUT_DURATION} seconds)")
-        raise e
+        raise
     logger.info("Done")
         
         

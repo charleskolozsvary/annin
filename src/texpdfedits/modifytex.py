@@ -347,7 +347,7 @@ def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
     between_tags_lregex = pdf2texSearchRegex(m.group(1))
     
     comment_text = utils.backslashEscape(
-        utils.UnicodeToTeX(corr.messages['comment'])
+        utils.sanitize_pdf_text(corr.messages['comment'])
     )
 
     # simple attempt first
@@ -480,7 +480,7 @@ def newCaretAutocorrect(corr: Correction, **kwargs):
     max_k = max(max_left, max_right)
 
     insert_text = utils.backslashEscape(
-        utils.UnicodeToTeX(corr.messages['comment'])
+        utils.sanitize_pdf_text(corr.messages['comment'])
     )
 
     contending_autocorrects = []
