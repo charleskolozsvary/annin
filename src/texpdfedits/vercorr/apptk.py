@@ -76,6 +76,9 @@ REPLY_TOP_PADDING = 2
 CONTROLS_TOP_PADDING = 6
 STATUS_DROPDOWN_WIDTH = 9
 CONTROL_ROW_HEIGHT = 30    # vertical space reserved for the checkbox/dropdown row
+CONTROL_CHECK_OFFSET = 110 # x offset (from the row's left edge) for the checkmark symbol
+CHECK_MARK_CHECKED = "\u2611"    # ☑
+CHECK_MARK_UNCHECKED = "\u2610"  # ☐
 
 CHECKBOX_PADX = 20
 
@@ -212,22 +215,40 @@ class AnnotationPanel(tk.Frame):
                 text=f"\"{annotation.comment}\"", font=COMMENT_FONT, fill=DEFAULT_FG,
                 width=wrap,
             )
-            cursor = self.canvas.bbox(comment_id)[3]
+            # Running "how far down have we drawn" tracker -- nothing to do
+            # with a Tk/mouse cursor, just where the next item should start.
+            next_y = self.canvas.bbox(comment_id)[3]
 
             reply_ids = []
             for reply in annotation.responses:
                 reply_id = self.canvas.create_text(
-                    left + REPLY_INDENT, cursor + REPLY_TOP_PADDING, anchor="nw",
+                    left + REPLY_INDENT, next_y + REPLY_TOP_PADDING, anchor="nw",
                     text=f"\u21b3 \"{reply}\"", font=REPLY_FONT, fill=REPLY_FG,
                     width=max(wrap - REPLY_INDENT, MIN_WRAP_LENGTH),
                 )
-                cursor = self.canvas.bbox(reply_id)[3]
+                next_y = self.canvas.bbox(reply_id)[3]
                 reply_ids.append(reply_id)
 
-            control_y = cursor + CONTROLS_TOP_PADDING
+            control_y = next_y + CONTROLS_TOP_PADDING
             index_id = self.canvas.create_text(
                 right, control_y, anchor="ne", text=str(i + 1),
                 font=META_FONT, fill=META_FG,
+            )
+
+            # Always-visible status/checkmark text. Shown on every row by
+            # default; hidden (state="hidden") on whichever row currently
+            # has the real dropdown/checkbox overlaid on top of it.
+            status_text_id = self.canvas.create_text(
+                left, control_y, anchor="nw", text=str(annotation.status.state),
+                font=META_FONT, fill=DEFAULT_FG,
+            )
+            check_symbol = (
+                CHECK_MARK_CHECKED if annotation.checkmark.state == XrefObj.CHECKED
+                else CHECK_MARK_UNCHECKED
+            )
+            check_text_id = self.canvas.create_text(
+                left + CONTROL_CHECK_OFFSET, control_y, anchor="nw", text=check_symbol,
+                font=META_FONT, fill=DEFAULT_FG,
             )
 
             row_bottom = control_y + CONTROL_ROW_HEIGHT + BOX_INNER_PADY
@@ -241,6 +262,7 @@ class AnnotationPanel(tk.Frame):
                 "top": row_top, "bottom": row_bottom, "control_y": control_y,
                 "rect_id": rect_id, "type_id": type_id, "page_id": page_id,
                 "comment_id": comment_id, "reply_ids": reply_ids, "index_id": index_id,
+                "status_text_id": status_text_id, "check_text_id": check_text_id,
             })
             self._tops.append(row_top)
             y = row_bottom + BOX_OUTER_PADY
@@ -260,10 +282,13 @@ class AnnotationPanel(tk.Frame):
     # Selection
     # ------------------------------------------------------------------
     def select(self, index, scroll=True):
-        if self.selected_index is not None and self.selected_index < len(self.row_layout):
-            self._set_row_colors(self.selected_index, selected=False)
+        prev = self.selected_index
+        if prev is not None and prev < len(self.row_layout):
+            self._set_row_colors(prev, selected=False)
+            self._show_static_controls(prev)
         self.selected_index = index
         self._set_row_colors(index, selected=True)
+        self._hide_static_controls(index)
         self._create_controls_for_row(index)
         if scroll:
             self._scroll_to_row(index)
@@ -275,6 +300,29 @@ class AnnotationPanel(tk.Frame):
         directly, so the displayed dropdown/checkbox stays in sync."""
         if self._controls is not None:
             self._create_controls_for_row(self._controls["index"])
+
+    def set_status_display(self, index, status):
+        """Update the always-visible status text for a row. Safe to call
+        regardless of whether that row is currently selected (the text is
+        simply hidden, not absent, while real controls sit on top of it)."""
+        row = self.row_layout[index]
+        self.canvas.itemconfig(row["status_text_id"], text=str(status))
+
+    def set_checkmark_display(self, index, checked):
+        """Update the always-visible checkmark glyph for a row."""
+        row = self.row_layout[index]
+        symbol = CHECK_MARK_CHECKED if checked else CHECK_MARK_UNCHECKED
+        self.canvas.itemconfig(row["check_text_id"], text=symbol)
+
+    def _show_static_controls(self, index):
+        row = self.row_layout[index]
+        self.canvas.itemconfig(row["status_text_id"], state="normal")
+        self.canvas.itemconfig(row["check_text_id"], state="normal")
+
+    def _hide_static_controls(self, index):
+        row = self.row_layout[index]
+        self.canvas.itemconfig(row["status_text_id"], state="hidden")
+        self.canvas.itemconfig(row["check_text_id"], state="hidden")
 
     def _set_row_colors(self, index, selected):
         row = self.row_layout[index]
@@ -501,12 +549,14 @@ class CopyEditReviewApp(tk.Frame):
             annotation.checkmark.state = XrefObj.CHECKED
         else:
             annotation.checkmark.state = XrefObj.UNCHECKED
+        self.panel.set_checkmark_display(index, checked)
         self.man.update_from_tannot(annotation.checkmark)
         # TODO: persist this change to your real annotation store.
 
     def _on_status_change(self, index, status):
         annotation = self.annotations[index]
         annotation.status.state = status
+        self.panel.set_status_display(index, status)
         self.man.update_from_tannot(annotation.status)
         # TODO: persist this change to your real annotation store.
 
