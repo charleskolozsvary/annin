@@ -12,6 +12,8 @@ source_marked.pdf
 source_inlined.pdf
 diff_*.pdf
 
+source_autocorrected.pdf
+
 *.synctex.gz
 *_nocomments.tex
 *_nocomments.pdf
