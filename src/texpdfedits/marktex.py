@@ -199,6 +199,7 @@ ALLOWED_MARK_ENVIRONMENTS = {
     'center',
     'bookreview',
     'review',
+    'appendices',
 }
 
 # amsrefs bib keys whose values cannot be marked

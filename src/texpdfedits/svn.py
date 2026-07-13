@@ -10,6 +10,7 @@ TIMEOUT_DURATION = 60 * 5 # five minutes
 def verify_status_clean(file: Path):
     logger.info(f"Verifying {file} is clean in svn working directory...")
     command = ['svn', 'status', '-u', file.name]
+    status = None
     try:
         status = subprocess.run(
             command,
