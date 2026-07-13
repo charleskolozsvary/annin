@@ -5,6 +5,7 @@ import json
 import re
 import tempfile
 import sys
+import getpass
 
 from pathlib import Path
 from icecream import ic
@@ -55,31 +56,29 @@ class GuiAnnot:
         if self.checkmark is None:
             state_model = XrefObj.CHECKMARK_MODEL
             state = XrefObj.UNCHECKED
-            check_xref = self.initialize_tannot(man, state_model, state)
-            self.checkmark = XrefObj(check_xref, state_model, state)
+            self.checkmark = self.initialize_tannot(man, state_model, state)
             
         if self.status is None:
             state_model = XrefObj.STATUS_MODEL
             state = XrefObj.STATUS_NONE
-            status_xref = self.initialize_tannot(man, state_model, state)
-            self.status = XrefObj(status_xref, state_model, state)
+            self.status = self.initialize_tannot(man, state_model, state)
             
         self.before_path = man.xref_to_before_after_images[self.xref][BEFORE_IMG_SUBDIR]
         self.after_path = man.xref_to_before_after_images[self.xref][AFTER_IMG_SUBDIR]            
 
-    def initialize_tannot(self, man: Manuscript, state_model: str, state: str) -> int:
+    def initialize_tannot(self, man: Manuscript, state_model: str, state: str) -> XrefObj:
         set_to = {
             XrefObj.FLAG_KEY: ('xref', XrefObj.FLAG_IN_USE),
             XrefObj.IRT_KEY: ('xref', f'{self.xref} 0 R'),
             XrefObj.STATE_MODEL_KEY: ('string', state_model),
             XrefObj.STATE_KEY: ('string', state),
-            XrefObj.TITLE_KEY: man.obj.xref_get_key(self.xref, XrefObj.TITLE_KEY),
+            XrefObj.TITLE_KEY: ('string', man.user_title),
         }
         page = man.obj[self.pageno]
         local_tannot = page.add_text_annot((0,0), '', icon='Comment')
         ta_xref = local_tannot.xref
         man.xref_update(ta_xref, set_to)
-        return ta_xref
+        return XrefObj(ta_xref, state_model, state, man.user_title)
 
 class Manuscript:
     """Represents corrections manuscript"""
@@ -147,6 +146,8 @@ class Manuscript:
         self.before_after_dir = Path(self.temp_dir.name)
         self.build_xref_to_before_after()
 
+        self.user_title = getpass.getuser()
+
         # GUI Annotations
         self.gui_annotations = [
             GuiAnnot(self, edit)
@@ -169,6 +170,7 @@ class Manuscript:
     def update_from_tannot(self, tannot: XrefObj):
         set_to = {
             XrefObj.STATE_KEY: ('string', tannot.state),
+            XrefObj.TITLE_KEY: ('string', self.user_title),
         }
         self.xref_update(tannot.xref, set_to)
 

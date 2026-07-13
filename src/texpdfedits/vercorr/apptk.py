@@ -6,6 +6,8 @@ from PIL import Image, ImageTk  # pip install Pillow
 from pathlib import Path
 
 import texpdfedits.vercorr.manu as manu
+import texpdfedits.formatcomm as formatcomm
+
 from texpdfedits.vercorr.manu import Manuscript
 from texpdfedits.extractanns import XrefObj
 
@@ -239,7 +241,8 @@ class AnnotationPanel(tk.Frame):
             # default; hidden (state="hidden") on whichever row currently
             # has the real dropdown/checkbox overlaid on top of it.
             status_text_id = self.canvas.create_text(
-                left, control_y, anchor="nw", text=str(annotation.status.state),
+                left, control_y, anchor="nw",
+                text=formatcomm.status_to_unicode(annotation.status.state),
                 font=META_FONT, fill=DEFAULT_FG,
             )
             check_symbol = (
@@ -306,7 +309,10 @@ class AnnotationPanel(tk.Frame):
         regardless of whether that row is currently selected (the text is
         simply hidden, not absent, while real controls sit on top of it)."""
         row = self.row_layout[index]
-        self.canvas.itemconfig(row["status_text_id"], text=str(status))
+        self.canvas.itemconfig(
+            row["status_text_id"],
+            text=formatcomm.status_to_unicode(status)
+        )
 
     def set_checkmark_display(self, index, checked):
         """Update the always-visible checkmark glyph for a row."""
