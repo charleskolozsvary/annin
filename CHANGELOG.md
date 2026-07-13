@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file (since version 0.12.0).
 
+## [0.16.2](https://github.com/charleskolozsvary/annin/commit/a5175dfe86d430f9e85e65515a9b181e31c747d2) (2026-07-13)
+### Bug Fixes
+- Fixed svn error handling [a5175df](https://github.com/charleskolozsvary/annin/commit/a5175dfe86d430f9e85e65515a9b181e31c747d2)
+- Fixed sanitization of PDF comment text (replaced newlines) used when performing autocorrections to prevent inconsistent line endings [a5175df](https://github.com/charleskolozsvary/annin/commit/a5175dfe86d430f9e85e65515a9b181e31c747d2)
+
 ## [0.16.1](https://github.com/charleskolozsvary/annin/commit/559f8cf147aca54737ec35aa47cdea445b98029d) (2026-06-26)
 ### Bug Fixes
 - Fixed `--no-svn --delete-comments` optional argument combination which would still svn commit [a4d6b84](https://github.com/charleskolozsvary/annin/commit/a4d6b84f2b9aa43c9faf6b27f91b01cb2ed9e4b5)
