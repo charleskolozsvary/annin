@@ -93,15 +93,22 @@ USE_UNICODE_STATUS = True
 def status_to_unicode(status: str | None):
     match status:
         case XrefObj.STATUS_NONE:
-            return b'\xf0\x9f\xaa\xb9'.decode('utf-8')
+            return status
+            # return b'\xe2\x88\x85'.decode('utf-8')
+            # return b'\xf0\x9f\xaa\xb9'.decode('utf-8')
         case XrefObj.STATUS_ACCEPTED:
-            return b'\xf0\x9f\x91\x8d'.decode('utf-8')
+            return b'\xf0\x9f\x96\x92'.decode('utf-8')
+            # return b'\xf0\x9f\x91\x8d'.decode('utf-8')
         case XrefObj.STATUS_REJECTED:
-            return b'\xe2\x9c\x8b'.decode('utf-8')
+            # return status
+            return b'\xf0\x9f\x91\x8e'.decode('utf-8')
+            # return b'\xe2\x9c\x8b'.decode('utf-8')
         case XrefObj.STATUS_CANCELLED:
             return b'\xf0\x9f\x9a\xab'.decode('utf-8')
         case XrefObj.STATUS_COMPLETED:
-            return b'\xe2\x9c\x8c'.decode('utf-8')
+            return b'\xe2\x9c\x94'.decode('utf-8')
+            # return b'\xe2\x9c\x85'.decode('utf-8')
+            # return b'\xe2\x9c\x8c'.decode('utf-8')
         case XrefObj.STATUS_DEFERRED:
             return b'\xe2\x8f\xb3'.decode('utf-8')
         case XrefObj.STATUS_FUTURE:
