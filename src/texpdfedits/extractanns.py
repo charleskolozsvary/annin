@@ -6,6 +6,8 @@ from icecream import ic
 logger = logging.getLogger(__name__)
 import math
 import re
+import getpass
+
 from dataclasses import dataclass
 from typing import ClassVar
 
@@ -166,6 +168,11 @@ class XrefObj:
     xref: int
     state_model: str
     state: str
+    user_title: str
+
+def get_xref_title(doc: pymupdf.Document, xref: int) -> str:
+    type, val = doc.xref_get_key(xref, XrefObj.TITLE_KEY)
+    return val
 
 def get_xref_mod_time(doc: pymupdf.Document, xref: int) -> str:
     type, val = doc.xref_get_key(xref, XrefObj.MOD_KEY)
@@ -867,6 +874,7 @@ def to_xref_obj(doc: pymupdf.Document, xref: int) -> XrefObj:
         xref,
         get_xref_statemodel(doc, xref),
         get_xref_state(doc, xref),
+        get_xref_title(doc, xref),
     )
 
 def get_ann_xref_resps(
@@ -900,18 +908,21 @@ def _get_checkmark(
         doc: pymupdf.Document,
         ann_xref_resps: dict[int, list[XrefObj]],
 ) -> XrefObj | None:
+    # user_title = 'xyz'
+    user_title = getpass.getuser()
     checkmarks = [
         resp_tann_xref for resp_tann_xref in ann_xref_resps[annot_xref]
-        if resp_tann_xref.state_model == XrefObj.CHECKMARK_MODEL
+        if (resp_tann_xref.state_model == XrefObj.CHECKMARK_MODEL and
+            resp_tann_xref.user_title == user_title)
     ]
     if not checkmarks:
         return None
     elif len(checkmarks) == 1:
         [checkmark_xref_obj] = checkmarks
     else:
-        logger.error(
-            f"Malformed PDF annotations: xref {annot_xref} "
-            f"has multiple checkmark annotations {checkmarks}"
+        logger.warning(
+            f"Multiple checkmarks for xref '{annot_xref}' "
+            f"by the same user '{user_title}': {checkmarks}"
         )
         checkmark_xref_obj = max(
             checkmarks, # use last modified one
@@ -931,22 +942,51 @@ def _get_status(
     while children_ta_xref_objs:
         # For some reason Adobe will put status annotation in response to the check mark ones
         # if one already exists. This is a little bewildering
-        statuses = [
+        mixture_ta_xrefs = [
             ta_xref_obj for ta_xref_obj in children_ta_xref_objs
             if (ta_xref_obj.state_model == XrefObj.STATUS_MODEL or
                 ta_xref_obj.state_model == XrefObj.CHECKMARK_MODEL)
         ]
-        if not statuses:
+        if not mixture_ta_xrefs:
             break
-        elif len(statuses) == 1:
-            [status_xref_obj] = statuses
+        elif len(mixture_ta_xrefs) == 1:
+            [status_xref_obj] = mixture_ta_xrefs
         else:
-            logger.error(
-                f"Malformed PDF annotations: xref {parent_xref} "
-                f"has multiple status annotations {statuses}"
-            )
+            checks = []
+            statuses = []
+            for ta_xref_obj in mixture_ta_xrefs:
+                if ta_xref_obj.state_model == XrefObj.CHECKMARK_MODEL:
+                    checks.append(ta_xref_obj)
+                elif ta_xref_obj.state_model == XrefObj.STATUS_MODEL:
+                    statuses.append(ta_xref_obj)
+
+            if not checks: # (and or/not statuses)
+                # logger.debug('not checks')
+                potential_status_chain_links = statuses
+            if checks and not statuses:
+                # logger.debug('checks and not statuses')
+                potential_status_chain_links = checks
+            if checks and statuses:
+                # logger.debug('checks and statuses')
+                potential_status_chain_links = statuses
+                
+            if len(potential_status_chain_links) > 1:
+                # an unfortunate (but fortunately unlikely) scenario can happen if
+                # 1. there's a checkmark annotation
+                # 2. someone sets the status (adobe will put it it reply to the checkmark even if they didn't make the checkmark!)
+                # 3. another person checks the annotation (checkmarks are user-specific for viewing)
+                # then there will be no direct status annotation to the main one but there'll be two
+                # checkmark annotations and actually the *older* one will be the parent to the status annotation
+                # And so we don't get the right one. Sure, we could backtrack if we reach the end of a chain and find nothing when there
+                # were multiple contenders but ... I don't think it's worth it 
+                logger.warning(
+                    f"Ambiguous PDF annotations: xref {parent_xref} "
+                    f"has multiple text annotations that could "
+                    f"contribute to the status chain {potential_status_chain_links}"
+                    f"... Using the one most recently modified"
+                )
             status_xref_obj = max(
-                statuses,
+                potential_status_chain_links,
                 key=lambda xr_obj: get_xref_mod_time(doc, xr_obj.xref),
             )
         parent_xref = status_xref_obj.xref
