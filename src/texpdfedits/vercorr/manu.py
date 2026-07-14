@@ -18,9 +18,9 @@ from texpdfedits.extractanns import Edit, XrefObj
 from texpdfedits.vercorr.sync import SynctexOut
 
 IMAGE_X_START = 30 # in points (TeX's big points)
-IMAGE_AROUND = 45 # in points
+IMAGE_AROUND = 55 # in points
 
-IMAGE_DPI = 125
+IMAGE_DPI = 140
 SHOW_ONLY_ISOLATED_EDITS = True
 SHOW_ANNS = True
 
