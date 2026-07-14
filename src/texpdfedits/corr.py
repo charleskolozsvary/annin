@@ -827,7 +827,7 @@ def write_vercorr_data(
         corrections: list[Correction],
 ):
     script_name = Path(sys.argv[0]).name
-    data_file = f"{pdf_file.stem}.{script_name}"
+    data_file = utils.replace_suffix(pdf_file, script_name)
     # only two fields right now, but if I wanted to extend this for some
     # reason later, json makes that simple enough
     data = '\n'.join(
