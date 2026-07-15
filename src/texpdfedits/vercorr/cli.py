@@ -10,16 +10,52 @@ import texpdfedits.utils as utils
 import texpdfedits.vercorr.manu as manu
 import texpdfedits.vercorr.apptk as apptk
 
-__version__ = "0.0.0"
+__version__ = "0.1.0"
+
+EPILOG = """
+Example usage:
+    %(prog)s --compiler=xelatex annotations.pdf source.tex
+
+    If there's already an existing PDF and .synctex.gz, you can do
+
+    %(prog)s --compiler=xelatex --no-gen-synctex annotations.pdf source.tex
+
+    then source.tex is not recompiled with SyncTeX
+
+GUI shortcuts:
+    There are a handful of single key shortcuts while interacting with the GUI.
+    They effect/are relative to the current highlighted annotation.
+
+    | Key | Action              |
+    |-----|---------------------|
+    | n   | next annotation     |
+    | p   | previous annotation |
+    | m   | check/uncheck       |
+    | d   | status "None"       |
+    | r   | status "Rejected"   |
+    | a   | status "Accepted"   |
+    | c   | status "Completed"  |
+    | x   | status "Cancelled"  |
+
+"""
+
+SHOW_LONG_HELP = "--long-help" in sys.argv
 
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description='displays status and before and after images for each annotation',
+        epilog=EPILOG if SHOW_LONG_HELP else None,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
     parser.add_argument('annots_pdf')
     parser.add_argument('latex_file')
+
+    parser.add_argument(
+        "--long-help",
+        action="help",
+        help="show extended help and exit",
+    )
     
     parser.add_argument(
         "-v",
