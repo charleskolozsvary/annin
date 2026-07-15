@@ -1938,8 +1938,8 @@ packages:
   timestamp: 1765813902568
 - pypi: ./
   name: texpdfedits
-  version: 0.16.2
-  sha256: 5d1b83330ea740b882bef3888a79b2f4fd103280e594e66f5699bf0ab97dcac6
+  version: 0.17.0
+  sha256: e11e925e05b63890be362003f1a2fb6da3d2acde29a68c08ac2bc0d09653f34d
   requires_dist:
   - pymupdf>=1.26.7,<2
   - pylatexenc>=2.10,<3
