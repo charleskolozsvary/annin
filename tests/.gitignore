@@ -26,3 +26,5 @@ source_autocorrected.pdf
 extracted_edit_txts/
 
 TeX_comment_corr_out/
+
+results/realworld_results_*.csv

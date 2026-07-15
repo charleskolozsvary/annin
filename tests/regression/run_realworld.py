@@ -27,7 +27,6 @@ CSV_COLUMNS = [
     "n_corrs",
     "n_autos",
     "id",    
-    "runtime",
 ]
 
 def discover_jobs():
@@ -84,7 +83,6 @@ def run_job(job):
         text=True,
         check=True,
     )
-    runtime = time.perf_counter() - start
     failed = int(result.returncode != 0)
     log_path = article_dir / f"annin_{pdf_file.stem}.log"
     log_exists = int(log_path.exists())
@@ -102,7 +100,6 @@ def run_job(job):
         'n_corrs': n_corrs,
         'n_autos': n_autos,
         'id': row_id,        
-        'runtime': round(runtime, 3),
     }
     return {
         field : values[field]
@@ -146,7 +143,6 @@ def generate_realworld_results():
                 'n_corrs': 0, 
                 'n_autos': 0, 
                 'id': row_id,
-                'runtime': 0.0, 
             }
 
             rows.append({

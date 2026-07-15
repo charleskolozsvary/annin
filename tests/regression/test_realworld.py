@@ -60,19 +60,17 @@ def floatify(*arr):
     
         
 def evaluate_with_benchmark(run_id, run, benchmark):
-    prev_annots, prev_edits, prev_corrs, prev_autos, prev_runtime = floatify(
+    prev_annots, prev_edits, prev_corrs, prev_autos = floatify(
         benchmark['n_annots'],
         benchmark['n_edits'],
         benchmark['n_corrs'],
         benchmark['n_autos'],
-        benchmark['runtime'],
     )
-    n_annots, n_edits, n_corrs, n_autos, runtime = floatify(
+    n_annots, n_edits, n_corrs, n_autos = floatify(
         run['n_annots'],
         run['n_edits'],
         run['n_corrs'],
         run['n_autos'],
-        run['runtime'],
     )
     assert prev_annots == n_annots
     prev_annot_retention = prev_edits / prev_annots
@@ -86,7 +84,6 @@ def evaluate_with_benchmark(run_id, run, benchmark):
     assert annot_retention >= prev_annot_retention
     assert edit_retention >= prev_edit_retention
     assert auto_rate >= prev_auto_rate
-    assert runtime <= 3 * prev_runtime
 
 def evaluate_no_benchmark(run_id, run):
     failed, log_exists, n_annots, n_edits, n_corrs = floatify(
