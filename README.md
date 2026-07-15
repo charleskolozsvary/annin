@@ -133,7 +133,7 @@ There are a handful of single key shortcuts while interacting with the GUI. They
 
 ## Installation
 There are no new dependencies from what `annin` required. You can either 
-1. run `./vercorr_install [installation directory]` in the top-level repository directory. Or
+1. run `./vercorr_install.sh [installation directory]` in the top-level repository directory. Or
 2. add the following alias to your shell configuration script (e.g., `~/.bashrc`, `~/.zshrc`)
 ```shell
 alias vercorr="pixi run --manifest-path /absolute/path/to/annin/repository/ vercorr"
