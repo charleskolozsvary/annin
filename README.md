@@ -119,22 +119,22 @@ When the program is closed, it will write a file named `[pdf_file]-vercorr.pdf` 
 There are a handful of single key shortcuts while interacting with the GUI. They effect/are relative to the current highlighted annotation.
 
 ### Navigation/Viewing
-        | Key     | Action              |
-        |---------|---------------------|
-        | n       | next annotation     |
-        | p       | previous annotation |
-        | v       | change view mode    |
-        | f,space | toggle before/after |
+| Key     | Action              |
+|---------|---------------------|
+| `n`       | next annotation     |
+| `p`       | previous annotation |
+| `v`       | change view mode    |
+| `f` or space | toggle before/after |
 
 ### Checkmark and status
-        | Key | Action              |
-        |-----|---------------------|
-        | m   | check/uncheck       |
-        | s   | status "None"       |
-        | r   | status "Rejected"   |
-        | a   | status "Accepted"   |
-        | c,d | status "Completed"  |
-        | x   | status "Cancelled"  |
+| Key | Action              |
+|-----|---------------------|
+| `m`   | check/uncheck       |
+| `s`   | status "None"       |
+| `r`   | status "Rejected"   |
+| `a`   | status "Accepted"   |
+| `c` or `d` | status "Completed"  |
+| `x`   | status "Cancelled"  |
 
 ## Requirements
 `vercorr` can only be used after `annin`, not on it's own. `annin` writes a `.annin` file that saves its work so `vercorr` doesn't need to write the annotations in the LaTeX source again. It uses the `.annin` to sync annotations to corresponding lines of LaTeX.
