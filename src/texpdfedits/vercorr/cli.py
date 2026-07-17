@@ -10,7 +10,7 @@ import texpdfedits.utils as utils
 import texpdfedits.vercorr.manu as manu
 import texpdfedits.vercorr.apptk as apptk
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 EPILOG = """
 Example usage:
@@ -26,16 +26,23 @@ GUI shortcuts:
     There are a handful of single key shortcuts while interacting with the GUI.
     They effect/are relative to the current highlighted annotation.
 
-    | Key | Action              |
-    |-----|---------------------|
-    | n   | next annotation     |
-    | p   | previous annotation |
-    | m   | check/uncheck       |
-    | d   | status "None"       |
-    | r   | status "Rejected"   |
-    | a   | status "Accepted"   |
-    | c   | status "Completed"  |
-    | x   | status "Cancelled"  |
+    Navigation/Viewing
+        | Key     | Action              |
+        |---------|---------------------|
+        | n       | next annotation     |
+        | p       | previous annotation |
+        | v       | change view mode    |
+        | f,space | toggle before/after |
+
+    Checkmark and status
+        | Key | Action              |
+        |-----|---------------------|
+        | m   | check/uncheck       |
+        | s   | status "None"       |
+        | r   | status "Rejected"   |
+        | a   | status "Accepted"   |
+        | c,d | status "Completed"  |
+        | x   | status "Cancelled"  |
 
 """
 

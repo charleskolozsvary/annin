@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file (since version 0.12.0 of `annin`).
 
+## `vercorr` [0.2.0](https://github.com/charleskolozsvary/annin/commit/01a2cb3b2a603b61a1fe5e9d7391dc2519772a21) (2026-07-17)
+### Features
+- Single image viewing mode, toggle between before and after image [01a2cb3](https://github.com/charleskolozsvary/annin/commit/01a2cb3b2a603b61a1fe5e9d7391dc2519772a21)
+
+## `annin` [0.17.1](https://github.com/charleskolozsvary/annin/commit/f8742fac34604262bfe9f8c9c4f3fe6fabb40335) (2026-07-17)
+### Bug Fixes
+- Add "editor" to ignored bibitem keys while marking [f8742fa](https://github.com/charleskolozsvary/annin/commit/f8742fac34604262bfe9f8c9c4f3fe6fabb40335)
+
 ## `vercorr` [0.1.0](https://github.com/charleskolozsvary/annin/commit/ba3e1caf839e3a49da3aab88edfef93bfafe2599) (2026-07-15)
 ### Features
 - A GUI application that displays before/after images for each annotation to streamline correction verification
