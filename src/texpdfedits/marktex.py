@@ -213,6 +213,7 @@ FORBIDDEN_BIB_KEYS = [
     'arXiv',
     'eprint',
     'edition',
+    'editor',
 ]
 
 # environments which are not marked in full like
