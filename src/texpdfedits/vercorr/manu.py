@@ -18,16 +18,15 @@ from texpdfedits.extractanns import Edit, XrefObj
 from texpdfedits.vercorr.sync import SynctexOut
 
 IMAGE_X_START = 30 # in points (TeX's big points)
-IMAGE_AROUND = 55 # in points
+IMAGE_Y_EXTEND = 55
 
-IMAGE_DPI = 140
-SHOW_ONLY_ISOLATED_EDITS = True
+IMAGE_DPI = 130
 SHOW_ANNS = True
 
-BEFORE_IMG_SUBDIR = 'before'
-AFTER_IMG_SUBDIR = 'after'
+BEFORE_SUBDIR = "before"
+AFTER_SUBDIR = "after"
 
-ATTENTION_BOX_GROW = 7.5
+ATTENTION_BOX_GROW = 7.5 # also in points
 
 class GuiAnnot:
     def __init__(
@@ -62,9 +61,10 @@ class GuiAnnot:
             state_model = XrefObj.STATUS_MODEL
             state = XrefObj.STATUS_NONE
             self.status = self.initialize_tannot(man, state_model, state)
-            
-        self.before_path = man.xref_to_before_after_images[self.xref][BEFORE_IMG_SUBDIR]
-        self.after_path = man.xref_to_before_after_images[self.xref][AFTER_IMG_SUBDIR]            
+
+        self.image_paths = man.xref_to_before_after_images[self.xref]
+        logger.debug(self.image_paths)
+        # before_img_path = self.image_paths[view_mode]['before' or 'after']
 
     def initialize_tannot(self, man: Manuscript, state_model: str, state: str) -> XrefObj:
         set_to = {
@@ -143,7 +143,7 @@ class Manuscript:
         self.xref_to_synctex = {}
 
         self.temp_dir = tempfile.TemporaryDirectory()
-        self.before_after_dir = Path(self.temp_dir.name)
+        self.before_after_dir = Path(self.temp_dir.name) # not the usual Path.name
         self.build_xref_to_before_after()
 
         self.user_title = getpass.getuser()
@@ -178,11 +178,11 @@ class Manuscript:
             self,
             edit: Edit,
             pixmap: pymupdf.Pixmap,
-            subdir: Path,
+            directory: Path,
     ):
         if pixmap is None:
             return None
-        img_path = self.before_after_dir / subdir / f'{edit.xref}.png'
+        img_path = directory / f'{edit.xref}.png'
         pixmap.save(str(img_path))
         return img_path
         
@@ -190,31 +190,32 @@ class Manuscript:
         logger.info("Generating before and after images...")
         self.xref_to_before_after_images = {}
         
-        before_subdir = self.before_after_dir / BEFORE_IMG_SUBDIR
-        Path.mkdir(before_subdir)
-        
-        after_subdir = self.before_after_dir / AFTER_IMG_SUBDIR
-        Path.mkdir(after_subdir)
-
         num_edits = len(self.edits)
         bar = utils.TextProgressBar(num_edits, show_per=max(1, num_edits // 100))
         bar.showSize()
+
+        before_dir = self.before_after_dir / BEFORE_SUBDIR
+        after_dir = self.before_after_dir / AFTER_SUBDIR
+        Path.mkdir(before_dir)
+        Path.mkdir(after_dir)
+                
         for edit in self.edits:
-            before_pixmap = get_before_pixmap(self, edit)
+            acquire_synctex_out(self, edit)
+            before_pixmap = get_before_pixmap(self, edit, IMAGE_Y_EXTEND)
             before_img_path = self.save_and_get_img_path(
                 edit,
                 before_pixmap,
-                before_subdir,
+                before_dir,
             )
-            after_pixmap = get_after_pixmap(self, edit)
+            after_pixmap = get_after_pixmap(self, edit, IMAGE_Y_EXTEND)
             after_img_path = self.save_and_get_img_path(
                 edit,
                 after_pixmap,
-                after_subdir,
+                after_dir,
             )
             self.xref_to_before_after_images[edit.xref] = {
-                'before': before_img_path,
-                'after': after_img_path,
+                    BEFORE_SUBDIR: before_img_path,
+                    AFTER_SUBDIR: after_img_path,
             }
             bar.addProgress()
         bar.end()
@@ -300,14 +301,14 @@ def get_isolated_edit_pixmap(
         annots=SHOW_ANNS,
     )
     
-def get_before_pixmap(doc: Manuscript, edit: Edit) -> pymupdf.Pixmap:
+def get_before_pixmap(doc: Manuscript, edit: Edit, image_extend: float) -> pymupdf.Pixmap:
     page = doc.obj[edit.pageno]
     page_width, page_height = page.rect.width, page.rect.height
     
     im_x_start = IMAGE_X_START
-    im_y_start = max(edit.annot_rect.y0 - IMAGE_AROUND, 0)
+    im_y_start = max(edit.annot_rect.y0 - image_extend, 0)
     im_x_end   = page_width
-    im_y_end   = min(edit.annot_rect.y1 + IMAGE_AROUND, page_height)
+    im_y_end   = min(edit.annot_rect.y1 + image_extend, page_height)
     
     image_rectangle = pymupdf.Rect(
         im_x_start,
@@ -315,14 +316,7 @@ def get_before_pixmap(doc: Manuscript, edit: Edit) -> pymupdf.Pixmap:
         im_x_end,
         im_y_end
     )
-    if SHOW_ONLY_ISOLATED_EDITS:
-        pixmap = get_isolated_edit_pixmap(doc, edit, image_rectangle)
-    else:
-        pixmap = page.get_pixmap(
-            dpi=IMAGE_DPI,
-            clip=image_rectangle,
-            annots=SHOW_ANNS,
-        )
+    pixmap = get_isolated_edit_pixmap(doc, edit, image_rectangle)
     return pixmap
 
 def choose_synctex_out(
@@ -350,21 +344,25 @@ def choose_synctex_out(
     else:
         return filtered_outs[0]
 
-def get_after_pixmap(doc: Manuscript, edit: Edit) -> pymupdf.Pixmap | None:
+def acquire_synctex_out(doc: Manuscript, edit: Edit):
     line = doc.xref_to_line.get(edit.xref, None)
     if line is None:
         logger.warning(f"Annot with xref {edit.xref} was not written in {doc.latex_file}")
-        return None
+        return
     synctex_result = sync.run_synctex_view(line, doc.latex_file.absolute(), doc.latex_pdf.absolute())
     try:
         synctex_outs = sync.parse_synctex_view(synctex_result)
     except RuntimeError as e:
         logger.warning(f"SyncTeX could not locate output of line {line} from {doc.latex_file}: {e}")
-        return None
+        return
 
     chosen_out = choose_synctex_out(doc, edit, synctex_outs)
     doc.set_synctex_out(edit.xref, chosen_out)
 
+def get_after_pixmap(doc: Manuscript, edit: Edit, image_extend: float) -> pymupdf.Pixmap | None:
+    if edit.xref not in doc.xref_to_synctex:
+        return None
+    line, chosen_out = doc.xref_to_synctex[edit.xref]
     pageno, x, y = (
         chosen_out.page,
         chosen_out.x,
@@ -375,9 +373,9 @@ def get_after_pixmap(doc: Manuscript, edit: Edit) -> pymupdf.Pixmap | None:
     edit_rect_nudge = edit.annot_rect.height / 2
 
     im_x_start = IMAGE_X_START
-    im_y_start = max(0, y - IMAGE_AROUND - edit_rect_nudge)
+    im_y_start = max(0, y - image_extend - edit_rect_nudge)
     im_x_end   = page.cropbox.width
-    im_y_end   = min(y + IMAGE_AROUND + edit_rect_nudge, page.cropbox.height)
+    im_y_end   = min(y + image_extend + edit_rect_nudge, page.cropbox.height)
     
     image_rectangle = pymupdf.Rect(
         im_x_start,

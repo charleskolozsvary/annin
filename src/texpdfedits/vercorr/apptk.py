@@ -37,6 +37,10 @@ WINDOW_SIZE = "1000x700"
 PANEL_PROPORTION = 0.25   # right-hand annotation panel: fraction of window WIDTH
 DIVISION_PROP = 0.025      # divider line: fraction of window HEIGHT
 
+# --- Viewing modes for the images ---
+VIEW_MODE_SPLIT = "split" # both before/after images stacked, each half height
+VIEW_MODE_SINGLE = "single" # one image at a time, full height
+
 # --- Colors ---
 DEFAULT_BG = "black"
 DEFAULT_FG = "white"
@@ -93,6 +97,12 @@ MIN_WRAP_LENGTH = 50       # never wrap narrower than this, even in a tiny panel
 FALLBACK_CONTAINER_WIDTH = 400
 FALLBACK_CONTAINER_HEIGHT = 300
 
+# --- Single-image-mode label (small "Before"/"After" caption) ---
+MODE_LABEL_TEXT_BEFORE = "Before"
+MODE_LABEL_TEXT_AFTER = "After"
+MODE_LABEL_RELX = 0.02
+MODE_LABEL_RELY = 0.02
+
 # --- Timing ---
 RESIZE_DEBOUNCE_MS = 100      # wait this long after a resize before rescaling images / relayout
 INITIAL_SELECT_DELAY_MS = 50  # wait for first layout pass before selecting annotation 0
@@ -101,12 +111,14 @@ INITIAL_SELECT_DELAY_MS = 50  # wait for first layout pass before selecting anno
 KEY_NEXT = ["<Key-n>", "<Down>"]
 KEY_PREV = ["<Key-p>", "<Up>"]
 
-KEY_SHORTCUT_NONE = ["<Key-d>"]
+KEY_SHORTCUT_NONE = ["<Key-s>"]
 KEY_SHORTCUT_ACCEPTED = ["<Key-a>"]
 KEY_SHORTCUT_REJECTED = ["<Key-r>"]
-KEY_SHORTCUT_COMPLETED = ["<Key-c>"]
+KEY_SHORTCUT_COMPLETED = ["<Key-c>", "<Key-d>"]
 KEY_SHORTCUT_CANCELLED = ["<Key-x>"]
 KEY_TOGGLE_CHECKED = ["<Key-m>"]
+KEY_TOGGLE_VIEW_MODE = ["<Key-v>"]
+KEY_TOGGLE_SINGLE_IMAGE = ["<space>", "<Key-f>"]
 
 
 # ---------------------------------------------------------------------------
@@ -464,6 +476,10 @@ class CopyEditReviewApp(tk.Frame):
         self._bottom_photo = None
         self._resize_job = None
 
+        # --- Image view mode state ---
+        self.view_mode = VIEW_MODE_SPLIT
+        self.single_showing = "before"
+
         self._build_ui()
         self._bind_shortcuts()
 
@@ -471,28 +487,29 @@ class CopyEditReviewApp(tk.Frame):
 
     # ------------------------------------------------------------------
     def _build_ui(self):
-        image_frame_width = 1 - PANEL_PROPORTION
-        each_image_height = (1 - DIVISION_PROP) / 2
+        self.image_frame_width = 1 - PANEL_PROPORTION
+        self.each_image_height = (1 - DIVISION_PROP) / 2
 
         self.top_frame = tk.Frame(self, bg=IMAGE_AREA_BG)
-        self.top_frame.place(relx=0, rely=0, relwidth=image_frame_width, relheight=each_image_height)
-
         self.divider = tk.Frame(self, bg=DIVIDER_BG)
-        self.divider.place(
-            relx=0, rely=each_image_height, relwidth=image_frame_width, relheight=DIVISION_PROP
-        )
-
         self.bottom_frame = tk.Frame(self, bg=IMAGE_AREA_BG)
-        self.bottom_frame.place(
-            relx=0, rely=each_image_height + DIVISION_PROP,
-            relwidth=image_frame_width, relheight=each_image_height,
-        )
 
         self.top_image_label = tk.Label(self.top_frame, bg=self.top_frame["bg"])
         self.top_image_label.place(relx=0.5, rely=0.5, anchor="center")
 
         self.bottom_image_label = tk.Label(self.bottom_frame, bg=self.bottom_frame["bg"])
         self.bottom_image_label.place(relx=0.5, rely=0.5, anchor="center")
+
+        # Small "Before"/"After" caption shown only in single-image mode, so
+        # it's clear which of the pair you're currently looking at.
+        self.top_mode_label = tk.Label(
+            self.top_frame, text=MODE_LABEL_TEXT_BEFORE, font=META_FONT,
+            bg=IMAGE_AREA_BG, fg=DEFAULT_FG,
+        )
+        self.bottom_mode_label = tk.Label(
+            self.bottom_frame, text=MODE_LABEL_TEXT_AFTER, font=META_FONT,
+            bg=IMAGE_AREA_BG, fg=DEFAULT_FG,
+        )
 
         self.top_frame.bind("<Configure>", lambda e: self._schedule_resize())
         self.bottom_frame.bind("<Configure>", lambda e: self._schedule_resize())
@@ -506,7 +523,9 @@ class CopyEditReviewApp(tk.Frame):
             on_check_toggle=self._on_check_toggle,
             on_status_change=self._on_status_change,
         )
-        self.panel.place(relx=image_frame_width, rely=0, relwidth=PANEL_PROPORTION, relheight=1)
+        self.panel.place(relx=self.image_frame_width, rely=0, relwidth=PANEL_PROPORTION, relheight=1)
+
+        self._place_frames()
 
     def _bind_shortcuts(self):
         top = self.winfo_toplevel()
@@ -526,13 +545,66 @@ class CopyEditReviewApp(tk.Frame):
             top.bind(key, lambda e: self._shortcut_change_status(XrefObj.STATUS_COMPLETED))
         for key in KEY_SHORTCUT_CANCELLED:
             top.bind(key, lambda e: self._shortcut_change_status(XrefObj.STATUS_CANCELLED))
+        for key in KEY_TOGGLE_VIEW_MODE:
+            top.bind(key, lambda e: self._toggle_view_mode())
+        for key in KEY_TOGGLE_SINGLE_IMAGE:
+            top.bind(key, lambda e: self._toggle_single_image())
+
+    # ------------------------------------------------------------------
+    # View mode (split vs. single-image) / navigation
+    # ------------------------------------------------------------------
+    def _toggle_view_mode(self):
+        self.view_mode = VIEW_MODE_SINGLE if self.view_mode == VIEW_MODE_SPLIT else VIEW_MODE_SPLIT
+        if self.view_mode == VIEW_MODE_SINGLE:
+            self.single_showing = "before"
+        self._place_frames()
+        self._load_current_pair()
+
+    def _toggle_single_image(self):
+        # Only meaningful in single-image mode; harmless no-op otherwise.
+        if self.view_mode != VIEW_MODE_SINGLE:
+            return
+        self.single_showing = "after" if self.single_showing == "before" else "before"
+        self._place_frames()
+        self._load_current_pair()
+
+    def _place_frames(self):
+        if self.view_mode == VIEW_MODE_SPLIT:
+            self.top_frame.place(
+                relx=0, rely=0, relwidth=self.image_frame_width, relheight=self.each_image_height,
+            )
+            self.divider.place(
+                relx=0, rely=self.each_image_height,
+                relwidth=self.image_frame_width, relheight=DIVISION_PROP,
+            )
+            self.bottom_frame.place(
+                relx=0, rely=self.each_image_height + DIVISION_PROP,
+                relwidth=self.image_frame_width, relheight=self.each_image_height,
+            )
+            self.top_mode_label.place_forget()
+            self.bottom_mode_label.place_forget()
+        else:
+            self.divider.place_forget()
+            if self.single_showing == "before":
+                self.bottom_frame.place_forget()
+                self.top_frame.place(relx=0, rely=0, relwidth=self.image_frame_width, relheight=1)
+                self.top_mode_label.place(relx=MODE_LABEL_RELX, rely=MODE_LABEL_RELY, anchor="nw")
+                self.bottom_mode_label.place_forget()
+            else:
+                self.top_frame.place_forget()
+                self.bottom_frame.place(relx=0, rely=0, relwidth=self.image_frame_width, relheight=1)
+                self.bottom_mode_label.place(relx=MODE_LABEL_RELX, rely=MODE_LABEL_RELY, anchor="nw")
+                self.top_mode_label.place_forget()
 
     # ------------------------------------------------------------------
     # Selection / navigation
     # ------------------------------------------------------------------
     def _select_annotation(self, index):
         self.selected_index = index
+        if self.view_mode == VIEW_MODE_SINGLE and self.single_showing != "before":
+            self.single_showing = "before"
         self.panel.select(index)
+        self._place_frames()
         self._load_current_pair()
 
     def _navigate(self, delta):
@@ -578,22 +650,29 @@ class CopyEditReviewApp(tk.Frame):
         self._resize_job = None
         annotation = self.annotations[self.selected_index]
 
-        top_path = annotation.before_path
-        bottom_path = annotation.after_path
+        top_path = annotation.image_paths[manu.BEFORE_SUBDIR]
+        bottom_path = annotation.image_paths[manu.AFTER_SUBDIR]
 
-        if top_path is None or not Path(top_path).exists():
-            self.top_image_label.config(image="", text="Not available", font=NO_IMG_FONT)
-            self._top_photo = None
-        else:
-            self._top_photo = self._load_image_fit(top_path, self.top_frame)
-            self.top_image_label.config(image=self._top_photo)
+        # In single-image mode only the visible frame is actually sized/
+        # mapped, and there's no point decoding+scaling the hidden image.
+        show_top = self.view_mode == VIEW_MODE_SPLIT or self.single_showing == "before"
+        show_bottom = self.view_mode == VIEW_MODE_SPLIT or self.single_showing == "after"
 
-        if bottom_path is None or not Path(bottom_path).exists():
-            self.bottom_image_label.config(image="", text="Not available", font=NO_IMG_FONT)
-            self._bottom_photo = None
-        else:
-            self._bottom_photo = self._load_image_fit(bottom_path, self.bottom_frame)
-            self.bottom_image_label.config(image=self._bottom_photo)
+        if show_top:
+            if top_path is None or not Path(top_path).exists():
+                self.top_image_label.config(image="", text="Not available", font=NO_IMG_FONT)
+                self._top_photo = None
+            else:
+                self._top_photo = self._load_image_fit(top_path, self.top_frame)
+                self.top_image_label.config(image=self._top_photo)
+
+        if show_bottom:
+            if bottom_path is None or not Path(bottom_path).exists():
+                self.bottom_image_label.config(image="", text="Not available", font=NO_IMG_FONT)
+                self._bottom_photo = None
+            else:
+                self._bottom_photo = self._load_image_fit(bottom_path, self.bottom_frame)
+                self.bottom_image_label.config(image=self._bottom_photo)
         return
 
     def _load_image_fit(self, path, container):
