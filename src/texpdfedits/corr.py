@@ -16,7 +16,7 @@ import texpdfedits.utils as utils
 
 import functools
 from icecream import ic
-
+from dataclasses import dataclass
 from pathlib import Path
 
 VERTICAL_BOX_OVERLAP_PERCENTAGE = 0.5
@@ -553,6 +553,11 @@ def markdownReplies(replies: list[str]):
         )
     return output
 
+@dataclass
+class NestedCounter:
+    value: int
+    total: int
+    
 class Correction:
     """
     Includes all the information I need to produce and
@@ -608,6 +613,7 @@ class Correction:
     def __init__(
             self,
             index: int,
+            nested_count: NestedCounter,
             pageno: int,
             page_label: str,
             type: tuple[int, str],
@@ -622,6 +628,7 @@ class Correction:
             snippet_source_positions: tuple[int, int],
     ) -> None:
         self.index                    = index
+        self.nested_count             = nested_count
         self.pageno                   = pageno
         self.page_label               = page_label
         self.type                     = type
@@ -641,6 +648,7 @@ class Correction:
     def __str__ (self): 
         return json.dumps({
             "index" : self.index,
+            "nested_count": self.nested_count,
             "xref" : self.xref,
             "checkmark" : str(self.checkmark),
             "status" : str(self.status),
@@ -840,7 +848,21 @@ def write_vercorr_data(
     logger.info(f"Writing {data_file}...")
     utils.writeStringToFile(data, data_file)
     logger.info("Done")
-    
+
+def get_pageno_to_counters(edits: list[Edit]) -> dict[int, dict[int | str, int]]:
+    result = dict()
+    for edit in edits:
+        pageno = edit.pageno
+        if pageno not in result:
+            result[pageno] = {
+                edit.xref : 1,
+                "total"   : 1,
+            }
+        else:
+            result[pageno]["total"] += 1
+            result[pageno][edit.xref] = result[pageno]["total"]
+    return result
+
 def getCorrections(
         pdf_file: Path,
         latex_file: Path,
@@ -865,6 +887,8 @@ def getCorrections(
     fallback_source_positions = (begin_document_start - 1, begin_document_start)
     fallback_latex_snippet = tex_str[begin_document_start - 1 : begin_document_start]
     num_could_not_locate = 0
+
+    pageno_to_counters = get_pageno_to_counters(edits)
 
     logger.info("Making correction objects...")
     page_labels = getPageLabels(pdf_file)
@@ -906,6 +930,7 @@ def getCorrections(
         corrections.append(
             Correction(
                 i,
+                NestedCounter(pageno_to_counters[pageno][edit.xref], pageno_to_counters[pageno]["total"]),
                 pageno,
                 page_label,
                 edit.type,

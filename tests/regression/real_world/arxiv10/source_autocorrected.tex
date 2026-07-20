@@ -170,15 +170,15 @@ Malena I. Espa\~nol\thanks{School of Mathematical and Statistical Sciences, Ariz
 Gabriela Jeronimo\thanks{CONICET–Universidad de Buenos Aires, Instituto de Investigaciones Matem\'aticas ``Luis A. Santal\'o'' (IMAS), Argentina (\email{jeronimo@dm.uba.ar}).}
 }
  %%
-%% Annotation 1, page 1 [ ]
+%% Annotation 1, 1/7 on page 1 [ ]
 %% Highlight: "V<SEL>ARIABLE PROJECTION METHODS FOR SOLVING</SEL> REGULARIZED SEPARABLE"
 %% Comment: "lowercase"
 %%
-%% Annotation 2, page 1 [ ]
+%% Annotation 2, 2/7 on page 1 [ ]
 %% Highlight: "FOR SOLVING <SEL>REGULARIZED SEPARABLE INVERSE PROBLEMS WITH</SEL>  APPLICATIONS TO"
 %% Comment: "lowercase"
 %%
-%% Annotation 3, page 1 [ ]
+%% Annotation 3, 3/7 on page 1 [ ]
 %% Highlight: "PROBLEMS WITH  <SEL>APPLICATIONS TO SEMI-BLIND IMAGE DEBLURRING</SEL>  DELFINA B"
 %% Comment: "lowercase"
 %%
@@ -190,11 +190,11 @@ Gabriela Jeronimo\thanks{CONICET–Universidad de Buenos Aires, Instituto de Inv
 
 
 \begin{abstract} Separable nonlinear least squares problems appear in many inverse problems, including semi-blind image deblurring. The variable projection (VarPro) method provides an efficient approach for solving such problems by eliminating linear variables and reducing the problem to a smaller, nonlinear one. In this work, we extend VarPro to solve minimization problems containing a differentiable regularization term on the nonlinear parameters, along with a general-form Tikhonov regularization term on the linear variables. Furthermore, we develop a quasi-Newton method for solving the resulting reduced problem, and provide a local convergence analysis under standard smoothness assumptions, establishing conditions for superlinear or quadratic convergence. For large-scale settings, we introduce an inexact LSQR-based variant and prove its local convergence despite inner-solve and Hessian approximations. Numerical experiments on semi-blind deblurring show that parameter regularization prevents degenerate no-blur solutions and that the proposed methods achieve accurate reconstructions, with the inexact variant offering a favorable accuracy-cost tradeoff consistent with the %%
-%% Annotation 5, page 1 [ ]
+%% Annotation 5, 5/7 on page 1 [ ]
 %% Highlight: "the theory.  <SEL>Key words. Variable projecti</SEL>on, regularization,"
 %% Comment: "set using \keywords"
 %%
-%% Annotation 6, page 1 [ ]
+%% Annotation 6, 6/7 on page 1 [ ]
 %% Highlight: "inverse problems  <SEL>AMS subject classifications. 65F22, 65F10, 68W40</SEL>  "
 %% Comment: "\subjclass[2020]{Primary ...}"
 %%
@@ -212,7 +212,7 @@ theory.
 \section{Introduction} We %%
 %⭡ ⭡ ⭡  END of annotations 5, 6
 are interested in solving discrete ill-posed inverse problems of the %%
-%% Annotation 7, page 1 (AUTOCORRECTED) [ ]
+%% Annotation 7, 7/7 on page 1 (AUTOCORRECTED) [ ]
 %% Caret: "rue + ϵ with<Caret> A(ytrue)xtr"
 %% Comment: "\quad"
 %%
@@ -228,7 +228,7 @@ the vector $\bb_{\rm true} \in \mathbb{R}^m$ denotes the unknown noise-free data
 \min_{\bx, \by} \frac{1}{2}\left\|\bA(\by)\bx - \bb \right\|^2 + \frac{\lambda^2}{2} \left\|\bL \bx\right\|^2,
 \end{equation}
 where $\|\cdot\|$ denotes the 2-norm (which will also be used for matrices throughout the paper, in which case it denotes the matrix norm induced by the vector 2-norm), $\lambda>0$ is a \emph{regularization parameter}, and $\bL \in \mathbb{R}^{q\times n}$ is a \emph{regularization operator}. We assume that $\bL$ satisfies $\mathcal{N}(\bA(\by)) \cap \mathcal{N} (\bL) = \{\boldsymbol{0}\}$ for all feasible values of $\by$, so that the minimization problem \eqref{eq: nsl2} has a unique solution for $\by$ fixed. We call %%
-%% Annotation 4, page 1 [ ]
+%% Annotation 4, 4/7 on page 1 [ ]
 %% Highlight: "yi p  <SEL>∗Departamento de Matem´atica, Facultad de Ciencias Exactas y Naturales, Universidad de Buenos Aires, Argentina.  †School of Mathematical and Statistical Sciences, Arizona State University, Tempe, AZ, United States (malena.espanol@asu.edu).  ‡CONICET--Universidad de Buenos Aires, Instituto de Investigaciones Matem´aticas ``Luis A. Santal´o'' (IMAS), Argentina (jeronimo@dm.uba.ar).</SEL>  1  "
 %% Comment: "set as \addresses"
 %%
@@ -255,7 +255,7 @@ Similar variational formulations have been introduced in recent works across a r
 In this paper, we use semi-blind image deblurring to motivate our extension of the VarPro method and to demonstrate its practical effectiveness. In the image deblurring problem~\cite{austin2022image, espanol2009multilevel, deblurring}, the goal is to recover the unknown sharp image $\bx_{\rm true}$ from the observed blurred and noisy image $\bb$. The blurring operator $\bA$ may be fully known (non-blind deblurring), completely unknown (blind deblurring), or known only up to a low-dimensional parametrization (semi-blind deblurring). In blind deblurring, many methods incorporate explicit regularization on the blur operator or kernel to avoid degenerate solutions~\cite{chan1998total, dykes2021lanczos, levin2009understanding}. In contrast, for semi-blind deconvolution problems, regularization on the blur parameters $\by$ is typically not included~\cite{buccini2018semiblind, chung2010efficient, cornelio2014constrained, espanol2025local, Espanol_2023, gazzola2021regularization}. As we show in this work, the absence of such parameter regularization can lead to trivial or unstable solutions, and incorporating an appropriate regularizer on $\by$ is essential for achieving meaningful reconstructions.
 
 The paper is organized as follows. In Section \ref{sec:varpro}, we review the VarPro method, give a motivating example of why we need to incorporate a regularization term for the model parameters, and present an extension of VarPro for RSNLS problems. In Section \ref{section:quasi-Newton}, we present a quasi-Newton method to solve the reduced problem, and introduce a new method, which we call \texttt{RGenVarPro}, and prove its local convergence. In Section \ref{section:iRGenVarPro}, we introduce the inexact version of \texttt{RGenVarPro} named \texttt{iRGenVarPro}, for solving large-scale problems, where the solution of a linear subproblem is found using LSQR. A local convergence analysis is also presented for this method. In Section \ref{section:special_cases}, we introduce the specific regularization terms used in the numerical experiments in Section \ref{section:NumericalExamples}. These experiments verify our convergence results and the effectiveness of the proposed methods. The conclusions follow in %%
-%% Annotation 8, page 3 (AUTOCORRECTED) [ ]
+%% Annotation 8, 1/2 on page 3 (AUTOCORRECTED) [ ]
 %% Replace: "2. Variable <SEL>Projection Method</SEL>. The"
 %% Comment: "projection method"
 %%
@@ -276,7 +276,7 @@ and substituting $\bx(\by)$ into $\calF$ yields the reduced problem
  with $$\varphi(\by) = \calF(\bx(\by), \by).$$
  
 This approach effectively eliminates the variables $\bx$ from the formulation, resulting in a reduced functional $\varphi(\by)$ that depends solely on $\by$%%
-%% Annotation 9, page 3 (AUTOCORRECTED) [ ]
+%% Annotation 9, 2/2 on page 3 (AUTOCORRECTED) [ ]
 %% Replace: "2.1. Motivating <SEL>E</SEL>xample. We"
 %% Comment: "e"
 %%
@@ -318,7 +318,7 @@ In the numerical examples in \cite{Espanol_2023}, the convergence curves for $\s
     \centering
     \includegraphics[width=\textwidth]{Figures/sigma_convergence.png}
     \caption{(Left) True signals: an edgy signal (top) and a smooth signal (bottom), and their %%
-%% Annotation 10, page 5 [ ]
+%% Annotation 10, 1/2 on page 5 [ ]
 %% Highlight: "Figure 1. <SEL>(Left) True signals: an edgy sig</SEL>nal (top)"
 %% Comment: "set text in this caption upright"
 %%
@@ -337,7 +337,7 @@ with
 \begin{equation*}\bU = \frac{1}{\sqrt{2}}\left[\begin{array}{cc} 1 & 1 \\ 1 & -1\end{array} \right] \mbox{ and } \bSigma (\sigma) = \left[\begin{array}{cc} 1 & 0 \\ 0 & \frac{1-a_1(\sigma)}{1+a_1(\sigma)}\end{array} \right] = \left[\begin{array}{cc} \mu_0(\sigma) & 0 \\ 0 & \mu_1(\sigma)\end{array} \right].\end{equation*}
 To simplify notation, we write $\Sigma(\sigma)=\Sigma$.
 Using the SVD of $\bA(\sigma)$ we can %%
-%% Annotation 11, page 5 (AUTOCORRECTED) [ ]
+%% Annotation 11, 2/2 on page 5 (AUTOCORRECTED) [ ]
 %% Delete: "+ λ2I)−1ΣU⊤b<SEL>.</SEL>  d thi"
 %% Comment: ""
 %%

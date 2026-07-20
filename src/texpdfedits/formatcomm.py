@@ -144,9 +144,11 @@ def startComment(corr: Correction, format: str, replies: str):
 
     (replies, status_message) = get_replies_and_status(corr, replies)
 
+    within_page = f"{corr.nested_count.value}/{corr.nested_count.total} on"
+
     if format == FORMAT_FRONT:
         return (
-            f"%% Annotation {corr.index}, page {corr.pageno+1} {status_message}\n"
+            f"%% Annotation {corr.index}, {within_page} page {corr.pageno+1} {status_message}\n"
             f"%% {corr_type}: \"{utils.sanitize_pdf_text(corr.pdf_selected_text)}\"\n"
             f"%% Comment: \"{utils.sanitize_pdf_text(corr.messages['comment'])}\"{replies}\n"
             f"%%\n"
@@ -154,7 +156,7 @@ def startComment(corr: Correction, format: str, replies: str):
         
     if format == FORMAT_SPLIT:
         return (
-            f"%% Annotation {corr.index}, page {corr.pageno+1} {status_message}\n"
+            f"%% Annotation {corr.index}, {within_page} page {corr.pageno+1} {status_message}\n"
             f"%% {corr_type}: \"{utils.sanitize_pdf_text(corr.pdf_selected_text)}\"{replies}\n"
         )
         
@@ -179,7 +181,7 @@ def endComment(corr: Correction, format: str, replies: str):
     if format == FORMAT_BACK:
         return (
             f"%%\n"
-            f"%% Annotation {corr.index}, page {corr.pageno+1} {status_message}\n"
+            f"%% Annotation {corr.index}, {within_page} page {corr.pageno+1} {status_message}\n"
             f"%% {corr_type}: \"{utils.sanitize_pdf_text(corr.pdf_selected_text)}\"\n"
             f"%% Comment: \"{utils.sanitize_pdf_text(corr.messages['comment'])}\"{replies}\n"
         )
