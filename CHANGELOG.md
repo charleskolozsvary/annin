@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file (since version 0.12.0 of `annin`).
 
+## `vercorr` [0.2.1](https://github.com/charleskolozsvary/annin/commit/fb642863f019ad2ac27ce95a780fb3aacc247c0e) (2026-07-20)
+### Features
+- Highlighted annotation in panel remains vertically centered when possible
+
 ## `vercorr` [0.2.0](https://github.com/charleskolozsvary/annin/commit/01a2cb3b2a603b61a1fe5e9d7391dc2519772a21) (2026-07-17)
 ### Features
 - Single image viewing mode, toggle between before and after image [01a2cb3](https://github.com/charleskolozsvary/annin/commit/01a2cb3b2a603b61a1fe5e9d7391dc2519772a21)
