@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file (since version 0.12.0 of `annin`).
 
+## `annin` [0.18.0](https://github.com/charleskolozsvary/annin/commit/4ad6910082a14137a55c808eb7812f1eff1d5503) (2026-07-20)
+### Features
+- Annotations that cannot be located in LaTeX are written just before `\begin{document}` [da8cd21](https://github.com/charleskolozsvary/annin/commit/da8cd2184785728736ee4832e1ec0fd22cad16e7)
+- Annotation comments are numbered within each page [4ad6910](https://github.com/charleskolozsvary/annin/commit/4ad6910082a14137a55c808eb7812f1eff1d5503)
+
 ## `vercorr` [0.2.1](https://github.com/charleskolozsvary/annin/commit/fb642863f019ad2ac27ce95a780fb3aacc247c0e) (2026-07-20)
 ### Features
 - Highlighted annotation in panel remains vertically centered when possible
