@@ -361,14 +361,25 @@ class AnnotationPanel(tk.Frame):
         if self._total_height <= 0:
             return
         row = self.row_layout[index]
-        visible_top = self.canvas.canvasy(0)
-        visible_height = self.canvas.winfo_height()
-        visible_bottom = visible_top + visible_height
-        if row["top"] < visible_top:
-            self.canvas.yview_moveto(row["top"] / self._total_height)
-        elif row["bottom"] > visible_bottom:
-            self.canvas.yview_moveto((row["bottom"] - visible_height) / self._total_height)
-
+        view_top = self.canvas.canvasy(0)
+        view_height = self.canvas.winfo_height()
+        
+        num_slices = 5 # mut be odd
+        top_multiple = num_slices // 2
+        
+        keep_within_top = view_top + (top_multiple) * view_height / num_slices
+        keep_within_bottom = view_top + (top_multiple + 1) * view_height / num_slices
+        
+        row_center = (row["top"] + row["bottom"]) / 2
+        
+        if row_center < keep_within_top or row_center > keep_within_bottom:
+            desired_top = row_center - view_height / 2
+            desired_top = max(
+                0,
+                min(desired_top, self._total_height - view_height)
+            )
+            self.canvas.yview_moveto(desired_top / self._total_height)
+            
     # ------------------------------------------------------------------
     # Controls: real widgets, only ever for the selected row.
     # ------------------------------------------------------------------
