@@ -1158,6 +1158,8 @@ def getSyncInfo(latex_file: Path, **opt):
     parse_out = parseLatex(tex_str)
     logger.info("Done")    
 
+    _, _, document_node, _  = parse_out
+
     # Mark
     logger.info("Inserting marks...")
     marked_preamble, marked_document, marked_filename, boxpositions_filename = markLatex(
@@ -1218,4 +1220,4 @@ def getSyncInfo(latex_file: Path, **opt):
     if opt['clean']:
         utils.removeDir(tmp_dir)
 
-    return mark_positions, tex_word_boxes
+    return mark_positions, tex_word_boxes, document_node.pos

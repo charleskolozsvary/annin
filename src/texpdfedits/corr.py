@@ -848,7 +848,7 @@ def getCorrections(
 ) -> tuple[list[Correction], list, int, int]:
     
     edits, n_annots = extractanns.getEdits(pdf_file, **opt)
-    mark_positions, tex_word_boxes = marktex.getSyncInfo(
+    mark_positions, tex_word_boxes, begin_document_start = marktex.getSyncInfo(
         latex_file,
         **opt
     )
@@ -861,6 +861,10 @@ def getCorrections(
         logger.info("Done")
     
     tex_str = utils.sourceAsString(Path(latex_file))
+    
+    fallback_source_positions = (begin_document_start - 1, begin_document_start)
+    fallback_latex_snippet = tex_str[begin_document_start - 1 : begin_document_start]
+    num_could_not_locate = 0
 
     logger.info("Making correction objects...")
     page_labels = getPageLabels(pdf_file)
@@ -869,31 +873,35 @@ def getCorrections(
         progress = f"{i}/{len(edits)-1}"
         pageno = edit.pageno
         page_label = edit.page_label
+        pdf_annot_rect = edit.annot_rect
+        
         if page_label not in tex_word_boxes:
             logger.warning(
-                f"Could not create correction {progress}: "
+                f"Could not locate correction {progress}: "
                 f"page '{page_label}' not in tex_word_boxes for edit {edit}"
             )
-            continue
-        
-        pdf_annot_rect = edit.annot_rect
-        logger.debug(f"Getting latex snippet for edit {edit}...")
-        latex_snippet, snippet_source_positions = rectangleToLatex(
-            page_labels,
-            page_label,
-            pdf_annot_rect,
-            tex_word_boxes,
-            mark_positions,
-            tex_str
-        )
-        logger.debug(f"Done")
-        
-        if latex_snippet is None:
-            logger.warning(
-                f"Could not create correction {progress}: "
-                f"no LaTeX snippet for {edit}"
+            latex_snippet = fallback_latex_snippet
+            snippet_source_positions = fallback_source_positions
+            num_could_not_locate += 1
+        else:
+            logger.debug(f"Getting latex snippet for edit {edit}...")
+            latex_snippet, snippet_source_positions = rectangleToLatex(
+                page_labels,
+                page_label,
+                pdf_annot_rect,
+                tex_word_boxes,
+                mark_positions,
+                tex_str
             )
-            continue
+            logger.debug(f"Done")
+            if latex_snippet is None:
+                logger.warning(
+                    f"Could not locate correction {progress}: "
+                    f"no LaTeX snippet for {edit}"
+                )
+                num_could_not_locate += 1
+                latex_snippet = fallback_latex_snippet
+                snippet_source_positions = fallback_source_positions
 
         corrections.append(
             Correction(
@@ -931,4 +939,4 @@ def getCorrections(
 
     write_vercorr_data(pdf_file, corrections)
 
-    return corrections, overlapping_keys, n_annots, n_edits
+    return corrections, overlapping_keys, n_annots, n_edits, num_could_not_locate

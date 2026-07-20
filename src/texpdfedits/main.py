@@ -37,7 +37,7 @@ def process_files(pdf_file: Path, latex_file: Path, **opt):
             svn.commit(latex_file, f'removed annotation comments from {latex_file} [annin -dc]')
         return
         
-    corrections, overlapping_keys, n_annots, n_edits = corr.getCorrections(
+    corrections, overlapping_keys, n_annots, n_edits, n_no_locate = corr.getCorrections(
         pdf_file,
         latex_file,
         **opt,
@@ -66,8 +66,11 @@ def process_files(pdf_file: Path, latex_file: Path, **opt):
         **opt
     )
 
+    # subtract corrections that could not be located for log summary
+    summary_log = f"n_annots: {n_annots}, n_edits: {n_edits}, n_corrs: {n_corrs - n_no_locate}"
+
     if not opt['auto']:
-        logger.info(f"n_annots: {n_annots}, n_edits: {n_edits}, n_corrs: {n_corrs}")
+        logger.info(summary_log)
         if opt['svn']:
             svn.commit(latex_file, f'wrote annotations from {pdf_file} in {latex_file} [annin]')
         return 
@@ -89,7 +92,7 @@ def process_files(pdf_file: Path, latex_file: Path, **opt):
     utils.writeStringToFile(autocorrected_tex_str, autocorrected_latex_file)
 
     logger.info(f"Autocorrected {n_autos:3d}/{len(corrections):3d} corrections")
-    logger.info(f"n_annots: {n_annots}, n_edits: {n_edits}, n_corrs: {n_corrs}, n_autos: {n_autos}")    
+    logger.info(f"{summary_log}, n_autos: {n_autos}")    
 
     if not opt['replace']:
         return
