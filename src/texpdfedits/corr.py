@@ -869,7 +869,7 @@ def getCorrections(
     logger.info("Making correction objects...")
     page_labels = getPageLabels(pdf_file)
     corrections = []
-    for i, edit in enumerate(edits):
+    for i, edit in enumerate(edits, start = 1):
         progress = f"{i}/{len(edits)-1}"
         pageno = edit.pageno
         page_label = edit.page_label
