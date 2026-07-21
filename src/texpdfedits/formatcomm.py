@@ -44,7 +44,7 @@ REMOVE_REGEXES = {
         FORMAT_FRONT: re.compile(
                 rf"""
                 %%                                             \n
-                ^%%\ Annotation\ [0-9]+,\ page\ [0-9]+ [^\n]*+ \n
+                ^%%\ Annotation\ [0-9]+, [^\n]*+ \n
                 (?:^% [^\n]*+ \n)+?          
                 ^%{re.escape(FRONT_OID)}               [^\n]*+ \n
                 (.*?)                                   
@@ -57,7 +57,7 @@ REMOVE_REGEXES = {
         FORMAT_SPLIT: re.compile(
                 rf"""
                 %%                                             \n
-                ^%%\ Annotation\ [0-9]+,\ page\ [0-9]+ [^\n]*+ \n
+                ^%%\ Annotation\ [0-9]+, [^\n]*+ \n
                 (?:^% [^\n]*+ \n)+?              
                 ^%{re.escape(SPLIT_OID)}               [^\n]*+ \n
                 (.*?)                    
