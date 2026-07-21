@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file (since version 0.12.0 of `annin`).
 
+## `annin` [0.18.1](https://github.com/charleskolozsvary/annin/commit/6e0e22b2aebe44941ed4bb51859e90d3ab2e02db) (2026-07-21)
+### Bug Fixes
+- Annotation comment deletion corrected in light of 0.18.0 formatting change
+
 ## `annin` [0.18.0](https://github.com/charleskolozsvary/annin/commit/4ad6910082a14137a55c808eb7812f1eff1d5503) (2026-07-20)
 ### Features
 - Annotations that cannot be located in LaTeX are written just before `\begin{document}` [da8cd21](https://github.com/charleskolozsvary/annin/commit/da8cd2184785728736ee4832e1ec0fd22cad16e7)
