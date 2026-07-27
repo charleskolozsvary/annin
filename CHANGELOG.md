@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file (since version 0.12.0 of `annin`).
 
+## `vercorr` [0.3.0](https://github.com/charleskolozsvary/annin/commit/dbe9486f8fa3e7b31c00d7a01996e7c217bdb8b5) (2026-07-27)
+### Features
+- command line option to adjust before/after image height [dda147e](https://github.com/charleskolozsvary/annin/commit/dda147ea511c8e4d98e89f1879f9f8dcdd3a3b6c)
+- button to regenerate before/after images [dbe9486](https://github.com/charleskolozsvary/annin/commit/dbe9486f8fa3e7b31c00d7a01996e7c217bdb8b5)
+
 ## `annin` [0.18.1](https://github.com/charleskolozsvary/annin/commit/6e0e22b2aebe44941ed4bb51859e90d3ab2e02db) (2026-07-21)
 ### Bug Fixes
 - Annotation comment deletion corrected in light of 0.18.0 formatting change
