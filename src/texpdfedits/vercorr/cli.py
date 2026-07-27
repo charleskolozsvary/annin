@@ -10,7 +10,7 @@ import texpdfedits.utils as utils
 import texpdfedits.vercorr.manu as manu
 import texpdfedits.vercorr.apptk as apptk
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 
 EPILOG = """
 Example usage:
@@ -18,7 +18,7 @@ Example usage:
 
     If there's already an existing PDF and .synctex.gz, you can do
 
-    %(prog)s --compiler=xelatex --no-gen-synctex annotations.pdf source.tex
+    %(prog)s --compiler=xelatex --no-gen-sync annotations.pdf source.tex
 
     then source.tex is not recompiled with SyncTeX
 
@@ -91,11 +91,19 @@ def _parse_args() -> argparse.Namespace:
     )
     
     parser.add_argument(
-        '--gen-synctex',
+        '--gen-sync',
         action=argparse.BooleanOptionalAction,
         default=True,
     )    
 
+    parser.add_argument(
+        "-ih",
+        "--image-height",
+        type=int,
+        help='specify height of before/after images (in points)',
+        default=manu.BEFORE_AFTER_IMAGE_HEIGHT,
+    )
+    
     args = parser.parse_args()
 
     return args
