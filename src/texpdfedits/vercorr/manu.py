@@ -64,7 +64,6 @@ class GuiAnnot:
 
         self.image_paths = man.xref_to_before_after_images[self.xref]
         logger.debug(self.image_paths)
-        # before_img_path = self.image_paths[view_mode]['before' or 'after']
 
     def initialize_tannot(self, man: Manuscript, state_model: str, state: str) -> XrefObj:
         set_to = {
@@ -82,14 +81,9 @@ class GuiAnnot:
 
 class Manuscript:
     """Represents corrections manuscript"""
-    def __init__(
-            self,
-            annots_pdf: str | Path,
-            latex_file: str | Path,
-            cl_args: argparse.Namespace,
-    ):
-        annots_pdf = Path(annots_pdf)
-        latex_file = Path(latex_file)
+    def __init__(self, cl_args: argparse.Namespace):
+        annots_pdf = Path(cl_args.annots_pdf)
+        latex_file = Path(cl_args.latex_file)
         if not annots_pdf.exists():
             raise FileNotFoundError(f"Could not find annotated PDF '{annots_pdf}'")
         self.annots_pdf = annots_pdf
@@ -144,9 +138,10 @@ class Manuscript:
 
         self.ba_half_image_height = cl_args.image_height / 2
 
-        self.temp_dir = tempfile.TemporaryDirectory()
-        self.before_after_dir = Path(self.temp_dir.name) # not the usual Path.name
+        self.temp_dir_obj = tempfile.TemporaryDirectory()
+        self.before_after_dir = Path(self.temp_dir_obj.name) # not the usual Path.name
         self.build_xref_to_before_after()
+        logger.debug(f"Before/after images written to {self.before_after_dir}")
 
         self.user_title = getpass.getuser()
 

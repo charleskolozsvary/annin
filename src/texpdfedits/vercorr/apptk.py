@@ -34,8 +34,14 @@ WINDOW_TITLE = "Correction Review"
 WINDOW_SIZE = "1000x700"
 
 # --- Layout proportions (relative to the whole window; must stay in [0, 1]) ---
-PANEL_PROPORTION = 0.25   # right-hand annotation panel: fraction of window WIDTH
+PANEL_PROPORTION = 0.25   # right-hand column (controls box + annotation panel): fraction of window WIDTH
 DIVISION_PROP = 0.025      # divider line: fraction of window HEIGHT
+
+# Right-hand column is split vertically into a small controls box on top and
+# the annotation panel below. PANEL_HEIGHT_PROP is the fraction of the
+# window's height given to the annotation panel; the controls box gets the
+# remaining (1 - PANEL_HEIGHT_PROP).
+PANEL_HEIGHT_PROP = 0.9325
 
 # --- Viewing modes for the images ---
 VIEW_MODE_SPLIT = "split" # both before/after images stacked, each half height
@@ -51,6 +57,14 @@ META_FG = "#999999"
 DIVIDER_BG = "#444444"
 IMAGE_AREA_BG = "gray85"          # letterbox color behind top/bottom images
 BOX_BORDER_COLOR = "gray30"       # thin border around each annotation box
+
+# --- Controls box (sits above the annotation panel) ---
+CONTROLS_BOX_BG = DEFAULT_BG
+CONTROLS_BOX_PADX = 8
+CONTROLS_BOX_PADY = 8
+REGENERATE_BUTTON_TEXT = "Regenerate Images"
+CONTROLS_BUTTON_FONT_SIZE = 13
+CONTROLS_BUTTON_FONT = None  # filled in below, once FONT_FAMILY is defined
 
 # --- Scrollbar ---
 SCROLLBAR_WIDTH = 18
@@ -69,6 +83,7 @@ META_FONT = (FONT_FAMILY, FONT_SIZE_META)
 COMMENT_FONT = (FONT_FAMILY, FONT_SIZE_COMMENT)
 REPLY_FONT = (FONT_FAMILY, FONT_SIZE_META)
 NO_IMG_FONT = (FONT_FAMILY, FONT_SIZE_NO_IMG, "bold")
+CONTROLS_BUTTON_FONT = (FONT_FAMILY, CONTROLS_BUTTON_FONT_SIZE)
 
 # --- Spacing / padding within each annotation box ---
 BOX_BORDER_WIDTH = 1
@@ -136,6 +151,12 @@ KEY_TOGGLE_SINGLE_IMAGE = ["<space>", "<Key-f>"]
 # status dropdown and the checkbox), overlaid via a single create_window
 # call that moves to the new row on selection change. At most one small
 # set of native widgets is ever alive in the whole panel.
+#
+# Note: this panel only occupies the bottom PANEL_HEIGHT_PROP fraction of
+# the window's height (a small controls box sits above it -- see
+# CopyEditReviewApp._build_ui). That means the panel's own vertical
+# midpoint no longer coincides with the window's vertical midpoint, which
+# _scroll_to_row corrects for explicitly.
 # ---------------------------------------------------------------------------
 class AnnotationPanel(tk.Frame):
     def __init__(self, master, annotations, man, on_select, on_check_toggle, on_status_change):
@@ -363,23 +384,36 @@ class AnnotationPanel(tk.Frame):
         row = self.row_layout[index]
         view_top = self.canvas.canvasy(0)
         view_height = self.canvas.winfo_height()
-        
-        num_slices = 5 # mut be odd
-        top_multiple = num_slices // 2
-        
-        keep_within_top = view_top + (top_multiple) * view_height / num_slices
-        keep_within_bottom = view_top + (top_multiple + 1) * view_height / num_slices
-        
+
+        # This panel occupies only the bottom PANEL_HEIGHT_PROP fraction of
+        # the window (a controls box sits above it), so the panel's own
+        # vertical midpoint is *not* the window's vertical midpoint anymore.
+        # center_frac is where the window's absolute center falls, expressed
+        # as a fraction of the panel's own (canvas) height, measured down
+        # from the top of the canvas's current view. Rows are centered
+        # around that point instead of around the canvas's own 0.5 mark, so
+        # the selected annotation still lands at the true center of the
+        # window.
+        center_frac = (PANEL_HEIGHT_PROP - 0.5) / PANEL_HEIGHT_PROP
+
+        # Keep the same "don't rescroll unless the row strays out of a band
+        # around the target center" behavior as before (previously a fixed
+        # band of +/- 1/10 of the view height around the 0.5 mark), just
+        # re-centered on center_frac instead of 0.5.
+        band_half_width = 0.1
+        keep_within_top = view_top + (center_frac - band_half_width) * view_height
+        keep_within_bottom = view_top + (center_frac + band_half_width) * view_height
+
         row_center = (row["top"] + row["bottom"]) / 2
-        
+
         if row_center < keep_within_top or row_center > keep_within_bottom:
-            desired_top = row_center - view_height / 2
+            desired_top = row_center - center_frac * view_height
             desired_top = max(
                 0,
                 min(desired_top, self._total_height - view_height)
             )
             self.canvas.yview_moveto(desired_top / self._total_height)
-            
+
     # ------------------------------------------------------------------
     # Controls: real widgets, only ever for the selected row.
     # ------------------------------------------------------------------
@@ -473,13 +507,14 @@ class AnnotationPanel(tk.Frame):
 # Main application frame.
 # ---------------------------------------------------------------------------
 class CopyEditReviewApp(tk.Frame):
-    def __init__(self, master, man: Manuscript):
+    def __init__(self, master, cl_args: argparse.Namespace):
         super().__init__(master, bg=DEFAULT_BG)
         self.grid(row=0, column=0, sticky="nsew")
         master.grid_rowconfigure(0, weight=1)
         master.grid_columnconfigure(0, weight=1)
 
-        self.man = man
+        self.cl_args = cl_args
+        self.man = Manuscript(self.cl_args)
         self.annotations = self.man.gui_annotations
         self.selected_index = 0
 
@@ -500,6 +535,7 @@ class CopyEditReviewApp(tk.Frame):
     def _build_ui(self):
         self.image_frame_width = 1 - PANEL_PROPORTION
         self.each_image_height = (1 - DIVISION_PROP) / 2
+        self.controls_box_height = 1 - PANEL_HEIGHT_PROP
 
         self.top_frame = tk.Frame(self, bg=IMAGE_AREA_BG)
         self.divider = tk.Frame(self, bg=DIVIDER_BG)
@@ -525,7 +561,15 @@ class CopyEditReviewApp(tk.Frame):
         self.top_frame.bind("<Configure>", lambda e: self._schedule_resize())
         self.bottom_frame.bind("<Configure>", lambda e: self._schedule_resize())
 
-        # --- Right-hand proportional-width annotation panel ---
+        # --- Right-hand column: small controls box on top, annotation
+        #     panel below it, both PANEL_PROPORTION of the window's width ---
+        self.controls_box = tk.Frame(self, bg=CONTROLS_BOX_BG)
+        self.controls_box.place(
+            relx=self.image_frame_width, rely=0,
+            relwidth=PANEL_PROPORTION, relheight=self.controls_box_height,
+        )
+        self._build_controls_box()
+
         self.panel = AnnotationPanel(
             self,
             annotations=self.annotations,
@@ -534,9 +578,44 @@ class CopyEditReviewApp(tk.Frame):
             on_check_toggle=self._on_check_toggle,
             on_status_change=self._on_status_change,
         )
-        self.panel.place(relx=self.image_frame_width, rely=0, relwidth=PANEL_PROPORTION, relheight=1)
+        self.panel.place(
+            relx=self.image_frame_width, rely=self.controls_box_height,
+            relwidth=PANEL_PROPORTION, relheight=PANEL_HEIGHT_PROP,
+        )
 
         self._place_frames()
+
+    def _build_controls_box(self):
+        # Everything here is a placeholder home for buttons/options that act
+        # on the current annotation set. Add more widgets to this frame as
+        # new options come up -- it's kept separate from the (canvas-based)
+        # annotation panel on purpose, since that panel redraws itself
+        # wholesale on every resize/layout pass.
+        self.regenerate_button = tk.Button(
+            self.controls_box, text=REGENERATE_BUTTON_TEXT, font=CONTROLS_BUTTON_FONT,
+            command=self._on_regenerate_images,
+        )
+        self.regenerate_button.pack(
+            side="top", fill="x", padx=CONTROLS_BOX_PADX, pady=CONTROLS_BOX_PADY,
+        )
+
+    def _on_regenerate_images(self):
+        """
+        Do a subset of __init__
+        """
+        self.man.temp_dir_obj.cleanup()
+        self.man = Manuscript(self.cl_args)
+        self.annotations = self.man.gui_annotations
+
+        self._build_ui()
+
+        # selecting the annotation defaults to before when navigating, but we restore original here        
+        single_showing = self.single_showing        
+        self._select_annotation(self.selected_index)
+        self.single_showing = single_showing
+        
+        self._place_frames()
+        self._load_current_pair()
 
     def _bind_shortcuts(self):
         top = self.winfo_toplevel()
@@ -640,14 +719,12 @@ class CopyEditReviewApp(tk.Frame):
             annotation.checkmark.state = XrefObj.UNCHECKED
         self.panel.set_checkmark_display(index, checked)
         self.man.update_from_tannot(annotation.checkmark)
-        # TODO: persist this change to your real annotation store.
 
     def _on_status_change(self, index, status):
         annotation = self.annotations[index]
         annotation.status.state = status
         self.panel.set_status_display(index, status)
         self.man.update_from_tannot(annotation.status)
-        # TODO: persist this change to your real annotation store.
 
     # ------------------------------------------------------------------
     # Image loading / resizing
@@ -727,7 +804,7 @@ def on_quit(root, app):
 
     root.destroy()
 
-def run_gui(man: Manuscript):
+def run_gui(cl_args: argparse.Namespace):
     root = tk.Tk()
     root.title(WINDOW_TITLE)
     root.geometry(WINDOW_SIZE)
@@ -739,7 +816,7 @@ def run_gui(man: Manuscript):
     # Windows-only, for a native .ico file instead:
     #     root.iconbitmap("path/to/icon.ico")
 
-    app = CopyEditReviewApp(root, man)
+    app = CopyEditReviewApp(root, cl_args)
 
     # --- Quit hook ---
     root.protocol("WM_DELETE_WINDOW", lambda: on_quit(root, app))

@@ -10,7 +10,7 @@ import texpdfedits.utils as utils
 import texpdfedits.vercorr.manu as manu
 import texpdfedits.vercorr.apptk as apptk
 
-__version__ = "0.2.2"
+__version__ = "0.3.0"
 
 EPILOG = """
 Example usage:
@@ -134,9 +134,7 @@ def main():
     args = _parse_args()
     set_up_logger(args)
     logger.info(program_banner())
-    doc = manu.Manuscript(args.annots_pdf, args.latex_file, args)
-    logger.debug(f"Before and after images written to {doc.before_after_dir}")
-    apptk.run_gui(doc)
+    apptk.run_gui(args)
     
 if __name__ == '__main__':
     main()
