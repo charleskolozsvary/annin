@@ -3,16 +3,16 @@ All notable changes to this project will be documented in this file (since versi
 
 ## `vercorr` [0.4.0](https://github.com/charleskolozsvary/annin/commit/feca39c67847dadf8464ac9a557db5c2ea6d46ef) (2026-07-28)
 ### Bug Fixes
-- Regeneration of before/after images does not reset annotation checkmarks and statuses [feca39c](https://github.com/charleskolozsvary/annin/commit/feca39c67847dadf8464ac9a557db5c2ea6d46ef)
+- Regeneration of before/after images does not reset annotation checkmarks or statuses [feca39c](https://github.com/charleskolozsvary/annin/commit/feca39c67847dadf8464ac9a557db5c2ea6d46ef)
 
 ## `vercorr` [0.3.0](https://github.com/charleskolozsvary/annin/commit/dbe9486f8fa3e7b31c00d7a01996e7c217bdb8b5) (2026-07-27)
 ### Features
-- Command line option to adjust before/after image height [dda147e](https://github.com/charleskolozsvary/annin/commit/dda147ea511c8e4d98e89f1879f9f8dcdd3a3b6c)
 - Button to regenerate before/after images [dbe9486](https://github.com/charleskolozsvary/annin/commit/dbe9486f8fa3e7b31c00d7a01996e7c217bdb8b5)
+- Command line option to adjust before/after image height [dda147e](https://github.com/charleskolozsvary/annin/commit/dda147ea511c8e4d98e89f1879f9f8dcdd3a3b6c)
 
 ## `annin` [0.18.1](https://github.com/charleskolozsvary/annin/commit/6e0e22b2aebe44941ed4bb51859e90d3ab2e02db) (2026-07-21)
 ### Bug Fixes
-- Annotation comment deletion corrected in light of 0.18.0 formatting change
+- Annotation comment deletion compatible with 0.18.0 formatting change
 
 ## `annin` [0.18.0](https://github.com/charleskolozsvary/annin/commit/4ad6910082a14137a55c808eb7812f1eff1d5503) (2026-07-20)
 ### Features
@@ -21,11 +21,11 @@ All notable changes to this project will be documented in this file (since versi
 
 ## `vercorr` [0.2.1](https://github.com/charleskolozsvary/annin/commit/fb642863f019ad2ac27ce95a780fb3aacc247c0e) (2026-07-20)
 ### Features
-- Highlighted annotation in panel remains vertically centered when possible
+- Selected annotation in panel remains vertically centered when possible
 
 ## `vercorr` [0.2.0](https://github.com/charleskolozsvary/annin/commit/01a2cb3b2a603b61a1fe5e9d7391dc2519772a21) (2026-07-17)
 ### Features
-- Single image viewing mode, toggle between before and after image [01a2cb3](https://github.com/charleskolozsvary/annin/commit/01a2cb3b2a603b61a1fe5e9d7391dc2519772a21)
+- Single image viewing mode with `v`: toggle before/after image with `f` or space [01a2cb3](https://github.com/charleskolozsvary/annin/commit/01a2cb3b2a603b61a1fe5e9d7391dc2519772a21)
 
 ## `annin` [0.17.1](https://github.com/charleskolozsvary/annin/commit/f8742fac34604262bfe9f8c9c4f3fe6fabb40335) (2026-07-17)
 ### Bug Fixes
@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file (since versi
 ## `vercorr` [0.1.0](https://github.com/charleskolozsvary/annin/commit/ba3e1caf839e3a49da3aab88edfef93bfafe2599) (2026-07-15)
 ### Features
 - A GUI application that displays before/after images for each annotation to streamline correction verification
-- A panel of annotations appears the right: you can navigate to each annotation and change it's checkmark or status like in Adobe Acrobat
+- A panel of annotations is displayed on the right: you can navigate to each annotation and change it's checkmark or status like in Adobe Acrobat
 
 ## `annin` [0.17.0](https://github.com/charleskolozsvary/annin/commit/15c10082da3ccfc33b1f8376622fef1a9e743be2) (2026-07-15)
 ### Features
