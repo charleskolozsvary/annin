@@ -603,10 +603,7 @@ class CopyEditReviewApp(tk.Frame):
         """
         Do a subset of __init__
         """
-        self.man.temp_dir_obj.cleanup()
-        self.man = Manuscript(self.cl_args)
-        self.annotations = self.man.gui_annotations
-
+        self.man.regenerate_images(self.cl_args)
         self._build_ui()
 
         # selecting the annotation defaults to before when navigating, but we restore original here        
