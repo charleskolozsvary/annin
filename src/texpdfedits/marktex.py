@@ -152,7 +152,6 @@ MARKED_ENTIRE_CSNAMES = {
     'textsc',
     'underline',
     'textup',
-    'url',
 }
 # any of the above fail if their arguments
 # are abnormal, like a \[...\] in a \textit

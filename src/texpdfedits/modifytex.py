@@ -306,6 +306,9 @@ def tagsAreValid(tagged_text: str) -> bool:
         
     return True
 
+def replace_metaspace(string: str):
+    return string.replace('<space>', ' ')
+
 def pdf2texSearchRegex(s: str):
     """
     return a regex of the string which we can use to search for it literally up to whitespace,
@@ -346,9 +349,9 @@ def progressiveAutocorrectAttempt(corr: Correction, **kwargs):
     # l for literal
     between_tags_lregex = pdf2texSearchRegex(m.group(1))
     
-    comment_text = utils.backslashEscape(
+    comment_text = replace_metaspace(utils.backslashEscape(
         utils.sanitize_pdf_text(corr.messages['comment'])
-    )
+    ))
 
     # simple attempt first
     simple_auto, num_subs = re.subn(
@@ -479,9 +482,9 @@ def newCaretAutocorrect(corr: Correction, **kwargs):
     max_right = len(right_text)
     max_k = max(max_left, max_right)
 
-    insert_text = utils.backslashEscape(
+    insert_text = replace_metaspace(utils.backslashEscape(
         utils.sanitize_pdf_text(corr.messages['comment'])
-    )
+    ))
 
     contending_autocorrects = []
 
