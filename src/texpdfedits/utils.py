@@ -22,7 +22,6 @@ INLINED_TAG = 'inlined'
 AUTO_TAG = 'autocorrected'
 
 PRDLATEX_ERR_LINES = (
-    r'^!',
     r'tex failed!',
     r'summary of following errors:',
 )
