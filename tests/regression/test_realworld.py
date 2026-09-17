@@ -50,6 +50,13 @@ def test_regressions():
             continue
         evaluate_with_benchmark(run_id, run, benchmarks[run_id])
 
+def test_no_diff():
+    latest_path = get_latest_path()
+    latest_runs = load_results(latest_path)
+    diff_command = ["diff", str(latest_path.absolute()), str(BENCHMARK_PATH.absolute())]
+    res = subprocess.run(diff_command, check=True)
+    assert res.returncode == 0    
+
 def floatify(*arr):
     return [
         float(a) for a in arr
@@ -111,6 +118,7 @@ def main():
         update_benchmark()
         return
     test_regressions()    
+    test_no_diff()
     
 if __name__ == '__main__':
     main()
