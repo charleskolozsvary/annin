@@ -228,6 +228,13 @@ def main():
         ),
         default=''
     )
+
+    parser.add_argument(
+        "--trim",
+        type=str,
+        help="-trim_name passed to pubprint which generated pdf_file",
+        default='',
+    )
     
     args = parser.parse_args()
 
@@ -303,6 +310,7 @@ def main():
         tex_start         = args.tex_start,
         svn               = args.svn,
         validate          = args.validate,
+        trim              = args.trim,
     )
     return
 

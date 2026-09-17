@@ -70,10 +70,6 @@ UNICODE2TEX = {
     '\ufb04': r'ffl',     # ﬄ
     '\u0132': r'{\IJ }',  # Ĳ
     '\u0133': r'{\ij }',  # ĳ    
-    # MATH 
-    '\u2206': r'\Delta',  # ∆
-    '\u03a9': r'\Omega',  # Ω
-    '\u03c9': r'\omega',  # ω
     # ACCENTED/SPECIAL LETTERS
     '\u00e0': r'{\` a}',  # à
     '\u00e1': r"{\' a}",  # á
@@ -243,6 +239,11 @@ UNICODE2TEX = {
     '\u01f5': r'{\' g}',  # ǵ
 }
 
+TRIMS = {                   # see /ams/texmf/lib/perl/PRD/trimsizes.ini
+    "AMS Journal": (54,43), # (xoffset, yoffset) = (x_offset - left_margin, y_offset - top_margin)
+    "AMS Book":    (54,43), # it happens to be the same as AMS Journal
+}
+
 class TextProgressBar:
     def __init__(self, num_to_be_done, show_per: int=1):
         self.total = num_to_be_done // show_per
@@ -338,15 +339,16 @@ def exchangeExtension(file: Path, extension: str) -> Path:
 
 def compile_tex(
         latex_file: Path,
-        compiler: str,
         *other_compile_options,
+        compiler = DEFAULT_LATEX_COMPILER,
+        **opt,
 ) -> subprocess.CompletedProcess:
     """Compile .tex file with provided compiler"""
     before_comp_time = datetime.now()
     
     result = None
     latex_file_dir = latex_file.parent
-    
+
     num_runs, encoding, compile_options = COMPILER_INFO.get(
         compiler,
         (2, 'latin-1', ['--interaction=nonstopmode'])
@@ -390,7 +392,13 @@ def compile_tex(
     if not as_dvi.exists():
         raise FileNotFoundError(f"Could not find {as_pdf} or {as_dvi} after compiling '{latex_file}'")
 
-    pubprint_command = ['pubprint', '-pdf', '-o', as_pdf.name, as_dvi.name]
+    if trim_name := opt.get("trim", ""):
+        if trim_name not in TRIMS:
+            logger.error(f"trim '{trim_name}' not recognized")
+        trim_option = ["-trim_name", trim_name]
+    else:
+        trim_option = []
+    pubprint_command = ["pubprint", *trim_option, "-pdf", "-o", as_pdf.name, as_dvi.name]
     logger.info(f"Running `{' '.join(pubprint_command)}`...")
     process = subprocess.run(
         pubprint_command,
@@ -478,14 +486,14 @@ def compile_validate_clean_replace(
         latex_file2: Path,
         cwd: Path,
         compile_file1: bool=True,
-        **opt
+        **opt,
 ):
     # no point in compiling first if not validating
     if opt['validate'] and compile_file1: 
-        process1 = compile_tex(latex_file1, opt['compiler'])
+        process1 = compile_tex(latex_file1, **opt)
         
     if opt['validate']:
-        process2 = compile_tex(latex_file2, opt['compiler'])
+        process2 = compile_tex(latex_file2, **opt)
 
     pdf_1 = pdf_name(latex_file1)
     pdf_2 = pdf_name(latex_file2)

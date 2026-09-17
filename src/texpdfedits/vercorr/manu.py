@@ -164,8 +164,8 @@ class Manuscript:
         if cl_args.gen_sync:
             utils.compile_tex(
                 self.latex_file,
-                cl_args.compiler,
                 '-synctex=1',
+                compiler = cl_args.compiler,
             )
             dont_delete = [
                 '.synctex.gz',

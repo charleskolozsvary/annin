@@ -199,6 +199,8 @@ ALLOWED_MARK_ENVIRONMENTS = {
     'bookreview',
     'review',
     'appendices',
+    'quotation',
+    'quote',
 }
 
 # amsrefs bib keys whose values cannot be marked
@@ -614,7 +616,7 @@ def markNodes(
                 return node_verbatim
             
             if prev_node is not None:
-                prev_ends_square = re.search(
+                possible_macro_arg_before = re.search(
                     r'[\]\}]\s*$',
                     prev_node.latex_verbatim()
                 )
@@ -623,14 +625,20 @@ def markNodes(
                     prev_node.latex_verbatim(),
                     flags=re.IGNORECASE
                 )
+                star_before = re.search(
+                    r"\*\s*$",
+                    prev_node.latex_verbatim(),
+                )
                 
-                if (in_bib
-                    and prev_includes_forbidden_mark_bib_keys is not None):
-                    return node_verbatim
+            if (prev_node is not None
+                and in_bib
+                and prev_includes_forbidden_mark_bib_keys):
+                return node_verbatim
             
             if ((prev_node is not None
-                and prev_node.isNodeType(LatexCharsNode)
-                and prev_ends_square is None)
+                 and prev_node.isNodeType(LatexCharsNode)
+                 and not possible_macro_arg_before
+                 and not star_before)
                 or parent_is_distinctly_marked_macro):
                 # every LatexGroupNode has a nodelist                
                 verbatim_contents = joinNodesVerbatim(node.nodelist) 
@@ -739,16 +747,24 @@ def unzipPos(stend_xy):
         tuple(map(lambda spts: scaledPointsToPDFpoints(int(spts)), stend_xy[1:-1]))
     )
 
-def boxinfoToPDFRectangle(hbox, start_xy):
+def boxinfoToPDFRectangle(hbox, start_xy, **opt):
     pgA, (width, height, depth) = unzipHbox(hbox)
-    pgB, (x0, sy) = unzipPos(start_xy)
+    pgB, (x0, y0) = unzipPos(start_xy)
+
+    # pubprint -trim_name will apply a trim which in effect shifts the word rectangles after pdftex
+    # has already generated their positions. Not sure how else to address this other than with this hack.
+    # It would be a problem for synctex, too, and then I don't think we could resolve it even if we wanted.
+    # Or at least it would be much harder to.
+    xoffset, yoffset = utils.TRIMS.get(opt["trim"], (0, 0))
+    x0 -= xoffset
+    y0 -= yoffset
     
     return (
         pgB,
-        pymupdf.Rect(x0, sy - height, x0 + width, sy + depth)
+        pymupdf.Rect(x0, y0 - height, x0 + width, y0 + depth)
     )
         
-def getWordBoxes(boxpositions_filename: Path):
+def getWordBoxes(boxpositions_filename: Path, **opt):
     word_boxes = dict()
     not_colon = r'([^:]*)'
 
@@ -769,7 +785,7 @@ def getWordBoxes(boxpositions_filename: Path):
                 logger.critical(err_message)
                 raise RuntimeError(err_message)
             matches = box_info.groups()
-            (key, label, values) = (
+            key, label, values = (
                 matches[0],
                 matches[1],
                 tuple(map(lambda m: m.strip('pt'), matches[2:]))
@@ -848,7 +864,8 @@ def getWordBoxes(boxpositions_filename: Path):
     for key, info in word_boxes.items():
         (page_label, rectangle) = boxinfoToPDFRectangle(
             info['pwhd'],
-            info['spxy']
+            info['spxy'],
+            **opt,
         )
         
         if page_label in tex_word_boxes:
@@ -1185,9 +1202,9 @@ def getSyncInfo(latex_file: Path, **opt):
 
     # Compile and diff-pdf
     if opt['validate']:
-        process1 = utils.compile_tex(latex_file, opt['compiler'])
+        process1 = utils.compile_tex(latex_file, **opt)
         
-    process2 = utils.compile_tex(marked_filename, opt['compiler'])
+    process2 = utils.compile_tex(marked_filename, **opt)
 
     tmp_dir = Path('tmp_marktex')
     Path.mkdir(tmp_dir, exist_ok = True)
@@ -1210,7 +1227,7 @@ def getSyncInfo(latex_file: Path, **opt):
 
     # Retrieve box info
     logger.info("Getting word boxes...")
-    tex_word_boxes, deleted_mark_IDs = getWordBoxes(tmp_dir / boxpositions_filename)
+    tex_word_boxes, deleted_mark_IDs = getWordBoxes(tmp_dir / boxpositions_filename, **opt)
     logger.info("Done")    
 
     logger.info("Unmarking LaTeX...")

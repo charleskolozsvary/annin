@@ -20,13 +20,20 @@ def parse_rectangle(s):
     except ValueError:
         raise argparse.ArgumentTypeError("Rectangle values must be numbers")
 
-def drawWordBoxes(pdf_filename, document_word_boxes, output_dir, page_labels):
+def drawWordBoxes(pdf_filename, document_word_boxes, output_dir, page_labels, args: argparse.Namespace):
     save_file_name = Path(output_dir) / f'{Path(pdf_filename).stem}_word_boxes.pdf'
     logging.info(f"Drawing word boxes on {pdf_filename} to {save_file_name}...")
-    bar = TextProgressBar(len(document_word_boxes))
+    
+    only_draw_on = set(args.only_draw_on.split(',')) if args.only_draw_on else set()
+    num_pages_to_do = len(only_draw_on) if only_draw_on else len(document_word_boxes)
+
+    bar = TextProgressBar(num_pages_to_do)
     bar.showSize()
+    
     doc = pymupdf.open(pdf_filename)
     for page_label in document_word_boxes:
+        if only_draw_on and page_label not in only_draw_on:
+            continue
         pg_no = page_labels.index(page_label)
         page = doc[pg_no]
         for key, rectangle in document_word_boxes[page_label].items():
@@ -101,10 +108,40 @@ def main():
         type=str,
         help='Page label for the rectangle'
     )
+    
+    parser.add_argument(
+        "--only-draw-on",
+        type=str,
+        help="Comma separated page labels to draw word boxes on. If not supplied, all boxes are drawn",
+    )
+    
+    parser.add_argument(
+        "-emen",
+        "--extra-marked-environment-names",
+        type=str,
+        help="Comma-separated extra environment names to mark in"
+    )
+    
+    parser.add_argument(
+        "--compiler",
+        type=str,
+        help='LaTeX compiler',
+        default=DEFAULT_LATEX_COMPILER
+    )
+    
+    parser.add_argument(
+        "--clean",
+        action=argparse.BooleanOptionalAction,
+        help='Delete intermediate LaTeX files and tmp dirs; default=True',
+        default=True
+    )
 
-    parser.add_argument("-emen", "--extra-marked-environment-names", type=str, help='Comma-separated extra environment names to mark in---last resort')
-    parser.add_argument("--compiler", type=str, help='LaTeX compiler', default=DEFAULT_LATEX_COMPILER)
-    parser.add_argument("--clean", action=argparse.BooleanOptionalAction, help='Delete intermediate LaTeX files and tmp dirs; default=True', default=True)        
+    parser.add_argument(
+        "--trim",
+        type=str,
+        help="-trim_name passed to pubprint which generated annotated PDF",
+        default='',
+    )
     
     args = parser.parse_args()
     
@@ -128,7 +165,14 @@ def main():
 
     latex_file = Path(args.tex_filename)
 
-    mark_positions, document_word_boxes = getSyncInfo(latex_file, extra_mark_envs=extra_names, compiler=args.compiler, clean=args.clean, validate=True)
+    mark_positions, document_word_boxes, _ = getSyncInfo(
+        latex_file,
+        extra_mark_envs=extra_names,
+        compiler=args.compiler,
+        clean=args.clean,
+        validate=True,
+        trim = args.trim,
+    )
 
     tex_str = sourceAsString(latex_file)
 
@@ -152,7 +196,7 @@ def main():
     testRectangleToLatex(page_labels, in_recpage, in_rectangle, document_word_boxes, mark_positions, tex_str, pdf_filename, output_dir)
     
     if args.drawboxes:
-        drawWordBoxes(pdf_filename, document_word_boxes, output_dir, page_labels)
+        drawWordBoxes(pdf_filename, document_word_boxes, output_dir, page_labels, args)
 
 if __name__ == '__main__':
     main()
