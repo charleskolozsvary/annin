@@ -38,11 +38,23 @@ first open parenthesis if the entire string is in italic font.
 """
 DIFFPDF_PER_PAGE_PIXEL_TOLERANCE = 50_000
 
-INTERMEDIATE_EXTENSIONS_TO_DELETE = set(
-    ".aux .out .log .toc .bbl .blg .thm "
-    ".synctex.gz .synctex .brf .pdf .dvi"
-    .split()
-)
+INTERMEDIATE_EXTENSIONS_TO_DELETE = set([
+    "aux",
+    "out",
+    "log",
+    "toc",
+    "bbl",
+    "blg",
+    "thm",
+    "synctex.gz",
+    "synctex",
+    "brf",
+    "pdf",
+    "dvi",
+    "ind",
+    "idx",
+    "ilg",
+])
 
 PDF_WORKFLOW = [
     'cams',
@@ -464,7 +476,7 @@ def delete_intermediate_latex(latex_file: Path, ignore: list[str]=[]):
     for extension in INTERMEDIATE_EXTENSIONS_TO_DELETE:
         if extension in ignore:
             continue
-        to_delete = Path(body + extension)
+        to_delete = Path(body + "." + extension)
         if to_delete.exists():
             logger.debug(f"Deleted {to_delete}")
             to_delete.unlink()
