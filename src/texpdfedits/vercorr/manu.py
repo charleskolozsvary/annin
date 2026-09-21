@@ -168,9 +168,9 @@ class Manuscript:
                 compiler = cl_args.compiler,
             )
             dont_delete = [
-                '.synctex.gz',
-                '.synctex',
-                '.pdf',
+                'synctex.gz',
+                'synctex',
+                'pdf',
             ]
             utils.delete_intermediate_latex(self.latex_file, ignore=dont_delete)            
         latex_pdf = utils.replace_suffix(
