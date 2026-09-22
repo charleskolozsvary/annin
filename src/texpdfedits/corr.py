@@ -14,6 +14,8 @@ from texpdfedits.extractanns import XrefObj
 import texpdfedits.marktex as marktex
 import texpdfedits.utils as utils
 
+from texpdfedits.vercorr.manu import APP_SYNC_SUFFIX
+
 import functools
 from icecream import ic
 from dataclasses import dataclass
@@ -834,8 +836,7 @@ def write_vercorr_data(
         pdf_file: Path,
         corrections: list[Correction],
 ):
-    script_name = Path(sys.argv[0]).name
-    data_file = utils.replace_suffix(pdf_file, script_name)
+    data_file = utils.replace_suffix(pdf_file, APP_SYNC_SUFFIX)
     # only two fields right now, but if I wanted to extend this for some
     # reason later, json makes that simple enough
     data = '\n'.join(

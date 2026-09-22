@@ -10,7 +10,7 @@ import texpdfedits.utils as utils
 import texpdfedits.vercorr.manu as manu
 import texpdfedits.vercorr.apptk as apptk
 
-__version__ = "0.4.1"
+__version__ = "0.5.0"
 
 EPILOG = """
 Example usage:

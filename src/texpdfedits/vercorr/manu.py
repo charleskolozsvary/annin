@@ -28,6 +28,8 @@ AFTER_SUBDIR = "after"
 
 ATTENTION_BOX_GROW = 7.5 # also in points
 
+APP_SYNC_SUFFIX = "annin"
+
 class GuiAnnot:
     def __init__(self, man: Manuscript, edit: Edit):
         self.pageno = edit.pageno # 0-based
@@ -81,7 +83,7 @@ class Manuscript:
         self.annots_pdf_doc, self.edits = self.extract_annotations()
 
         # .annin file
-        self.annin_file = utils.replace_suffix(self.annots_pdf, 'annin')
+        self.annin_file = self.find_annin_file()
         self.latex_file = Path(cl_args.latex_file)
         self.xref_to_line = self.initialize_xref_to_line()
 
@@ -103,6 +105,28 @@ class Manuscript:
             GuiAnnot(self, edit)
             for edit in self.edits
         ]
+
+    def find_annin_file(self):
+        expected = utils.replace_suffix(self.annots_pdf, APP_SYNC_SUFFIX)
+        if expected.exists():
+            return expected
+        logger.warning(f"{expected} not found, looking for other .{APP_SYNC_SUFFIX} files")
+        parents = [self.annots_pdf.parent, self.annots_pdf.parent.parent]
+        contenders = [
+            f
+            for parent in parents
+            for f in parent.iterdir()
+            if f.suffix == f".{APP_SYNC_SUFFIX}"
+        ]
+        if not contenders:
+            raise FileNotFoundError(f"No .{APP_SYNC_SUFFIX} files found in {parents}")
+        elif len(contenders) == 1:
+            [choice] = contenders
+            logger.info(f"Found \"{choice}\"")
+        else:
+            choice = contenders[0]
+            logger.warning(f"More than one .{APP_SYNC_SUFFIX} file found, choosing \"{choice}\"")
+        return choice
 
     def regenerate_images(self, cl_args: argparse.Namespace):
         # .annin file
@@ -144,8 +168,6 @@ class Manuscript:
         return annots_pdf_doc, edits
 
     def initialize_xref_to_line(self) -> dict[int, int]:
-        if not self.annin_file.exists():
-            raise FileNotFoundError(f"Could not find {self.annin_file}")
         with open(self.annin_file, 'r') as f:
             xref_to_annidx = {}
             for line in f.readlines():

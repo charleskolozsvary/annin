@@ -1,7 +1,9 @@
+import logging
+logger = logging.getLogger(__name__)
 import bisect
 import tkinter as tk
 from tkinter import ttk
-from tkinter import font
+from tkinter import font, messagebox, simpledialog
 from PIL import Image, ImageTk  # pip install Pillow
 from pathlib import Path
 
@@ -134,7 +136,6 @@ KEY_SHORTCUT_CANCELLED = ["<Key-x>"]
 KEY_TOGGLE_CHECKED = ["<Key-m>"]
 KEY_TOGGLE_VIEW_MODE = ["<Key-v>"]
 KEY_TOGGLE_SINGLE_IMAGE = ["<space>", "<Key-f>"]
-
 
 # ---------------------------------------------------------------------------
 # Annotation list panel.
@@ -531,6 +532,8 @@ class CopyEditReviewApp(tk.Frame):
 
         self.after(INITIAL_SELECT_DELAY_MS, lambda: self._select_annotation(0))
 
+        self.unsaved_changes = False
+
     # ------------------------------------------------------------------
     def _build_ui(self):
         self.image_frame_width = 1 - PANEL_PROPORTION
@@ -716,12 +719,14 @@ class CopyEditReviewApp(tk.Frame):
             annotation.checkmark.state = XrefObj.UNCHECKED
         self.panel.set_checkmark_display(index, checked)
         self.man.update_from_tannot(annotation.checkmark)
+        self.unsaved_changes = True
 
     def _on_status_change(self, index, status):
         annotation = self.annotations[index]
         annotation.status.state = status
         self.panel.set_status_display(index, status)
         self.man.update_from_tannot(annotation.status)
+        self.unsaved_changes = True
 
     # ------------------------------------------------------------------
     # Image loading / resizing
@@ -781,23 +786,59 @@ class CopyEditReviewApp(tk.Frame):
         img = img.resize((new_w, new_h), Image.LANCZOS)
         return ImageTk.PhotoImage(img)
 
+def get_save_as(default_save_as: Path) -> str:
+    while True:
+        new_save_as = simpledialog.askstring(
+            "Save as",
+            "enter a new filename:",
+            initialvalue = default_save_as.absolute(),
+        )
+        if not new_save_as:
+            return ''
+        logger.debug(f"new_save_as (raw): {new_save_as}")
+        new_save_as = Path(new_save_as)
+        logger.debug(f"new_save_as (path): {new_save_as}")
+        parent_save_as = new_save_as.parent
+        if not parent_save_as.exists():
+            messagebox.showerror(
+                title="Invalid file name",
+                message=f"{parent_save_as} does not exist\nTry again"
+            )
+        elif new_save_as.is_dir():
+            messagebox.showerror(
+                title="Invalid file name",
+                message=f"{new_save_as} is a directory\nTry again",
+            )
+        else:
+            return new_save_as
 
 def on_quit(root, app):
-    """
-    Called when the user tries to close the window (X button, and on
-    Mac, also wired up to Cmd+Q / the app menu below). This is your
-    hook to check e.g. whether any annotation changes are unsaved and
-    decide whether to actually exit.
-    """
-    # TODO: replace with your real "do I need to save anything?" check.
-    unsaved_changes = False  # placeholder
+    if not app.unsaved_changes:
+        root.destroy()
+        return
+        
+    annots_pdf = app.man.annots_pdf
 
-    if unsaved_changes:
-        # e.g. prompt the user, write out changes, etc. For now just
-        # print so you can see the hook firing.
-        print("Would prompt to save changes here.")
+    overwrite = messagebox.askyesno(
+        "Save file",
+        f"Update\n{annots_pdf}?",
+    )
 
-    app.man.save()
+    if not overwrite:
+        quit_without_saving = messagebox.askyesno(
+            title="Exit",
+            message="Quit without saving changes?",
+        )
+        if quit_without_saving:
+            root.destroy()
+            return
+        save_as = get_save_as(annots_pdf)
+        if not save_as:
+            return
+    else:
+        save_as = annots_pdf.absolute()
+    
+    app.man.save(filename=save_as)
 
     root.destroy()
 
