@@ -1,0 +1,25 @@
+#!/usr/bin/perl -w
+
+use v5.26.0;
+
+our $VERSION = v0.0.0;
+
+use warnings;
+
+use utf8;
+
+use lib qw(/work/ptg/src/perl/trunk);
+
+use PTG::PDF::Update qw(new_string);
+
+my $pdf_file = shift;
+
+my $update = PTG::PDF::Update->new({ pdf_file => $pdf_file });
+
+$update->set_root(AMS_SVN_REVISION => new_string(12345));
+
+$update->set_needs_new_root(1);
+
+$update->update_pdf_file();
+
+__END__

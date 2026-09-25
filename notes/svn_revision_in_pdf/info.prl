@@ -1,0 +1,36 @@
+#!/usr/bin/perl -w
+
+use v5.26.0;
+
+use warnings;
+
+use CAM::PDF;
+
+use Encode;
+
+my $pdf_file = shift;
+
+my $pdf = CAM::PDF->new($pdf_file);
+
+die "No document '$pdf_file'" unless $pdf;
+
+my $trailer = $pdf->{trailer};
+
+my $info_r = $trailer->{Info};
+
+my $info = $pdf->getValue($info_r);
+
+my $rev_raw = $info->{AMS_SVN_REVISION}->{value};
+my $rev = $rev_raw;
+
+my $bom = unpack("n", $rev_raw);
+
+if ($bom == 0xFEFF) {
+    print "Decoding revision as UTF-16\n";
+
+    $rev = decode('UTF-16', $rev);
+}
+
+print qq{AMS_SVN_REVISION => $rev\n};
+
+__END__
