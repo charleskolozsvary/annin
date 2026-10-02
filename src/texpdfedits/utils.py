@@ -573,3 +573,15 @@ def fromRoman(roman: str) -> int:
         return -1
     else:
         return total
+    
+def label_val(pagelabel: str):
+    if pagelabel == False:
+        return ""
+    if re.search(r"^[ivxlcdm]+$", pagelabel, flags = re.IGNORECASE) is not None:
+        # arbitrary negative offset so 
+        val = -100 + fromRoman(pagelabel)
+    elif not pagelabel:
+        val = 0
+    else:
+        val = int(pagelabel)
+    return val

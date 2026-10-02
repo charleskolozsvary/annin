@@ -1097,10 +1097,15 @@ def getEdits(pdf_file: Path, **opt) -> tuple[list[Edit], int]:
                 continue
 
             selection_text = utils.UnicodeToTeX(selection_text)
+
+            if source_offset := utils.label_val(opt.get("tex_start", False)):
+                page_label = str(pageno + 1)
+            else:
+                page_label = annot.page_label
             
             edits.append(Edit(
                 annot.pageno,
-                annot.page_label,
+                page_label,
                 annot.type,
                 message,
                 selection_text,
